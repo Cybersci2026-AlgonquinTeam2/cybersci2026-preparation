@@ -1,0 +1,76 @@
+schema_version: 1
+timezone: America/Toronto
+qualifier:
+  name: CyberSci Regional Qualifiers
+  date: 2026-11-21
+  status: needs_primary_source_verification
+events:
+  - id: fortid-2026
+    name: FortID CTF
+    dates: 2026-10-09/2026-10-11
+    ctftime: https://ctftime.org/event/3440
+    mode: no-ai-baseline
+    purpose: first-run baseline
+    difficulty_weight: 45
+  - id: deadface-2026
+    name: DEADFACE
+    dates: 2026-10-17/2026-10-19
+    ctftime: https://ctftime.org/event/3279
+    mode: ai-assisted
+    purpose: first team run with the AI stack
+  - id: hacklu-2026
+    name: Hack.lu
+    dates: 2026-10-23/2026-10-25
+    ctftime: https://ctftime.org/event/3207
+    mode: learning
+    purpose: difficult exposure; do not judge by score
+    difficulty_weight: 91
+  - id: hitcon-2026
+    name: HITCON
+    dates: 2026-10-23/2026-10-25
+    ctftime: https://ctftime.org/event/3340
+    mode: learning
+    purpose: difficult exposure; do not judge by score
+    difficulty_weight: 95
+  - id: csctf-2026
+    name: CSCTF
+    dates: 2026-11-06/2026-11-09
+    ctftime: https://ctftime.org/event/3333
+    mode: volume
+    purpose: mid-difficulty weekend volume
+  - id: pink-plus-2026
+    name: PINK+
+    dates: 2026-11-06/2026-11-09
+    ctftime: https://ctftime.org/event/3331
+    mode: volume
+    purpose: mid-difficulty weekend volume
+  - id: hkcert-quals-2026
+    name: HKCERT Quals
+    dates: 2026-11-06/2026-11-09
+    ctftime: https://ctftime.org/event/3418
+    mode: volume
+    purpose: mid-difficulty weekend volume
+  - id: platypwn-2026
+    name: Platypwn
+    dates: 2026-11-13/2026-11-14
+    ctftime: https://ctftime.org/event/3082
+    mode: tiered-practice
+    purpose: easy-medium-hard tier practice
+  - id: wolvctf-2026
+    name: WolvCTF
+    dates: 2026-11-13/2026-11-15
+    ctftime: https://ctftime.org/event/3049
+    mode: approachable-practice
+    purpose: university CTF practice
+  - id: init-2026
+    name: InIt CTF
+    dates: 2026-11-14
+    ctftime: https://ctftime.org/event/3467
+    mode: full-dress-rehearsal
+    purpose: 8-hour rehearsal for roles, offline setup, and AI mode
+  - id: glacier-2026
+    name: GlacierCTF
+    dates: 2026-11-20/2026-11-21
+    ctftime: https://ctftime.org/event/3337
+    mode: skipped
+    purpose: protect final preparation and rest

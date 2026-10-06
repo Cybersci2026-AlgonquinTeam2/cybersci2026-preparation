@@ -1,0 +1,32 @@
+# Local environments and secrets
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+
+# Generated data and local caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
+data/raw/
+data/indexes/
+artifacts/
+logs/
+
+# Local VM / container state
+*.qcow2
+*.vmdk
+*.ova
+*.pcap
+*.pcapng
+
+# Editor and OS files
+.idea/
+.vscode/
+Thumbs.db
+Desktop.ini
+
