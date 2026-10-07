@@ -6,7 +6,8 @@ Repository scaffolded on 2026-10-06. No infrastructure has been claimed as built
 
 ## Next actions
 
-- [ ] Verify qualifier date, format, team size, AI policy, internet access, and laptop policy with primary organizer sources.
+- [x] Verify qualifier date, event shape, eligibility, team size, registration path, and current CTFtime classification with primary/current sources.
+- [ ] Verify AI policy, internet access, and laptop policy with the organizers.
 - [ ] Register through the school instructor or computer club if team participation is confirmed.
 - [ ] Create a FortID no-AI run record before the event.
 - [ ] Decide laptop OS/sandbox implementation and snapshot/restore procedure.
@@ -28,4 +29,3 @@ Repository scaffolded on 2026-10-06. No infrastructure has been claimed as built
 - Machine B reachability is intermittent.
 - Six GB VRAM constrains model size and concurrency.
 - A cross-event score comparison is confounded by event difficulty and team composition.
-
