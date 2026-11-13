@@ -1,0 +1,52 @@
+id,title,author_source,type,format,cost,category,level,est_hours,phase,commute_ok,url,status
+B01,ctf101,ctf101.org,Guide,Web,Free,ctf,Beginner,4,P1,Yes,https://ctf101.org,todo
+B02,CTF Field Guide,Trail of Bits,Guide,Web,Free,ctf,Beginner,4,P1,Yes,https://trailofbits.github.io/ctf/,todo
+B03,The Linux Command Line,William Shotts,Book,Web/PDF,Free,linux,Beginner,12,P1,Yes,https://linuxcommand.org/tlcl.php,todo
+B04,OWASP Web Security Testing Guide,OWASP,Guide,Web,Free,web,Intermediate,20,P1-P2,Yes,https://owasp.org/www-project-web-security-testing-guide/,todo
+B05,Pwning OWASP Juice Shop,Bjoern Kimminich,Book,Web/PDF,Free,web,Beginner,10,P1,Yes,https://pwning.owasp-juice.shop,todo
+B06,Crypto 101,Laurens Van Houtven,Book,Web/PDF,Free,crypto,Beginner,8,P1-P2,Yes,https://www.crypto101.io/,todo
+B07,Reverse Engineering for Beginners,Dennis Yurichev,Book,PDF,Free,rev,Intermediate,25,P2-P6,Yes,https://beginners.re,todo
+B08,Nightmare,guyinatuxedo,Guide,Web,Free,pwn,Intermediate,20,P2-P6,Yes,https://guyinatuxedo.github.io/,todo
+B09,Smashing the Stack for Fun and Profit,Aleph One (Phrack 49),Article,Web,Free,pwn,Intermediate,1.5,P2,Yes,http://phrack.org/issues/49/14.html,todo
+B10,The Hacker Recipes,Shutdown,Guide,Web,Free,ad,Intermediate,15,P2-P5,Yes,https://www.thehacker.recipes/,todo
+B11,ired.team Red Team Notes,Mantvydas Baranauskas,Notes,Web,Free,ad,Advanced,15,P5-P6,Yes,https://www.ired.team/,todo
+B12,HackTricks,Carlos Polop,Reference,Web,Free,all,All,30,All,Yes,https://book.hacktricks.wiki/,todo
+B13,PayloadsAllTheThings,swisskyrepo,Reference,GitHub,Free,web,All,15,All,Yes,https://github.com/swisskyrepo/PayloadsAllTheThings,todo
+B14,Wireshark User's Guide,Wireshark,Docs,Web,Free,forensics,Beginner,5,P2,Yes,https://www.wireshark.org/docs/wsug_html_chunked/,todo
+B15,Volatility 3 documentation,Volatility Foundation,Docs,Web,Free,forensics,Intermediate,4,P2,Yes,https://volatility3.readthedocs.io/,todo
+B16,NIST SP 800-61 Incident Handling Guide,NIST,Standard,PDF,Free,blue,Intermediate,5,P2,Yes,https://csrc.nist.gov/pubs/sp/800/61/r2/final,todo
+B17,MITRE ATT&CK,MITRE,Reference,Web,Free,blue,Intermediate,10,P5-P7,Yes,https://attack.mitre.org/,todo
+B18,SANS DFIR posters,SANS,Posters,PDF,Free,forensics,Intermediate,2,P2,Yes,https://www.sans.org/posters/,todo
+B19,PortSwigger Research,PortSwigger,Blog,Web,Free,web,Advanced,15,P2-P7,Yes,https://portswigger.net/research,todo
+B20,Twenty Years of Attacks on the RSA Cryptosystem,Dan Boneh,Paper,PDF,Free,crypto,Advanced,1.5,P2,Yes,https://crypto.stanford.edu/~dabo/pubs/papers/RSA-survey.pdf,todo
+B21,Beej's Guide to Network Programming,Brian Hall,Book,Web/PDF,Free,network,Intermediate,8,P5,Yes,https://beej.us/guide/,todo
+B22,how2heap,shellphish,Repo,GitHub,Free,pwn,Advanced,8,P6,Partly,https://github.com/shellphish/how2heap,todo
+B23,adsecurity.org,Sean Metcalf,Blog,Web,Free,ad,Advanced,8,P6,Yes,https://adsecurity.org/,todo
+B24,OWASP Top 10 for LLM Applications,OWASP GenAI,Guide,Web,Free,ai,Intermediate,2,P2,Yes,https://genai.owasp.org,todo
+B25,Model Context Protocol docs,Anthropic / MCP,Docs,Web,Free,ai,Intermediate,3,P2,Yes,https://modelcontextprotocol.io,todo
+B26,NYU CTF Bench paper,arXiv 2406.05590,Paper,PDF,Free,ai,Advanced,1.5,P6,Yes,https://arxiv.org/abs/2406.05590,todo
+B27,EnIGMA paper (Interactive Tools Substantially Assist LM Agents...),ICML 2025,Paper,PDF,Free,ai,Advanced,1.5,P6,Yes,,todo
+B28,Cybench paper,ICLR 2025,Paper,PDF,Free,ai,Advanced,1.5,P6,Yes,,todo
+B29,Anthropic: Building effective agents,Anthropic,Article,Web,Free,ai,Intermediate,0.5,P2,Yes,,todo
+B30,The Hacker Playbook 3,Peter Kim,Book,Print/EPUB,Paid,pentest,Intermediate,12,P1-P5,Yes,,todo
+B31,The Web Application Hacker's Handbook 2,Stuttard & Pinto,Book,Print/EPUB,Paid,web,Advanced,25,P2-P6,Yes,,todo
+B32,Hacking: The Art of Exploitation,Jon Erickson,Book,Print/EPUB,Paid,pwn,Intermediate,25,P2-P6,Yes,,todo
+B33,Black Hat Python (2nd ed.),Justin Seitz & Tim Arnold,Book,Print/EPUB,Paid,scripting,Intermediate,10,P5,Yes,,todo
+B34,Practical Malware Analysis,Sikorski & Honig,Book,Print/EPUB,Paid,rev,Advanced,25,P6,Yes,,todo
+B35,Serious Cryptography (2nd ed.),J-P Aumasson,Book,Print/EPUB,Paid,crypto,Intermediate,15,P6,Yes,,todo
+B36,The Art of Memory Forensics,Ligh et al.,Book,Print,Paid,forensics,Advanced,20,P5-P6,Partly,,todo
+B37,Practical Binary Analysis,Dennis Andriesse,Book,Print/EPUB,Paid,rev,Advanced,15,P7,Yes,,todo
+B38,Real-World Bug Hunting,Peter Yaworski,Book,Print/EPUB,Paid,web,Intermediate,8,P7,Yes,,todo
+B39,Linux Basics for Hackers,OccupyTheWeb,Book,Print/EPUB,Paid,linux,Beginner,8,P1,Yes,,todo
+B40,Blue Team Handbook: Incident Response Edition,Don Murdoch,Book,Print,Paid,blue,Intermediate,4,P2,Yes,,todo
+B41,Attacking Network Protocols,James Forshaw,Book,Print/EPUB,Paid,network,Advanced,15,P6,Yes,,todo
+B42,Windows Internals (selected chapters),Russinovich et al.,Book,Print,Paid,windows,Advanced,20,P6,Partly,,todo
+B43,Darknet Diaries,Jack Rhysider,Podcast,Audio,Free,culture,All,20,All,Yes,https://darknetdiaries.com/,todo
+B44,Risky Business,Patrick Gray,Podcast,Audio,Free,news,All,20,All,Yes,https://risky.biz/,todo
+B45,Malicious Life,Cybereason,Podcast,Audio,Free,culture,All,10,All,Yes,https://malicious.life/,todo
+B46,IppSec walkthroughs,IppSec (YouTube + ippsec.rocks),Video,Video/Audio,Free,pentest,Intermediate,30,All,Audio ok,https://ippsec.rocks,todo
+B47,LiveOverflow binary exploitation playlist,LiveOverflow,Video,Video/Audio,Free,pwn,Beginner,10,P2,Audio ok,https://www.youtube.com/@LiveOverflow,todo
+B48,13Cubed,13Cubed,Video,Video/Audio,Free,forensics,Intermediate,10,P2-P5,Audio ok,https://www.youtube.com/@13Cubed,todo
+B49,John Hammond,John Hammond,Video,Video/Audio,Free,ctf,Beginner,15,All,Audio ok,https://www.youtube.com/@_JohnHammond,todo
+B50,stacksmashing,stacksmashing,Video,Video/Audio,Free,rev,Intermediate,8,P6,Audio ok,https://www.youtube.com/@stacksmashing,todo
+B51,Black Hat / DEF CON talks (selected),Conference archives,Video,Video/Audio,Free,culture,Advanced,20,P6-P7,Audio ok,,todo

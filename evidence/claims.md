@@ -10,7 +10,7 @@ This file separates what is currently recorded from what still needs verificatio
 | C-004 | verified-source | Team limit is up to 4, or 5 if the team includes a woman or Indigenous member; max 2 teams per school | https://cybersci.ca/students/ | Confirm current event-specific rules |
 | C-005 | verified-source | Students cannot register directly; registration goes through the school, instructor, or official student club | https://cybersci.ca/students/ | Contact school representative |
 | C-006 | verified-source | CTFtime currently lists the event as Jeopardy, onsite at six Canadian locations, academic teams only | https://ctftime.org/event/3436 | Confirm against organizer rules |
-| C-007 | unresolved | AI, MCP tools, and agents are permitted | No current rule located in supplied material | Ask organizers and record response |
+| C-007 | source-claim | **AI tools (LLMs, MCP, agents) are NOT allowed** at the CyberSci qualifier | Organizer email reply, relayed by user 2026-10-15; not independently re-checked | Get exact written wording: are offline notes, own scripts, search engines, and code autocomplete allowed? |
 | C-008 | unresolved | Venue has usable internet and permits personal laptops | No current rule located in supplied material | Ask organizers |
 | C-009 | observed | Target directory existed and was empty when repository creation began | Local filesystem inspection on 2026-10-06 | None |
 | C-010 | source-claim | Laptop and Machine B each have six GB VRAM and Ollama/qwen models | User-provided notes | Verify hardware/model inventory locally |

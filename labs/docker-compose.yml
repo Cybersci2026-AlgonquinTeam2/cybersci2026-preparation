@@ -1,0 +1,25 @@
+# Local web-security practice labs. Everything binds to 127.0.0.1 only.
+# Usage:  docker compose -f labs/docker-compose.yml up -d
+#         docker compose -f labs/docker-compose.yml down
+# Status: UNTESTED on this machine. Check each project's README if an image or port changes.
+services:
+  juice-shop:
+    image: bkimminich/juice-shop
+    container_name: lab-juice-shop
+    ports:
+      - "127.0.0.1:3000:3000"
+    restart: "no"
+
+  dvwa:
+    image: vulnerables/web-dvwa
+    container_name: lab-dvwa
+    ports:
+      - "127.0.0.1:8081:80"
+    restart: "no"
+
+  webgoat:
+    image: webgoat/webgoat
+    container_name: lab-webgoat
+    ports:
+      - "127.0.0.1:8082:8080"
+    restart: "no"

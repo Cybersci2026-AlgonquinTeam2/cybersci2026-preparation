@@ -30,3 +30,12 @@ logs/
 Thumbs.db
 Desktop.ini
 
+external/
+
+# Generated study pack (rebuild with scripts/build_offline.py, build_epubs.py, build_flashcards.py, package_pack.py)
+dist/
+
+# OverTheWire asks players not to publish solutions: keep these local/private
+curriculum/bandit/README.md
+curriculum/bandit/walkthrough-*.md
+flashcards/bandit_cards.py

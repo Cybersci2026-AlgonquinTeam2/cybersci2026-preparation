@@ -1,5 +1,7 @@
 # CyberSci Prep: Scope and Plan
 
+> **2026-10-15 update:** organizers said AI tools are not allowed. The "AI architecture" and "Measurement" sections below describe the original plan and are **superseded**: competition-day tooling is notes search + your own scripts, and the daily plan lives in `tracker/tracker.csv`.
+
 ## Target
 
 Regional Qualifiers are planned here as an on-site, one-day jeopardy-style competition on **Saturday, November 21, 2026**. This date, format, team rules, AI rules, internet availability, and laptop policy are tracked as claims in [`evidence/claims.md`](evidence/claims.md) until verified with current organizer material.

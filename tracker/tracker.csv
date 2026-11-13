@@ -1,0 +1,158 @@
+id,date,day,week,phase,block,category,tier,source,task,done_when,hours,level,status,spent,url,notes
+X01,2026-10-14,Wed,W1,P1 Foundations,Admin,admin,A,CyberSci,Organizers emailed; reply: AI tools NOT allowed. Still open: school registration + FortID record,Email sent; FortID record filled or marked not-played,0.5,L1,done,0.25,https://cybersci.ca/students/,2026-10-15 organizer reply relayed by user; ask for written wording + internet/laptop answers
+A00,2026-10-15,Thu,W1,P1 Foundations,Build,build,A,Kali VM,Create clean snapshot base-2026-10-14,Snapshot exists; restore tested once,0.5,L2,todo,,,moved from Oct 14 (start fresh)
+L01,2026-10-15,Thu,W1,P1 Foundations,Practice,linux,A,OverTheWire Bandit,Levels 0-20,Reached level 20 password; notes for each new command,2,L3,todo,,https://overthewire.org/wargames/bandit/,moved from Oct 14 (start fresh)
+L03,2026-10-15,Thu,W1,P1 Foundations,Learn,network,B,TryHackMe,Nmap + Network Services rooms,Explain -sS/-sV/-sC/-p- and enumerate one service by hand,1,L2,todo,,https://tryhackme.com,moved from Oct 14 (start fresh)
+RD01,2026-10-15,Thu,W1,P1 Foundations,Commute,reading,R,ctf101.org,Intro + Web + Cryptography sections,5-line note or 3 flashcards,1,L1,todo,,https://ctf101.org,moved from Oct 14
+L02,2026-10-15,Thu,W1,P1 Foundations,Practice,linux,A,OverTheWire Bandit,Levels 21-33 + 5-line notes,Reached level 33; cron/at/setuid tricks written down,1.5,L3,todo,,https://overthewire.org/wargames/bandit/,
+O06,2026-10-15,Thu,W1,P1 Foundations,Drill,misc,A,CyberChef,Decode 5 layered encodings then script one in Python,Python script reproduces the CyberChef recipe,0.5,L3,todo,,https://gchq.github.io/CyberChef/,
+S01,2026-10-15,Thu,W1,P1 Foundations,Learn,cybersci,A,CyberSci writeups,Read crimist/ctf + Green-Avocado/CTF + UofTCTF String Storage + 2021 Track 1,One paragraph: what each challenge type teaches,1,L2,todo,,curriculum/cybersci-writeups.md,
+W11a,2026-10-15,Thu,W1,P1 Foundations,Practice,web,B,OverTheWire Natas,Levels 0-10,Reached level 10; list of tricks used,1,L2,todo,,https://overthewire.org/wargames/natas/,
+RD02,2026-10-15,Thu,W1,P1 Foundations,Commute,reading,R,The Linux Command Line (Shotts),Part 1: Learning the shell,5-line note or 3 flashcards,1,L1,todo,,https://linuxcommand.org/tlcl.php,
+W01,2026-10-16,Fri,W1,P1 Foundations,Practice,web,A,PortSwigger,SQL injection: all apprentice + practitioner labs,Union + blind extraction by hand without cheat sheet,2,L3,todo,,https://portswigger.net/web-security/sql-injection,
+W09a,2026-10-16,Fri,W1,P1 Foundations,Practice,web,A,OWASP Juice Shop,Run container; open scoreboard; solve 1-star set,5 challenges solved; container reproducible from one command,0.5,L2,todo,,https://owasp.org/www-project-juice-shop/,
+X02,2026-10-16,Fri,W1,P1 Foundations,Admin,admin,A,DEADFACE kit,Roles; run-record copy; triage board (no AI tools: matches CyberSci rules),Board and record template ready,0.5,L1,todo,,,
+W11b,2026-10-16,Fri,W1,P1 Foundations,Practice,web,B,OverTheWire Natas,Levels 11-20,Reached level 20,1,L2,todo,,https://overthewire.org/wargames/natas/,
+RD03,2026-10-16,Fri,W1,P1 Foundations,Commute,reading,R,OWASP Web Security Testing Guide,Introduction + Information Gathering,5-line note or 3 flashcards,1,L1,todo,,https://owasp.org/www-project-web-security-testing-guide/,
+E02a,2026-10-17,Sat,W1,P1 Foundations,Event,event,E,DEADFACE,"Day 1 (no AI, matching CyberSci rules); start ~10:00 EDT",Run record has start time before first challenge,6,L3,todo,,https://ctftime.org/event/3279,
+E02b,2026-10-18,Sun,W1,P1 Foundations,Event,event,E,DEADFACE,Day 2,Triage board updated; no challenge over 30 min solo,5,L3,todo,,https://ctftime.org/event/3279,
+E02n,2026-10-18,Sun,W1,P1 Foundations,Review,notes,A,DEADFACE,5-line writeup per solved challenge,Writeups saved in notes/,1,L2,todo,,,
+E02c,2026-10-19,Mon,W2,P1 Foundations,Event,event,E,DEADFACE,Final hours (verify end time),Final submissions made,1,L3,todo,,https://ctftime.org/event/3279,
+E02w,2026-10-19,Mon,W2,P1 Foundations,Review,notes,A,DEADFACE,Read public writeups for unsolved challenges; note the missed first observation,Per unsolved challenge: what you missed,2,L2,todo,,,
+O02,2026-10-19,Mon,W2,P1 Foundations,Practice,misc,B,picoGym,General skills + misc set,8 challenges solved,1,L2,todo,,https://play.picoctf.org/practice,
+RD04,2026-10-19,Mon,W2,P1 Foundations,Commute,reading,R,Pwning OWASP Juice Shop (free),Part I intro + hacking challenges 1-2 star,5-line note or 3 flashcards,1,L1,todo,,https://pwning.owasp-juice.shop,
+E02r,2026-10-20,Tue,W2,P1 Foundations,Review,review,A,DEADFACE,Complete run record: points/hour; category totals; where time leaked,Run record complete; one change chosen,1,L2,todo,,,
+A03a,2026-10-20,Tue,W2,P1 Foundations,Build,build,A,Helper scripts,"Plan your carry-in helper library: decoders, xor, rsa, http, pcap, notes search",List of 10 helpers with signatures; check rules allow own scripts,1,L2,todo,,,
+S02a,2026-10-20,Tue,W2,P1 Foundations,Practice,cybersci,A,CyberSci 2022 regionals,Recreate vhost warmup + whitespace-binary vault.dat challenge,Both reproduced from scratch with your own scripts,1,L3,todo,,curriculum/cybersci-writeups.md,
+F03,2026-10-20,Tue,W2,P1 Foundations,Practice,forensics,B,picoGym,File/stego forensics set,6 challenges; tool order noted,1,L2,todo,,https://play.picoctf.org/practice,
+RD05,2026-10-20,Tue,W2,P1 Foundations,Commute,reading,R,Crypto 101,Part I: foundations + block ciphers,5-line note or 3 flashcards,1,L1,todo,,https://www.crypto101.io/,
+F01a,2026-10-21,Wed,W2,P2 Breadth,Practice,forensics,A,Malware-Traffic-Analysis,2 exercises; answer the questions before checking,Answers match; infection timeline written,1.5,L3,todo,,https://www.malware-traffic-analysis.net/,
+F02,2026-10-21,Wed,W2,P2 Breadth,Learn,forensics,A,Wireshark/tshark,Filters; follow stream; export objects; tshark equivalents,Extract a file and list conversations with tshark only,1,L3,todo,,https://www.wireshark.org/docs/wsug_html_chunked/,
+A04,2026-10-21,Wed,W2,P2 Breadth,Build,build,A,pcap pipeline,tshark stats -> JSON summarizer script,Script runs on 2 pcaps; output reviewed,0.5,L2,todo,,,
+F07,2026-10-21,Wed,W2,P2 Breadth,Practice,forensics,B,Blue Team Labs Online,1 free challenge,Answers submitted; timeline kept,1,L2,todo,,https://blueteamlabs.online/,
+RD06,2026-10-21,Wed,W2,P2 Breadth,Commute,reading,R,Wireshark User's Guide,Display filters + capturing + following streams,5-line note or 3 flashcards,1,L1,todo,,https://www.wireshark.org/docs/wsug_html_chunked/,
+C01,2026-10-22,Thu,W2,P2 Breadth,Practice,crypto,A,CryptoHack,Introduction + General courses,All challenges in both courses solved,2.5,L3,todo,,https://cryptohack.org/courses/,
+X05,2026-10-22,Thu,W2,P2 Breadth,Admin,admin,A,Hack.lu/HITCON,Roles; choose easiest 2 challenges per category,Plan agreed with team,0.5,L1,todo,,,
+W10a,2026-10-22,Thu,W2,P2 Breadth,Practice,web,A,OWASP Juice Shop,3-star challenges (set 1),5 challenges solved; each noted,1,L3,todo,,https://pwning.owasp-juice.shop,
+RD07,2026-10-22,Thu,W2,P2 Breadth,Commute,reading,R,Trail of Bits CTF Field Guide,Forensics + Reverse engineering sections,5-line note or 3 flashcards,1,L1,todo,,https://trailofbits.github.io/ctf/,
+E03a,2026-10-23,Fri,W2,P2 Breadth,Event,event,E,Hack.lu / HITCON,"Day 1 (learning): 2 observations per challenge, not flags",Log of first useful observation per challenge,4,L2,todo,,https://ctftime.org/event/3207,
+RD08,2026-10-23,Fri,W2,P2 Breadth,Commute,reading,R,CTFtime writeups,3 easy-challenge writeups from recent events (any category),5-line note or 3 flashcards,1,L1,todo,,https://ctftime.org/writeups,
+E03b,2026-10-24,Sat,W2,P2 Breadth,Event,event,E,Hack.lu / HITCON,Day 2: attempt each category's easiest challenge,To-learn list started,6,L2,todo,,https://ctftime.org/event/3340,
+E03c,2026-10-25,Sun,W2,P2 Breadth,Event,event,E,Hack.lu / HITCON,Day 3; finish; read writeups after,No score target,4,L2,todo,,,
+E03r,2026-10-25,Sun,W2,P2 Breadth,Review,review,A,Hack.lu / HITCON,Rank the to-learn list; choose top 3 techniques; weekly review,Top 3 written; checklist statuses updated with evidence,2,L2,todo,,,
+W03,2026-10-26,Mon,W3,P2 Breadth,Practice,web,A,PortSwigger,Authentication + access control/IDOR: apprentice + practitioner,10+ labs; one scripted attack,3,L3,todo,,https://portswigger.net/web-security/authentication,
+W07a,2026-10-26,Mon,W3,P2 Breadth,Practice,web,B,PortSwigger,JWT labs,Forge a JWT two ways,1,L2,todo,,https://portswigger.net/web-security/jwt,
+RD09,2026-10-26,Mon,W3,P2 Breadth,Commute,reading,R,PortSwigger Research,'Smashing the state machine' (race conditions),5-line note or 3 flashcards,1,L1,todo,,https://portswigger.net/research,
+W02,2026-10-27,Tue,W3,P2 Breadth,Practice,web,A,PortSwigger,"XSS: reflected/stored/DOM, apprentice + practitioner",XSS in 5 contexts without cheat sheet,3,L3,todo,,https://portswigger.net/web-security/cross-site-scripting,
+W07b,2026-10-27,Tue,W3,P2 Breadth,Practice,web,B,PortSwigger,OAuth + CORS + CSRF,One lab each solved,1,L2,todo,,https://portswigger.net/web-security/oauth,
+RD10,2026-10-27,Tue,W3,P2 Breadth,Commute,reading,R,PayloadsAllTheThings,XSS Injection + SQL Injection READMEs,5-line note or 3 flashcards,1,L1,todo,,https://github.com/swisskyrepo/PayloadsAllTheThings,
+W04,2026-10-28,Wed,W3,P2 Breadth,Practice,web,A,PortSwigger,OS command injection + path traversal + file upload,3 bypass variants per class,2.5,L3,todo,,https://portswigger.net/web-security/os-command-injection,
+A02,2026-10-28,Wed,W3,P2 Breadth,Build,build,A,Notes search,Index writeups + cheat sheets with ripgrep/fzf; test 5 queries offline,5/5 queries find the right snippet in <20 s,0.5,L2,todo,,,
+W06a,2026-10-28,Wed,W3,P2 Breadth,Practice,web,B,PortSwigger,Server-side template injection,RCE on two engines,1,L2,todo,,https://portswigger.net/web-security/server-side-template-injection,
+RD11,2026-10-28,Wed,W3,P2 Breadth,Commute,reading,R,PayloadsAllTheThings,Command Injection + File Inclusion + Upload Insecure Files,5-line note or 3 flashcards,1,L1,todo,,https://github.com/swisskyrepo/PayloadsAllTheThings,
+L04,2026-10-29,Thu,W3,P2 Breadth,Practice,linux,A,TryHackMe,Linux PrivEsc: enumerate manually before linpeas,Root via 2 techniques; manual checklist written,2,L3,todo,,https://tryhackme.com,
+L08,2026-10-29,Thu,W3,P2 Breadth,Practice,linux,A,hashcat/john/hydra,Hash id; rules; spraying on lab target,Cracked 5 hash types,1,L2,todo,,https://hashcat.net/hashcat/,
+W06b,2026-10-29,Thu,W3,P2 Breadth,Practice,web,B,PortSwigger,Insecure deserialization,First 3 labs solved,1,L2,todo,,https://portswigger.net/web-security/deserialization,
+RD12,2026-10-29,Thu,W3,P2 Breadth,Commute,reading,R,HackTricks,Linux Privilege Escalation checklist,5-line note or 3 flashcards,1,L1,todo,,https://book.hacktricks.wiki/,
+L10,2026-10-30,Fri,W3,P2 Breadth,Practice,ad,A,TryHackMe,Active Directory Basics + Attacktive Directory,Kerberoast + AS-REP roast executed,3,L3,todo,,https://tryhackme.com,
+L09,2026-10-30,Fri,W3,P2 Breadth,Practice,windows,B,TryHackMe,Windows PrivEsc,Escalated on 2 hosts,1,L2,todo,,https://tryhackme.com,
+RD13,2026-10-30,Fri,W3,P2 Breadth,Commute,reading,R,The Hacker Recipes,"AD: Kerberos (AS-REP roasting, Kerberoasting)",5-line note or 3 flashcards,1,L1,todo,,https://www.thehacker.recipes/,
+S03,2026-10-31,Sat,W3,P2 Breadth,Practice,cybersci,A,CyberSci-style mock,4 h no-AI mock: warmup ladder + forensics set + vault rev/pwn/crypto analogues,Points/hour recorded; time leaks listed,4,L3,todo,,curriculum/cybersci-writeups.md,
+R01,2026-11-01,Sun,W3,P2 Breadth,Practice,rev,A,Ghidra + crackmes.one,Setup + 3 easy crackmes static-first,3 solved <20 min each,2,L3,todo,,https://crackmes.one/,
+P01,2026-11-01,Sun,W3,P2 Breadth,Practice,pwn,A,pwn.college,Intro + ret2win / shellcode basics,One ret2win solved from scratch,2,L2,todo,,https://pwn.college/,
+C02,2026-11-02,Mon,W4,P2 Breadth,Practice,crypto,A,CryptoHack,Mathematics + Symmetric courses,All challenges solved,3,L3,todo,,https://cryptohack.org/courses/,
+C04,2026-11-02,Mon,W4,P2 Breadth,Practice,crypto,B,CryptoHack,Hashes + Diffie-Hellman,Length-extension attack done,1,L2,todo,,https://cryptohack.org/courses/,
+RD14,2026-11-02,Mon,W4,P2 Breadth,Commute,reading,R,Crypto 101,RSA + key exchange parts,5-line note or 3 flashcards,1,L1,todo,,https://www.crypto101.io/,
+F06,2026-11-03,Tue,W4,P2 Breadth,Practice,forensics,A,CyberDefenders,2 easy labs; build the timeline before answering,Timelines saved with evidence,2,L3,todo,,https://cyberdefenders.org/,
+F11,2026-11-03,Tue,W4,P2 Breadth,Practice,blue,A,Sigma/Sysmon,Write + test 3 detections,3 rules fire on lab data,1,L2,todo,,https://github.com/SigmaHQ/sigma,
+F09,2026-11-03,Tue,W4,P2 Breadth,Practice,malware,B,MalwareBazaar,Triage 2 samples in isolated VM,Static triage report each,1,L2,todo,,https://bazaar.abuse.ch/,
+RD15,2026-11-03,Tue,W4,P2 Breadth,Commute,reading,R,NIST SP 800-61,Incident handling: detection/analysis + containment,5-line note or 3 flashcards,1,L1,todo,,https://csrc.nist.gov/pubs/sp/800/61/r2/final,
+W05,2026-11-04,Wed,W4,P2 Breadth,Practice,web,A,PortSwigger,SSRF + XXE,Reach internal service via SSRF; XXE file read,2.5,L3,todo,,https://portswigger.net/web-security/ssrf,
+A06,2026-11-04,Wed,W4,P2 Breadth,Build,build,A,Speed benchmark,Time-to-first-observation per category on 3 solved challenges,Table: minutes per stage,0.5,L2,todo,,,
+R03,2026-11-04,Wed,W4,P2 Breadth,Practice,rev,B,crackmes.one,3 more crackmes,3 solved,1,L2,todo,,https://crackmes.one/,
+RD16,2026-11-04,Wed,W4,P2 Breadth,Commute,reading,R,PortSwigger Research,Top 10 web hacking techniques (latest annual list),5-line note or 3 flashcards,1,L1,todo,,https://portswigger.net/research/top-10-web-hacking-techniques,
+X03,2026-11-05,Thu,W4,P2 Breadth,Admin,admin,A,Cheat sheets,Draft one page per category,7 one-pagers exist,1,L2,todo,,,
+X06,2026-11-05,Thu,W4,P2 Breadth,Review,review,A,Weakest category,Targeted practice from run data,One easy + one medium challenge solved,1.5,L3,todo,,,
+A07a,2026-11-05,Thu,W4,P2 Breadth,Build,build,A,Tool freeze,Freeze v1; record what is enabled,Frozen list committed,0.5,L2,todo,,,
+L12,2026-11-05,Thu,W4,P2 Breadth,Practice,network,B,chisel/ligolo-ng,Pivot to an internal subnet,Reached internal host through tunnel,1,L2,todo,,https://github.com/jpillora/chisel,
+RD17,2026-11-05,Thu,W4,P2 Breadth,Commute,reading,R,SANS DFIR poster,Hunt Evil / Know Normal: Windows processes,5-line note or 3 flashcards,1,L1,todo,,https://www.sans.org/posters/,
+E04a,2026-11-06,Fri,W4,P3 Volume + rehearsal,Event,event,E,CSCTF / PINK+ / HKCERT,Pick one event; triage + roles,Board set; roles agreed,4,L3,todo,,https://ctftime.org/event/3333,
+RD18,2026-11-06,Fri,W4,P3 Volume + rehearsal,Commute,reading,R,Aleph One (Phrack 49),Smashing the Stack for Fun and Profit,5-line note or 3 flashcards,1,L1,todo,,http://phrack.org/issues/49/14.html,
+E04b,2026-11-07,Sat,W4,P3 Volume + rehearsal,Event,event,E,CSCTF / PINK+ / HKCERT,Volume day,Points/hour by category recorded,6,L3,todo,,,
+E04c,2026-11-08,Sun,W4,P3 Volume + rehearsal,Event,event,E,CSCTF / PINK+ / HKCERT,Volume day 2,Triage board current,5,L3,todo,,,
+E04n,2026-11-08,Sun,W4,P3 Volume + rehearsal,Review,notes,A,CSCTF / PINK+ / HKCERT,Weekly review + writeups,Checklist statuses updated,1,L2,todo,,,
+E04d,2026-11-09,Mon,W5,P3 Volume + rehearsal,Event,event,E,CSCTF / PINK+ / HKCERT,Finish,Final submissions made,1,L3,todo,,,
+E04w,2026-11-09,Mon,W5,P3 Volume + rehearsal,Review,notes,A,CSCTF / PINK+ / HKCERT,Writeups for everything solved,All writeups saved,2,L2,todo,,,
+R06,2026-11-09,Mon,W5,P3 Volume + rehearsal,Review,review,A,Spaced review,Re-do 3 earlier failed items from notes,3 items solved without notes,1,L3,todo,,,
+RD19,2026-11-09,Mon,W5,P3 Volume + rehearsal,Commute,reading,R,Reverse Engineering for Beginners,Assembly basics + x86/x64 code patterns,5-line note or 3 flashcards,1,L1,todo,,https://beginners.re,
+C03,2026-11-10,Tue,W5,P3 Volume + rehearsal,Practice,crypto,A,CryptoHack,RSA course,All RSA challenges solved,3,L3,todo,,https://cryptohack.org/courses/,
+C05,2026-11-10,Tue,W5,P3 Volume + rehearsal,Practice,crypto,B,Cryptopals,Set 1,Set 1 complete,1,L2,todo,,https://cryptopals.com/,
+RD20,2026-11-10,Tue,W5,P3 Volume + rehearsal,Commute,reading,R,Boneh (1999),Twenty Years of Attacks on the RSA Cryptosystem,5-line note or 3 flashcards,1,L1,todo,,https://crypto.stanford.edu/~dabo/pubs/papers/RSA-survey.pdf,
+R02,2026-11-11,Wed,W5,P3 Volume + rehearsal,Practice,rev,A,gdb/pwndbg,Asm reading; breakpoints; ltrace/strace,Extract a password via debugger,1,L3,todo,,https://github.com/pwndbg/pwndbg,
+P02,2026-11-11,Wed,W5,P3 Volume + rehearsal,Practice,pwn,A,ROP Emporium,Challenges 1-4 (x64),4 solved,1.5,L3,todo,,https://ropemporium.com/,
+A07b,2026-11-11,Wed,W5,P3 Volume + rehearsal,Build,build,A,Offline test,Airplane mode: notes search; helper scripts; tools; VM boots,Failure list written,0.5,L2,todo,,,
+O04,2026-11-11,Wed,W5,P3 Volume + rehearsal,Practice,misc,B,Hackropole,3 archived challenges,3 solved or deeply attempted,1,L2,todo,,https://hackropole.fr/,
+RD21,2026-11-11,Wed,W5,P3 Volume + rehearsal,Commute,reading,R,Nightmare (guyinatuxedo),Intro to binary exploitation: ELF + stack + buffer overflow,5-line note or 3 flashcards,1,L1,todo,,https://guyinatuxedo.github.io/,
+F04,2026-11-12,Thu,W5,P3 Volume + rehearsal,Practice,forensics,A,Volatility,THM Volatility + 1 CyberDefenders memory lab,Find malicious process + C2,2.5,L3,todo,,https://github.com/volatilityfoundation/volatility3,
+A07c,2026-11-12,Thu,W5,P3 Volume + rehearsal,Build,build,A,Bundle v1,Freeze competition bundle on laptop + USB,SHA-256 list saved in runbook,0.5,L2,todo,,,
+F05,2026-11-12,Thu,W5,P3 Volume + rehearsal,Practice,forensics,B,Autopsy,Disk image timeline,Timeline + deleted file recovered,1,L2,todo,,https://www.sleuthkit.org/autopsy/,
+RD22,2026-11-12,Thu,W5,P3 Volume + rehearsal,Commute,reading,R,Volatility 3 docs,Plugin overview + Windows command cheat sheet,5-line note or 3 flashcards,1,L1,todo,,https://volatility3.readthedocs.io/,
+E05,2026-11-13,Fri,W5,P3 Volume + rehearsal,Event,event,E,Platypwn / WolvCTF,Easy tier only; max 2 h,Stop on time,2,L2,todo,,https://ctftime.org/event/3082,
+O01,2026-11-13,Fri,W5,P3 Volume + rehearsal,Practice,misc,A,OSINT,Sourcing.games / GeoGuessr / TryOSINT,3 geolocation puzzles,1,L2,todo,,https://sourcing.games/,
+R07,2026-11-13,Fri,W5,P3 Volume + rehearsal,Admin,admin,A,Team,Pre-rehearsal checklist + team call,"Roles, comms, submission owner agreed",1,L1,todo,,,
+RD23,2026-11-13,Fri,W5,P3 Volume + rehearsal,Commute,reading,R,Your runbook + cheat sheets,Re-read operations/competition-day-runbook.md,5-line note or 3 flashcards,1,L1,todo,,operations/competition-day-runbook.md,
+E06,2026-11-14,Sat,W5,P3 Volume + rehearsal,Event,event,E,InIt CTF,Full dress rehearsal 10:30-18:30 EST; same bundle + roles,Time-stamped decision log,8,L3,todo,,https://ctftime.org/event/3467,
+E06r,2026-11-15,Sun,W5,P3 Volume + rehearsal,Review,review,A,InIt CTF,Debrief; top-3 issues with one fix each,Fix list written,2,L3,todo,,,
+X07,2026-11-15,Sun,W5,P3 Volume + rehearsal,Build,review,A,Fixes,Apply fixes; re-test each,Each fix verified,2,L3,todo,,,
+X08,2026-11-16,Mon,W6,P4 Taper + competition,Drill,review,A,Weakest category,Timed 3-challenge drill,3 attempted inside 90 min,2,L3,todo,,,
+X04,2026-11-16,Mon,W6,P4 Taper + competition,Admin,admin,A,Interview prep,Resume; 60-sec intro; lab + CTF + tooling stories,Told aloud to a teammate,1,L2,todo,,,
+R08,2026-11-16,Mon,W6,P4 Taper + competition,Review,review,A,Spaced review,Re-do failed items: web + forensics,Items solved without notes,1,L3,todo,,,
+RD24,2026-11-16,Mon,W6,P4 Taper + competition,Commute,reading,R,Your writeups,Re-read: web + forensics notes,5-line note or 3 flashcards,1,L1,todo,,notes/,
+X09,2026-11-17,Tue,W6,P4 Taper + competition,Admin,admin,A,Cheat sheets,Final one-pagers per category,Printed or PDF on USB,1,L2,todo,,,
+A07d,2026-11-17,Tue,W6,P4 Taper + competition,Build,build,A,Offline test,Re-run full airplane-mode test,All items pass,1,L2,todo,,,
+R10,2026-11-17,Tue,W6,P4 Taper + competition,Review,review,A,Spaced review,Re-do failed items: rev/pwn/crypto,Items solved without notes,1,L3,todo,,,
+T01,2026-11-17,Tue,W6,P4 Taper + competition,Drill,misc,A,Warm-up set,3 easy random challenges,Done in 60 min,1,L2,todo,,,
+RD25,2026-11-17,Tue,W6,P4 Taper + competition,Commute,reading,R,Your writeups,Re-read: rev + pwn + crypto notes,5-line note or 3 flashcards,1,L1,todo,,notes/,
+X10,2026-11-18,Wed,W6,P4 Taper + competition,Admin,admin,A,Bundle v2,Freeze; disable OS updates,No new tools after today,1,L2,todo,,,
+T02,2026-11-18,Wed,W6,P4 Taper + competition,Drill,misc,A,Light practice,One easy box or challenge,Solved calmly,1,L2,todo,,,
+X13,2026-11-18,Wed,W6,P4 Taper + competition,Review,review,A,Runbook,Read the competition-day runbook end-to-end,Gaps fixed,1,L1,todo,,operations/competition-day-runbook.md,
+RD26,2026-11-18,Wed,W6,P4 Taper + competition,Commute,reading,R,Your writeups,Re-read: team process + common mistakes list,5-line note or 3 flashcards,1,L1,todo,,notes/,
+X11,2026-11-19,Thu,W6,P4 Taper + competition,Admin,admin,A,Logistics,ID; venue; charger; USB; team sync; re-read rules,Bag packed,1.5,L1,todo,,,
+T03,2026-11-19,Thu,W6,P4 Taper + competition,Drill,misc,A,Light practice,30 min easy challenge,Stop at 30 min,0.5,L1,todo,,,
+RD27,2026-11-19,Thu,W6,P4 Taper + competition,Commute,reading,R,Interview prep,Employer-facing story notes; read sponsor page,5-line note or 3 flashcards,1,L1,todo,,https://cybersci.ca/,
+X12,2026-11-20,Fri,W6,P4 Taper + competition,Admin,admin,A,Rest,Pack; verify laptop boots + VM starts; sleep 8 h,In bed on time,0.5,L1,todo,,,
+RD28,2026-11-20,Fri,W6,P4 Taper + competition,Commute,reading,R,Podcast,"Darknet Diaries: one episode, light listening",5-line note or 3 flashcards,1,L1,todo,,https://darknetdiaries.com/,
+E07,2026-11-21,Sat,W6,P4 Taper + competition,Event,event,E,CyberSci Regionals,Competition day. Triage first; 30-minute rule; interviews in the afternoon,Submit; log; network,8,L3,todo,,https://cybersci.ca/,
+L05,,,,Backlog,Practice,linux,C,VulnHub,Basic Pentesting 1,Root via documented path,2,L2,todo,,https://www.vulnhub.com/,schedule via roadmap.csv or tracker.py move
+L06,,,,Backlog,Practice,linux,C,VulnHub,Kioptrix Level 1,Root via documented path,2,L2,todo,,https://www.vulnhub.com/,schedule via roadmap.csv or tracker.py move
+L07,,,,Backlog,Practice,linux,C,Metasploitable,Metasploitable 2 service exploitation,5 services exploited,1.5,L2,todo,,https://docs.rapid7.com/metasploit/metasploitable-2/,schedule via roadmap.csv or tracker.py move
+L11,,,,Backlog,Practice,ad,C,Own AD lab,BloodHound + impacket + Kerberoast on Server 2022 lab,Domain admin via 2 paths,2,L2,todo,,,schedule via roadmap.csv or tracker.py move
+L13,,,,Backlog,Practice,linux,C,HackTheBox,2 easy retired boxes,User + root flags,4,L2,todo,,https://www.hackthebox.com/,schedule via roadmap.csv or tracker.py move
+F08,,,,Backlog,Practice,forensics,C,HTB Sherlocks,2 easy Sherlocks,All task questions answered,2,L2,todo,,https://www.hackthebox.com/,schedule via roadmap.csv or tracker.py move
+F10,,,,Backlog,Practice,forensics,C,CyberChef/olevba,Deobfuscate PowerShell/JS/VBA,3 layers peeled,1.5,L2,todo,,,schedule via roadmap.csv or tracker.py move
+F12,,,,Backlog,Practice,blue,C,LetsDefend,1 SOC alert triage,Verdict + notes,1,L1,todo,,https://letsdefend.io/,schedule via roadmap.csv or tracker.py move
+R04,,,,Backlog,Practice,rev,C,jadx/dnSpy/pycdc,Managed-code decompile x3,3 solved,1.5,L2,todo,,,schedule via roadmap.csv or tracker.py move
+R05,,,,Backlog,Practice,rev,C,angr/z3,2 constraint puzzles,2 solved with z3,1.5,L1,todo,,,schedule via roadmap.csv or tracker.py move
+P03,,,,Backlog,Practice,pwn,C,ROP Emporium,Challenges 5-8,4 solved,2,L2,todo,,https://ropemporium.com/,schedule via roadmap.csv or tracker.py move
+P04,,,,Backlog,Practice,pwn,C,pwn.college,Format string + shellcode,Leak + write,2,L2,todo,,https://pwn.college/,schedule via roadmap.csv or tracker.py move
+P05,,,,Backlog,Practice,pwn,C,OverTheWire Narnia,Levels 0-5,6 levels,2,L2,todo,,https://overthewire.org/wargames/narnia/,schedule via roadmap.csv or tracker.py move
+P06,,,,Backlog,Practice,pwn,C,how2heap,Tcache intro,1 technique reproduced,1,L1,todo,,https://github.com/shellphish/how2heap,schedule via roadmap.csv or tracker.py move
+C06,,,,Backlog,Practice,crypto,C,CryptoHack,ECC intro,Course intro solved,1,L1,todo,,https://cryptohack.org/courses/,schedule via roadmap.csv or tracker.py move
+O03,,,,Backlog,Practice,misc,C,Root-Me,10 mixed challenges,10 attempted,3,L2,todo,,https://www.root-me.org/,schedule via roadmap.csv or tracker.py move
+O05,,,,Backlog,Practice,misc,C,Scripting puzzles,3 programming challenges <20 min,3 solved,1.5,L2,todo,,,schedule via roadmap.csv or tracker.py move
+W08,,,,Backlog,Practice,web,C,PortSwigger,API + GraphQL + WebSockets + host header (breadth),1 lab each,2,L1,todo,,https://portswigger.net/web-security,schedule via roadmap.csv or tracker.py move
+W12,,,,Backlog,Practice,web,C,OverTheWire Natas,Levels 21-34,Level 34 reached,1.5,L2,todo,,https://overthewire.org/wargames/natas/,schedule via roadmap.csv or tracker.py move
+W13,,,,Backlog,Practice,web,C,DVWA/WebGoat/bWAPP,Breadth pass,5 vulns each,1.5,L1,todo,,https://github.com/digininja/DVWA,schedule via roadmap.csv or tracker.py move
+W14,,,,Backlog,Practice,web,C,crAPI,3 findings,3 documented,1.5,L2,todo,,https://github.com/OWASP/crAPI,schedule via roadmap.csv or tracker.py move
+W15,,,,Backlog,Practice,web,C,TryHackMe,OWASP Top 10 + Juice Shop room,Rooms complete,1.5,L1,todo,,https://tryhackme.com,schedule via roadmap.csv or tracker.py move
+S04,,,,Backlog,Practice,cybersci,C,CyberSci Nationals 2021,Track 1 replay: Druid RCE -> C2 uncompyle6 -> RSA-signed shutdown,Chain rebuilt in lab,3,L2,todo,,https://crazyeights225.github.io/cs-track1/,schedule via roadmap.csv or tracker.py move
+A05,,,,Backlog,Build,build,C,Ghidra scripting,Ghidra headless script: dump decompiled function to text (no AI),Function dumped via script,1.5,L2,todo,,,schedule via roadmap.csv or tracker.py move
+A08,,,,Backlog,Build,build,C,CTFd client,Fetch challenges/files/scores,Works on local CTFd,1,L2,todo,,,schedule via roadmap.csv or tracker.py move
+O07,,,,Backlog,Practice,misc,C,picoGym archive,30 mixed past challenges,30 attempted,3,L2,todo,,https://play.picoctf.org/practice,schedule via roadmap.csv or tracker.py move
+D01,,,,Backlog (post-qualifier),Build,dojo,C,Dashboard,"Static HTML page generated from the CSVs: today's tasks, hours, streaks, next events (offline)",One page shows today's plan + progress without internet,2,L2,todo,,curriculum/dojo-platform-backlog.md,After Nov 21; user will build
+D02,,,,Backlog (post-qualifier),Build,dojo,C,CTFd,"Run CTFd locally (docker compose); load 5-10 own challenges from CyberSci writeups (vhost warmup, whitespace vault.dat, source-only pwn)","Teammate can log in, solve, see scoreboard",2,L2,todo,,curriculum/dojo-platform-backlog.md,After Nov 21; user will build
+D03,,,,Backlog (post-qualifier),Build,dojo,C,Bandit-hard lab,Docker image with 10+ harder wargame levels + generator script + level map,docker run gives ssh into level0; every level solvable and documented,8,L3,todo,,curriculum/dojo-platform-backlog.md,After Nov 21; user will build
+D04,,,,Backlog (post-qualifier),Build,dojo,C,Realistic target,Vulnerable web app + small AD target wired into the lab network (Machine B),web -> pivot -> AD chain solvable end to end,4,L3,todo,,curriculum/dojo-platform-backlog.md,After Nov 21; user will build
+D05,,,,Backlog (post-qualifier),Build,dojo,C,Mock-event runner,"Timer, roles, triage board and run-record export for 4-8 h mock events",One command starts a mock and writes the run record,2,L2,todo,,curriculum/dojo-platform-backlog.md,After Nov 21; user will build
+D06,,,,Backlog (post-qualifier),Build,dojo,C,Offline bundle,"Script to build/verify the competition bundle (hash list, USB sync, cold-start test)",Bundle rebuilt from scratch in <15 min; hashes match runbook,2,L2,todo,,curriculum/dojo-platform-backlog.md,After Nov 21; user will build
+D07,,,,Backlog (post-qualifier),Build,dojo,C,Team hosting,"Serve CTFd/lab on Machine B over Tailscale for teammates (auth, no public exposure)",Teammate connects from home; credential-factory unaffected,2,L2,todo,,curriculum/dojo-platform-backlog.md,After Nov 21; user will build

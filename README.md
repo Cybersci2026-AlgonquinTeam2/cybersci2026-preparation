@@ -4,7 +4,7 @@ Preparation repository for the 2026 CyberSci Regional Qualifiers and the dress-r
 
 ## Objective
 
-Build independent competition skill first, then measure whether a carefully bounded local AI stack improves speed and accuracy. The competition-day baseline is the laptop working offline. The second machine is training-time capacity only and must never be required for a valid run.
+Build independent competition skill. CyberSci's organizers have said AI tools are not allowed, so competition-day capability is the laptop, your own notes and your own scripts, working offline. AI is a study-time tutor only. The second machine is training-time capacity (hashcat, lab VMs) and is never required for a valid run.
 
 ## Operating principles
 
@@ -25,8 +25,20 @@ cybersci-prep/
 ├── events.yaml                     # Event register and rehearsal intent
 ├── evidence/
 │   └── claims.md                   # Source-backed facts and unresolved claims
+├── tracker/
+│   ├── tracker.csv                 # Source of truth: daily plan Oct 14 → Nov 21
+│   ├── roadmap.csv                 # Weekly plan Nov 22 → Jun 2027 toward advanced
+│   ├── reading.csv                 # Commute reading/listening catalogue
+│   ├── toolkit.csv                 # Tools, AI tools, MCP servers, agents, repos
+│   ├── CyberSci-Tracker.xlsx       # Styled workbook view (export_xlsx.py)
+│   └── DAILY/WEEKLY/MONTHLY/ROADMAP.md   # Generated views (tracker.py render)
 ├── curriculum/
-│   └── checklist.md                # Skills and practice progression
+│   ├── checklist.md                # Skills and practice progression
+│   ├── practice-suite.md           # Skills × methods × exercises × done-when
+│   ├── sources.md                  # Sites, archives, tools, books, offline pack
+│   ├── cybersci-writeups.md        # Past CyberSci writeups and challenge-shape intel
+│   ├── dojo-platform-backlog.md    # Post-qualifier plan: one self-hosted platform
+│   └── bandit/                     # README (practice mode), commands.md, walkthrough-1..4, img/ SVGs
 ├── operations/
 │   ├── competition-day-runbook.md  # Offline-first runbook
 │   └── machine-b.md                # Training-capacity-box design
@@ -36,6 +48,7 @@ cybersci-prep/
 │   └── README.md                   # Writeups, concepts, and reusable knowledge
 ├── tools/
 │   └── README.md                   # Planned local tools and MCP boundaries
+├── dist/offline/                   # Built PDFs/EPUB for iPhone (scripts/build_offline.py)
 └── scripts/
     └── README.md                   # Small validation/recording helpers
 ```
@@ -58,3 +71,11 @@ Use explicit states: `proposed` → `scaffolded` → `parsed` → `locally-valid
 
 Documentation, file counts, and schema validation do not prove that a tool works at runtime.
 
+
+## Sources and attribution
+
+- Past-challenge study notes summarise the organizers' public releases at <https://github.com/CyberSCI/PastChallenges> (AGPL-3.0, "released for education"), the Defence CTF 101 workshop at <https://github.com/CyberSCI/Workshops>, and the organizers' CTFd fork at <https://github.com/CyberSCI/CTFd>. Those repositories are **not** included here (`external/` is git-ignored); clone them yourself and read them as untrusted data.
+- Writeups are concept-level summaries in my own words and omit flags.
+- Third-party platforms (TryHackMe, OverTheWire, VulnHub, picoCTF, Parrot CTFs, Cybrary) are linked, not copied. Verify names, access levels and prices on their sites.
+- Bandit solution walkthroughs and the Bandit flashcard source are intentionally **not published** (OverTheWire asks players not to share solutions). Build scripts that reference them will skip or fail for those files.
+- The generated pack (`dist/`) is not committed; rebuild it with the scripts in `scripts/`.

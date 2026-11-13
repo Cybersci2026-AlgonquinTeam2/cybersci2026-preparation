@@ -1,0 +1,96 @@
+id,type,name,category,purpose,url,priority,setup_hours,install_by,status,safety_notes
+T001,Infra,Kali Linux VM (VMware),base,Primary attack workstation; snapshots,https://www.kali.org/,P1,1.0,2026-10-14,todo,Snapshot before every session
+T002,Infra,Docker + docker compose,base,"Run Juice Shop, CTFd, MCP sandboxes",https://www.docker.com/,P1,0.5,2026-10-16,todo,
+T003,Infra,Windows Server 2022 AD lab (Machine B),ad,Own AD target for Kerberoast/BloodHound,,P2,3.0,2026-10-29,todo,Isolated network only
+T004,Infra,Local CTFd instance,ctf,Practice competition platform + client testing,https://github.com/CTFd/CTFd,P3,1.0,2026-11-04,todo,
+T005,Infra,Tailscale,ops,Reach Machine B; bind MCP/Ollama to tailnet only,https://tailscale.com/,P1,0.5,,done,
+T006,Tool,Burp Suite Community,web,"Proxy, repeater, intruder (throttled)",https://portswigger.net/burp/communitydownload,P1,0.5,2026-10-16,todo,
+T007,Tool,ffuf,web,Content + parameter fuzzing,https://github.com/ffuf/ffuf,P1,0.25,2026-10-16,todo,Scope-limited
+T008,Tool,gobuster,web,Directory/DNS/vhost brute force,https://github.com/OJ/gobuster,P2,0.25,2026-10-16,todo,
+T009,Tool,sqlmap,web,Automated SQLi (use after manual),https://sqlmap.org/,P2,0.25,2026-10-26,todo,Only on authorized targets
+T010,Tool,jwt_tool,web,JWT tampering and attacks,https://github.com/ticarpi/jwt_tool,P2,0.25,2026-10-26,todo,
+T011,Tool,interactsh,web,Out-of-band interaction server (SSRF/XXE blind),https://github.com/projectdiscovery/interactsh,P3,0.5,2026-11-04,todo,
+T012,Tool,nuclei,web,Template-based scanning (breadth),https://github.com/projectdiscovery/nuclei,P3,0.5,2026-12-07,todo,Rate limit; scope only
+T013,Tool,Nmap + NSE,network,Scanning and service enumeration,https://nmap.org/,P1,0.25,2026-10-14,todo,
+T014,Tool,netcat / ncat / socat,network,"Raw sockets, shells, relays",,P1,0.25,2026-10-14,todo,
+T015,Tool,Wireshark + tshark,forensics,Packet analysis,https://www.wireshark.org/,P1,0.5,2026-10-21,todo,
+T016,Tool,Metasploit Framework,network,Exploitation framework (learn manual first),https://www.metasploit.com/,P2,0.5,2026-10-29,todo,Labs only
+T017,Tool,impacket,ad,SMB/Kerberos/WMI python toolkit,https://github.com/fortra/impacket,P2,0.5,2026-10-30,todo,
+T018,Tool,NetExec (nxc),ad,AD/SMB enumeration and spraying,https://github.com/Pennyw0rth/NetExec,P2,0.5,2026-10-30,todo,Lockout risk; labs only
+T019,Tool,BloodHound CE,ad,AD attack path graph,https://github.com/SpecterOps/BloodHound,P2,1.0,2026-10-30,todo,
+T020,Tool,chisel / ligolo-ng,network,Tunnelling and pivoting,https://github.com/jpillora/chisel,P2,0.5,2026-11-05,todo,
+T021,Tool,linPEAS / winPEAS,privesc,Privilege escalation enumeration,https://github.com/peass-ng/PEASS-ng,P2,0.25,2026-10-29,todo,Noisy; use after manual
+T022,Tool,hashcat,crypto,GPU password cracking (Machine B 1660 Ti),https://hashcat.net/hashcat/,P1,1.0,2026-10-29,todo,
+T023,Tool,John the Ripper,crypto,CPU cracking + format converters,https://www.openwall.com/john/,P2,0.25,2026-10-29,todo,
+T024,Tool,Hydra / ncrack,network,Online credential attacks,https://github.com/vanhauser-thc/thc-hydra,P3,0.25,2026-10-29,todo,Labs only
+T025,Tool,Volatility 3,forensics,Memory forensics,https://github.com/volatilityfoundation/volatility3,P1,0.5,2026-11-12,todo,
+T026,Tool,Autopsy / Sleuth Kit,forensics,Disk forensics,https://www.sleuthkit.org/autopsy/,P2,0.5,2026-11-12,todo,
+T027,Tool,binwalk / foremost,forensics,Firmware + carving,https://github.com/ReFirmLabs/binwalk,P1,0.25,2026-10-20,todo,
+T028,Tool,exiftool,forensics,Metadata,https://exiftool.org/,P1,0.1,2026-10-20,todo,
+T029,Tool,zsteg / steghide / stegsolve,forensics,Stego tools,,P2,0.5,2026-10-20,todo,
+T030,Tool,CAPA + YARA,malware,Capability + pattern detection,https://github.com/mandiant/capa,P3,0.5,2026-11-03,todo,
+T031,Tool,Sigma + Chainsaw/Hayabusa,blue,Detection rules + Windows event hunting,https://github.com/SigmaHQ/sigma,P2,1.0,2026-11-03,todo,
+T032,Tool,Zeek / Suricata,blue,Network telemetry + IDS,https://zeek.org/,P3,1.0,2026-12-14,todo,
+T033,Tool,CyberChef,misc,Encoding/crypto Swiss army knife (offline copy!),https://github.com/gchq/CyberChef,P1,0.25,2026-10-15,todo,Offline HTML in bundle
+T034,Tool,Ghidra,rev,Decompiler,https://github.com/NationalSecurityAgency/ghidra,P1,0.5,2026-11-01,todo,
+T035,Tool,Cutter / rizin,rev,Alt disassembler + CutterMCP target,https://cutter.re/,P3,0.5,2026-11-01,todo,
+T036,Tool,pwndbg / GEF,pwn,GDB enhancement,https://github.com/pwndbg/pwndbg,P1,0.5,2026-11-01,todo,
+T037,Tool,pwntools,pwn,Exploit development library,https://github.com/Gallopsled/pwntools,P1,0.25,2026-10-14,todo,
+T038,Tool,ROPgadget / one_gadget,pwn,Gadget discovery,https://github.com/JonathanSalwan/ROPgadget,P2,0.25,2026-11-11,todo,
+T039,Tool,angr + z3,rev,Symbolic execution + SMT,https://github.com/angr/angr,P3,1.0,2027-01-04,todo,
+T040,Tool,jadx / dnSpy / pycdc,rev,Java/.NET/Python decompilers,https://github.com/skylot/jadx,P3,0.5,2027-01-04,todo,
+T041,Tool,RsaCtfTool,crypto,RSA attack automation,https://github.com/RsaCtfTool/RsaCtfTool,P2,0.5,2026-11-10,todo,
+T042,Tool,SageMath,crypto,Maths for lattices/ECC,https://www.sagemath.org/,P3,1.0,2027-01-18,todo,
+T043,Tool,pycryptodome + sympy + gmpy2,crypto,Python crypto + number theory,,P1,0.25,2026-10-22,todo,
+T044,Repo,SecLists,wordlists,Wordlists,https://github.com/danielmiessler/SecLists,P1,0.25,2026-10-16,todo,Large; mirror to USB
+T045,Repo,PayloadsAllTheThings,reference,Payload reference,https://github.com/swisskyrepo/PayloadsAllTheThings,P1,0.1,2026-10-14,todo,Mirror offline
+T046,Repo,HackTricks (mirror),reference,Technique reference,https://github.com/HackTricks-wiki/hacktricks,P1,0.1,2026-10-14,todo,Mirror offline
+T047,Repo,GTFOBins / LOLBAS,reference,Living-off-the-land references,https://gtfobins.github.io/,P1,0.1,2026-10-14,todo,Mirror offline
+T048,Repo,awesome-ctf,reference,CTF resource index,https://github.com/apsdehal/awesome-ctf,P3,0.1,2026-10-14,todo,
+T049,Repo,ctf-wiki,reference,Techniques wiki,https://github.com/ctf-wiki/ctf-wiki,P3,0.1,2026-10-14,todo,
+T050,Repo,how2heap,pwn,Heap exploitation technique PoCs,https://github.com/shellphish/how2heap,P3,0.1,2027-01-11,todo,
+T051,Repo,GOAD (Game of Active Directory),ad,Multi-domain AD lab,https://github.com/Orange-Cyberdefense/GOAD,P3,4.0,2026-12-07,todo,Heavy; isolated network
+T052,Repo,crAPI,web,Vulnerable API app,https://github.com/OWASP/crAPI,P3,0.5,2026-11-30,todo,
+T053,Repo,OWASP Juice Shop,web,Vulnerable web app,https://github.com/juice-shop/juice-shop,P1,0.25,2026-10-16,todo,Docker; localhost only
+T054,AI tool,Ollama,ai-infra,Local model server (laptop + Machine B),https://ollama.com/,P3,0.0,,done,"NOT allowed at CyberSci (organizers, 2026-10-15): study-time or other-CTF use only. Bind to localhost/tailnet; no public exposure"
+T055,AI tool,"Local model set: qwen3 8B/14B, qwen2.5-coder 7B",ai-infra,Interactive (8B) + deep (14B) + code generation,https://ollama.com/library,P3,1.0,2026-11-22,todo,"NOT allowed at CyberSci (organizers, 2026-10-15): study-time or other-CTF use only. 6 GB VRAM: 8B fast, 14B spills to CPU"
+T056,AI tool,Embedding model (nomic-embed-text or bge),ai-infra,RAG over notes/cheat sheets,https://ollama.com/library/nomic-embed-text,P3,0.5,2026-11-22,todo,"NOT allowed at CyberSci (organizers, 2026-10-15): study-time or other-CTF use only."
+T057,AI tool,Open WebUI,ai-infra,Chat front end over local models,https://github.com/open-webui/open-webui,P3,0.5,2026-11-22,todo,"NOT allowed at CyberSci (organizers, 2026-10-15): study-time or other-CTF use only."
+T058,AI tool,LiteLLM (or small router),ai-infra,Laptop -> Machine B -> hosted fallback with provenance,https://github.com/BerriAI/litellm,P3,2.0,2026-11-22,todo,"NOT allowed at CyberSci (organizers, 2026-10-15): study-time or other-CTF use only. Log which model answered"
+T059,AI tool,Chroma / sqlite-vec,ai-infra,Local vector store for RAG,https://github.com/chroma-core/chroma,P3,1.0,2026-11-22,todo,"NOT allowed at CyberSci (organizers, 2026-10-15): study-time or other-CTF use only."
+T060,AI tool,llama.cpp,ai-infra,"CPU/GPU inference alternative, fine control over offload",https://github.com/ggml-org/llama.cpp,P3,1.0,2027-01-04,todo,"NOT allowed at CyberSci (organizers, 2026-10-15): study-time or other-CTF use only."
+T061,AI tool,Claude Code (+ subagents),ai-assistant,Sandboxed coding/triage assistant,https://claude.com/claude-code,P3,0.0,,done,"NOT allowed at CyberSci (organizers, 2026-10-15): study-time or other-CTF use only. Only in VM/sandbox; check competition rules"
+T062,AI tool,Anthropic API / Agent SDK,ai-assistant,Hosted fallback; custom agents,https://docs.claude.com/,P3,1.0,2026-11-22,todo,"NOT allowed at CyberSci (organizers, 2026-10-15): study-time or other-CTF use only. Only if venue internet + rules allow"
+T063,AI tool,MCP Python SDK (mcp),ai-infra,Build your own MCP servers,https://github.com/modelcontextprotocol/python-sdk,P3,1.0,2026-11-22,todo,"NOT allowed at CyberSci (organizers, 2026-10-15): study-time or other-CTF use only."
+T064,AI tool,Anki (spaced repetition),study,Commands/techniques flashcards for commute,https://apps.ankiweb.net/,P3,0.5,2026-11-22,todo,"NOT allowed at CyberSci (organizers, 2026-10-15): study-time or other-CTF use only."
+T065,MCP,Your shell-in-container MCP,own,Allowlisted command execution; log; no host mounts,,P3,3.0,2026-11-22,todo,"NOT allowed at CyberSci (organizers, 2026-10-15): study-time or other-CTF use only. Build yourself first; threat model before code"
+T066,MCP,Your notes/RAG MCP,own,Search writeups + cheat sheets offline,,P3,2.0,2026-11-22,todo,"NOT allowed at CyberSci (organizers, 2026-10-15): study-time or other-CTF use only."
+T067,MCP,Your pcap/tshark MCP,own,Summaries + stream extraction,,P3,1.5,2026-11-22,todo,"NOT allowed at CyberSci (organizers, 2026-10-15): study-time or other-CTF use only."
+T068,MCP,GhidraMCP (LaurieWired),rev,Drive Ghidra: decompile/rename/xrefs,https://github.com/LaurieWired/GhidraMCP,P3,1.5,2026-11-22,todo,"NOT allowed at CyberSci (organizers, 2026-10-15): study-time or other-CTF use only. Run on sample binaries in VM"
+T069,MCP,re-mcp (jtsylve),rev,Headless MCP for IDA Pro and Ghidra,https://github.com/jtsylve/re-mcp,P3,1.5,2027-01-04,todo,"NOT allowed at CyberSci (organizers, 2026-10-15): study-time or other-CTF use only. Check current maintenance"
+T070,MCP,bethington/ghidra-mcp,rev,Large Ghidra MCP (plugin + headless + Docker),https://github.com/bethington/ghidra-mcp,P3,1.5,2027-01-04,todo,"NOT allowed at CyberSci (organizers, 2026-10-15): study-time or other-CTF use only. Read tool list; prune"
+T071,MCP,ida-pro-mcp,rev,IDA Pro MCP (needs IDA license),https://github.com/mrexodia/ida-pro-mcp,P3,1.0,,todo,"NOT allowed at CyberSci (organizers, 2026-10-15): study-time or other-CTF use only. Requires paid IDA; optional"
+T072,MCP,CutterMCP-plus,rev,Cutter/rizin MCP; simple CTF reverses,https://github.com/restkhz/CutterMCP-plus,P3,1.0,2027-01-04,todo,"NOT allowed at CyberSci (organizers, 2026-10-15): study-time or other-CTF use only."
+T073,MCP,BurpMCP (N0el4kLs),web,Proxy history to LLM,https://github.com/N0el4kLs/BurpMCP,P3,1.0,2026-12-07,todo,"NOT allowed at CyberSci (organizers, 2026-10-15): study-time or other-CTF use only. Only on in-scope traffic"
+T074,MCP,WireMCP (0xKoda),forensics,tshark via MCP,https://github.com/0xKoda/WireMCP,P3,1.0,2026-11-22,todo,"NOT allowed at CyberSci (organizers, 2026-10-15): study-time or other-CTF use only. Compare against your own"
+T075,MCP,mcp-for-security (cyproxio),pentest,Collection: sqlmap/ffuf/nmap/masscan servers,https://github.com/cyproxio/mcp-for-security,P3,1.5,2026-12-07,todo,"NOT allowed at CyberSci (organizers, 2026-10-15): study-time or other-CTF use only. Executes tools as your user; sandbox"
+T076,MCP,Kali MCP servers (sudohakan / captainnarwal / lvyimu),pentest,Kali tool wrappers over MCP (Docker),https://github.com/sudohakan/kali-mcp-server,P3,1.5,2026-12-07,todo,"NOT allowed at CyberSci (organizers, 2026-10-15): study-time or other-CTF use only. Evaluate security before use"
+T077,MCP,ctf-mcp-server (zemi-gh),ctf,Bundles radare2/pwntools for CTF,https://glama.ai/mcp/servers/@zemi-gh/ctf-mcp-server,P3,1.0,,todo,"NOT allowed at CyberSci (organizers, 2026-10-15): study-time or other-CTF use only. README warns: runs with your permissions; isolated lab only"
+T078,MCP,Awesome-RE-MCP (list),rev,Curated list of RE MCP servers,https://github.com/crowdere/Awesome-RE-MCP,P3,0.25,2026-11-22,todo,"NOT allowed at CyberSci (organizers, 2026-10-15): study-time or other-CTF use only."
+T079,Agent,PentestGPT,pentest,LLM pentest/CTF framework (USENIX Sec 2024),https://github.com/GreyDGL/PentestGPT,P3,2.0,2027-02-01,todo,"NOT allowed at CyberSci (organizers, 2026-10-15): study-time or other-CTF use only. Authorized targets only; sandbox"
+T080,Agent,CAI (Cybersecurity AI),pentest,Open framework for security agents,https://github.com/aliasrobotics/cai,P3,2.0,2027-02-01,todo,"NOT allowed at CyberSci (organizers, 2026-10-15): study-time or other-CTF use only. Authorized targets only"
+T081,Agent,SWE-agent / EnIGMA mode,ctf,CTF-solving agent with interactive tools (ICML 2025),https://github.com/SWE-agent/SWE-agent,P3,3.0,2027-02-01,todo,"NOT allowed at CyberSci (organizers, 2026-10-15): study-time or other-CTF use only. Check repo for current EnIGMA setup"
+T082,Agent,NYU-LLM-CTF/nyuctf_agents (D-CIPHER),ctf,Multi-agent CTF baseline,https://github.com/NYU-LLM-CTF/nyuctf_agents,P3,3.0,2027-02-01,todo,"NOT allowed at CyberSci (organizers, 2026-10-15): study-time or other-CTF use only. Run in Docker"
+T083,Agent,Pentest-Swarm-AI,pentest,Agent swarm for recon/exploit/report (experimental),https://github.com/Armur-Ai/Pentest-Swarm-AI,P3,2.0,,todo,"NOT allowed at CyberSci (organizers, 2026-10-15): study-time or other-CTF use only. Experimental; review code first"
+T084,Agent,Your triage agent,own,Reads challenges; ranks by points/effort; assigns,,P3,3.0,2026-11-22,todo,"NOT allowed at CyberSci (organizers, 2026-10-15): study-time or other-CTF use only."
+T085,Agent,Your category agents (web/rev/pwn/crypto/forensics),own,Fixed prompts + tool lists + time budgets,,P3,6.0,2026-11-22,todo,"NOT allowed at CyberSci (organizers, 2026-10-15): study-time or other-CTF use only."
+T086,Benchmark,NYU CTF Bench,ai-eval,200 CSAW challenges for measuring agents,https://github.com/NYU-LLM-CTF/NYU_CTF_Bench,P3,1.0,2027-02-01,todo,"NOT allowed at CyberSci (organizers, 2026-10-15): study-time or other-CTF use only."
+T087,Benchmark,Cybench,ai-eval,40 professional-level CTF tasks,https://github.com/andyzorigin/cybench,P3,1.0,2027-02-01,todo,"NOT allowed at CyberSci (organizers, 2026-10-15): study-time or other-CTF use only."
+T088,List,awesome-ai-pentesting,reference,Curated AI pentest tools + MCP servers,https://github.com/skyvanguard/awesome-ai-pentesting,P3,0.25,2026-10-28,todo,
+T089,List,awesome-ai-pentest (insidetrust),reference,"Tools, CTF agents, benchmarks",https://github.com/insidetrust/awesome-ai-pentest,P3,0.25,2026-10-28,todo,
+T090,List,awesome-offensive-security-ai,reference,"Papers, orgs, libraries, benchmarks",https://github.com/ox01024/awesome-offensive-security-ai,P3,0.25,2026-10-28,todo,
+T091,List,Awesome-Agentic-Security,reference,260+ papers on agentic security,https://github.com/kagnlp/Awesome-Agentic-Security,P3,0.25,2026-10-28,todo,
+T092,Tool,ripgrep + fzf,ops,Fast offline search over notes/cheat sheets (replaces RAG),https://github.com/BurntSushi/ripgrep,P1,0.25,2026-10-28,todo,Not AI; confirm own notes are allowed
+T093,Tool,tmux,ops,Persistent terminal sessions and panes,https://github.com/tmux/tmux,P1,0.25,2026-10-15,todo,
+T094,Tool,Markdown notes (Obsidian or plain files),ops,Writeups + cheat sheets; searchable,https://obsidian.md/,P1,0.25,2026-10-15,todo,Offline copy on USB
+T095,Tool,Personal helper-script library,own,Decoders/xor/rsa/http/pcap helpers you wrote yourself,,P1,3.0,2026-11-05,todo,Check rules allow your own scripts

@@ -12,6 +12,8 @@ Use `not-started`, `practicing`, `timed`, `reliable`, or `teach-back`. Attach a 
 | Blue team/IR | triage, detection, containment, hardening, reporting | not-started |
 | Scripting | Python, shell, parsing, automation, reproducible helpers | not-started |
 
+Detailed exercises and "done when" tests per skill: [`practice-suite.md`](practice-suite.md). Source list: [`sources.md`](sources.md). Daily schedule: [`../tracker/DAILY.md`](../tracker/DAILY.md).
+
 ## Practice sources
 
 - Web: PortSwigger Web Security Academy, OWASP Juice Shop, DVWA, WebGoat.

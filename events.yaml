@@ -1,6 +1,7 @@
 schema_version: 1
 timezone: America/Toronto
 qualifier:
+  ai_policy: not_allowed   # organizer reply relayed 2026-10-15
   name: CyberSci Regional Qualifiers
   date: 2026-11-21
   status: needs_primary_source_verification
@@ -16,8 +17,8 @@ events:
     name: DEADFACE
     dates: 2026-10-17/2026-10-19
     ctftime: https://ctftime.org/event/3279
-    mode: ai-assisted
-    purpose: first team run with the AI stack
+    mode: no-ai
+    purpose: first team run under CyberSci rules (no AI tools)
   - id: hacklu-2026
     name: Hack.lu
     dates: 2026-10-23/2026-10-25
@@ -67,7 +68,7 @@ events:
     dates: 2026-11-14
     ctftime: https://ctftime.org/event/3467
     mode: full-dress-rehearsal
-    purpose: 8-hour rehearsal for roles, offline setup, and AI mode
+    purpose: 8-hour rehearsal for roles and offline setup
   - id: glacier-2026
     name: GlacierCTF
     dates: 2026-11-20/2026-11-21
