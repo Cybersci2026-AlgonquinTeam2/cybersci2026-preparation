@@ -39,3 +39,12 @@ dist/
 curriculum/bandit/README.md
 curriculum/bandit/walkthrough-*.md
 flashcards/bandit_cards.py
+
+# OverTheWire full-depth solutions stay private (site asks players not to share them)
+curriculum/overthewire/solutions/
+
+# OverTheWire per-level hints books contain a Method line per level (a solution summary): keep local
+curriculum/overthewire/natas.md
+curriculum/overthewire/krypton.md
+curriculum/overthewire/leviathan.md
+curriculum/overthewire/narnia.md
