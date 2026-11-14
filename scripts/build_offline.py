@@ -187,6 +187,9 @@ BOOKS = [
     ("40-Defence-Lab-Runbook", "40. Defence challenge lab runbook", [C / "activities/26-defence-lab-runbook.md"]),
     ("41-Nmap-and-Networking-Deep-Book", "41. Nmap and networking: the deep book", [C / "activities/27-nmap-and-networking-deep-book.md"]),
     ("42-Basic-SQL-Lab", "42. Basic SQL lab", [C / "activities/28-basic-sql-lab.md"]),
+    ("43-TryHackMe-Free-Room-Guide", "43. TryHackMe: the free-room guide", [C / "activities/29-tryhackme-full-depth-book.md"]),
+    ("44-picoCTF-Full-Depth-Guide", "44. picoCTF / picoGym: the full-depth guide", [C / "activities/30-picoctf-full-depth-guide.md"]),
+    ("45-VulnHub-Parrot-Cybrary-Guide", "45. VulnHub, Parrot CTFs and Cybrary guide", [C / "activities/31-vulnhub-parrot-cybrary-platform-guide.md"]),
 ]
 
 

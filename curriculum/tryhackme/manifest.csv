@@ -1,0 +1,118 @@
+slug,title,topic,category,priority,est_min,url,depth,status,verified
+whatisnetworking,What Is Networking?,Networking,Networking and Nmap,P2,30,https://tryhackme.com/room/whatisnetworking,atlas,drafted,not-played
+introtonetworking,Intro to Networking,Networking,Networking and Nmap,P2,30,https://tryhackme.com/room/introtonetworking,atlas,drafted,not-played
+networkingconcepts,Networking Concepts,Networking,Networking and Nmap,P2,30,https://tryhackme.com/room/networkingconcepts,atlas,drafted,not-played
+beginnerpathintro,Beginner Path Intro,Networking,Networking and Nmap,P3,20,https://tryhackme.com/room/beginnerpathintro,atlas,drafted,not-played
+networktrafficbasics,Network Traffic Basics,Networking,Networking and Nmap,P2,30,https://tryhackme.com/room/networktrafficbasics,atlas,drafted,not-played
+dnsindetail,DNS in Detail,Networking,Networking and Nmap,P2,30,https://tryhackme.com/room/dnsindetail,atlas,drafted,not-played
+layer2,Layer 2,Networking,Networking and Nmap,P3,20,https://tryhackme.com/room/layer2,atlas,drafted,not-played
+openvpn,OpenVPN,Networking,Networking and Nmap,P3,20,https://tryhackme.com/room/openvpn,atlas,drafted,not-played
+networksecurityessentials,Network Security Essentials,Networking,Networking and Nmap,P2,30,https://tryhackme.com/room/networksecurityessentials,atlas,drafted,not-played
+passiverecon,Passive Recon,Networking,Networking and Nmap,P1,45,https://tryhackme.com/room/passiverecon,deep,drafted,not-played
+activerecon,Active Recon,Networking,Networking and Nmap,P1,60,https://tryhackme.com/room/activerecon,deep,drafted,not-played
+nmap02,Nmap,Networking,Networking and Nmap,P1,60,https://tryhackme.com/room/nmap02,deep,drafted,not-played
+furthernmap,Further Nmap,Networking,Networking and Nmap,P1,60,https://tryhackme.com/room/furthernmap,deep,drafted,not-played
+networkservices,Network Services,Networking,Networking and Nmap,P1,75,https://tryhackme.com/room/networkservices,deep,drafted,not-played
+networkservices2,Network Services 2,Networking,Networking and Nmap,P2,30,https://tryhackme.com/room/networkservices2,atlas,drafted,not-played
+hydra,Hydra,Networking,Hacker tools,P1,45,https://tryhackme.com/room/hydra,deep,drafted,not-played
+guidedpentestinfrastructure,Guided Pentest: Infrastructure,Networking,Networking and Nmap,P2,30,https://tryhackme.com/room/guidedpentestinfrastructure,atlas,drafted,not-played
+bruteit,Brute It,Networking,Networking and Nmap,P2,30,https://tryhackme.com/room/bruteit,atlas,drafted,not-played
+hijack,Hijack,Networking,Networking and Nmap,P2,30,https://tryhackme.com/room/hijack,atlas,drafted,not-played
+bugged,Bugged,Networking,Networking and Nmap,P2,30,https://tryhackme.com/room/bugged,atlas,drafted,not-played
+publisher,Publisher,Networking,Networking and Nmap,P2,30,https://tryhackme.com/room/publisher,atlas,drafted,not-played
+lookup,Lookup,Networking,Networking and Nmap,P2,30,https://tryhackme.com/room/lookup,atlas,drafted,not-played
+chillhack,ChillHack,Networking,Networking and Nmap,P2,30,https://tryhackme.com/room/chillhack,atlas,drafted,not-played
+printerhacking101,Printer Hacking 101,Networking,Networking and Nmap,P3,20,https://tryhackme.com/room/printerhacking101,atlas,drafted,not-played
+cowboyhacker,Cowboy Hacker,Networking,Networking and Nmap,P2,30,https://tryhackme.com/room/cowboyhacker,atlas,drafted,not-played
+brooklynninenine,Brooklyn Nine Nine,Networking,Networking and Nmap,P2,30,https://tryhackme.com/room/brooklynninenine,atlas,drafted,not-played
+agentsudoctf,Agent Sudo,Networking,Networking and Nmap,P2,30,https://tryhackme.com/room/agentsudoctf,atlas,drafted,not-played
+lianyu,Lianyu,Networking,Networking and Nmap,P2,30,https://tryhackme.com/room/lianyu,atlas,drafted,not-played
+searchskills,Search Skills,Tooling,Method,P2,30,https://tryhackme.com/room/searchskills,atlas,drafted,not-played
+pythonbasics,Python Basics,Tooling,Basic programming,P1,60,https://tryhackme.com/room/pythonbasics,deep,drafted,not-played
+customtoolingpython,Custom Tooling with Python,Tooling,Basic programming,P2,30,https://tryhackme.com/room/customtoolingpython,atlas,drafted,not-played
+cyberchefbasics,CyberChef: The Basics,Tooling,Crypto and encodings,P1,45,https://tryhackme.com/room/cyberchefbasics,deep,drafted,not-played
+ohsint,OhSINT,Tooling,OSINT,P2,30,https://tryhackme.com/room/ohsint,atlas,drafted,not-played
+cyberthreatintel,Intro to Cyber Threat Intel,Tooling,Hacker tools / programming,P2,30,https://tryhackme.com/room/cyberthreatintel,atlas,drafted,not-played
+burpsuiterepeater,Burp Suite: Repeater,Tooling,Web exploits and SQL,P1,45,https://tryhackme.com/room/burpsuiterepeater,deep,drafted,not-played
+metasploitintro,Metasploit: Introduction,Tooling,Hacker tools / reverse shell,P2,30,https://tryhackme.com/room/metasploitintro,atlas,drafted,not-played
+ctfcollectionvol1,CTF Collection Vol. 1,Tooling,"CTF warm-up (crypto, encodings, stego)",P1,90,https://tryhackme.com/room/ctfcollectionvol1,deep,drafted,not-played
+becomeahackeroa,Become a Hacker,Tooling,Hacker tools / programming,P3,20,https://tryhackme.com/room/becomeahackeroa,atlas,drafted,not-played
+introtoactivedirectoryauthentication,Introduction to Active Directory Authentication,Active Directory,Privilege escalation and AD (beyond Regionals),P3,20,https://tryhackme.com/room/introtoactivedirectoryauthentication,atlas,drafted,not-played
+adbasicenumeration,AD Basics: Enumeration,Active Directory,Privilege escalation and AD (beyond Regionals),P3,20,https://tryhackme.com/room/adbasicenumeration,atlas,drafted,not-played
+introductiontoactivedirectorybreaching,Introduction to Active Directory Breaching,Active Directory,Privilege escalation and AD (beyond Regionals),P3,20,https://tryhackme.com/room/introductiontoactivedirectorybreaching,atlas,drafted,not-played
+attacktivedirectory,Attacktive Directory,Active Directory,Privilege escalation and AD (beyond Regionals),P3,20,https://tryhackme.com/room/attacktivedirectory,atlas,drafted,not-played
+vulnnetroasted,VulnNet: Roasted,Active Directory,Privilege escalation and AD (beyond Regionals),P3,20,https://tryhackme.com/room/vulnnetroasted,atlas,drafted,not-played
+adcertificatetemplates,AD Certificate Templates,Active Directory,Privilege escalation and AD (beyond Regionals),P3,20,https://tryhackme.com/room/adcertificatetemplates,atlas,drafted,not-played
+postexploit,Post-Exploitation Basics,Active Directory,Privilege escalation and AD (beyond Regionals),P3,20,https://tryhackme.com/room/postexploit,atlas,drafted,not-played
+soupedecode01,Soupedecode 01,Active Directory,Privilege escalation and AD (beyond Regionals),P3,20,https://tryhackme.com/room/soupedecode01,atlas,drafted,not-played
+monitoringactivedirectory,Monitoring Active Directory,Active Directory,Privilege escalation and AD (beyond Regionals),P3,20,https://tryhackme.com/room/monitoringactivedirectory,atlas,drafted,not-played
+operatingsystemsintroduction,Operating Systems Introduction,Windows,Windows and defence,P2,30,https://tryhackme.com/room/operatingsystemsintroduction,atlas,drafted,not-played
+windowscommandline,Windows Command Line,Windows,Windows and defence,P2,30,https://tryhackme.com/room/windowscommandline,atlas,drafted,not-played
+windowsapi,Windows API,Windows,Windows and defence,P2,30,https://tryhackme.com/room/windowsapi,atlas,drafted,not-played
+vulnerabilities101,Vulnerabilities 101,Windows,Application vulnerability analysis,P1,30,https://tryhackme.com/room/vulnerabilities101,deep,drafted,not-played
+defensivesecurityintroQR,Defensive Security Intro,Windows,Windows and defence,P2,30,https://tryhackme.com/room/defensivesecurityintroQR,atlas,drafted,not-played
+introtoendpointsecurity,Intro to Endpoint Security,Windows,Windows and defence,P2,30,https://tryhackme.com/room/introtoendpointsecurity,atlas,drafted,not-played
+introductiontoedrs,Introduction to EDRs,Windows,Windows and defence,P2,30,https://tryhackme.com/room/introductiontoedrs,atlas,drafted,not-played
+introtosiem,Intro to SIEM,Windows,Defence challenge,P2,30,https://tryhackme.com/room/introtosiem,atlas,drafted,not-played
+windowsloggingforsoc,Windows Logging for SOC,Windows,Defence challenge,P2,30,https://tryhackme.com/room/windowsloggingforsoc,atlas,drafted,not-played
+pyramidofpainax,Pyramid of Pain,Windows,Windows and defence,P2,30,https://tryhackme.com/room/pyramidofpainax,atlas,drafted,not-played
+investigatingwindows,Investigating Windows,Windows,Windows and defence,P2,30,https://tryhackme.com/room/investigatingwindows,atlas,drafted,not-played
+servidae,Servidae,Windows,Windows and defence,P3,20,https://tryhackme.com/room/servidae,atlas,drafted,not-played
+ice,Ice,Windows,Windows and defence,P2,30,https://tryhackme.com/room/ice,atlas,drafted,not-played
+blue,Blue,Windows,Windows and defence,P2,30,https://tryhackme.com/room/blue,atlas,drafted,not-played
+blaster,Blaster,Windows,Windows and defence,P3,20,https://tryhackme.com/room/blaster,atlas,drafted,not-played
+blueprint,Blueprint,Windows,Windows and defence,P3,20,https://tryhackme.com/room/blueprint,atlas,drafted,not-played
+atlas,Atlas,Windows,Windows and defence,P3,20,https://tryhackme.com/room/atlas,atlas,drafted,not-played
+historyofmalware,History of Malware,Malware,Reverse engineering / malware,P3,20,https://tryhackme.com/room/historyofmalware,atlas,drafted,not-played
+malmalintroductory,MalMal: Introductory,Malware,Reverse engineering / malware,P3,20,https://tryhackme.com/room/malmalintroductory,atlas,drafted,not-played
+malwareclassification,Malware Classification,Malware,Reverse engineering / malware,P3,20,https://tryhackme.com/room/malwareclassification,atlas,drafted,not-played
+commonattacks,Common Attacks,Malware,Reverse engineering / malware,P3,20,https://tryhackme.com/room/commonattacks,atlas,drafted,not-played
+introtoav,Intro to Antivirus,Malware,Reverse engineering / malware,P3,20,https://tryhackme.com/room/introtoav,atlas,drafted,not-played
+malresearching,Malware Researching,Malware,Reverse engineering / malware,P3,20,https://tryhackme.com/room/malresearching,atlas,drafted,not-played
+x8664arch,x86-64 Architecture,Malware,Reverse engineering,P3,20,https://tryhackme.com/room/x8664arch,atlas,drafted,not-played
+phishingemails1tryoe,Phishing Emails 1,Malware,Reverse engineering / malware,P3,20,https://tryhackme.com/room/phishingemails1tryoe,atlas,drafted,not-played
+phishingemails2rytmuv,Phishing Emails 2,Malware,Reverse engineering / malware,P3,20,https://tryhackme.com/room/phishingemails2rytmuv,atlas,drafted,not-played
+parrotpost,Parrot Post,Malware,Reverse engineering / malware,P3,20,https://tryhackme.com/room/parrotpost,atlas,drafted,not-played
+androidmalwareanalysis,Android Malware Analysis,Malware,Reverse engineering / malware,P3,20,https://tryhackme.com/room/androidmalwareanalysis,atlas,drafted,not-played
+htapowershell-aoc2025-p2l5k8j1h4,HTA & PowerShell (Advent of Cyber 2025),Malware,Reverse engineering / malware,P3,20,https://tryhackme.com/room/htapowershell-aoc2025-p2l5k8j1h4,atlas,drafted,not-played
+valleype,Valley PE,Reverse engineering,Reverse engineering,P2,30,https://tryhackme.com/room/valleype,atlas,drafted,not-played
+mma,MMA (Malware Analysis),Reverse engineering,Reverse engineering,P2,30,https://tryhackme.com/room/mma,atlas,drafted,not-played
+0x41haz,0x41haz,Reverse engineering,Reverse engineering,P2,30,https://tryhackme.com/room/0x41haz,atlas,drafted,not-played
+dearqa,Dear QA,Reverse engineering,Reverse engineering,P2,30,https://tryhackme.com/room/dearqa,atlas,drafted,not-played
+introwebapplicationsecurity,Intro to Web Application Security,Web,Application vulnerability analysis,P1,45,https://tryhackme.com/room/introwebapplicationsecurity,deep,drafted,not-played
+webapplicationbasics,Web Application Basics,Web,Web exploits and SQL,P2,30,https://tryhackme.com/room/webapplicationbasics,atlas,drafted,not-played
+websecurityessentials,Web Security Essentials,Web,Web exploits and SQL,P2,30,https://tryhackme.com/room/websecurityessentials,atlas,drafted,not-played
+httpindetail,HTTP in Detail,Web,Web exploits and SQL,P1,45,https://tryhackme.com/room/httpindetail,deep,drafted,not-played
+webhackingusingcurl-aoc2025-w8q1a4s7d0,Web Hacking Using curl (Advent of Cyber 2025),Web,Web exploits and SQL,P2,30,https://tryhackme.com/room/webhackingusingcurl-aoc2025-w8q1a4s7d0,atlas,drafted,not-played
+xss-aoc2025-c5j8b1m4t6,XSS (Advent of Cyber 2025),Web,Web exploits and SQL,P2,30,https://tryhackme.com/room/xss-aoc2025-c5j8b1m4t6,atlas,drafted,not-played
+race-conditions-aoc2025-d7f0g3h6j9,Race Conditions (Advent of Cyber 2025),Web,Web exploits and SQL,P2,30,https://tryhackme.com/room/race-conditions-aoc2025-d7f0g3h6j9,atlas,drafted,not-played
+nosqlinjectiontutorial,NoSQL Injection Tutorial,Web,Web exploits and SQL,P2,30,https://tryhackme.com/room/nosqlinjectiontutorial,atlas,drafted,not-played
+ffuf,ffuf,Web,Web exploits and SQL,P1,45,https://tryhackme.com/room/ffuf,deep,drafted,not-played
+breakingcryptothesimpleway,Breaking Crypto the Simple Way,Web,Crypto,P2,30,https://tryhackme.com/room/breakingcryptothesimpleway,atlas,drafted,not-played
+detectingwebattacks,Detecting Web Attacks,Web,Defence challenge,P2,30,https://tryhackme.com/room/detectingwebattacks,atlas,drafted,not-played
+writingpentestreports,Writing Pentest Reports,Web,Web exploits and SQL,P3,20,https://tryhackme.com/room/writingpentestreports,atlas,drafted,not-played
+guidedpentestweb,Guided Pentest: Web,Web,Web exploits and SQL,P2,30,https://tryhackme.com/room/guidedpentestweb,atlas,drafted,not-played
+juicydetails,Juicy Details,Web,Web exploits and SQL,P1,90,https://tryhackme.com/room/juicydetails,deep,drafted,not-played
+colddboxeasy,ColddBox: Easy,Web,Web exploits and SQL,P2,30,https://tryhackme.com/room/colddboxeasy,atlas,drafted,not-played
+picklerick,Pickle Rick,Web,Web exploits and SQL,P1,60,https://tryhackme.com/room/picklerick,deep,drafted,not-played
+cyborgt8,Cyborg,Web,Web exploits and SQL,P2,30,https://tryhackme.com/room/cyborgt8,atlas,drafted,not-played
+basicpentestingjt,Basic Pentesting,Web,Web exploits and SQL,P1,120,https://tryhackme.com/room/basicpentestingjt,deep,drafted,not-played
+techsupp0rt1,Tech Supp0rt 1,Web,Web exploits and SQL,P2,30,https://tryhackme.com/room/techsupp0rt1,atlas,drafted,not-played
+introdigitalforensics,Intro to Digital Forensics,Forensics,Forensics and memory forensics,P2,30,https://tryhackme.com/room/introdigitalforensics,atlas,drafted,not-played
+introductoryroomdfirmodule,Intro to DFIR,Forensics,Forensics and memory forensics,P2,30,https://tryhackme.com/room/introductoryroomdfirmodule,atlas,drafted,not-played
+introtologs,Intro to Logs,Forensics,Defence challenge,P2,30,https://tryhackme.com/room/introtologs,atlas,drafted,not-played
+introtocoldsystemforensics,Intro to Cold System Forensics,Forensics,Forensics and memory forensics,P3,20,https://tryhackme.com/room/introtocoldsystemforensics,atlas,drafted,not-played
+forensicimaging,Forensic Imaging,Forensics,Forensics and memory forensics,P3,20,https://tryhackme.com/room/forensicimaging,atlas,drafted,not-played
+memoryanalysisintroduction,Memory Analysis Introduction,Forensics,Forensics and memory forensics,P1,45,https://tryhackme.com/room/memoryanalysisintroduction,deep,drafted,not-played
+memoryforensics,Memory Forensics,Forensics,Forensics and memory forensics,P1,75,https://tryhackme.com/room/memoryforensics,deep,drafted,not-played
+linuxfilesystemanalysis,Linux Filesystem Analysis,Forensics,Forensics and memory forensics,P2,30,https://tryhackme.com/room/linuxfilesystemanalysis,atlas,drafted,not-played
+linuxincidentsurface,Linux Incident Surface,Forensics,Defence challenge,P2,30,https://tryhackme.com/room/linuxincidentsurface,atlas,drafted,not-played
+macosforensicsbasics,macOS Forensics Basics,Forensics,Forensics and memory forensics,P3,20,https://tryhackme.com/room/macosforensicsbasics,atlas,drafted,not-played
+mobileacquisition,Mobile Acquisition,Forensics,Forensics and memory forensics,P3,20,https://tryhackme.com/room/mobileacquisition,atlas,drafted,not-played
+autopsy2ze0,Autopsy,Forensics,Forensics and memory forensics,P2,30,https://tryhackme.com/room/autopsy2ze0,atlas,drafted,not-played
+irplaybooks,IR Playbooks,Forensics,Forensics and memory forensics,P2,30,https://tryhackme.com/room/irplaybooks,atlas,drafted,not-played
+crackthehash,Crack the Hash,Forensics,Crypto (hashes),P1,60,https://tryhackme.com/room/crackthehash,deep,drafted,not-played
+h4cked,h4cked,Forensics,Forensics and memory forensics,P1,60,https://tryhackme.com/room/h4cked,deep,drafted,not-played
+c4ptur3th3fl4g,c4ptur3th3fl4g,Forensics,Forensics and memory forensics,P1,60,https://tryhackme.com/room/c4ptur3th3fl4g,deep,drafted,not-played
+critical,Critical,Forensics,Forensics and memory forensics,P2,30,https://tryhackme.com/room/critical,atlas,drafted,not-played
+caseb4dm755,Case B4DM755,Forensics,Forensics and memory forensics,P2,30,https://tryhackme.com/room/caseb4dm755,atlas,drafted,not-played

@@ -49,6 +49,8 @@ PDFs
   SKILL DEEP DIVES:
   39 Memory forensics (Volatility 3)       40 Defence challenge lab runbook
   41 Nmap and networking deep book         42 Basic SQL lab
+  43 TryHackMe free-room guide (117 rooms)  44 picoCTF guide
+  45 VulnHub, Parrot CTFs, Cybrary guide
 
 EPUB/ (Apple Books)
   0 Complete Library          5 Intel and Study Plan

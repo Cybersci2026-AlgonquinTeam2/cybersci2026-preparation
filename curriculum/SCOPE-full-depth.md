@@ -17,9 +17,9 @@ Agreed 2026-11-13. Supersedes the "thin activity book" approach for everything e
 |---|---|---|
 | 0 | Inventory manifests per platform | OverTheWire done (`curriculum/overthewire/manifest.csv`, 179 rows) |
 | 1 | OverTheWire, all games | in progress (Natas, Krypton, Leviathan drafted; Narnia 0-8 verified live; Behemoth, Manpage, Utumno, Maze, Vortex, FormulaOne, Drifter outline only) |
-| 2 | picoCTF archive by category | todo |
-| 3 | TryHackMe paths + free rooms | todo |
-| 4 | VulnHub curated list, Parrot CTFs, Cybrary | todo |
+| 2 | picoCTF archive by category | curated guide drafted (110 challenges); full archive list needs the learner's account |
+| 3 | TryHackMe paths + free rooms | free rooms drafted (117 listed by THM; 22 P1 in depth); paths' premium rooms not covered |
+| 4 | VulnHub curated list, Parrot CTFs, Cybrary | drafted (20 VMs; Parrot/Cybrary access unverified) |
 | 5 | Cross-links, platform EPUBs/PDFs, flashcards, trackers | todo |
 
 ## Phase 1: OverTheWire inventory (from overthewire.org, 2026-11-13)

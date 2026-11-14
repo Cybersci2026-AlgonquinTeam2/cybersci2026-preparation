@@ -1,0 +1,21 @@
+name,series,difficulty,skills,source,tier,status,verified
+Kioptrix: Level 1,Kioptrix series,Easy,"Nmap, web and Samba enumeration, searching public exploits",S,start,drafted,not-played
+DC-1,DC series,Easy,"CMS enumeration, SUID privilege escalation",S,start,drafted,not-played
+Basic Pentesting: 1,Basic Pentesting,Easy,"Service enumeration, credential guessing, privilege escalation",S,start,drafted,not-played
+Mr-Robot: 1,TV-themed,Easy,"Web enumeration, hashes, SUID escalation",S,start,drafted,not-played
+The Planets: Earth,Planets series,Easy,"Web enumeration, decoding, simple escalation",S,start,drafted,not-played
+DC-2,DC series,Easy,"WordPress enumeration, restricted shells",S,start,drafted,not-played
+Lampiao,Single VM,Easy,"Web CMS vulnerability, kernel exploit escalation",S,start,drafted,not-played
+Kioptrix: Level 1.1,Kioptrix series,Easy,"Web SQL injection, local escalation",M,start,drafted,not-played
+Stapler: 1,Single VM,Easy-Medium,"Many services, enumeration discipline",M,next,drafted,not-played
+SickOs 1.2,SickOs,Easy-Medium,"Web methods, cron-based escalation",M,next,drafted,not-played
+Brainpan: 1,Single VM,Medium,Buffer overflow on a Windows-style service (beginner binary exploitation),M,next,drafted,not-played
+PwnLab: init,Single VM,Medium,"LFI, file upload, local escalation",M,next,drafted,not-played
+FristiLeaks: 1.3,Single VM,Easy-Medium,"Web enumeration, upload bypass, local escalation",M,next,drafted,not-played
+Zico2,Single VM,Medium,"File inclusion, web app credentials",M,next,drafted,not-played
+Droopy,Single VM,Medium,CMS exploitation and escalation,M,next,drafted,not-played
+DerpNStink,Single VM,Medium,"WordPress, credentials, packet capture",M,next,drafted,not-played
+Symfonos: 1,Symfonos series,Medium,"SMB enumeration, mail, LFI",M,later,drafted,not-played
+Billu: b0x,Single VM,Medium,"File inclusion and SQL, kernel escalation",M,later,drafted,not-played
+Vulnix,Single VM,Medium,"NFS misconfiguration, escalation",M,later,drafted,not-played
+Tr0ll: 1,Tr0ll,Easy-Medium,"Packet analysis, brute force, escalation",M,later,drafted,not-played

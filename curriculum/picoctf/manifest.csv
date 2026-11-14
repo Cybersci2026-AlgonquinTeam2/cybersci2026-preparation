@@ -1,0 +1,111 @@
+name,category,difficulty,source,skill,nudge,status,verified
+Obedient Cat,General Skills,Easy,S,Using cat and files,Download the file and read it with the simplest command.,drafted,not-played
+Python Wrangling,General Skills,Easy,S,Running a Python script with arguments,Read the script's usage; the flag file is decrypted by running it correctly.,drafted,not-played
+Wave a flag,General Skills,Easy,S,Executable permissions and --help,"Make the file executable, then ask it for help.",drafted,not-played
+Nice netcat,General Skills,Easy,S,Talking to a remote service,Connect with nc and read what it sends; the data needs a conversion.,drafted,not-played
+Static aint always noise,General Skills,Easy,S,strings and grep,Search a binary for readable text.,drafted,not-played
+Tab Tab Attack,General Skills,Easy,S,Shell tab completion and paths,"Unzip, then follow the nested folders with tab completion.",drafted,not-played
+Magikarp Ground Mission,General Skills,Easy,S,SSH and the filesystem,"Log in over SSH and read the instructions file, then explore.",drafted,not-played
+Codebook,General Skills,Easy,S,Running Python with the right directory,Run the script from the folder that contains its data.,drafted,not-played
+convertme,General Skills,Easy,S,Base conversion,Convert the number between decimal and binary by hand or with Python.,drafted,not-played
+fixme1,General Skills,Easy,S,Fixing a Python syntax error,"Run it, read the error, fix one line at a time.",drafted,not-played
+fixme2,General Skills,Easy,S,Fixing a Python logic error,Compare the operators in the comparison.,drafted,not-played
+Glitch Cat,General Skills,Easy,S,Python escapes in output,Evaluate what the program prints with Python's repr/eval.,drafted,not-played
+HashingJobApp,General Skills,Easy,S,Computing md5 of text,"Connect, receive text, hash it, answer.",drafted,not-played
+PW Crack 1,General Skills,Easy,S,Reading a checker script,The password is in the script.,drafted,not-played
+PW Crack 2,General Skills,Easy,S,Reading a checker script,The check uses character codes; convert them.,drafted,not-played
+PW Crack 3,General Skills,Easy,S,Brute-forcing a short list,Try each candidate from the given list programmatically.,drafted,not-played
+PW Crack 4,General Skills,Easy,S,Brute-forcing a longer list,Same idea; automate it.,drafted,not-played
+PW Crack 5,General Skills,Easy,S,Brute-forcing with a dictionary file,Read the dictionary file in your own loop.,drafted,not-played
+runme,General Skills,Easy,S,Running a downloaded program,Make it executable and run it.,drafted,not-played
+Serpentine,General Skills,Easy,S,Reading Python code for hidden functions,Find the function that prints the flag and make the program call it.,drafted,not-played
+First Find,General Skills,Easy,S,find and grep over a directory tree,Search the tree by file name or contents.,drafted,not-played
+Big Zip,General Skills,Easy,S,Searching inside a large archive,Extract it and grep recursively.,drafted,not-played
+strings it,General Skills,Easy,S,strings,Pull readable text out of the program.,drafted,not-played
+Bases,General Skills,Easy,S,Base64 and other encodings,Identify the encoding from the alphabet.,drafted,not-played
+First Grep,General Skills,Easy,S,grep,Search the file for the flag format.,drafted,not-played
+what's a net cat?,General Skills,Easy,S,netcat basics,Connect to the host and port and read.,drafted,not-played
+plumbing,General Skills,Easy,S,Pipes and redirection,Connect and pipe the output through grep.,drafted,not-played
+Based,General Skills,Medium,S,"Converting between binary, octal and hex",Answer each round by converting the numbers it gives.,drafted,not-played
+Mod 26,General Skills,Easy,S,ROT13,Shift letters by 13.,drafted,not-played
+fixme1.py,General Skills,Easy,S,Fixing a Python syntax error,Run it and fix what the error says.,drafted,not-played
+2Warm,General Skills,Easy,S,Number bases,Convert 42 to binary.,drafted,not-played
+Warmed Up,General Skills,Easy,S,Hex to decimal,Convert the hexadecimal number.,drafted,not-played
+Lets Warm Up,General Skills,Easy,S,ASCII and hex,Look up the ASCII character for a hex byte.,drafted,not-played
+flag-shop,General Skills,Medium,S,Integer overflow logic in a program,Look at how the purchase total is computed with numbers.,drafted,not-played
+mus1c,General Skills,Medium,S,Esoteric language (Rockstar),"Identify the language from the lyrics, then find an interpreter.",drafted,not-played
+I-wanna-b3-a-r0ck5tar,General Skills,Medium,S,Esoteric language,Search for the language that looks like song lyrics.,drafted,not-played
+rotation,Cryptography,Easy,M,Caesar/ROT shifts,Try all 25 shifts and look for a flag format.,drafted,not-played
+interencdec,Cryptography,Easy,M,Chained encodings,"Decode in layers (base64, then another), checking each result.",drafted,not-played
+ReadMyCert,Cryptography,Easy,M,Reading a certificate request,Decode the PEM/CSR with openssl.,drafted,not-played
+C3,Cryptography,Medium,M,Reading a custom cipher script,"Understand the encryption function, then write its inverse.",drafted,not-played
+Dachshund Attacks,Cryptography,Medium,M,RSA with a small private exponent (Wiener's attack),A very large e hints at a very small d; look for the attack by name.,drafted,not-played
+Easy1,Cryptography,Easy,M,Vigenere / one-time-pad table,Use the table with the key given.,drafted,not-played
+Caesar,Cryptography,Easy,M,Caesar cipher,Shift back by the right amount.,drafted,not-played
+The Numbers,Cryptography,Easy,M,Number-to-letter cipher,Map each number to its position in the alphabet.,drafted,not-played
+Vigenere,Cryptography,Easy,M,Vigenere with a given key,Decrypt with the key; use a tool you wrote or an online decoder.,drafted,not-played
+miniRSA,Cryptography,Medium,M,RSA with a tiny exponent,"When e is small and the message is small, take an integer root.",drafted,not-played
+Easy Peasy,Cryptography,Medium,M,One-time pad key reuse,Observe how the key stream repeats.,drafted,not-played
+basic-mod1,Cryptography,Easy,M,Modular arithmetic and a character table,Take each number mod 37 and map to a character set.,drafted,not-played
+basic-mod2,Cryptography,Easy,M,Modular inverse,"Compute each modular inverse, then map.",drafted,not-played
+Mind your Ps and Qs,Cryptography,Medium,M,Factoring a weak RSA modulus,Small n can be factored with a database or tool.,drafted,not-played
+Sum-O-Primes,Cryptography,Medium,M,RSA from the sum and product of primes,Use the relation between p+q and p*q to recover p and q.,drafted,not-played
+Pixelated,Cryptography,Medium,M,Combining images,Overlay the images pixel by pixel.,drafted,not-played
+Hashcrack,Cryptography,Easy,M,Identifying and cracking hashes,"Identify the hash type, then use a wordlist.",drafted,not-played
+Secret of the Polyglot,Forensics,Medium,M,Polyglot files (PDF + PNG),One file is valid as two formats; open it as each.,drafted,not-played
+Redaction gone wrong,Forensics,Easy,M,Hidden text under redaction,Select or extract the text from the document.,drafted,not-played
+"Disk, disk, sleuth!",Forensics,Easy,M,Searching a disk image,Use strings and grep on the image.,drafted,not-played
+Mob psycho,Forensics,Medium,M,Android APK as a zip,Unpack the archive and search its files.,drafted,not-played
+Wireshark doo dooo do doo...,Forensics,Easy,M,Following a TCP stream,Open the capture and follow the stream.,drafted,not-played
+information,Forensics,Easy,M,File metadata,Read the metadata with exiftool.,drafted,not-played
+Matryoshka doll,Forensics,Medium,M,Nested files,Look for archives hidden inside the image.,drafted,not-played
+Enhance!,Forensics,Easy,M,SVG text,Open the SVG as text.,drafted,not-played
+extensions,Forensics,Easy,M,File signatures,The extension lies; check the real type with file.,drafted,not-played
+Lookey here,Forensics,Easy,M,Searching a large text file,grep for the flag format.,drafted,not-played
+St3g0,Forensics,Medium,M,Image steganography,Try common stego tools on the image.,drafted,not-played
+tunn3l v1s10n,Forensics,Medium,M,Repairing a corrupted file header,Compare the bytes with a valid file of the same type.,drafted,not-played
+Trivial Flag Transfer Protocol,Forensics,Medium,M,TFTP in a packet capture,Extract the transferred files from the capture.,drafted,not-played
+MacroHard WeakEdge,Forensics,Medium,M,Macros in an Office file,Unzip the document and look through its parts.,drafted,not-played
+Packets Primer,Forensics,Easy,M,Reading a capture,Look at the payload of the packets.,drafted,not-played
+Operation Oni,Forensics,Medium,M,SSH key recovery from a disk image,Mount the image and find the key.,drafted,not-played
+where are the robots,Web Exploitation,Easy,M,robots.txt,Check the file the site publishes for crawlers.,drafted,not-played
+dont-use-client-side,Web Exploitation,Easy,M,Client-side checks,Read the JavaScript and reassemble the secret.,drafted,not-played
+More Cookies,Web Exploitation,Medium,M,Cookie tampering with encrypted values,Change a byte in the cookie and observe the effect.,drafted,not-played
+Who are you?,Web Exploitation,Medium,M,HTTP headers,Change request headers to match the demands the page makes.,drafted,not-played
+Super Serial,Web Exploitation,Medium,M,PHP deserialization,Find the source and the file the code reads.,drafted,not-played
+Cookies,Web Exploitation,Easy,M,Cookie values,Change the cookie and watch the page change.,drafted,not-played
+Insp3ct0r,Web Exploitation,Easy,M,View source,"Read HTML, CSS and JavaScript.",drafted,not-played
+Scavenger Hunt,Web Exploitation,Easy,M,Finding hidden files,"Check robots.txt, .htaccess and other standard files.",drafted,not-played
+logon,Web Exploitation,Easy,M,Cookie-based login,Look at which cookie decides who you are.,drafted,not-played
+picobrowser,Web Exploitation,Easy,M,User-Agent header,Change the header your client sends.,drafted,not-played
+Client-side-again,Web Exploitation,Medium,M,Obfuscated JavaScript,Deobfuscate the checker by reading it carefully.,drafted,not-played
+Power Cookie,Web Exploitation,Easy,M,Cookie flags,Look for a flag-like cookie value.,drafted,not-played
+Irish-Name-Repo 1,Web Exploitation,Medium,M,SQL injection in a login,Try classic injection on the login form.,drafted,not-played
+caas,Web Exploitation,Medium,M,Command injection through a web form,The input reaches a shell command.,drafted,not-played
+JaWT Scratchpad,Web Exploitation,Medium,M,JWT weaknesses,Inspect the token and the algorithm.,drafted,not-played
+SQLiLite,Web Exploitation,Medium,M,Basic SQL injection,Break out of the string in the query.,drafted,not-played
+login,Web Exploitation,Medium,M,Client-side password check,Read how the page checks the password.,drafted,not-played
+patchme.py,Reverse Engineering,Easy,M,Reading a Python checker,Understand the check and the key it expects.,drafted,not-played
+Safe Opener,Reverse Engineering,Easy,M,Decoding in a Java source,Read the source and decode what it compares.,drafted,not-played
+vault-door-training,Reverse Engineering,Easy,M,Reading Java source,The password check is readable in the source.,drafted,not-played
+packer,Reverse Engineering,Medium,M,UPX-packed binary,"Unpack with the standard packer tool, then read strings.",drafted,not-played
+keygenme-py,Reverse Engineering,Medium,M,Python license check,Work out the key format from the source.,drafted,not-played
+vault-door-1,Reverse Engineering,Easy,M,Reading a character-by-character check,Reorder the characters as the code compares them.,drafted,not-played
+ARMssembly 0,Reverse Engineering,Medium,M,Reading ARM assembly,Trace the function by hand.,drafted,not-played
+Transformation,Reverse Engineering,Easy,M,Python encoding scheme,Reverse the encoding function.,drafted,not-played
+speeds and feeds,Reverse Engineering,Easy,M,G-code,Render the commands as a toolpath.,drafted,not-played
+crackme-py,Reverse Engineering,Easy,M,Reading a Python script,Find the function that decrypts the flag and call it.,drafted,not-played
+asm1,Reverse Engineering,Medium,M,x86 assembly,Trace the function with the argument.,drafted,not-played
+Bbbbloat,Reverse Engineering,Medium,M,Binary with a hard-coded check,Use a decompiler or ltrace.,drafted,not-played
+GDB Test Drive,Reverse Engineering,Easy,M,First steps in gdb,Follow the instructions in gdb.,drafted,not-played
+Cache Me Outside,Binary Exploitation,Hard,M,Heap/tcache behaviour,Study how the allocator reuses chunks.,drafted,not-played
+Here's a LIBC,Binary Exploitation,Medium,M,ret2libc with a leak,"Leak a libc address, compute the base, call system.",drafted,not-played
+buffer overflow 0,Binary Exploitation,Easy,M,Overflow to trigger a handler,Send more input than the buffer holds.,drafted,not-played
+buffer overflow 1,Binary Exploitation,Medium,M,Overwrite the return address,"Find the offset, then jump to the win function.",drafted,not-played
+buffer overflow 2,Binary Exploitation,Medium,M,Return with arguments,Place the function arguments on the stack as the ABI needs.,drafted,not-played
+format string 0,Binary Exploitation,Easy,M,Format string leak,Use format specifiers in the input.,drafted,not-played
+format string 1,Binary Exploitation,Medium,M,Reading the stack with %x,Convert what you leak back to text.,drafted,not-played
+Stonks,Binary Exploitation,Medium,M,Format string in a menu program,Find the input that is passed straight to printf.,drafted,not-played
+basic-file-exploit,Binary Exploitation,Easy,M,Logic bug in a menu,Try unexpected menu inputs.,drafted,not-played
+two-sum,Binary Exploitation,Medium,M,Integer overflow,Find inputs whose sum wraps.,drafted,not-played
+Local Target,Binary Exploitation,Easy,M,Variable overwrite by overflow,Overflow a buffer to change a neighbouring variable.,drafted,not-played
