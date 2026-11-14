@@ -120,6 +120,9 @@ def build_plan_md():
     t = ROOT / "tracker"
     parts = ["# Study plan and trackers\n",
              f"Snapshot built {date.today().isoformat()}. The live plan is `tracker/tracker.csv` on your laptop.\n"]
+    fw = t / "FINAL-WEEK-Nov14-Nov21.md"
+    if fw.exists():
+        parts.append("\n" + fw.read_text(encoding="utf-8").replace("## ", "### ").replace("\n# ", "\n## ") + "\n")
     daily = (t / "DAILY.md").read_text(encoding="utf-8")
     parts.append(re.sub(r"^# .*\n", "", daily, count=1).replace("## ", "### "))
     parts.append("\n# Roadmap after the qualifier\n")
