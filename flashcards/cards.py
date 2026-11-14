@@ -358,3 +358,10 @@ for t, d in GLOSS:
 # extra decks (modules 11-16)
 import cards_extra  # noqa: E402
 cards_extra.register(add)
+import cards_new  # noqa: E402
+cards_new.register(add)
+try:                       # local-only decks (git-ignored)
+    import cards_otw  # noqa: E402
+    cards_otw.register(add)
+except ImportError:
+    pass

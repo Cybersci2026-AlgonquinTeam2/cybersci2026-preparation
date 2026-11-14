@@ -172,6 +172,21 @@ BOOKS = [
     ("31-Writeups-Regionals-2025-26", "31. Writeups: Regionals 2025/26", [C / "pastchallenges/01-regionals-2025-26-writeups.md"]),
     ("32-Writeups-Regionals-2024-25", "32. Writeups: Regionals 2024/25", [C / "pastchallenges/02-regionals-2024-25-writeups.md"]),
     ("33-Past-Challenge-Primers-and-Drills", "33. Past-challenge primers and drills", [C / "pastchallenges/03-past-challenge-primers-and-drills.md"]),
+    # OverTheWire full-depth books (hints + private solutions; for the learner's own phone only)
+    ("34-OTW-Binary-Primer-and-Advanced-Games", "34. OverTheWire: binary primer and advanced games",
+     [C / "overthewire/binary-primer.md", C / "overthewire/advanced-games.md", C / "overthewire/behemoth.md", C / "overthewire/manpage.md"]),
+    ("35-OTW-Natas", "35. OverTheWire Natas (web)",
+     [C / "overthewire/natas.md", C / "overthewire/solutions/natas-deep-1-levels-0-14.md", C / "overthewire/solutions/natas-solutions.md"]),
+    ("36-OTW-Krypton", "36. OverTheWire Krypton (crypto)",
+     [C / "overthewire/krypton.md", C / "overthewire/solutions/krypton-deep.md", C / "overthewire/solutions/krypton-solutions.md"]),
+    ("37-OTW-Leviathan", "37. OverTheWire Leviathan (reverse basics)",
+     [C / "overthewire/leviathan.md", C / "overthewire/solutions/leviathan-deep.md", C / "overthewire/solutions/leviathan-solutions.md"]),
+    ("38-OTW-Narnia", "38. OverTheWire Narnia (binary exploitation, verified)",
+     [C / "overthewire/narnia.md", C / "overthewire/solutions/narnia-solutions.md"]),
+    ("39-Memory-Forensics-Deep-Book", "39. Memory forensics: the deep book", [C / "activities/25-memory-forensics-deep-book.md"]),
+    ("40-Defence-Lab-Runbook", "40. Defence challenge lab runbook", [C / "activities/26-defence-lab-runbook.md"]),
+    ("41-Nmap-and-Networking-Deep-Book", "41. Nmap and networking: the deep book", [C / "activities/27-nmap-and-networking-deep-book.md"]),
+    ("42-Basic-SQL-Lab", "42. Basic SQL lab", [C / "activities/28-basic-sql-lab.md"]),
 ]
 
 

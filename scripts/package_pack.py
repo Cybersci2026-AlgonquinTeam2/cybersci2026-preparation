@@ -42,6 +42,13 @@ PDFs
   PAST CHALLENGES (CyberSci's own releases):
   25 Past challenges: where to start       32 Writeups: Regionals 2024/25
   31 Writeups: Regionals 2025/26           33 Primers and 8 runnable drills
+  OVERTHEWIRE (hints + solutions, private, for you only):
+  34 Binary primer + advanced games        37 Leviathan
+  35 Natas (web)                           38 Narnia (verified live 0-8)
+  36 Krypton (crypto)
+  SKILL DEEP DIVES:
+  39 Memory forensics (Volatility 3)       40 Defence challenge lab runbook
+  41 Nmap and networking deep book         42 Basic SQL lab
 
 EPUB/ (Apple Books)
   0 Complete Library          5 Intel and Study Plan
@@ -51,6 +58,8 @@ EPUB/ (Apple Books)
   4 Bandit Complete           9 Labs and Review System
   10 Learn by Doing (workflow, labs, defence, platform books)
   11 Past Challenges (writeups, primers, drills)
+  12 OverTheWire Complete (Natas, Krypton, Leviathan, Narnia, binary primer)
+  13 Skill Deep Dives (memory forensics, defence runbook, Nmap)
 
 Flashcards/  Anki decks (.apkg, spaced repetition + diagrams), CSVs, flip-deck PDFs, review routine
 
