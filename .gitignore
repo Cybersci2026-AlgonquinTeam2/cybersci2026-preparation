@@ -1,4 +1,5 @@
 # Local environments and secrets
+competition-day/private/
 .venv/
 venv/
 .env

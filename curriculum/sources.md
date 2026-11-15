@@ -88,7 +88,9 @@ FortID (3440), DEADFACE (3279), Hack.lu (3207), HITCON (3340), CSCTF (3333), PIN
 - stacksmashing (reverse engineering)
 
 ## Offline pack for competition day
-Download, hash, and store on the laptop and a USB drive: HackTricks mirror, PayloadsAllTheThings, GTFOBins/LOLBAS, SecLists, RsaCtfTool, CyberChef (offline HTML), tool installers (Ghidra, Wireshark, Burp community), Ollama model files, embedding model, the RAG index, your writeups, per-category cheat sheets. Record the SHA-256 of each in `operations/competition-day-runbook.md`.
+Subject to current organizer rules, download, hash, and store on the laptop and a USB drive: HackTricks mirror, PayloadsAllTheThings, GTFOBins/LOLBAS, SecLists, RsaCtfTool, CyberChef (offline HTML), tool installers (Ghidra, Wireshark, Burp Community), your permitted writeups and per-category cheat sheets. Record the SHA-256 of each in `operations/competition-day-runbook.md`.
+
+Ollama model files, embedding models and AI retrieval/RAG indexes are study-time resources only. Do not include them in the competition environment: the repository records an organizer reply prohibiting AI tools. See the [competition-day runbook](../operations/competition-day-runbook.md).
 
 ## Tools to have installed and tested
 Kali (or equivalent) VM, Burp Community, ffuf, gobuster, sqlmap, nmap, netcat, socat, Wireshark/tshark, NetworkMiner, Volatility 3, Autopsy, binwalk, exiftool, steghide/zsteg, Ghidra, pwntools, pwndbg/GEF, ROPgadget, one_gadget, angr/z3, hashcat, john, hydra, impacket, BloodHound, NetExec, chisel/ligolo-ng, linpeas/winpeas, CyberChef, Python venv with requests/pycryptodome/sympy/pwntools, Docker.

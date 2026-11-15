@@ -15,7 +15,19 @@ Build independent competition skill. CyberSci's organizers have said AI tools ar
 - Never let an agent operate outside an explicit challenge-scope allowlist.
 - Treat scores as measurements, not proof that a tool or model is generally useful.
 
-## Repository map
+## Team entry points
+
+- [Competition day](competition-day/README.md): preparation checklist, team roles, challenge board and private-work templates.
+- [Practice resources](practice-resources/README.md): curriculum coverage map and a team rehearsal procedure.
+
+Team: **Algonquin Cybersci Team #2** (working name: AlgonquinTeam#2), hosted by [Cybersci2026-AlgonquinTeam2](https://github.com/Cybersci2026-AlgonquinTeam2).
+
+- [Private competition workspace](https://github.com/Cybersci2026-AlgonquinTeam2/competition-day-2026) (team access required).
+- [Contribution guide](CONTRIBUTING.md): local setup, practice tasks, changes and review.
+
+This is a student team workspace, not an official CyberSci or Algonquin College account.
+
+## Existing resource layout
 
 ```text
 cybersci-prep/
