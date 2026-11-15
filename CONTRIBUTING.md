@@ -5,14 +5,14 @@
 In PowerShell, Git Bash or a terminal with Git installed:
 
 ```sh
-git clone https://github.com/Cybersci2026-AlgonquinTeam2/cybersci2026.git
-cd cybersci2026
+git clone https://github.com/Cybersci2026-AlgonquinTeam2/cybersci2026-preparation.git
+cd cybersci2026-preparation
 ```
 
 If you cloned the repository before its transfer, update the remote from inside that checkout:
 
 ```sh
-git remote set-url origin https://github.com/Cybersci2026-AlgonquinTeam2/cybersci2026.git
+git remote set-url origin https://github.com/Cybersci2026-AlgonquinTeam2/cybersci2026-preparation.git
 git remote -v
 ```
 

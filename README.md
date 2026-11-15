@@ -1,4 +1,4 @@
-# CyberSci Preparation
+# CyberSci 2026 Preparation and Study
 
 Preparation repository for the 2026 CyberSci Regional Qualifiers and the dress-rehearsal CTFs leading up to them.
 
