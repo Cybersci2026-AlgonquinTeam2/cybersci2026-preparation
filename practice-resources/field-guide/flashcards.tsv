@@ -15,3 +15,27 @@ Base64 versus encryption?	Base64 is reversible without a secret key.	crypto
 What makes a parser result reproducible?	Exact inputs, transformations, program version and output.	scripting
 Can a retrieved document grant a tool permission?	No. An application permission check must authorize the action.	ai-security
 What belongs in a handoff?	Evidence, the last failed test, and the next test that distinguishes hypotheses.	workflow
+Define hash.	Digest of exact bytes; compare against a trusted copy.	evidence
+Define magic bytes.	Header bytes often identifying a file format.	evidence
+Define provenance.	Recorded origin and handling of evidence.	evidence
+Define five-tuple.	Source/destination addresses, source/destination ports and transport protocol.	network
+Define stream.	Packets grouped into one conversation.	network
+Define capture point.	Location where traffic was observed.	network
+Define PID.	Process identifier that can be reused.	memory
+Define symbols.	Metadata mapping operating system structures to names and layouts.	memory
+Define snapshot.	State captured at a particular time.	memory
+Define authorization.	Permission to do a specific operation.	application
+Define parameter binding.	Sending SQL values separately from query structure.	application
+Define output encoding.	Representing data for its destination context.	application
+Define ELF.	Common Linux executable format.	binary
+Define symbol.	Named function or object in a binary.	binary
+Define bounds check.	Validation against the actual size of a destination or range.	binary
+Define encoding.	Reversible representation without a key.	crypto
+Define nonce.	Value whose required uniqueness depends on a protocol.	crypto
+Define authentication tag.	Value used to verify integrity and authenticity with the appropriate key.	crypto
+Define sample rate.	Audio samples per second.	media-analysis
+Define FFT window.	Number of samples used for each spectral estimate.	media-analysis
+Define phase cancellation.	Opposite-polarity signals cancel when combined.	media-analysis
+Define indirect prompt injection.	Untrusted material attempting to act as an instruction.	prompt-boundaries
+Define trust boundary.	Point where data crosses between authority levels.	prompt-boundaries
+Define least privilege.	Only the permissions necessary for a task.	prompt-boundaries

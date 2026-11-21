@@ -1,5 +1,7 @@
 # CyberSci offline field guide
 
+Use the [detailed chapters](chapters/README.md) for decision trees, terminology, worked examples, troubleshooting, and recall exercises. Each flowchart also has a text path for offline Markdown readers.
+
 Download this folder before disconnecting. Use it during the event only if the briefing permits prepared references, including AI-authored notes. The repository records a no-AI instruction for the event. Prompt injection here is a paper exercise.
 
 1. Start with [triage and playbooks](playbooks.md).
