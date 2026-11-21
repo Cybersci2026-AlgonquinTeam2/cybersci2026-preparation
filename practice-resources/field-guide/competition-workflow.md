@@ -4,6 +4,8 @@ Use this page as the entry point when several tasks arrive together. The domain 
 
 ## Pick the next action
 
+Keep the [terminal dispatcher](playbooks.md#first-commands-and-where-their-results-lead) open next to this workflow. It links directly to the numbered command trees. For each numbered node, record the actual output and follow the matching branch before moving to the next command.
+
 ~~~mermaid
 flowchart TD
     A["Read question, scope and expected submission format"] --> B{"Artifact supplied?"}

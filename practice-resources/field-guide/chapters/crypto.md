@@ -34,6 +34,89 @@ Offline text equivalent:
 4. **Do you need to repeat a transformation over many records** If yes, Use a strict offline parser with explicit failure behavior. If no, record the exact one-off command and result.
 5. **Can a second parser or known test vector confirm it** If yes, Report bytes, transformation and result. If no, report a candidate interpretation with its limits.
 
+## Run the decision tree at the terminal
+
+~~~mermaid
+flowchart TD
+    Entry["Enter at the first applicable node"] --> Step1
+    Step1["1. file -- token.txt"] --> Result1{"Check whether the transformation fits"}
+    Result1 -->|Looks like standard Base64| Step2
+    Result1 -->|binary or container| Step3
+    Result1 -->|unsure| End1_2["1. Follow the matching result below"]
+    Step2["2. base64 -d token.txt &gt; decoded.bin"] --> Result2{"Decode and verify full success"}
+    Result2 -->|Zero exit and meaningful bytes| End2_0["2. Follow the matching result below"]
+    Result2 -->|nonzero exit| Step4
+    Result2 -->|binary output| Step3
+    Step3["3. file -- mystery.bin"] --> Result3{"Test a claimed file type instead of inferring crypto"}
+    Result3 -->|Positive parser result| End3_0["3. Follow the matching result below"]
+    Result3 -->|test fails| End3_1["3. Follow the matching result below"]
+    Result3 -->|explicit AEAD data| End3_2["3. Follow the matching result below"]
+    Step4["4. python3 decode_token.py --help"] --> Result4{"Run the strict decoder against known and malformed controls"}
+    Result4 -->|Valid case prints `68656c6c6f`, invalid exits 2| End4_0["4. Follow the matching result below"]
+    Result4 -->|unexpected success on malformed input| End4_1["4. Follow the matching result below"]
+    Result4 -->|byte output is non-text| End4_2["4. Follow the matching result below"]
+~~~
+
+
+Start at **1**. Each node gives the exact check, the options that affect the result, and where to go for each outcome. Filenames are placeholders for your local working copies. **Record** means save the observation and its evidence locator. **Hand off** means keep the last confirmed result and state what is missing.
+
+### 1 · Check whether the transformation fits
+
+~~~bash
+file -- token.txt
+xxd -g 1 -l 48 token.txt
+~~~
+
+**Options and interpretation.** `--` ends file options; `-g 1` groups bytes, `-l 48` bounds preview.
+
+- **Looks like standard Base64.** **2**
+- **binary or container.** **3**
+- **unsure.** record expected syntax, length and source format first.
+
+### 2 · Decode and verify full success
+
+~~~bash
+base64 -d token.txt > decoded.bin
+printf 'status=%s\n' "$?"
+xxd -g 1 decoded.bin
+base64 -w 0 decoded.bin; printf '\n'
+~~~
+
+**Options and interpretation.** `-d` decodes; GNU `-w 0` emits unwrapped output. `>` can leave partial bytes after an error.
+
+- **Zero exit and meaningful bytes.** compare canonical re-encoding
+- **nonzero exit.** discard partial interpretation and use **4**
+- **binary output.** **3**.
+
+### 3 · Test a claimed file type instead of inferring crypto
+
+~~~bash
+file -- mystery.bin
+gzip -t known-gzip.gz
+sha256sum -- mystery.bin
+~~~
+
+**Options and interpretation.** `gzip -t` checks integrity of an expected gzip file without extracting it. A hash corroborates identity, not algorithm classification.
+
+- **Positive parser result.** record structural evidence
+- **test fails.** check parser/format and control, not a conclusion of encryption
+- **explicit AEAD data.** inventory algorithm, nonce, tag and associated data.
+
+### 4 · Run the strict decoder against known and malformed controls
+
+~~~bash
+python3 decode_token.py --help
+python3 decode_token.py 'aGVsbG8='
+python3 decode_token.py 'aGVsbG8=!'
+printf 'status=%s\n' "$?"
+~~~
+
+**Options and interpretation.** Create `decode_token.py` from the chapter recipe. `--help` lists positional arguments; the script uses strict validation and canonical re-encoding.
+
+- **Valid case prints `68656c6c6f`, invalid exits 2.** compare with field input
+- **unexpected success on malformed input.** inspect exact arguments and script version
+- **byte output is non-text.** inspect format, not automatic UTF-8.
+
 ## Command recipes
 
 ### Inspect and decode deliberately

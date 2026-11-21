@@ -34,6 +34,81 @@ Offline text equivalent:
 4. **Do allowed and denied control cases agree with policy** If yes, Collect fixture evidence without sensitive data. If no, find which constraint was skipped.
 5. **Can an external source change the authority fields** If yes, Treat them as untrusted and enforce provenance in runtime. If no, audit how authority and task data are resolved.
 
+## Run the decision tree at the terminal
+
+~~~mermaid
+flowchart TD
+    Entry["Enter at the first applicable node"] --> Step1
+    Step1["1. jq -r '[.case,.origin,.action,.allowed] &#124; @tsv' policy-events.jsonl"] --> Result1{"Read source and action provenance from the synthetic trace"}
+    Result1 -->|External content proposes an effect| Step2
+    Result1 -->|approved summary| End1_1["1. Follow the matching result below"]
+    Result1 -->|unknown provenance| End1_2["1. Follow the matching result below"]
+    Step2["2. jq -r 'select(.allowed == false) &#124; [.case,.origin,.action] &#124; @tsv' policy-events.jsonl"] --> Result2{"Separate permitted effects from recorded denials"}
+    Result2 -->|Denied as specified| Step3
+    Result2 -->|no match or ambiguous schema| End2_1["2. Follow the matching result below"]
+    Result2 -->|sign of an actual effect despite denial| End2_2["2. Follow the matching result below"]
+    Step3["3. rg -n --glob '*.py' 'authorize&#124;allowlist&#124;dispatch&#124;recipient' src"] --> Result3{"Locate the independent authorization gate"}
+    Result3 -->|Gate checks actor, resource, action and destination| End3_0["3. Follow the matching result below"]
+    Result3 -->|gate relies on model text| End3_1["3. Follow the matching result below"]
+    Result3 -->|missing code| End3_2["3. Follow the matching result below"]
+    Step4["4. jq -r '[.case, (.allowed &#124; type)] &#124; @tsv' policy-events.jsonl"] --> Result4{"Check schema drift without a model or agent"}
+    Result4 -->|Boolean types across fixtures| End4_0["4. Follow the matching result below"]
+    Result4 -->|missing, null or string| End4_1["4. Follow the matching result below"]
+~~~
+
+
+Start at **1**. Each node gives the exact check, the options that affect the result, and where to go for each outcome. Filenames are placeholders for your local working copies. **Record** means save the observation and its evidence locator. **Hand off** means keep the last confirmed result and state what is missing.
+
+### 1 · Read source and action provenance from the synthetic trace
+
+~~~bash
+jq -r '[.case,.origin,.action,.allowed] | @tsv' policy-events.jsonl
+~~~
+
+**Options and interpretation.** Use the local fictional fixture below. `-r` emits raw strings and `@tsv` prints structured columns.
+
+- **External content proposes an effect.** **2**
+- **approved summary.** compare benign control
+- **unknown provenance.** inspect application-owned context and hand off if unavailable.
+
+### 2 · Separate permitted effects from recorded denials
+
+~~~bash
+jq -r 'select(.allowed == false) | [.case,.origin,.action] | @tsv' policy-events.jsonl
+~~~
+
+**Options and interpretation.** `select` requires literal boolean false. A missing field or a string containing false is a different record and must be reviewed separately.
+
+- **Denied as specified.** verify enforcement at **3**
+- **no match or ambiguous schema.** check raw fields
+- **sign of an actual effect despite denial.** trace owned application's dispatch path.
+
+### 3 · Locate the independent authorization gate
+
+~~~bash
+rg -n --glob '*.py' 'authorize|allowlist|dispatch|recipient' src
+rg -n -F -- 'def authorize' src
+~~~
+
+**Options and interpretation.** `-n` shows line references, `--glob` limits files and `-F` disables regex interpretation for a literal name.
+
+- **Gate checks actor, resource, action and destination.** validate one allowed and one denied case on paper
+- **gate relies on model text.** propose an application-side check
+- **missing code.** keep claim conditional.
+
+### 4 · Check schema drift without a model or agent
+
+~~~bash
+jq -r '[.case, (.allowed | type)] | @tsv' policy-events.jsonl
+~~~
+
+**Options and interpretation.** `type` exposes the JSON type of the policy field. Shape validation still does not grant authority.
+
+- **Boolean types across fixtures.** compare enforcement outcomes
+- **missing, null or string.** design a fail-closed test
+
+Report findings without copying private prompts or credentials.
+
 ## Command recipes
 
 ### Read a harmless policy decision trace

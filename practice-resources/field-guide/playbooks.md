@@ -1,5 +1,30 @@
 # Decision trees and quick reference
 
+## First commands and where their results lead
+
+Run this intake in a scratch directory with a known local copy. Replace the example name. For a question without a file, skip file intake and select the supplied evidence type below.
+
+~~~bash
+pwd
+sha256sum -- artifact.bin
+file -k -- artifact.bin
+xxd -g 1 -l 32 artifact.bin
+~~~
+
+`pwd` confirms your working directory. `--` ends options in the applicable GNU commands. `file -k` shows additional matches, which can be heuristic. `xxd -g 1` groups individual bytes and `-l 32` reads only the first 32. If the hash disagrees with the expected copy, resolve that before continuing. If two format hints disagree, capture both and start with file evidence.
+
+| Branch after intake | Command to run first | Interpret the result and continue |
+|---|---|---|
+| Archive, log, or unexpected format | `file -k -- artifact.bin` | Additional matches are leads. Confirm with a format-specific parser. [File evidence tree](chapters/evidence.md#run-the-decision-tree-at-the-terminal) |
+| Packet capture | `capinfos capture.pcapng` | Check time span and packet count before choosing a filter. If the interval is absent, save that limitation. [Network and PCAP tree](chapters/network.md#run-the-decision-tree-at-the-terminal) |
+| Memory image | `vol -f memory.raw windows.info` | On a known Windows image, `-f` selects the file. A layer or symbol error is a prerequisite issue. [Memory tree](chapters/memory.md#run-the-decision-tree-at-the-terminal) |
+| SQLite dataset or owned application | `sqlite3 -readonly review.db '.tables'` | List the supplied database's tables without writing to it. If the problem is a route rather than SQL, select the HTTP or code-review branch. [Web and SQL tree](chapters/application.md#run-the-decision-tree-at-the-terminal) |
+| Linux binary | `readelf -hW sample` | `-h` shows ELF header and `-W` avoids wrapping. Inspect class and architecture before choosing tooling. [Static binary tree](chapters/binary.md#run-the-decision-tree-at-the-terminal) |
+| Encoded text or cryptographic record | `xxd -g 1 -l 48 token.txt` | Identify actual bytes and framing before decoding. [Crypto and scripting tree](chapters/crypto.md#run-the-decision-tree-at-the-terminal) |
+| Audio or image | `ffprobe -v error -show_streams -show_format clue.wav` | Check stream count, channels and container metadata before converting. For images, use the image branch. [Media tree](chapters/media-analysis.md#run-the-decision-tree-at-the-terminal) |
+| Suspect instruction in external content | `rg -n -F -- 'recipient' src` | On owned code, search a literal policy-related identifier with line numbers. Trace actual authority independently of external text. [Defensive prompt boundary tree](chapters/prompt-boundaries.md#run-the-decision-tree-at-the-terminal) |
+| Public source or cloud audit record | `exiftool -a -G1 -s photo.jpg` | Compare grouped tags with independent evidence. For cloud records, switch to actor, request and result correlation. [OSINT and cloud tree](chapters/osint-cloud.md#run-the-decision-tree-at-the-terminal) |
+
 **First two minutes:** read the question and expected answer format, identify the artifact, record its hash, and choose the fastest test that distinguishes two interpretations. Save outputs with UTC timestamps. Hand off with what you observed, what you ruled out and what you would test next.
 
 | Given | First check | If unclear | Verify |

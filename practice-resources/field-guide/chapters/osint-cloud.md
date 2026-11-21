@@ -34,6 +34,83 @@ Offline text equivalent:
 4. **Do the candidate records refer to the same request** If yes, Compare request IDs, intervals and aggregation source. If no, check ID namespace, retries and cross-service logging.
 5. **Can you show an independent observation supporting the same claim** If yes, Record evidence with publication date and uncertainty. If no, report the candidate as unresolved.
 
+## Run the decision tree at the terminal
+
+~~~mermaid
+flowchart TD
+    Entry["Enter at the first applicable node"] --> Step1
+    Step1["1. exiftool -a -G1 -s -time:all photo.jpg"] --> Result1{"Separate local metadata from observation"}
+    Result1 -->|Time or coordinate tag exists| End1_0["1. Follow the matching result below"]
+    Result1 -->|tag absent| End1_1["1. Follow the matching result below"]
+    Result1 -->|audit record instead| Step2
+    Step2["2. jq -r '[.time,.id,.actor,.action,.resource,.outcome] &#124; @tsv' audit.jsonl"] --> Result2{"Read actor, resource and outcome together"}
+    Result2 -->|Relevant ID found| Step3
+    Result2 -->|no ID| End2_1["2. Follow the matching result below"]
+    Result2 -->|malformed entry| End2_2["2. Follow the matching result below"]
+    Step3["3. jq -r --arg key req-8 'select(.id == $key) &#124; [.actor,.action,.outcome] &#124; @tsv' audit.jsonl"] --> Result3{"Follow one request across local evidence"}
+    Result3 -->|Stages agree within the same namespace| Step4
+    Result3 -->|conflicts| End3_1["3. Follow the matching result below"]
+    Result3 -->|no follow-up| End3_2["3. Follow the matching result below"]
+    Step4["4. date -u -d '2026-01-05T12:06:00-05:00' '+%Y-%m-%dT%H:%M:%SZ'"] --> Result4{"Prove the correct time and source context"}
+    Result4 -->|Independent source agrees on request or location| End4_0["4. Follow the matching result below"]
+    Result4 -->|same material reposted| End4_1["4. Follow the matching result below"]
+    Result4 -->|time or identity cannot be corroborated| End4_2["4. Follow the matching result below"]
+~~~
+
+
+Start at **1**. Each node gives the exact check, the options that affect the result, and where to go for each outcome. Filenames are placeholders for your local working copies. **Record** means save the observation and its evidence locator. **Hand off** means keep the last confirmed result and state what is missing.
+
+### 1 · Separate local metadata from observation
+
+~~~bash
+exiftool -a -G1 -s -time:all photo.jpg
+exiftool -n -GPSLatitude -GPSLongitude photo.jpg
+~~~
+
+**Options and interpretation.** `-a -G1 -s` lists duplicate tags with group and short names; `-time:all` selects time tags; `-n` disables display conversion.
+
+- **Time or coordinate tag exists.** verify group, offset and corroborating public non-personal source
+- **tag absent.** record only observable features
+- **audit record instead.** **2**.
+
+### 2 · Read actor, resource and outcome together
+
+~~~bash
+jq -r '[.time,.id,.actor,.action,.resource,.outcome] | @tsv' audit.jsonl
+~~~
+
+**Options and interpretation.** `-r` prints raw text and `@tsv` keeps related columns together.
+
+- **Relevant ID found.** **3**
+- **no ID.** find provider's schema and report reduced confidence
+- **malformed entry.** preserve original and identify first parse failure.
+
+### 3 · Follow one request across local evidence
+
+~~~bash
+jq -r --arg key req-8 'select(.id == $key) | [.actor,.action,.outcome] | @tsv' audit.jsonl
+rg -n -F -- 'req-8' evidence/
+~~~
+
+**Options and interpretation.** `--arg` provides the exact ID as a string. `rg -n -F` finds literal occurrences with line numbers.
+
+- **Stages agree within the same namespace.** **4**
+- **conflicts.** compare actor, clock and service
+- **no follow-up.** do not treat authorization as a committed state change.
+
+### 4 · Prove the correct time and source context
+
+~~~bash
+date -u -d '2026-01-05T12:06:00-05:00' '+%Y-%m-%dT%H:%M:%SZ'
+rg -n -i -- 'observatory' references/
+~~~
+
+**Options and interpretation.** GNU `date -d` parses an explicit offset, `-u` outputs UTC, and `-i` ignores case for initial text search.
+
+- **Independent source agrees on request or location.** record both source references
+- **same material reposted.** count it once
+- **time or identity cannot be corroborated.** leave it unresolved.
+
 ## Command recipes
 
 ### Extract local image metadata without modifying it

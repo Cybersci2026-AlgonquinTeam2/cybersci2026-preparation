@@ -42,6 +42,109 @@ flowchart TD
 | One ear differs strongly | Solo each channel and compare a difference track | The same apparent pattern remains in both channels at the same time |
 | Image looks blank | Inspect alpha and individual color channels | Pixel values are uniform in every original channel |
 
+## Run the decision tree at the terminal
+
+~~~mermaid
+flowchart TD
+    Entry["Enter at the first applicable node"] --> Step1
+    Step1["1. file -- clue.wav"] --> Result1{"Inventory and branch by format"}
+    Result1 -->|Stereo| Step2
+    Result1 -->|mono| Step3
+    Result1 -->|mono| Step4
+    Result1 -->|image| Step5
+    Result1 -->|parser error| End1_3["1. Follow the matching result below"]
+    Step2["2. ffmpeg -n -i clue.wav -map 0:a:0 -af 'pan=mono&#124;c0=c0' left.wav"] --> Result2{"Compare original channels and difference"}
+    Result2 -->|Feature stronger in a channel or difference| End2_0["2. Follow the matching result below"]
+    Result2 -->|similar outputs| End2_1["2. Follow the matching result below"]
+    Result2 -->|missing channel| Step1
+    Result2 -->|existing output| End2_3["2. Follow the matching result below"]
+    Step3["3. sox clue.wav -n spectrogram -x 1200 -y 257 -z 80 -o clue-spectrum.png"] --> Result3{"Distinguish duration, simultaneous tones and visible shapes"}
+    Result3 -->|Constant pitch plus short/long pulses| End3_0["3. Follow the matching result below"]
+    Result3 -->|two simultaneous bands| End3_1["3. Follow the matching result below"]
+    Result3 -->|visual shapes| End3_2["3. Follow the matching result below"]
+    Result3 -->|no stable structure| Step4
+    Step4["4. ffmpeg -n -i clue.wav -ss 4.25 -t 2.5 excerpt.wav"] --> Result4{"Test a short speech-like excerpt"}
+    Result4 -->|Independent listeners agree| End4_0["4. Follow the matching result below"]
+    Result4 -->|excerpt empty| Step1
+    Result4 -->|ambiguous result| Step3
+    Step5["5. exiftool -a -G1 -s clue.png"] --> Result5{"Inspect image evidence and metadata separately"}
+    Result5 -->|Clue in pixels| End5_0["5. Follow the matching result below"]
+    Result5 -->|clue only in metadata| End5_1["5. Follow the matching result below"]
+    Result5 -->|format mismatch| End5_2["5. Follow the matching result below"]
+~~~
+
+
+Start at **1**. Each node gives the exact check, the options that affect the result, and where to go for each outcome. Filenames are placeholders for your local working copies. **Record** means save the observation and its evidence locator. **Hand off** means keep the last confirmed result and state what is missing.
+
+### 1 · Inventory and branch by format
+
+~~~bash
+file -- clue.wav
+ffprobe -v error -show_streams -show_format -of json clue.wav
+~~~
+
+**Options and interpretation.** `--` ends file options. `-v error` limits diagnostics, `-show_streams` gives stream/channels, `-show_format` gives container fields, and `-of json` selects JSON.
+
+- **Stereo.** **2**
+- **mono.** **3** or **4** if speech-like
+- **image.** **5**
+- **parser error.** compare the first 32 bytes with `xxd -g 1 -l 32 clue.wav` before trying another parser.
+
+### 2 · Compare original channels and difference
+
+~~~bash
+ffmpeg -n -i clue.wav -map 0:a:0 -af 'pan=mono|c0=c0' left.wav
+ffmpeg -n -i clue.wav -map 0:a:0 -af 'pan=mono|c0=c1' right.wav
+ffmpeg -n -i clue.wav -map 0:a:0 -af 'pan=mono|c0=0.5*c0+0.5*c1' sum.wav
+ffmpeg -n -i clue.wav -map 0:a:0 -af 'pan=mono|c0=0.5*c0-0.5*c1' diff.wav
+~~~
+
+**Options and interpretation.** `-n` prevents overwrite; `-i` names input; `-map 0:a:0` selects the first audio stream of input zero; `-af pan` maps sample channels. Coefficients select one channel or compute half-sum and half-difference.
+
+- **Feature stronger in a channel or difference.** use it in **3–4** and record the transform
+- **similar outputs.** use a clean channel
+- **missing channel.** back to **1**
+- **existing output.** pick fresh names.
+
+### 3 · Distinguish duration, simultaneous tones and visible shapes
+
+~~~bash
+sox clue.wav -n spectrogram -x 1200 -y 257 -z 80 -o clue-spectrum.png
+~~~
+
+**Options and interpretation.** `-n` discards audio output. `-x` sets width, `-y` vertical bins per channel, `-z` visible dB range and `-o` the image path.
+
+- **Constant pitch plus short/long pulses.** map timings in waveform view
+- **two simultaneous bands.** compare to the DTMF grid and single-tone control
+- **visual shapes.** vary window size and keep time and frequency ranges
+- **no stable structure.** test a known fixture or go to **4**.
+
+### 4 · Test a short speech-like excerpt
+
+~~~bash
+ffmpeg -n -i clue.wav -ss 4.25 -t 2.5 excerpt.wav
+ffmpeg -n -i excerpt.wav -af areverse excerpt-reversed.wav
+~~~
+
+**Options and interpretation.** `-ss` after the input selects the output start in seconds, `-t` gives duration, and `areverse` reverses the buffered excerpt. Use the observed interval instead of the example numbers.
+
+- **Independent listeners agree.** record text plus original offset and duration
+- **excerpt empty.** check timeline at **1**
+- **ambiguous result.** return to **3** or hand off with an uncertainty note.
+
+### 5 · Inspect image evidence and metadata separately
+
+~~~bash
+exiftool -a -G1 -s clue.png
+xxd -g 1 -l 32 clue.png
+~~~
+
+**Options and interpretation.** `-a` includes duplicate tags, `-G1` shows field group, `-s` shows short names, `-g 1` groups bytewise, and `-l 32` limits the hex read.
+
+- **Clue in pixels.** inspect RGB, alpha and native scale in GIMP
+- **clue only in metadata.** corroborate before accepting
+- **format mismatch.** use the file evidence tree.
+
 ## Command reference and reasoning
 
 ~~~bash

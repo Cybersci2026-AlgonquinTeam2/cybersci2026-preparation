@@ -34,6 +34,84 @@ Offline text equivalent:
 4. **Is the binary a toy you built** If yes, Verify by running two known input cases. If no, continue with static observations and record limits.
 5. **Are length and return checks consistent with the contract** If yes, Document normal and malformed test results. If no, fix the source and rerun regression checks.
 
+## Run the decision tree at the terminal
+
+~~~mermaid
+flowchart TD
+    Entry["Enter at the first applicable node"] --> Step1
+    Step1["1. file -- sample"] --> Result1{"Classify before disassembling"}
+    Result1 -->|ELF and symbol found| Step2
+    Result1 -->|stripped ELF| Step3
+    Result1 -->|non-ELF| End1_2["1. Follow the matching result below"]
+    Step2["2. objdump -d --disassemble=main sample"] --> Result2{"Trace one named routine"}
+    Result2 -->|Input, compare and return identifiable| End2_0["2. Follow the matching result below"]
+    Result2 -->|symbol absent| Step3
+    Result2 -->|need runtime observation| Step4
+    Step3["3. readelf -SW sample"] --> Result3{"Compare file offsets to sections"}
+    Result3 -->|String location ties to relevant section| End3_0["3. Follow the matching result below"]
+    Result3 -->|no evidence of reachability| End3_1["3. Follow the matching result below"]
+    Result3 -->|wrong architecture| End3_2["3. Follow the matching result below"]
+    Step4["4. gcc -Wall -Wextra -g -O0 demo.c -o demo"] --> Result4{"Compare equivalent builds on an owned toy"}
+    Result4 -->|Statuses match the truth table| End4_0["4. Follow the matching result below"]
+    Result4 -->|discrepancy| End4_1["4. Follow the matching result below"]
+~~~
+
+
+Start at **1**. Each node gives the exact check, the options that affect the result, and where to go for each outcome. Filenames are placeholders for your local working copies. **Record** means save the observation and its evidence locator. **Hand off** means keep the last confirmed result and state what is missing.
+
+### 1 · Classify before disassembling
+
+~~~bash
+file -- sample
+readelf -hW sample
+readelf -sW sample
+~~~
+
+**Options and interpretation.** `-h` prints ELF header, `-s` symbols, `-W` wide output. `readelf` expects ELF.
+
+- **ELF and symbol found.** **2**
+- **stripped ELF.** **3**
+- **non-ELF.** select a compatible read-only parser.
+
+### 2 · Trace one named routine
+
+~~~bash
+objdump -d --disassemble=main sample
+~~~
+
+**Options and interpretation.** `-d` disassembles executable sections; `--disassemble=main` narrows to that symbol. Substitute a real name.
+
+- **Input, compare and return identifiable.** record control and data flow
+- **symbol absent.** **3**
+- **need runtime observation.** **4**, on owned fixture only.
+
+### 3 · Compare file offsets to sections
+
+~~~bash
+readelf -SW sample
+strings -a -n 6 -t x -- sample | head -n 30
+~~~
+
+**Options and interpretation.** `-S` lists sections, `-a` scans all bytes for printable strings, `-n 6` chooses minimum length, `-t x` uses hexadecimal offsets. The pipeline intentionally caps displayed hits.
+
+- **String location ties to relevant section.** inspect references
+- **no evidence of reachability.** record as a clue only
+- **wrong architecture.** verify ELF Machine field.
+
+### 4 · Compare equivalent builds on an owned toy
+
+~~~bash
+gcc -Wall -Wextra -g -O0 demo.c -o demo
+gcc -Wall -Wextra -g -O2 demo.c -o demo-fast
+./demo example; printf 'status=%s\n' "$?"
+./demo; printf 'status=%s\n' "$?"
+~~~
+
+**Options and interpretation.** `-Wall -Wextra` requests warnings, `-g` adds debug information, `-O0/-O2` changes optimization, and `-o` sets output. Use the chapter's demo source, never an unknown binary.
+
+- **Statuses match the truth table.** record source and compare both builds' assembly
+- **discrepancy.** check argument count, build success and captured status.
+
 ## Command recipes
 
 ### Inventory before disassembly

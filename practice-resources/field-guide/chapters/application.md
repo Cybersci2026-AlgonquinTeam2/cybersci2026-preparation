@@ -34,6 +34,81 @@ Offline text equivalent:
 4. **Does user input reach a query** If yes, Verify parameter binding and expected type. If no, look at the output context and expected encoding.
 5. **Do normal and denied cases behave as specified** If yes, Record test conditions and observed result. If no, identify which assumption fails first.
 
+## Run the decision tree at the terminal
+
+~~~mermaid
+flowchart TD
+    Entry["Enter at the first applicable node"] --> Step1
+    Step1["1. curl -sS --max-time 5 -D headers.txt -o body.html -w 'status=%{http_code} type=%{content_type}\n' http://127.0.0.1:8000/"] --> Result1{"Inspect a benign local HTTP fixture"}
+    Result1 -->|Expected response| End1_0["1. Follow the matching result below"]
+    Result1 -->|redirect or error page| End1_1["1. Follow the matching result below"]
+    Result1 -->|network failure| End1_2["1. Follow the matching result below"]
+    Step2["2. sqlite3 -readonly review.db '.schema events'"] --> Result2{"Read schema before guessing data shape"}
+    Result2 -->|Counts agree| End2_0["2. Follow the matching result below"]
+    Result2 -->|mismatch| End2_1["2. Follow the matching result below"]
+    Result2 -->|missing table| End2_2["2. Follow the matching result below"]
+    Step3["3. rg -n --glob '*.py' 'execute\(&#124;authorize\(&#124;request\.' src"] --> Result3{"Find candidate code paths in owned source"}
+    Result3 -->|Relevant handler found| Step4
+    Result3 -->|no results| End3_1["3. Follow the matching result below"]
+    Result3 -->|untrusted input reaches a data access call| End3_2["3. Follow the matching result below"]
+    Step4["4. rg -n -F -- 'read_report' tests"] --> Result4{"Compare permission outcomes with evidence"}
+    Result4 -->|Owner and denied cases covered| End4_0["4. Follow the matching result below"]
+    Result4 -->|missing test| End4_1["4. Follow the matching result below"]
+~~~
+
+
+Start at **1**. Each node gives the exact check, the options that affect the result, and where to go for each outcome. Filenames are placeholders for your local working copies. **Record** means save the observation and its evidence locator. **Hand off** means keep the last confirmed result and state what is missing.
+
+### 1 · Inspect a benign local HTTP fixture
+
+~~~bash
+curl -sS --max-time 5 -D headers.txt -o body.html -w 'status=%{http_code} type=%{content_type}\n' http://127.0.0.1:8000/
+~~~
+
+**Options and interpretation.** `-sS` hides progress but keeps errors, `--max-time` bounds runtime, `-D` saves headers, `-o` saves body, and `-w` prints decoded status and type.
+
+- **Expected response.** compare with missing-file control
+- **redirect or error page.** inspect status and header before classifying
+- **network failure.** check local listener and the fixture recipe.
+
+### 2 · Read schema before guessing data shape
+
+~~~bash
+sqlite3 -readonly review.db '.schema events'
+sqlite3 -readonly -header -column review.db 'SELECT kind, COUNT(*) AS rows, COUNT(kind) AS non_null FROM events GROUP BY kind ORDER BY kind;'
+~~~
+
+**Options and interpretation.** `-readonly` opens read-only, `-header -column` formats output. `.schema` is a SQLite CLI directive. `COUNT(kind)` excludes NULL, unlike `COUNT(*)`.
+
+- **Counts agree.** record the query and schema
+- **mismatch.** compare NULLs and join multiplicity
+- **missing table.** check database and list `.tables`.
+
+### 3 · Find candidate code paths in owned source
+
+~~~bash
+rg -n --glob '*.py' 'execute\(|authorize\(|request\.' src
+rg -n -F -- 'read_report' src
+~~~
+
+**Options and interpretation.** `-n` annotates line numbers, `--glob` limits the search, and `-F` uses literal matching.
+
+- **Relevant handler found.** **4**
+- **no results.** inspect routes and search terms
+- **untrusted input reaches a data access call.** trace binding and policy in source.
+
+### 4 · Compare permission outcomes with evidence
+
+~~~bash
+rg -n -F -- 'read_report' tests
+rg -n -F -- 'authorize' src
+~~~
+
+**Options and interpretation.** Both commands print line references without running the app. Substitute real test/handler identifiers.
+
+- **Owner and denied cases covered.** compare code, expected response and returned fields
+- **missing test.** document actor/object/action matrix and verify the fix with tests supported by the owned repo.
+
 ## Command recipes
 
 ### Owned HTTP fixture and response inspection

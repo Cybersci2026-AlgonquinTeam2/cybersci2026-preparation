@@ -34,6 +34,86 @@ Offline text equivalent:
 4. **Do connection and process times agree** If yes, Correlate identifiers, source and timeline. If no, look for PID reuse, stale structures and clock differences.
 5. **Can a second source support the conclusion** If yes, Report attribution with evidence references. If no, report the observed record and narrow the claim.
 
+## Run the decision tree at the terminal
+
+~~~mermaid
+flowchart TD
+    Entry["Enter at the first applicable node"] --> Step1
+    Step1["1. vol --help"] --> Result1{"Verify launcher, source and identity"}
+    Result1 -->|Known Windows acquisition and launcher| Step2
+    Result1 -->|other OS| End1_1["1. Follow the matching result below"]
+    Result1 -->|unknown capture source or missing launcher| End1_2["1. Follow the matching result below"]
+    Step2["2. vol -f memory.raw windows.info"] --> Result2{"Exercise the parser with an information plugin"}
+    Result2 -->|Recognized context and successful exit| Step3
+    Result2 -->|unsatisfied symbols or layer| End2_1["2. Follow the matching result below"]
+    Result2 -->|control also fails| End2_2["2. Follow the matching result below"]
+    Step3["3. vol -f memory.raw -r csv windows.pslist &gt; process-list.csv"] --> Result3{"Compare three process perspectives"}
+    Result3 -->|Unique process lifetime| Step4
+    Result3 -->|scan-only result| End3_1["3. Follow the matching result below"]
+    Result3 -->|empty output| Step2
+    Step4["4. vol -f memory.raw -r csv windows.netscan &gt; connections.csv"] --> Result4{"Test attribution against process and clock context"}
+    Result4 -->|Socket time, source and PID fit one lifetime| End4_0["4. Follow the matching result below"]
+    Result4 -->|PID reused| End4_1["4. Follow the matching result below"]
+    Result4 -->|no corroboration| End4_2["4. Follow the matching result below"]
+~~~
+
+
+Start at **1**. Each node gives the exact check, the options that affect the result, and where to go for each outcome. Filenames are placeholders for your local working copies. **Record** means save the observation and its evidence locator. **Hand off** means keep the last confirmed result and state what is missing.
+
+### 1 · Verify launcher, source and identity
+
+~~~bash
+vol --help
+file -- memory.raw
+sha256sum -- memory.raw
+~~~
+
+**Options and interpretation.** `--help` lists supported plugins for the installed launcher; file output is heuristic; the hash identifies exact input bytes.
+
+- **Known Windows acquisition and launcher.** **2**
+- **other OS.** select its plugin family and matching symbols
+- **unknown capture source or missing launcher.** resolve prerequisite first.
+
+### 2 · Exercise the parser with an information plugin
+
+~~~bash
+vol -f memory.raw windows.info
+printf 'status=%s\n' "$?"
+~~~
+
+**Options and interpretation.** `-f` names the saved image, `windows.info` exercises Windows parsing, and `$?` is the immediately previous status.
+
+- **Recognized context and successful exit.** **3**
+- **unsatisfied symbols or layer.** compare build and cache and test a known-good input
+- **control also fails.** hand off the install/cache issue.
+
+### 3 · Compare three process perspectives
+
+~~~bash
+vol -f memory.raw -r csv windows.pslist > process-list.csv
+vol -f memory.raw -r csv windows.pstree > process-tree.csv
+vol -f memory.raw -r csv windows.psscan > process-scan.csv
+~~~
+
+**Options and interpretation.** `-r csv` selects the renderer. Redirection creates or truncates before startup; check each exit separately. Scan results can include remnants.
+
+- **Unique process lifetime.** **4**
+- **scan-only result.** corroborate before claiming active execution
+- **empty output.** check diagnostic and **2**.
+
+### 4 · Test attribution against process and clock context
+
+~~~bash
+vol -f memory.raw -r csv windows.netscan > connections.csv
+head -n 5 connections.csv
+~~~
+
+**Options and interpretation.** `windows.netscan` reports supported network structures; `head -n 5` previews schema and records, and cannot prove absence.
+
+- **Socket time, source and PID fit one lifetime.** record IDs and source clocks
+- **PID reused.** compare intervals
+- **no corroboration.** report distinct observations without assigning an owner.
+
 ## Command recipes
 
 ### Prepare and check the local Volatility installation

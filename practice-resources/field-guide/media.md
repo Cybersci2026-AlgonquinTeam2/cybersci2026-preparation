@@ -1,5 +1,7 @@
 # Hidden messages in audio and images
 
+Use the [expanded command tree](chapters/media-analysis.md#run-the-decision-tree-at-the-terminal) during triage. It routes parser errors, stereo measurements, pulses, tone pairs, speech and image clues through specific commands and follow-up checks. This page is the short refresher and two-tone drill.
+
 Work on a copy. Keep original sample rate and channels until you have compared them. Lossy recompression, downmixing and aggressive noise removal can erase a clue.
 
 ```sh

@@ -14,6 +14,8 @@ Team working area for the November 21, 2026 regional event. Start with the [comp
 
 ## During the event
 
+Open the [command-driven terminal dispatcher](../practice-resources/field-guide/playbooks.md#first-commands-and-where-their-results-lead) if the briefing permits these references. Use its numbered domain nodes and record the matching result before trying another branch.
+
 1. Record the organizer-provided scope and rules in a private team location.
 2. Triage challenges and assign an owner. Use [the board template](challenge-board.csv) in a private copy.
 3. Keep a timestamped hypothesis/evidence log; use [the challenge template](templates/challenge.md).

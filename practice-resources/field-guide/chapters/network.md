@@ -36,6 +36,89 @@ Offline text equivalent:
 4. **Can you pair request and reply with corroborating fields** If yes, Record both frame numbers and time delta. If no, check capture boundary, retransmissions and alternate transport.
 5. **Can you see application data** If yes, Describe exactly what was decoded. If no, report transport and handshake evidence separately.
 
+## Run the decision tree at the terminal
+
+~~~mermaid
+flowchart TD
+    Entry["Enter at the first applicable node"] --> Step1
+    Step1["1. ip -br addr"] --> Result1{"Isolate local VM connectivity"}
+    Result1 -->|No usable address or route| End1_0["1. Follow the matching result below"]
+    Result1 -->|missing listener| End1_1["1. Follow the matching result below"]
+    Result1 -->|saved capture available| Step2
+    Step2["2. capinfos capture.pcapng"] --> Result2{"Inventory the entire saved capture"}
+    Result2 -->|DNS present| Step3
+    Result2 -->|relevant TCP flow| Step4
+    Result2 -->|file unreadable or interval absent| End2_2["2. Follow the matching result below"]
+    Step3["3. tshark -n -2 -r capture.pcapng -Y dns -T fields \"] --> Result3{"Find request and reply without trusting IDs alone"}
+    Result3 -->|Response reverses endpoints and matches time, port/stream and question| Step4
+    Result3 -->|repeated IDs| End3_1["3. Follow the matching result below"]
+    Result3 -->|missing response| Step2
+    Step4["4. tshark -n -r capture.pcapng -Y 'frame.number == 42' -V"] --> Result4{"Verify frames and application visibility"}
+    Result4 -->|Evidence matches| End4_0["4. Follow the matching result below"]
+    Result4 -->|encrypted content| End4_1["4. Follow the matching result below"]
+    Result4 -->|no rows| End4_2["4. Follow the matching result below"]
+~~~
+
+
+Start at **1**. Each node gives the exact check, the options that affect the result, and where to go for each outcome. Filenames are placeholders for your local working copies. **Record** means save the observation and its evidence locator. **Hand off** means keep the last confirmed result and state what is missing.
+
+### 1 · Isolate local VM connectivity
+
+~~~bash
+ip -br addr
+ip route show
+ip -6 route show
+ss -lnt
+~~~
+
+**Options and interpretation.** `-br` gives compact addresses, `-6` selects IPv6, and `ss -lnt` shows listening (`-l`) numeric (`-n`) TCP (`-t`) sockets on your VM.
+
+- **No usable address or route.** check VM adapter and addressing
+- **missing listener.** check service and bind address
+- **saved capture available.** **2**.
+
+### 2 · Inventory the entire saved capture
+
+~~~bash
+capinfos capture.pcapng
+tshark -n -r capture.pcapng -q -z io,phs
+tshark -n -r capture.pcapng -q -z conv,tcp
+~~~
+
+**Options and interpretation.** `-n` disables name resolution, `-r` reads a file, `-q` suppresses packet lines and `-z` requests statistics. `capinfos` reports capture boundaries.
+
+- **DNS present.** **3**
+- **relevant TCP flow.** **4**
+- **file unreadable or interval absent.** verify input and hand off with missing coverage.
+
+### 3 · Find request and reply without trusting IDs alone
+
+~~~bash
+tshark -n -2 -r capture.pcapng -Y dns -T fields \
+  -E header=y -E separator=, -E quote=d \
+  -e frame.number -e frame.time_epoch -e ip.src -e ipv6.src -e ip.dst -e ipv6.dst \
+  -e udp.srcport -e udp.dstport -e tcp.stream -e dns.id -e dns.flags.response -e dns.qry.name
+~~~
+
+**Options and interpretation.** `-2` requests two passes, `-Y` selects decoded frames, `-T fields` emits named `-e` fields, and `-E` sets headers, separator and quoting.
+
+- **Response reverses endpoints and matches time, port/stream and question.** **4**
+- **repeated IDs.** require all fields
+- **missing response.** check capture direction and duration at **2**.
+
+### 4 · Verify frames and application visibility
+
+~~~bash
+tshark -n -r capture.pcapng -Y 'frame.number == 42' -V
+tshark -n -r capture.pcapng -Y 'tcp.stream == 3'
+~~~
+
+**Options and interpretation.** Substitute known frame and stream numbers. `-V` expands fields for the matched frame; the stream identifier belongs to this trace.
+
+- **Evidence matches.** record source frame numbers and observed fields
+- **encrypted content.** report observable transport separately
+- **no rows.** clear filter and recheck capture and identifier.
+
 ## Command recipes
 
 ### Local interface and route triage

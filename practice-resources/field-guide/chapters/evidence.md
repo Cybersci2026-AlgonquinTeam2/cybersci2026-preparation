@@ -34,6 +34,88 @@ Offline text equivalent:
 4. **Is the question about a sequence of events** If yes, Preserve the original clock and derive a normalized timeline. If no, find the smallest artifact that can support the claim.
 5. **Can two observations corroborate the result** If yes, Record commands, timestamps and identifiers. If no, report it as a lead and explain what evidence is missing.
 
+## Run the decision tree at the terminal
+
+~~~mermaid
+flowchart TD
+    Entry["Enter at the first applicable node"] --> Step1
+    Step1["1. sha256sum -- artifact.bin"] --> Result1{"Preserve bytes and first observations"}
+    Result1 -->|Hash differs from trusted reference| End1_0["1. Follow the matching result below"]
+    Result1 -->|archive structure| Step2
+    Result1 -->|structured logs| Step3
+    Result1 -->|other binary or media| End1_3["1. Follow the matching result below"]
+    Step2["2. unzip -l bundle.zip"] --> Result2{"List archive members before opening them"}
+    Result2 -->|Ordinary members and expected sizes| End2_0["2. Follow the matching result below"]
+    Result2 -->|links, traversal-like paths or excessive sizes| End2_1["2. Follow the matching result below"]
+    Result2 -->|parser error| End2_2["2. Follow the matching result below"]
+    Step3["3. jq -r '[.timestamp,.event,.source] &#124; @tsv' events.jsonl"] --> Result3{"Extract exact event fields and locate a record"}
+    Result3 -->|Matching records known| Step4
+    Result3 -->|blank fields| End3_1["3. Follow the matching result below"]
+    Result3 -->|parse error| End3_2["3. Follow the matching result below"]
+    Step4["4. date -u -d '2026-11-21T09:30:00-05:00' '+%Y-%m-%dT%H:%M:%SZ'"] --> Result4{"Check actual UTC order rather than display order"}
+    Result4 -->|Two UTC results compare cleanly| End4_0["4. Follow the matching result below"]
+    Result4 -->|missing offset or suspect clock| End4_1["4. Follow the matching result below"]
+~~~
+
+
+Start at **1**. Each node gives the exact check, the options that affect the result, and where to go for each outcome. Filenames are placeholders for your local working copies. **Record** means save the observation and its evidence locator. **Hand off** means keep the last confirmed result and state what is missing.
+
+### 1 · Preserve bytes and first observations
+
+~~~bash
+sha256sum -- artifact.bin
+stat -c '%s bytes' -- artifact.bin
+file -k -- artifact.bin
+xxd -g 1 -l 64 artifact.bin
+~~~
+
+**Options and interpretation.** `-c` supplies stat's format; `file -k` shows additional matches; `-g 1` groups individual bytes; `-l 64` limits the view.
+
+- **Hash differs from trusted reference.** recheck source
+- **archive structure.** **2**
+- **structured logs.** **3**
+- **other binary or media.** choose parser from the dispatcher.
+
+### 2 · List archive members before opening them
+
+~~~bash
+unzip -l bundle.zip
+zipinfo -l bundle.zip
+# Use this next line only for a tar archive.
+tar -tvf bundle.tar
+~~~
+
+**Options and interpretation.** `-l` lists ZIP contents or detailed entries with zipinfo. `-t` lists tar contents, `-v` adds detail and `-f` selects the supplied archive.
+
+- **Ordinary members and expected sizes.** inspect selected content in scratch
+- **links, traversal-like paths or excessive sizes.** retain listing and avoid bulk extraction
+- **parser error.** compare header and archive completeness.
+
+### 3 · Extract exact event fields and locate a record
+
+~~~bash
+jq -r '[.timestamp,.event,.source] | @tsv' events.jsonl
+rg -n -F -- 'evt-42' events.jsonl
+~~~
+
+**Options and interpretation.** `jq -r` emits raw strings and `@tsv` serializes fields. `rg -n -F` returns line numbers for a fixed string.
+
+- **Matching records known.** **4**
+- **blank fields.** inspect original schema and nulls
+- **parse error.** isolate malformed line and record that counts may be partial.
+
+### 4 · Check actual UTC order rather than display order
+
+~~~bash
+date -u -d '2026-11-21T09:30:00-05:00' '+%Y-%m-%dT%H:%M:%SZ'
+date -u -d '2026-11-21T14:25:00Z' '+%Y-%m-%dT%H:%M:%SZ'
+~~~
+
+**Options and interpretation.** GNU `date -d` parses the supplied timestamp, `-u` prints UTC, and the output format uses a literal `Z` only because output is UTC.
+
+- **Two UTC results compare cleanly.** record original and normalized timestamps
+- **missing offset or suspect clock.** use a justified source offset or report order as uncertain.
+
 ## Command recipes
 
 ### Intake and file identification

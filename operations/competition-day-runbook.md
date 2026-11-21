@@ -15,6 +15,8 @@ Draft until rules and venue constraints are verified. **AI tools are not allowed
 
 ## During the event
 
+If permitted by the briefing, start with the [terminal dispatcher](../practice-resources/field-guide/playbooks.md#first-commands-and-where-their-results-lead). Each domain tree gives exact commands, explains flags, and routes successful, ambiguous and failed checks. Record command, tool version, exit status, and evidence locator before handing off.
+
 - [ ] Triage all challenges first: rank by points / estimated minutes.
 - [ ] 30-minute rule per challenge before swapping or asking.
 - [ ] Record scope before interacting with a target.
