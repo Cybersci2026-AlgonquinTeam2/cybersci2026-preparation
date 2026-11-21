@@ -39,3 +39,17 @@ Define phase cancellation.	Opposite-polarity signals cancel when combined.	media
 Define indirect prompt injection.	Untrusted material attempting to act as an instruction.	prompt-boundaries
 Define trust boundary.	Point where data crosses between authority levels.	prompt-boundaries
 Define least privilege.	Only the permissions necessary for a task.	prompt-boundaries
+What is the difference between an audio stream and channel?	A stream is one media track in a container. A channel is one signal within that track.	media-analysis
+What does doubling an FFT window do?	It halves bin spacing and doubles the time interval covered, which can blur short events.	media-analysis
+How can a tone disappear in the stereo half-sum?	Equal-amplitude opposite-polarity components cancel when added.	media-analysis
+How can you distinguish DTMF from Morse-like timing?	Check simultaneous frequency pairs versus a repeated duration code.	media-analysis
+Why does tshark -r matter?	It reads a saved capture instead of capturing live network traffic.	network
+What does tshark -Y select?	Decoded packets passing a display filter. It does not change the input capture.	network
+What separates two DNS transactions with the same ID?	Endpoint direction, ports, question and timing corroborate the pairing.	network
+Why can a Volatility CSV exist after failure?	Shell redirection creates the file before the program runs. Check diagnostics and exit status.	memory
+Does curl exit zero prove HTTP status 200?	No. Transport can succeed while the server returns an HTTP error. Read the status separately.	application
+Why can two optimized binaries disassemble differently but behave alike?	The compiler can change representation while preserving observable behavior.	binary
+How does strict Base64 validation help?	It rejects malformed input instead of accepting a misleading partial decode or ignoring invalid characters.	crypto
+Does an allowed audit event prove an object changed?	Look for completion or state evidence. Authorization and a successful commit are distinct.	osint-cloud
+What does Bash pipefail reveal?	A failed stage in a pipeline can make the whole pipeline return nonzero.	workflow
+What does an instruction inside retrieved content authorize?	Nothing by itself. Trusted application policy must authorize any side effect.	prompt-boundaries

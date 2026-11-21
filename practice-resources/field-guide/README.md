@@ -1,6 +1,6 @@
 # CyberSci offline field guide
 
-Use the [detailed chapters](chapters/README.md) for decision trees, terminology, worked examples, troubleshooting, and recall exercises. Each flowchart also has a text path for offline Markdown readers.
+Use the [domain manuals](chapters/README.md) for expanded decision trees, command options, worked examples, troubleshooting, and recall exercises. Start with [cross-domain triage and Bash mechanics](competition-workflow.md) when picking a first test. Each flowchart also has a text path for offline Markdown readers.
 
 Download this folder before disconnecting. Use it during the event only if the briefing permits prepared references, including AI-authored notes. The repository records a no-AI instruction for the event. Prompt injection here is a paper exercise.
 

@@ -8,5 +8,6 @@
 - [Encodings, cryptography and scripting](crypto.md)
 - [Audio, images and hidden messages](media-analysis.md)
 - [Defensive prompt injection and trust boundaries](prompt-boundaries.md)
+- [Public-source evidence and cloud record correlation](osint-cloud.md)
 
 See the original [curriculum](../../../curriculum) for longer modules and the [field guide](../README.md) for quick triage.
