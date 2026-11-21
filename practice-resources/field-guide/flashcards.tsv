@@ -1,0 +1,17 @@
+Front	Back	Tags
+Waveform versus spectrogram?	Waveform shows level over time. Spectrogram shows frequency and energy over time.	audio
+What can a stereo downmix erase?	A signal that appears with opposite polarity on the two channels.	audio
+Why save frequency and timestamp?	Another analyst can reproduce the observation independently.	audio
+Does a DNS query prove a reply?	No. Correlate the response using endpoints and transaction evidence.	network
+Does seeing HTTPS in a PCAP reveal its body?	Usually the body is encrypted. Metadata may still be visible.	network
+What does a hash establish?	Matching bytes when compared with a trusted reference, not authorship or safety.	forensics
+Why correlate PID with time?	The same PID can be reused by a different process.	memory
+What does COUNT(column) omit?	Rows with NULL in that column.	sql
+What does parameter binding separate?	SQL structure from data values.	web
+Authentication versus authorization?	Identity verification versus permission for a specific action or object.	web
+Are strings proof a binary reaches a branch?	No. Inspect control flow or observe a safe run.	reversing
+Why validate a buffer length before copying?	The copy must fit the actual destination capacity.	native-code
+Base64 versus encryption?	Base64 is reversible without a secret key.	crypto
+What makes a parser result reproducible?	Exact inputs, transformations, program version and output.	scripting
+Can a retrieved document grant a tool permission?	No. An application permission check must authorize the action.	ai-security
+What belongs in a handoff?	Evidence, the last failed test, and the next test that distinguishes hypotheses.	workflow

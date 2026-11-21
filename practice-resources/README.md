@@ -1,5 +1,7 @@
 # Team practice resources
 
+Start with the [offline field guide](field-guide/README.md) for domain decision trees, audio and image analysis, worked drills and flashcards.
+
 This folder is the team entry point to the existing curriculum. Linked modules remain the source of truth; avoid maintaining duplicate copies.
 
 ## Start here

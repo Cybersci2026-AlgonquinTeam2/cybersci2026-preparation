@@ -1,5 +1,7 @@
 # CyberSci 2026 competition day
 
+Download the [offline field guide](../practice-resources/field-guide/README.md) ahead of time. Check with organizers whether prepared references, including AI-authored notes, are permitted at the event.
+
 Team working area for the November 21, 2026 regional event. Start with the [competition runbook](../operations/competition-day-runbook.md) and [CTF method](../curriculum/modules/01-ctf-method-and-competition-day.md).
 
 ## Before the event
