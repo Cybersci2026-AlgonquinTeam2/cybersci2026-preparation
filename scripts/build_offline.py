@@ -193,6 +193,19 @@ BOOKS = [
     ("43-TryHackMe-Free-Room-Guide", "43. TryHackMe: the free-room guide", [C / "activities/29-tryhackme-full-depth-book.md"]),
     ("44-picoCTF-Full-Depth-Guide", "44. picoCTF / picoGym: the full-depth guide", [C / "activities/30-picoctf-full-depth-guide.md"]),
     ("45-VulnHub-Parrot-Cybrary-Guide", "45. VulnHub, Parrot CTFs and Cybrary guide", [C / "activities/31-vulnhub-parrot-cybrary-platform-guide.md"]),
+    # team field guide (added by the team repo, Nov 2026)
+    ("46-Field-Guide-Triage-and-Playbooks", "46. Field guide: triage and playbooks",
+     [ROOT / "practice-resources/field-guide/competition-workflow.md", ROOT / "practice-resources/field-guide/playbooks.md",
+      ROOT / "practice-resources/field-guide/media.md", ROOT / "practice-resources/field-guide/walkthroughs.md"]),
+    ("47-Field-Guide-Manuals-Evidence-Network-Memory-App", "47. Field guide manuals: evidence, network, memory, web",
+     [ROOT / f"practice-resources/field-guide/chapters/{n}.md" for n in ("evidence", "network", "memory", "application")]),
+    ("48-Field-Guide-Manuals-Binary-Crypto-Media-OSINT", "48. Field guide manuals: binary, crypto, media, OSINT, prompt boundaries",
+     [ROOT / f"practice-resources/field-guide/chapters/{n}.md" for n in ("binary", "crypto", "media-analysis", "osint-cloud", "prompt-boundaries")]),
+    ("49-Competition-Day-and-Team", "49. Competition day and team workflow",
+     [ROOT / "competition-day/README.md", ROOT / "competition-day/team-roles.md", ROOT / "competition-day/templates/challenge.md",
+      ROOT / "practice-resources/team-rehearsal.md", ROOT / "CONTRIBUTING.md"]),
+    ("50-Command-Atlas", "50. Command Atlas: expanded manuals with real output",
+     [C / "atlas/README.md"] + [C / f"atlas/{n}.md" for n in ("grep", "find", "sed", "awk", "file-xxd-strings", "curl", "nc", "openssl")]),
 ]
 
 
@@ -202,6 +215,8 @@ DETAILS_OPEN = re.compile(r"<details>\s*<summary>(.*?)</summary>", re.S | re.I)
 
 def preprocess(md_text, base_dir, image_sink):
     s = md_text
+    # mermaid flowcharts cannot render offline; the field guide gives an equivalent text route right after each one
+    s = re.sub(r"^(~~~|```)mermaid\b.*?^\1[ \t]*$", "*(Flowchart omitted in this edition: follow the text route.)*", s, flags=re.M | re.S)
     s = DETAILS_OPEN.sub(lambda m: f"**▶ {m.group(1).strip()}**\n", s)
     s = re.sub(r"</details>", "", s, flags=re.I)
     s = re.sub(r"^(\s*)- \[ \] ", r"\1- ☐ ", s, flags=re.M)

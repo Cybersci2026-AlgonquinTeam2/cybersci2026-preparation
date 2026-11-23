@@ -158,3 +158,11 @@ vol -f IMG -o out windows.dumpfiles --virtaddr 0xADDR
 strings -a -e l IMG | grep -i KEYWORD
 ```
 Rule: **timeline first, flags second**. The flag is usually the answer to a question the evidence can prove.
+
+## 14. Correlation traps (check these before you claim an answer)
+
+- **PID reuse:** the same process id can belong to different processes at different times. Before linking a socket to a process, compare the process start time and the capture time.
+- **Absence is not proof:** a process missing from `pslist` may have exited or been hidden; confirm with `psscan` and the timeline.
+- **Different views, one story:** a process name alone is weak evidence. Match PID, parent, start time, command line and a second artifact (a file, a registry key, a network record).
+- **State your limits:** if the capture does not contain the interval you need, write that down instead of guessing.
+

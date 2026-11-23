@@ -123,3 +123,21 @@ Prepare **three stories**: a lab you built, a challenge you solved step by step,
 2. Why rank by points *per minute*?
 3. List the three things you do before running any exploit.
 4. What does the interview afternoon require that the hacking morning does not?
+
+## Handoff note (one screen)
+
+When you pass a challenge to a teammate, or come back to it after a break, write this so someone else can repeat your work. (Adapted from the team field guide in `practice-resources/field-guide/competition-workflow.md`.)
+
+```text
+Question and expected answer format:
+Owner and check-in time:
+Artifact, SHA-256, source and time range:
+Observation and exact command or GUI settings:
+Expected result, actual result and exit status:
+Best interpretation and one alternative:
+Control result (a known-good case):
+Next discriminating test and who owns it:
+```
+
+If another person cannot repeat the command or find the source frame, byte or time interval, the note is incomplete. Run `sha256sum` on the original first and work on a copy.
+

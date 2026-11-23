@@ -82,3 +82,17 @@ def register(add):
         ("Boolean blind injection in one line?", "Ask yes/no questions about hidden data, one character at a time, from a true/false page difference."),
         ("Time-based blind injection?", "Make the DB sleep conditionally and measure the response time."),
     ])
+
+    # team field guide deck (tab-separated Front, Back, Tags), if the team repo material is present
+    import csv
+    from html import escape
+    from pathlib import Path
+    tsv = Path(__file__).resolve().parent.parent / "practice-resources" / "field-guide" / "flashcards.tsv"
+    if tsv.exists():
+        pairs = []
+        with tsv.open(encoding="utf-8", newline="") as f:
+            for row in csv.DictReader(f, delimiter="	"):
+                if row.get("Front") and row.get("Back"):
+                    pairs.append((escape(row["Front"]), escape(row["Back"])))
+        if pairs:
+            add("Field guide (team)", pairs)

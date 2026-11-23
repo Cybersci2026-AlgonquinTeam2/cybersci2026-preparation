@@ -51,6 +51,8 @@ PDFs
   41 Nmap and networking deep book         42 Basic SQL lab
   43 TryHackMe free-room guide (117 rooms)  44 picoCTF guide
   45 VulnHub, Parrot CTFs, Cybrary guide
+  50 Command Atlas (grep, find, sed, awk, file/xxd/strings, curl, nc, openssl)
+  TEAM FIELD GUIDE (from the team repo): 46 triage and playbooks, 47-48 domain manuals, 49 competition day and team
 
 EPUB/ (Apple Books)
   0 Complete Library          5 Intel and Study Plan
@@ -62,6 +64,8 @@ EPUB/ (Apple Books)
   11 Past Challenges (writeups, primers, drills)
   12 OverTheWire Complete (Natas, Krypton, Leviathan, Narnia, binary primer)
   13 Skill Deep Dives (memory forensics, defence runbook, Nmap)
+  14 Field Guide and Competition Day (team repo material)
+  15 Command Atlas
 
 Flashcards/  Anki decks (.apkg, spaced repetition + diagrams), CSVs, flip-deck PDFs, review routine
 
