@@ -1,0 +1,149 @@
+{
+ "name": "gcc",
+ "section": "1",
+ "partial": true,
+ "one_line": "GNU project C and C++ compiler",
+ "plain": [
+  "`gcc` turns C source code (text you can read) into a program the computer can run. You write hello.c, run gcc, and get an executable file.",
+  "In security work you use it to build practice programs, to see how C turns into assembly, to build programs with protections switched on or off for exploit practice, and to compile helper tools that a challenge ships as source code. gcc has thousands of options; this guide explains the ones you will actually use and when to reach for each."
+ ],
+ "when": [
+  "Compile a C file from a challenge or tutorial so you can run it.",
+  "Build a vulnerable practice program with chosen protections (stack canary, executable stack, randomised addresses).",
+  "Look at the assembly the compiler produces for a line of C, to learn reverse engineering.",
+  "Build a program with debug information so gdb shows your source lines.",
+  "Find memory bugs in your own code with the sanitizers."
+ ],
+ "examples": [
+  {
+   "title": "Compile and run a program",
+   "cmd": "gcc hello.c -o hello && ./hello",
+   "explain": "gcc reads hello.c, compiles and links it, and -o hello names the result. The && runs ./hello only if the build worked. If you leave out -o, gcc names the file a.out. The leading ./ is needed because the current folder is not on your PATH."
+  },
+  {
+   "title": "Turn on warnings",
+   "cmd": "gcc -Wall -Wextra hello.c -o hello",
+   "explain": "-Wall switches on the common warnings and -Wextra adds more. Warnings often point at real bugs: using an uninitialised variable, a printf format that does not match its argument, comparing a signed with an unsigned number. Add -Werror to make any warning stop the build."
+  },
+  {
+   "title": "Build for the debugger",
+   "cmd": "gcc -g -O0 hello.c -o hello",
+   "explain": "-g stores source line information in the program, so gdb can show your C code and let you break on a line. -O0 means no optimisation, so the machine code follows your source closely and variables do not disappear. Use this pair for learning and debugging."
+  },
+  {
+   "title": "See the assembly the compiler writes",
+   "cmd": "gcc -S -masm=intel hello.c -o hello.s",
+   "explain": "-S stops after compiling and writes assembly text to hello.s instead of building a program. -masm=intel prints it in Intel syntax (destination first), the style most books and tools use. Open hello.s in an editor and match each C line to its instructions. Add -O2 to see how optimisation changes the code."
+  },
+  {
+   "title": "The four stages, one at a time",
+   "cmd": "gcc -E hello.c > hello.i;  gcc -S hello.c;  gcc -c hello.c;  gcc hello.o -o hello",
+   "explain": "-E only runs the preprocessor (it pastes #include files and expands #define, giving hello.i). -S compiles to assembly (hello.s). -c assembles to an object file (hello.o) without linking. The last command links the object file into a finished program. Knowing the stages helps you read error messages: a 'undefined reference' error comes from the link stage, a syntax error from the compile stage."
+  },
+  {
+   "title": "Several source files",
+   "cmd": "gcc main.c util.c -o app",
+   "explain": "gcc compiles each .c file and links them together. For bigger projects compile each file with -c once and relink, which is what make does for you."
+  },
+  {
+   "title": "Pass a macro on the command line",
+   "cmd": "gcc -DDEBUG=1 -DVERSION='\"1.2\"' hello.c -o hello",
+   "explain": "-DNAME=value acts like a #define at the top of every file. Programs often wrap debug prints in #ifdef DEBUG, so this switches them on without editing the source. Note the quote trick: the shell removes the outer single quotes, so the program sees the string \"1.2\"."
+  },
+  {
+   "title": "Use a library",
+   "cmd": "gcc crypto.c -o crypto -lcrypto -lm",
+   "explain": "-lNAME links the library libNAME (here OpenSSL's libcrypto and the maths library libm). Put -l options after the source files, or the linker may not use them. If the library's headers or files are in a non-standard place, add -I/path/include and -L/path/lib."
+  },
+  {
+   "title": "Build a 32-bit program",
+   "cmd": "gcc -m32 hello.c -o hello32",
+   "explain": "-m32 builds a 32-bit program, the kind used by Narnia and many exploit tutorials; -m64 builds 64-bit. On Kali or Ubuntu you first need the 32-bit support files: sudo apt install gcc-multilib."
+  },
+  {
+   "title": "A practice program with the protections off (exploit lab)",
+   "cmd": "gcc -m32 -g -O0 -fno-stack-protector -z execstack -no-pie vuln.c -o vuln",
+   "explain": "Modern gcc adds defences by default. This line removes them so a lab program behaves like the classic buffer-overflow examples. -fno-stack-protector removes the stack canary (a guard value before the return address). -z execstack marks the stack executable so shellcode placed there can run. -no-pie builds at a fixed address instead of a random one. Randomised stack addresses are also controlled by the kernel: on a lab machine only, sudo sysctl -w kernel.randomize_va_space=0 turns that off. Only do this to programs you own and on machines you control."
+  },
+  {
+   "title": "A static program",
+   "cmd": "gcc -static hello.c -o hello_static",
+   "explain": "-static copies the libraries into the program, so it does not depend on the system's libc. The file is much bigger, but it runs on machines with different libraries and has many more code snippets (gadgets) for ROP practice. file hello_static says 'statically linked'."
+  },
+  {
+   "title": "Catch memory bugs while you test",
+   "cmd": "gcc -g -fsanitize=address,undefined buggy.c -o buggy && ./buggy",
+   "explain": "The sanitizers add checks at run time. AddressSanitizer stops with a clear report when the program overruns a buffer, uses freed memory or reads outside an array; UndefinedBehaviorSanitizer catches things like integer overflow. It is the friendliest way to see a bug you are about to exploit."
+  },
+  {
+   "title": "Keep the intermediate files",
+   "cmd": "gcc -save-temps hello.c -o hello",
+   "explain": "-save-temps keeps hello.i, hello.s and hello.o next to the program, so you get every stage in one command."
+  },
+  {
+   "title": "Check what protections a program has",
+   "cmd": "readelf -lW vuln | grep GNU_STACK;  readelf -h vuln | grep Type",
+   "explain": "After compiling, confirm that you really got what you asked for. GNU_STACK with flags RWE means an executable stack; RW means it is not executable. Type EXEC means a fixed address (no PIE); DYN means position independent. The tool checksec shows all protections at once."
+  }
+ ],
+ "options": [
+  {"flag": "-o file", "plain": "Name of the output file. Without it, gcc writes a.out.", "use": "Always: gcc hello.c -o hello."},
+  {"flag": "-c", "plain": "Compile each source file to an object file (.o) and stop; do not link.", "use": "Building bigger projects file by file, or checking that a file compiles."},
+  {"flag": "-S", "plain": "Stop after compiling and write assembly (.s).", "use": "Learning how C becomes assembly."},
+  {"flag": "-E", "plain": "Stop after the preprocessor and print the result.", "use": "Seeing what #include and #define expand to."},
+  {"flag": "-save-temps", "plain": "Keep the intermediate files (.i, .s, .o).", "use": "Studying every stage."},
+  {"flag": "-x language", "plain": "Say which language the input is (c, c++, assembler) instead of guessing from the file name.", "use": "Compiling input from a pipe: gcc -x c -."},
+  {"flag": "-g", "plain": "Include debugging information (file names, line numbers, variable names).", "use": "Before using gdb."},
+  {"flag": "-O0", "plain": "No optimisation (the default). Code is slow but easy to follow.", "use": "Learning and debugging."},
+  {"flag": "-O1, -O2, -O3", "plain": "Increasing levels of optimisation: faster programs, harder-to-read assembly. -O2 is the normal release level.", "use": "Seeing what the compiler does to your code, or matching how real software is built."},
+  {"flag": "-Os", "plain": "Optimise for small size.", "use": "Tiny programs."},
+  {"flag": "-Wall", "plain": "Enable the usual warnings.", "use": "Every build."},
+  {"flag": "-Wextra", "plain": "Enable extra warnings beyond -Wall.", "use": "Catching more mistakes."},
+  {"flag": "-Werror", "plain": "Treat warnings as errors.", "use": "Keeping a project clean."},
+  {"flag": "-pedantic", "plain": "Warn about anything that is not strict standard C.", "use": "Writing portable code."},
+  {"flag": "-w", "plain": "Hide all warnings.", "use": "Compiling someone else's old code you do not intend to fix."},
+  {"flag": "-Wno-format-security", "plain": "Do not warn about printf-style calls whose format string comes from a variable.", "use": "Building a deliberately vulnerable format-string lab program without noise."},
+  {"flag": "-std=c11, -std=gnu11, -std=c99", "plain": "Choose the C language standard. gnu11 (the usual default) is C11 plus GNU extensions.", "use": "Old code that needs an older standard."},
+  {"flag": "-I dir", "plain": "Add a folder to the list searched for #include files.", "use": "Headers in your own include/ folder."},
+  {"flag": "-L dir", "plain": "Add a folder to the list searched for libraries.", "use": "A library in your own lib/ folder."},
+  {"flag": "-lname", "plain": "Link with the library libname (for example -lm, -lpthread, -lcrypto, -ldl).", "use": "Using functions from a library; put it after the source files."},
+  {"flag": "-DNAME, -DNAME=value, -UNAME", "plain": "Define / undefine a macro as if there were a #define / #undef.", "use": "Switching debug code on, or setting a version string."},
+  {"flag": "-m32, -m64", "plain": "Build for 32-bit or 64-bit.", "use": "Matching the lab binary you study (needs gcc-multilib for -m32)."},
+  {"flag": "-static", "plain": "Link libraries into the program instead of loading them at run time.", "use": "Portable programs; ROP practice."},
+  {"flag": "-shared, -fPIC", "plain": "Build a shared library; -fPIC makes the code position independent so it can load anywhere.", "use": "Writing a library or an LD_PRELOAD helper."},
+  {"flag": "-pie, -no-pie, -fno-pie", "plain": "Make the program position independent (random load address) or not.", "use": "-no-pie gives fixed addresses for exploit labs."},
+  {"flag": "-fstack-protector, -fstack-protector-all, -fno-stack-protector", "plain": "Add a stack canary to functions (some / all), or none. The canary is a guard value checked before a function returns.", "use": "Turn it off in beginner overflow labs; leave it on for real software."},
+  {"flag": "-z execstack, -z noexecstack", "plain": "Mark the stack executable or not. Passed to the linker.", "use": "Shellcode-on-the-stack labs need execstack."},
+  {"flag": "-Wl,option", "plain": "Pass an option straight to the linker, for example -Wl,-z,norelro or -Wl,-rpath,/path.", "use": "Linker settings gcc does not have its own flag for."},
+  {"flag": "-fcf-protection=none", "plain": "Do not add the Intel CET control-flow markers (endbr64 instructions).", "use": "Cleaner assembly while learning."},
+  {"flag": "-D_FORTIFY_SOURCE=0, -D_FORTIFY_SOURCE=2", "plain": "Turn run-time checking of functions such as strcpy and printf off or on (it only has an effect with optimisation).", "use": "Set to 0 in overflow labs; Ubuntu enables it by default."},
+  {"flag": "-fno-omit-frame-pointer", "plain": "Always keep a frame pointer register.", "use": "Easier stack tracing in debuggers."},
+  {"flag": "-masm=intel", "plain": "Print assembly in Intel syntax (with -S).", "use": "Readable assembly."},
+  {"flag": "-march=native, -mtune=native", "plain": "Optimise for the exact CPU you are on.", "use": "Maximum speed on one machine; avoid for programs you share."},
+  {"flag": "-fsanitize=address, -fsanitize=undefined", "plain": "Add run-time checks for memory errors / undefined behaviour.", "use": "Finding bugs while testing."},
+  {"flag": "-pthread", "plain": "Compile and link for threads.", "use": "Programs that use pthreads."},
+  {"flag": "-nostdlib, -ffreestanding, -fno-builtin", "plain": "Do not use the standard library or startup code, assume no operating system, do not treat library functions specially.", "use": "Writing tiny test programs or shellcode harnesses."},
+  {"flag": "-s", "plain": "Strip symbol information from the output.", "use": "Making a binary harder to read, to practise reverse engineering."},
+  {"flag": "-pipe", "plain": "Use pipes instead of temporary files between stages.", "use": "A little faster on slow disks."},
+  {"flag": "-MM", "plain": "Print a make-style list of the headers a source file depends on.", "use": "Writing Makefiles."},
+  {"flag": "-v", "plain": "Verbose: show the commands gcc runs for each stage.", "use": "Understanding errors from the linker."},
+  {"flag": "--version, -dumpmachine", "plain": "Print the gcc version / the target machine name.", "use": "Checking which compiler and architecture you have."},
+  {"flag": "--help", "plain": "Print a short help message.", "use": "A quick reminder."}
+ ],
+ "mistakes": [
+  "Putting -l options before the source file: the linker may drop the library. Write gcc file.c -lm, not gcc -lm file.c.",
+  "Running hello instead of ./hello.",
+  "Forgetting -m32 support: 'cannot find -lgcc' or missing bits/ headers means install gcc-multilib.",
+  "Expecting your lab program to be vulnerable after a normal build: modern gcc turns on protections, so you must switch them off explicitly.",
+  "Optimising a program and then being confused by the assembly: use -O0 while learning.",
+  "Ignoring warnings: in C they are often the bug."
+ ],
+ "try": [
+  "Compile hello.c with and without -O2 and compare the .s files.",
+  "Build a vulnerable program with and without -fno-stack-protector and run it with a long input.",
+  "Use -fsanitize=address on a program with an off-by-one and read the report.",
+  "Build the same program with -static and without, and compare file sizes and the output of ldd."
+ ],
+ "see_also": "g++(1), as(1), ld(1), make(1), gdb(1), objdump(1), readelf(1), checksec, clang(1).",
+ "captured_with": "This is a focused guide: it explains the options used most in security study and everyday C work, not all of gcc's roughly 2,600 options. Examples are written to show a technique and are not captured output."
+}

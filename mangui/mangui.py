@@ -92,9 +92,14 @@ def emit_man(g, have_orig):
     for i, p in enumerate(g["plain"]):
         o += ([".PP"] if i else []) + [safe(p)]
     o += [".SS When you would use it"] + sum([[".IP \\(bu 2", safe(w)] for w in g["when"]], [])
-    o += [".SS Examples with real output"]
+    o += [".SS " + ("Examples with real output" if any(e.get("output") for e in g["examples"]) else "Examples, explained")]
     for ex in g["examples"]:
-        o += [".PP", ".B " + '"' + esc(ex["title"]).replace('"', "'") + '"', ".nf", "$ " + block(ex["cmd"]), block(ex.get("output", "") or "(no output: that is the result)"), ".fi"]
+        o += [".PP", ".B " + '"' + esc(ex["title"]).replace('"', "'") + '"', ".nf", "$ " + block(ex["cmd"])]
+        if ex.get("output"):
+            o += [block(ex["output"])]
+        o += [".fi"]
+        if ex.get("explain"):
+            o += [".PP", safe(ex["explain"])]
     o += [".SS Every option in plain English"]
     for op in g["options"]:
         o += [".TP", "\\fB" + block(op["flag"]) + "\\fP", safe(op["plain"])]
@@ -111,10 +116,15 @@ def emit_mdoc(g, have_orig):
     for i, p in enumerate(g["plain"]):
         o += ([".Pp"] if i else []) + [safe(p, True)]
     o += ['.Ss "When you would use it"', ".Bl -bullet -compact"] + sum([[".It", safe(w, True)] for w in g["when"]], []) + [".El"]
-    o += ['.Ss "Examples with real output"']
+    o += ['.Ss "' + ("Examples with real output" if any(e.get("output") for e in g["examples"]) else "Examples, explained") + '"']
     for ex in g["examples"]:
-        o += [".Pp", ".Sy " + '"' + esc(ex["title"]).replace('"', "'") + '"', ".Bd -literal -offset indent", block("$ " + ex["cmd"]),
-              block(ex.get("output", "") or "(no output: that is the result)"), ".Ed"]
+        o += [".Pp", ".Sy " + '"' + esc(ex["title"]).replace('"', "'") + '"', ".Bd -literal -offset indent", block("$ " + ex["cmd"])]
+        if ex.get("output"):
+            o += [block(ex["output"])]
+        o += [".Ed"]
+        if ex.get("explain"):
+            o += [".Pp", safe(ex["explain"], True)]
+
     o += ['.Ss "Every option in plain English"', ".Bl -tag -width indent"]
     for op in g["options"]:
         o += [".It Sy " + '"' + block(op["flag"]).replace('"', "'") + '"', safe(op["plain"], True)]
@@ -237,6 +247,9 @@ def coverage():
         for op in g["options"]:
             have |= set(re.findall(r"(?<![\w-])(--?[A-Za-z0-9][\w-]*)", op["flag"]))
         orig = options_of(g["name"], str(g.get("section", "1")))
+        if g.get("partial"):
+            print(f"  {g['name']:<10} focused guide by design: {len(have)} options explained (original page has {len(orig)})")
+            continue
         if not orig:
             print(f"  {g['name']:<10} (no system page here)  guide documents {len(have)} options")
             continue
