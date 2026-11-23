@@ -149,10 +149,7 @@ def main():
         zf.write(mg / "mangui.py", "mangui/mangui.py")
         for f in sorted((mg / "guides").glob("*.json")):
             zf.write(f, "mangui/guides/" + f.name)
-        zf.writestr("mangui/README.txt", "Unzip in your Kali VM, then run: python3 mangui/mangui.py install
-Open a new terminal: man file, man grep ... show the original page plus a layman guide.
-Check progress: python3 mangui/mangui.py coverage
-")
+        zf.writestr("mangui/README.txt", "Unzip in your Kali VM, then run: python3 mangui/mangui.py install\nOpen a new terminal: man file, man grep show the original page plus a layman guide.\nCheck progress: python3 mangui/mangui.py coverage\n")
     ezip = EP / "CyberSci-EPUBs.zip"
     ezip.unlink(missing_ok=True)
     with zipfile.ZipFile(ezip, "w", zipfile.ZIP_DEFLATED) as zf:
