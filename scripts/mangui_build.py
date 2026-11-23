@@ -178,6 +178,14 @@ GUIDES.append(dict(
 ))
 
 
+# further batches live in their own modules
+for _m in ('mangui_batch2', 'mangui_batch3'):
+    try:
+        GUIDES.extend(__import__(_m).GUIDES)
+    except ImportError:
+        pass
+
+
 def capture(g):
     parts = ["set +e", T.LAB_SETUP]
     for i, ex in enumerate(g["examples"]):

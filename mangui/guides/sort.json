@@ -1,0 +1,222 @@
+{
+ "name": "sort",
+ "section": "1",
+ "one_line": "sort lines of text files",
+ "plain": [
+  "`sort` puts lines in order. With options it can sort numbers, dates, columns and versions, remove duplicates, check whether a file is sorted, or shuffle lines at random.",
+  "It is half of the classic counting trick: sort | uniq -c | sort -rn, which ranks anything in a log from most to least common."
+ ],
+ "when": [
+  "Rank the most common IP, user or path in a log.",
+  "Remove duplicate lines.",
+  "Sort a table by one column, numbers by size, or file sizes from du."
+ ],
+ "examples": [
+  {
+   "title": "Alphabetical",
+   "cmd": "printf 'pear\\napple\\nfig\\n' | sort",
+   "output": "apple\nfig\npear"
+  },
+  {
+   "title": "Numbers as text vs as numbers  (-n)",
+   "cmd": "printf '10\\n9\\n100\\n' | sort; echo ---; printf '10\\n9\\n100\\n' | sort -n",
+   "output": "10\n100\n9\n---\n9\n10\n100"
+  },
+  {
+   "title": "Largest first  (-nr)",
+   "cmd": "printf '10\\n9\\n100\\n' | sort -nr",
+   "output": "100\n10\n9"
+  },
+  {
+   "title": "Unique lines  (-u)",
+   "cmd": "printf 'a\\nb\\na\\n' | sort -u",
+   "output": "a\nb"
+  },
+  {
+   "title": "Sort by a column with a separator  (-t -k)",
+   "cmd": "sort -t: -k3 -n users.txt",
+   "output": "root:x:0:0:root:/root:/bin/bash\nsvc-backup:x:998:998::/var/backups:/usr/sbin/nologin\nalice:x:1001:1001:Alice Lee:/home/alice:/bin/bash\nbob:x:1002:1002:Bob Ray:/home/bob:/bin/sh"
+  },
+  {
+   "title": "Rank things: the counting pipeline",
+   "cmd": "awk '{print $1}' access.log | sort | uniq -c | sort -rn",
+   "output": "      5 10.0.0.9\n      2 10.0.0.7\n      2 10.0.0.5"
+  },
+  {
+   "title": "Human-readable sizes  (-h)",
+   "cmd": "printf '1K\\n2M\\n10K\\n' | sort -h",
+   "output": "1K\n10K\n2M"
+  },
+  {
+   "title": "Ignore case  (-f)",
+   "cmd": "printf 'b\\nA\\na\\nB\\n' | sort -f",
+   "output": "A\na\nB\nb"
+  },
+  {
+   "title": "Version numbers  (-V)",
+   "cmd": "printf '1.10\\n1.2\\n1.9\\n' | sort -V",
+   "output": "1.2\n1.9\n1.10"
+  },
+  {
+   "title": "Check whether a file is sorted  (-c)",
+   "cmd": "sort -c users.txt; echo exit=$?",
+   "output": "sort: users.txt:2: disorder: alice:x:1001:1001:Alice Lee:/home/alice:/bin/bash\nexit=1"
+  },
+  {
+   "title": "Stable sort and multiple keys  (-s -k)",
+   "cmd": "sort -s -k1,1 access.log | head -3",
+   "output": "10.0.0.5 - - [14/Nov/2026:10:01:12 +0000] \"GET /index.html HTTP/1.1\" 200 1043\n10.0.0.5 - - [14/Nov/2026:10:01:15 +0000] \"GET /login HTTP/1.1\" 200 512\n10.0.0.7 - - [14/Nov/2026:10:03:40 +0000] \"GET /../../etc/passwd HTTP/1.1\" 400 0"
+  }
+ ],
+ "options": [
+  {
+   "flag": "-b, --ignore-leading-blanks",
+   "plain": "Ignore blanks at the start of each key.",
+   "use": "Aligned columns."
+  },
+  {
+   "flag": "-d, --dictionary-order",
+   "plain": "Consider only letters, digits and blanks.",
+   "use": "Sorting names with punctuation."
+  },
+  {
+   "flag": "-f, --ignore-case",
+   "plain": "Treat lower and upper case as the same.",
+   "use": "Case-insensitive lists."
+  },
+  {
+   "flag": "-g, --general-numeric-sort",
+   "plain": "Compare numbers including scientific notation such as 1e3.",
+   "use": "Floating-point data."
+  },
+  {
+   "flag": "-i, --ignore-nonprinting",
+   "plain": "Ignore control characters.",
+   "use": "Messy input."
+  },
+  {
+   "flag": "-M, --month-sort",
+   "plain": "Sort by month name (JAN < FEB < ... < DEC).",
+   "use": "Log files with month names."
+  },
+  {
+   "flag": "-h, --human-numeric-sort",
+   "plain": "Sort numbers with size suffixes (K, M, G).",
+   "use": "Output of du -h or ls -lh."
+  },
+  {
+   "flag": "-n, --numeric-sort",
+   "plain": "Sort by numeric value, so 9 comes before 10.",
+   "use": "Counts, sizes, ports, ids."
+  },
+  {
+   "flag": "-R, --random-sort, --random-source=FILE",
+   "plain": "Shuffle lines; --random-source chooses the source of randomness.",
+   "use": "Random samples, shuffled word lists."
+  },
+  {
+   "flag": "-r, --reverse",
+   "plain": "Reverse the result.",
+   "use": "Largest first."
+  },
+  {
+   "flag": "-V, --version-sort",
+   "plain": "Sort version numbers naturally (1.2 before 1.10).",
+   "use": "Package and kernel versions."
+  },
+  {
+   "flag": "--sort=WORD",
+   "plain": "Choose the kind of sort by name: general-numeric, human-numeric, month, numeric, random or version.",
+   "use": "Readable scripts."
+  },
+  {
+   "flag": "-k KEYDEF, --key=KEYDEF",
+   "plain": "Sort by a field (column) or a range of fields, for example -k2 or -k2,2n.",
+   "use": "Sorting a table by one column."
+  },
+  {
+   "flag": "-t SEP, --field-separator=SEP",
+   "plain": "Use SEP instead of whitespace to split fields.",
+   "use": "Colon, comma or tab separated data."
+  },
+  {
+   "flag": "-s, --stable",
+   "plain": "Keep lines that compare equal in their original order.",
+   "use": "Sorting by a second key later."
+  },
+  {
+   "flag": "-u, --unique",
+   "plain": "Output only the first of lines that compare equal.",
+   "use": "Remove duplicates (with -k, by key only)."
+  },
+  {
+   "flag": "-c, -C, --check, --check=quiet",
+   "plain": "Check whether the input is sorted; -C is silent and only sets the exit status.",
+   "use": "Verifying a file before using join or comm."
+  },
+  {
+   "flag": "-m, --merge",
+   "plain": "Merge files that are already sorted.",
+   "use": "Combining sorted lists quickly."
+  },
+  {
+   "flag": "-o FILE, --output=FILE",
+   "plain": "Write to FILE; safe even when FILE is also the input.",
+   "use": "Sorting a file in place (sort -o f f)."
+  },
+  {
+   "flag": "-z, --zero-terminated",
+   "plain": "Lines end with a NUL byte instead of a newline.",
+   "use": "Output of find -print0."
+  },
+  {
+   "flag": "--files0-from=F",
+   "plain": "Read the list of files to sort from F, NUL-separated.",
+   "use": "Huge file lists."
+  },
+  {
+   "flag": "-S SIZE, --buffer-size=SIZE",
+   "plain": "Use at most this much memory (for example 2G).",
+   "use": "Huge sorts."
+  },
+  {
+   "flag": "-T DIR, --temporary-directory=DIR",
+   "plain": "Use DIR for temporary files.",
+   "use": "A disk with more space."
+  },
+  {
+   "flag": "--parallel=N",
+   "plain": "Sort with N threads at once.",
+   "use": "Speeding up big sorts."
+  },
+  {
+   "flag": "--batch-size=NMERGE, --compress-program=PROG",
+   "plain": "Merge at most NMERGE files at once, and compress temporary files with PROG.",
+   "use": "Very large sorts."
+  },
+  {
+   "flag": "--debug",
+   "plain": "Show which part of each line was used for sorting.",
+   "use": "Working out why the order is unexpected."
+  },
+  {
+   "flag": "--help, --version",
+   "plain": "Print a short usage message / the version and exit.",
+   "use": "A quick reminder."
+  }
+ ],
+ "mistakes": [
+  "Sorting numbers without -n: 10 comes before 9.",
+  "Language settings change the order: LC_ALL=C sort gives plain byte order, which scripts and uniq usually expect.",
+  "uniq only removes neighbouring duplicates: sort first.",
+  "-k2 means from field 2 to the end of the line: use -k2,2 to sort on field 2 only."
+ ],
+ "try": [
+  "Rank the status codes in access.log from most to least common.",
+  "Sort users.txt by user id, then by name.",
+  "Remove duplicates from a word list and count how many are left.",
+  "Compare sort and LC_ALL=C sort on mixed-case words."
+ ],
+ "see_also": "uniq(1), comm(1), join(1), awk(1), cut(1), shuf(1), du(1).",
+ "captured_with": "Example output captured 2026-11-23 with sort (GNU coreutils) 9.4 on Ubuntu 24.04 (WSL). The lab files are created by scripts/atlas_tools.py."
+}

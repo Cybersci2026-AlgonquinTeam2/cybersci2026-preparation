@@ -1,0 +1,137 @@
+{
+ "name": "cat",
+ "section": "1",
+ "one_line": "concatenate files and print them on the standard output",
+ "plain": [
+  "`cat` prints files, one after another. It is the simplest way to read a small file, join files together, or send a file into another command.",
+  "Its options also reveal invisible characters (tabs, line endings, control codes), which matters when a file looks right but behaves wrong."
+ ],
+ "when": [
+  "Read a short file or a flag file.",
+  "Join several files into one.",
+  "See hidden characters such as tabs and Windows line endings (cat -A)."
+ ],
+ "examples": [
+  {
+   "title": "Print a file",
+   "cmd": "cat users.txt",
+   "output": "root:x:0:0:root:/root:/bin/bash\nalice:x:1001:1001:Alice Lee:/home/alice:/bin/bash\nbob:x:1002:1002:Bob Ray:/home/bob:/bin/sh\nsvc-backup:x:998:998::/var/backups:/usr/sbin/nologin"
+  },
+  {
+   "title": "Number the lines  (-n)",
+   "cmd": "cat -n users.txt",
+   "output": "     1\troot:x:0:0:root:/root:/bin/bash\n     2\talice:x:1001:1001:Alice Lee:/home/alice:/bin/bash\n     3\tbob:x:1002:1002:Bob Ray:/home/bob:/bin/sh\n     4\tsvc-backup:x:998:998::/var/backups:/usr/sbin/nologin"
+  },
+  {
+   "title": "Number only non-blank lines  (-b)",
+   "cmd": "printf 'a\\n\\nb\\n' | cat -b",
+   "output": "     1\ta\n\n     2\tb"
+  },
+  {
+   "title": "Show line ends and tabs  (-A)",
+   "cmd": "printf 'a\\tb  \\r\\n' | cat -A",
+   "output": "a^Ib  ^M$"
+  },
+  {
+   "title": "Show only tabs  (-T)",
+   "cmd": "printf 'a\\tb\\n' | cat -T",
+   "output": "a^Ib"
+  },
+  {
+   "title": "Show line ends  (-E)",
+   "cmd": "printf 'one  \\ntwo\\n' | cat -E",
+   "output": "one  $\ntwo$"
+  },
+  {
+   "title": "Squeeze runs of blank lines  (-s)",
+   "cmd": "printf 'a\\n\\n\\n\\nb\\n' | cat -s",
+   "output": "a\n\nb"
+  },
+  {
+   "title": "Join two files",
+   "cmd": "cat users.txt notes.txt | wc -l",
+   "output": "10"
+  },
+  {
+   "title": "Read from standard input with -",
+   "cmd": "echo piped | cat - users.txt | head -2",
+   "output": "piped\nroot:x:0:0:root:/root:/bin/bash"
+  }
+ ],
+ "options": [
+  {
+   "flag": "-A, --show-all",
+   "plain": "Show everything: line ends as $, tabs as ^I and other control characters visibly (same as -vET).",
+   "use": "Finding invisible characters in a file."
+  },
+  {
+   "flag": "-b, --number-nonblank",
+   "plain": "Number the non-empty lines only. This overrides -n.",
+   "use": "Counting real lines."
+  },
+  {
+   "flag": "-e",
+   "plain": "Same as -vE: show line ends and control characters.",
+   "use": "Spotting trailing spaces and Windows line endings."
+  },
+  {
+   "flag": "-E, --show-ends",
+   "plain": "Print a $ at the end of every line.",
+   "use": "Finding trailing whitespace."
+  },
+  {
+   "flag": "-n, --number",
+   "plain": "Number all output lines.",
+   "use": "Referring to a line later."
+  },
+  {
+   "flag": "-s, --squeeze-blank",
+   "plain": "Collapse several blank lines into one.",
+   "use": "Tidying output."
+  },
+  {
+   "flag": "-t",
+   "plain": "Same as -vT: show tabs as ^I and control characters visibly.",
+   "use": "Distinguishing tabs from spaces."
+  },
+  {
+   "flag": "-T, --show-tabs",
+   "plain": "Show tab characters as ^I.",
+   "use": "Checking indentation or separators."
+  },
+  {
+   "flag": "-u",
+   "plain": "Ignored; kept so that old scripts still work.",
+   "use": "You will almost never need it."
+  },
+  {
+   "flag": "-v, --show-nonprinting",
+   "plain": "Show control characters with ^ and M- notation (everything except line feed and tab).",
+   "use": "Seeing escape codes and binary junk."
+  },
+  {
+   "flag": "--help",
+   "plain": "Print a short usage message and exit.",
+   "use": "A quick reminder."
+  },
+  {
+   "flag": "--version",
+   "plain": "Print the version and exit.",
+   "use": "Checking which cat you have."
+  }
+ ],
+ "mistakes": [
+  "Using cat file | grep when grep file works (it is harmless, but slower and longer).",
+  "Running cat on a binary file: the terminal can fill with strange characters; use cat -v or strings instead (reset fixes a garbled terminal).",
+  "cat file > file empties the file before reading it.",
+  "Forgetting that - means standard input."
+ ],
+ "try": [
+  "Find trailing spaces in a file with cat -E.",
+  "Check whether a file has Windows line endings with cat -A.",
+  "Join three files into one and number the lines.",
+  "Make a garbled terminal with cat on a binary file, then repair it with reset."
+ ],
+ "see_also": "less(1), head(1), tail(1), tac(1) (reverse), nl(1), od(1), xxd(1), bat for a nicer viewer.",
+ "captured_with": "Example output captured 2026-11-23 with cat (GNU coreutils) 9.4 on Ubuntu 24.04 (WSL). The lab files are created by scripts/atlas_tools.py."
+}

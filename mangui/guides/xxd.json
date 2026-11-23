@@ -1,0 +1,182 @@
+{
+ "name": "xxd",
+ "section": "1",
+ "one_line": "make a hex dump of a file, or turn a hex dump back into a file",
+ "plain": [
+  "`xxd` shows the raw bytes of a file as hexadecimal numbers next to their text. It also works in reverse: give it hex and it rebuilds the bytes.",
+  "When a file will not open, hides data at its end, or you just need to see what is really in it, a hex dump is the ground truth: names and extensions can lie, bytes cannot."
+ ],
+ "when": [
+  "Check a file's first bytes (its magic number) or the end of it for appended data.",
+  "Read hex from a challenge, a packet or a log and turn it back into bytes or text.",
+  "Edit one byte of a file: dump, change the hex, reverse."
+ ],
+ "examples": [
+  {
+   "title": "A dump of the first 32 bytes  (-l)",
+   "cmd": "xxd -l 32 pic.png",
+   "output": "00000000: 8950 4e47 0d0a 1a0a 0000 000d 4948 4452  .PNG........IHDR\n00000010: 0000 0001 0000 0001 0802 0000 0090 7753  ..............wS"
+  },
+  {
+   "title": "Start from a position  (-s)",
+   "cmd": "xxd -s 16 -l 16 pic.png",
+   "output": "00000010: 0000 0001 0000 0001 0802 0000 0090 7753  ..............wS"
+  },
+  {
+   "title": "Look at the end of a file  (-s -N)",
+   "cmd": "xxd -s -40 pic.png",
+   "output": "0000003f: 4e44 ae42 6082 6869 6464 656e 3a20 666c  ND.B`.hidden: fl\n0000004f: 6167 7b64 656d 6f5f 6e6f 745f 615f 7265  ag{demo_not_a_re\n0000005f: 616c 5f66 6c61 677d                      al_flag}"
+  },
+  {
+   "title": "Change how many bytes per line  (-c) and group size  (-g)",
+   "cmd": "xxd -l 16 -c 8 -g 1 hello",
+   "output": "00000000: 7f 45 4c 46 02 01 01 00  .ELF....\n00000008: 00 00 00 00 00 00 00 00  ........"
+  },
+  {
+   "title": "Plain hex with no offsets  (-p)",
+   "cmd": "xxd -p -l 16 pic.png",
+   "output": "89504e470d0a1a0a0000000d49484452"
+  },
+  {
+   "title": "Turn hex text back into bytes  (-r -p)",
+   "cmd": "echo '666c61677b6865787d' | xxd -r -p; echo",
+   "output": "flag{hex}"
+  },
+  {
+   "title": "Binary digits instead of hex  (-b)",
+   "cmd": "printf 'AB' | xxd -b",
+   "output": "00000000: 01000001 01000010                                      AB"
+  },
+  {
+   "title": "Upper-case hex  (-u)",
+   "cmd": "printf 'flag' | xxd -u",
+   "output": "00000000: 666C 6167                                flag"
+  },
+  {
+   "title": "Little-endian words  (-e)",
+   "cmd": "printf '\\xef\\xbe\\xad\\xde' | xxd -e",
+   "output": "00000000: deadbeef                              ...."
+  },
+  {
+   "title": "C source array  (-i)",
+   "cmd": "printf 'Hi!' | xxd -i",
+   "output": "  0x48, 0x69, 0x21"
+  },
+  {
+   "title": "Skip repeated lines  (-a)",
+   "cmd": "head -c 64 /dev/zero | xxd -a",
+   "output": "00000000: 0000 0000 0000 0000 0000 0000 0000 0000  ................\n*\n00000030: 0000 0000 0000 0000 0000 0000 0000 0000  ................"
+  },
+  {
+   "title": "Round trip: edit one byte",
+   "cmd": "printf 'cat' | xxd -p | sed 's/63/62/' | xxd -r -p; echo",
+   "output": "bat"
+  }
+ ],
+ "options": [
+  {
+   "flag": "-a, -autoskip",
+   "plain": "Replace runs of identical lines with a single * so long stretches of zeros do not flood the screen.",
+   "use": "Dumping disk images and padded files."
+  },
+  {
+   "flag": "-b, -bits",
+   "plain": "Show bits (ones and zeros) instead of hex digits. The columns drop to 6 per line.",
+   "use": "Learning how a byte looks in binary or checking flags."
+  },
+  {
+   "flag": "-C, -capitalize",
+   "plain": "Capitalise variable names in -i output.",
+   "use": "Making a C array name match your style."
+  },
+  {
+   "flag": "-c cols, -cols cols",
+   "plain": "Put this many bytes on each line (default 16; maximum 256).",
+   "use": "Fit the output to a narrow terminal or match a structure size."
+  },
+  {
+   "flag": "-E, -EBCDIC",
+   "plain": "Show the text column in EBCDIC (an old IBM character set) instead of ASCII.",
+   "use": "Reading data from mainframes."
+  },
+  {
+   "flag": "-e",
+   "plain": "Little-endian dump: show each group of bytes reversed, the way an x86 CPU reads numbers. The default group size becomes 4.",
+   "use": "Reading integers and addresses from binaries."
+  },
+  {
+   "flag": "-g bytes, -groupsize bytes",
+   "plain": "Put this many bytes in each group, separated by spaces (default 2; 0 means no spaces).",
+   "use": "-g 1 gives one byte per column, easiest to read."
+  },
+  {
+   "flag": "-h, -help",
+   "plain": "Print a short usage message and exit.",
+   "use": "A quick reminder."
+  },
+  {
+   "flag": "-i, -include",
+   "plain": "Output a C include file: a byte array and its length.",
+   "use": "Embedding shellcode or data in a program."
+  },
+  {
+   "flag": "-l len, -len len",
+   "plain": "Stop after this many bytes.",
+   "use": "Peeking at the start of a large file."
+  },
+  {
+   "flag": "-n name, -name name",
+   "plain": "Name the array used by -i.",
+   "use": "Controlling variable names."
+  },
+  {
+   "flag": "-o offset",
+   "plain": "Add this number to every displayed offset.",
+   "use": "Making the left column match addresses in memory."
+  },
+  {
+   "flag": "-p, -plain, -ps, -postscript",
+   "plain": "Plain continuous hex, with no offsets or text column.",
+   "use": "Copying bytes into a script, or feeding -r."
+  },
+  {
+   "flag": "-r, -revert",
+   "plain": "Reverse the operation: turn a hex dump (or plain hex with -p) back into binary.",
+   "use": "Decoding hex text, patching a file."
+  },
+  {
+   "flag": "-R when",
+   "plain": "Colour the output: always, auto or never.",
+   "use": "Spotting zero bytes and printable text quickly."
+  },
+  {
+   "flag": "-s [+][-]seek, -seek (for example -s -1)",
+   "plain": "Start at this byte offset. A plus sign is relative to the current position when reading standard input; a minus sign counts from the end of the file, for example -s -1 or -s -40.",
+   "use": "Looking at a trailer, or jumping to an offset found with grep -b or strings -t."
+  },
+  {
+   "flag": "-u",
+   "plain": "Use upper-case hexadecimal digits.",
+   "use": "Matching a document or tool that expects capitals."
+  },
+  {
+   "flag": "-v, -version",
+   "plain": "Print the version and exit.",
+   "use": "Checking which xxd you have."
+  }
+ ],
+ "mistakes": [
+  "Forgetting -p when you reverse plain hex: without it xxd -r expects the full dump layout.",
+  "Hex digits are pairs: an odd number of digits is a typo (or a lost zero).",
+  "Reading little-endian numbers backwards: the bytes ef be ad de are the number 0xdeadbeef on x86.",
+  "Editing a file in place without keeping a copy."
+ ],
+ "try": [
+  "Dump pic.png and find the IEND chunk and the data after it.",
+  "Convert the string flag{ok} to hex and back with xxd.",
+  "Dump hello with -g 1 and find the text of the secret string.",
+  "Use grep -b to find a text offset, then xxd -s to view the bytes around it."
+ ],
+ "see_also": "od(1), hexdump(1), strings(1), file(1), base64(1), and vim with :%!xxd for editing bytes.",
+ "captured_with": "Example output captured 2026-11-23 with xxd 2023-10-25 by Juergen Weigert et al. on Ubuntu 24.04 (WSL). The lab files are created by scripts/atlas_tools.py."
+}

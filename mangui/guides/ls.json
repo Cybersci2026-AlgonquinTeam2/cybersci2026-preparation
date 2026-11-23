@@ -1,0 +1,302 @@
+{
+ "name": "ls",
+ "section": "1",
+ "one_line": "list directory contents",
+ "plain": [
+  "`ls` shows what is in a folder. Its many options change which files appear (including hidden ones), how much detail you see (permissions, owner, size, dates) and the order.",
+  "In security work the details matter: who owns a file, who can write it, when it changed and whether it is really a link."
+ ],
+ "when": [
+  "See hidden files (ls -a) and permissions (ls -l).",
+  "Find the newest or biggest file.",
+  "Check for symbolic links, executables and odd owners."
+ ],
+ "examples": [
+  {
+   "title": "Plain list",
+   "cmd": "ls site",
+   "output": "css\nindex.html\njs\nrobots.txt\nuploads"
+  },
+  {
+   "title": "All files including hidden  (-a)",
+   "cmd": "ls -a site",
+   "output": ".\n..\n.env\ncss\nindex.html\njs\nrobots.txt\nuploads"
+  },
+  {
+   "title": "Long format with permissions  (-l)",
+   "cmd": "ls -l hello run.sh users.txt",
+   "output": "-rwxr-xr-x 1 itstack itstack 16000 Nov 23 18:31 hello\n-rwxr-xr-x 1 itstack itstack    18 Nov 23 18:31 run.sh\n-rw-r--r-- 1 itstack itstack   177 Nov 23 18:31 users.txt"
+  },
+  {
+   "title": "Human-readable sizes  (-lh)",
+   "cmd": "ls -lh hello pic.png",
+   "output": "-rwxr-xr-x 1 itstack itstack 16K Nov 23 18:31 hello\n-rw-r--r-- 1 itstack itstack 103 Nov 23 18:31 pic.png"
+  },
+  {
+   "title": "Sort by time, newest first  (-t)",
+   "cmd": "ls -lt site | head -4",
+   "output": "total 20\ndrwxr-xr-x 2 itstack itstack 4096 Nov 23 18:31 css\ndrwxr-xr-x 2 itstack itstack 4096 Nov 23 18:31 js\ndrwxr-xr-x 2 itstack itstack 4096 Nov 23 18:31 uploads"
+  },
+  {
+   "title": "Sort by size, largest first  (-S)",
+   "cmd": "ls -lS | head -4",
+   "output": "total 60\n-rwxr-xr-x 1 itstack itstack 16000 Nov 23 18:31 hello\ndrwxr-xr-x 5 itstack itstack  4096 Nov 23 18:31 site\n-rw-r--r-- 1 itstack itstack   967 Nov 23 18:31 echo.py"
+  },
+  {
+   "title": "Mark types with symbols  (-F)",
+   "cmd": "ls -F",
+   "output": "access.log\ndata.b64\necho.py\nhello*\nhello.c\nholiday.txt\nnotes.txt\nnotes.txt.gz\npic.png\nrun.sh*\nsite/\nusers.txt"
+  },
+  {
+   "title": "List a folder itself, not its content  (-d)",
+   "cmd": "ls -ld site",
+   "output": "drwxr-xr-x 5 itstack itstack 4096 Nov 23 18:31 site"
+  },
+  {
+   "title": "Recursive listing  (-R)",
+   "cmd": "ls -R site",
+   "output": "site:\ncss\nindex.html\njs\nrobots.txt\nuploads\n\nsite/css:\nmain.css\n\nsite/js:\napp.js\n\nsite/uploads:\nreport.pdf"
+  },
+  {
+   "title": "Full timestamps  (--full-time)",
+   "cmd": "ls -l --full-time site/robots.txt",
+   "output": "-rw-r--r-- 1 itstack itstack 17 2026-11-10 10:00:00.000000000 -0500 site/robots.txt"
+  },
+  {
+   "title": "Inode numbers  (-i)",
+   "cmd": "ls -i hello",
+   "output": "134099 hello"
+  },
+  {
+   "title": "Numeric owner ids  (-n)",
+   "cmd": "ls -ln users.txt",
+   "output": "-rw-r--r-- 1 1000 1000 177 Nov 23 18:31 users.txt"
+  },
+  {
+   "title": "One name per line  (-1)",
+   "cmd": "ls -1 site",
+   "output": "css\nindex.html\njs\nrobots.txt\nuploads"
+  },
+  {
+   "title": "Reverse order  (-r)",
+   "cmd": "ls -1r site",
+   "output": "uploads\nrobots.txt\njs\nindex.html\ncss"
+  }
+ ],
+ "options": [
+  {
+   "flag": "-a, --all",
+   "plain": "Show hidden files (names starting with a dot), including . and ..",
+   "use": "Finding config files and secrets."
+  },
+  {
+   "flag": "-A, --almost-all",
+   "plain": "Like -a but without . and ..",
+   "use": "Hidden files without the two special entries."
+  },
+  {
+   "flag": "-l",
+   "plain": "Long listing: permissions, links, owner, group, size, date and name.",
+   "use": "Almost always."
+  },
+  {
+   "flag": "-h, --human-readable",
+   "plain": "With -l or -s, show sizes as 1K, 234M, 2G.",
+   "use": "Readable sizes."
+  },
+  {
+   "flag": "--si",
+   "plain": "Like -h but use powers of 1000, not 1024.",
+   "use": "Matching disk makers' sizes."
+  },
+  {
+   "flag": "-k, --kibibytes",
+   "plain": "Use 1024-byte blocks for sizes.",
+   "use": "Consistent size units."
+  },
+  {
+   "flag": "--block-size=SIZE",
+   "plain": "Scale sizes by SIZE (for example M or 1K).",
+   "use": "Showing every size in the same unit."
+  },
+  {
+   "flag": "-s, --size",
+   "plain": "Print the allocated size of each file in blocks.",
+   "use": "Seeing disk use rather than length."
+  },
+  {
+   "flag": "-S",
+   "plain": "Sort by file size, largest first.",
+   "use": "Finding big files."
+  },
+  {
+   "flag": "-t",
+   "plain": "Sort by modification time, newest first.",
+   "use": "Finding what changed last."
+  },
+  {
+   "flag": "-u",
+   "plain": "With -t sort by access time; with -l show access time.",
+   "use": "Seeing what was read."
+  },
+  {
+   "flag": "-c",
+   "plain": "With -t sort by status-change time; with -l show it.",
+   "use": "Detecting permission or owner changes."
+  },
+  {
+   "flag": "--time=WORD",
+   "plain": "Choose which time to show or sort by: atime, ctime, birth, mtime.",
+   "use": "Comparing timestamps."
+  },
+  {
+   "flag": "--time-style=STYLE",
+   "plain": "Choose the time format: full-iso, long-iso, iso, locale or +FORMAT.",
+   "use": "Exact times for a timeline."
+  },
+  {
+   "flag": "--full-time",
+   "plain": "Same as -l --time-style=full-iso.",
+   "use": "Full time with seconds and zone."
+  },
+  {
+   "flag": "-v",
+   "plain": "Natural sort of version numbers within the text.",
+   "use": "Sorting file2 before file10."
+  },
+  {
+   "flag": "-X",
+   "plain": "Sort by file extension.",
+   "use": "Grouping by type."
+  },
+  {
+   "flag": "-U",
+   "plain": "Do not sort: list in directory order.",
+   "use": "Speed on huge folders, or seeing disk order."
+  },
+  {
+   "flag": "-f",
+   "plain": "Do not sort, and enable -a.",
+   "use": "Huge folders."
+  },
+  {
+   "flag": "-r, --reverse",
+   "plain": "Reverse the sort order.",
+   "use": "Oldest first or smallest first."
+  },
+  {
+   "flag": "--sort=WORD",
+   "plain": "Sort by none, size, time, version or extension (-S -t -v -X).",
+   "use": "Readable scripts."
+  },
+  {
+   "flag": "--group-directories-first",
+   "plain": "List directories before files.",
+   "use": "Tidier listings."
+  },
+  {
+   "flag": "-d, --directory",
+   "plain": "List directories themselves, not their contents.",
+   "use": "Checking a folder's own permissions: ls -ld /tmp."
+  },
+  {
+   "flag": "-R, --recursive",
+   "plain": "List sub-folders too.",
+   "use": "Seeing a whole tree."
+  },
+  {
+   "flag": "-1",
+   "plain": "One entry per line.",
+   "use": "Feeding names to other commands."
+  },
+  {
+   "flag": "--format=WORD",
+   "plain": "Choose the layout by name: across (-x), commas (-m), horizontal (-x), long (-l), single-column (-1), verbose (-l), vertical (-C).",
+   "use": "Readable scripts."
+  },
+  {
+   "flag": "-C, -x, -m, -g, -o",
+   "plain": "-C columns down, -x columns across, -m comma-separated, -g like -l without the owner, -o like -l without the group.",
+   "use": "Different layouts."
+  },
+  {
+   "flag": "-n, --numeric-uid-gid",
+   "plain": "Show numeric owner and group ids.",
+   "use": "The names do not exist (mounted evidence disks)."
+  },
+  {
+   "flag": "-G, --no-group",
+   "plain": "With -l, do not print group names.",
+   "use": "Shorter output."
+  },
+  {
+   "flag": "--author",
+   "plain": "With -l print the author of each file.",
+   "use": "Rarely different from the owner on Linux."
+  },
+  {
+   "flag": "-i, --inode",
+   "plain": "Print the inode number of each file.",
+   "use": "Spotting hard links."
+  },
+  {
+   "flag": "-F, --classify, --indicator-style=WORD, -p, --file-type",
+   "plain": "Add a mark to each name: / folder, * executable, @ link, = socket, | pipe. -p adds only the slash; --file-type skips the star.",
+   "use": "Telling types apart at a glance."
+  },
+  {
+   "flag": "--color[=WHEN], --hyperlink[=WHEN]",
+   "plain": "Colour the output (always, auto, never) / make file names clickable in some terminals.",
+   "use": "Readable listings; use always when piping into less -R."
+  },
+  {
+   "flag": "-L, --dereference, -H, --dereference-command-line, --dereference-command-line-symlink-to-dir",
+   "plain": "Show information about the target of symbolic links instead of the link, or only for names given on the command line.",
+   "use": "Checking where a link goes."
+  },
+  {
+   "flag": "-b, --escape, -N, --literal, -Q, --quote-name, --quoting-style=WORD",
+   "plain": "How to print names with spaces and odd characters: escaped, literal, in quotes or in a chosen style.",
+   "use": "Names with spaces or newlines."
+  },
+  {
+   "flag": "-q, --hide-control-chars, --show-control-chars",
+   "plain": "Print ? instead of control characters / print them as they are.",
+   "use": "Suspicious file names."
+  },
+  {
+   "flag": "-w, --width=COLS, -T, --tabsize=COLS",
+   "plain": "Output width / tab stops.",
+   "use": "Fitting the output to your screen."
+  },
+  {
+   "flag": "-I, --ignore=PATTERN, -B, --ignore-backups, --hide=PATTERN",
+   "plain": "Skip files that match a pattern, files ending in ~, or hide patterns unless -a is used.",
+   "use": "Cutting noise."
+  },
+  {
+   "flag": "-D, --dired, -Z, --context, --zero",
+   "plain": "-D prints for Emacs; -Z shows the security (SELinux) label; --zero ends lines with NUL.",
+   "use": "SELinux checks and scripts."
+  },
+  {
+   "flag": "--help, --version",
+   "plain": "Print a short usage message / the version and exit.",
+   "use": "A quick reminder."
+  }
+ ],
+ "mistakes": [
+  "Forgetting -a: hidden files (.env, .ssh, .bash_history) will not show.",
+  "ls -l on a folder shows its contents; use -d to see the folder itself.",
+  "Parsing ls output in scripts: use find or shell globs, because names can contain spaces and newlines.",
+  "Reading the permission string wrongly: the first character is the type (- file, d folder, l link), then three triplets: owner, group, others."
+ ],
+ "try": [
+  "Find the three biggest files in /usr/bin with ls -lS.",
+  "Find the file in a folder that changed most recently.",
+  "Read the permissions of /tmp and /etc/passwd and explain each letter.",
+  "Create a hard link and a symbolic link and tell them apart with ls -li."
+ ],
+ "see_also": "find(1), stat(1), du(1), file(1), tree(1), chmod(1), chown(1), lsattr(1), getfacl(1).",
+ "captured_with": "Example output captured 2026-11-23 with ls (GNU coreutils) 9.4 on Ubuntu 24.04 (WSL). The lab files are created by scripts/atlas_tools.py."
+}

@@ -1,0 +1,142 @@
+{
+ "name": "strings",
+ "section": "1",
+ "one_line": "print the printable character sequences in files",
+ "plain": [
+  "`strings` scans a file and prints every run of readable text it finds (by default four or more characters long). Programs, images, memory dumps and archives all hide readable text among their bytes.",
+  "It is one of the fastest ways to see what a program mentions: file names, error messages, passwords, URLs and flags."
+ ],
+ "when": [
+  "First look at an unknown binary: messages, paths, hard-coded passwords.",
+  "Search a memory dump or disk image for a keyword.",
+  "Find text appended to a picture or document."
+ ],
+ "examples": [
+  {
+   "title": "All readable text in a program",
+   "cmd": "strings hello",
+   "output": "/lib64/ld-linux-x86-64.so.2\nputs\n__libc_start_main\n__cxa_finalize\nstrcmp\nlibc.so.6\nGLIBC_2.2.5\nGLIBC_2.34\n_ITM_deregisterTMCloneTable\n__gmon_start__\n_ITM_registerTMCloneTable\nPTE1\nu+UH\nflag{demo_not_a_real_flag}\nopen-sesame\naccess denied\n9*3$\"\nGCC: (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0\nScrt1.o\n__abi_tag\ncrtstuff.c\nderegister_tm_clones\n__do_global_dtors_aux\ncompleted.0\n__do_global_dtors_aux_fini_array_entry"
+  },
+  {
+   "title": "Only longer strings  (-n)",
+   "cmd": "strings -n 10 hello",
+   "output": "/lib64/ld-linux-x86-64.so.2\n__libc_start_main\n__cxa_finalize\nGLIBC_2.2.5\nGLIBC_2.34\n_ITM_deregisterTMCloneTable\n__gmon_start__\n_ITM_registerTMCloneTable\nflag{demo_not_a_real_flag}\nopen-sesame\naccess denied\nGCC: (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0\ncrtstuff.c\nderegister_tm_clones\n__do_global_dtors_aux\ncompleted.0\n__do_global_dtors_aux_fini_array_entry\nframe_dummy\n__frame_dummy_init_array_entry\n__FRAME_END__\n__GNU_EH_FRAME_HDR\n_GLOBAL_OFFSET_TABLE_\n__libc_start_main@GLIBC_2.34\n_ITM_deregisterTMCloneTable\nputs@GLIBC_2.2.5"
+  },
+  {
+   "title": "Show the offset of each string  (-t x)",
+   "cmd": "strings -t x hello | head -4",
+   "output": "    318 /lib64/ld-linux-x86-64.so.2\n    499 puts\n    49e __libc_start_main\n    4b0 __cxa_finalize"
+  },
+  {
+   "title": "Decimal offsets for use with xxd  (-t d)",
+   "cmd": "strings -t d pic.png | tail -2",
+   "output": "     61 IEND\n     69 hidden: flag{demo_not_a_real_flag}"
+  },
+  {
+   "title": "Print the file name with each line  (-f)",
+   "cmd": "strings -f -n 8 hello pic.png",
+   "output": "hello: /lib64/ld-linux-x86-64.so.2\nhello: __libc_start_main\nhello: __cxa_finalize\nhello: libc.so.6\nhello: GLIBC_2.2.5\nhello: GLIBC_2.34\nhello: _ITM_deregisterTMCloneTable\nhello: __gmon_start__\nhello: _ITM_registerTMCloneTable\nhello: flag{demo_not_a_real_flag}\nhello: open-sesame\nhello: access denied\nhello: GCC: (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0\nhello: __abi_tag\nhello: crtstuff.c\nhello: deregister_tm_clones\nhello: __do_global_dtors_aux\nhello: completed.0\nhello: __do_global_dtors_aux_fini_array_entry\nhello: frame_dummy\nhello: __frame_dummy_init_array_entry\nhello: __FRAME_END__\nhello: _DYNAMIC\nhello: __GNU_EH_FRAME_HDR\nhello: _GLOBAL_OFFSET_TABLE_"
+  },
+  {
+   "title": "Scan the whole file  (-a)",
+   "cmd": "strings -a -n 8 pic.png",
+   "output": "hidden: flag{demo_not_a_real_flag}"
+  },
+  {
+   "title": "Windows (UTF-16) text hides from plain strings  (-e l)",
+   "cmd": "printf 'p\\0a\\0s\\0s\\0w\\0o\\0r\\0d\\0' > wide.bin; strings wide.bin; echo '--- with -e l:'; strings -e l wide.bin",
+   "output": "--- with -e l:\npassword"
+  },
+  {
+   "title": "Pipe into grep",
+   "cmd": "strings -a hello | grep -i flag",
+   "output": "flag{demo_not_a_real_flag}"
+  },
+  {
+   "title": "Different separator  (-s)",
+   "cmd": "strings -n 8 -s '|' hello | head -3",
+   "output": "/lib64/ld-linux-x86-64.so.2|__libc_start_main|__cxa_finalize|libc.so.6|GLIBC_2.2.5|GLIBC_2.34|_ITM_deregisterTMCloneTable|__gmon_start__|_IT"
+  }
+ ],
+ "options": [
+  {
+   "flag": "-a, --all",
+   "plain": "Scan the whole file, not just the data sections of a program. This is already the default in current versions.",
+   "use": "Be sure you did not skip hidden regions."
+  },
+  {
+   "flag": "-d, --data",
+   "plain": "Scan only the initialised data sections of object files.",
+   "use": "Skipping code and focusing on constants."
+  },
+  {
+   "flag": "-f, --print-file-name",
+   "plain": "Print the file name before each string.",
+   "use": "Searching several files at once."
+  },
+  {
+   "flag": "-n number, -number, --bytes=number, -min-len",
+   "plain": "Show only strings at least this many characters long (default 4).",
+   "use": "Cut the noise: 8 or more is a good start."
+  },
+  {
+   "flag": "-o",
+   "plain": "Same as -t o: print each string's offset in octal.",
+   "use": "Old scripts; prefer -t."
+  },
+  {
+   "flag": "-t radix, --radix=radix",
+   "plain": "Print each string's offset in decimal (d), octal (o) or hexadecimal (x).",
+   "use": "Locating the text so you can open it with xxd -s."
+  },
+  {
+   "flag": "-e encoding, --encoding=encoding",
+   "plain": "Which kind of characters to look for: s (single 7-bit bytes, default), S (single 8-bit), b/l (16-bit big/little endian), B/L (32-bit big/little endian).",
+   "use": "-e l finds Windows UTF-16 text."
+  },
+  {
+   "flag": "-s, --output-separator=string",
+   "plain": "Put this string between results instead of a newline.",
+   "use": "Building a single-line list."
+  },
+  {
+   "flag": "-w, --include-all-whitespace",
+   "plain": "Count all whitespace (tabs, spaces, line breaks) as part of a string.",
+   "use": "Finding multi-line text."
+  },
+  {
+   "flag": "-T bfdname, --target=bfdname",
+   "plain": "Specify the file format instead of auto-detecting it.",
+   "use": "Unusual object formats."
+  },
+  {
+   "flag": "-U [d|i|l|e|x|h], --unicode=[d|i|l|e|x|h]",
+   "plain": "How to treat UTF-8 characters: default, invalid, locale, escape, hex or highlight.",
+   "use": "Seeing odd characters in the text."
+  },
+  {
+   "flag": "-V, -v, --version",
+   "plain": "Print the version and exit.",
+   "use": "Checking which version you have."
+  },
+  {
+   "flag": "--help",
+   "plain": "Print a short usage message and exit.",
+   "use": "A quick reminder."
+  }
+ ],
+ "mistakes": [
+  "Looking only at the first screen: pipe through grep or less.",
+  "Forgetting UTF-16 (-e l) for Windows files and memory images.",
+  "Assuming that no strings means nothing is there: data may be compressed, encrypted or encoded.",
+  "Running strings on huge files without -n: the output is endless."
+ ],
+ "try": [
+  "Find the secret passphrase in hello with strings and run the program with it.",
+  "Find which offset the flag text sits at in pic.png and look at the bytes there.",
+  "Make a small UTF-16 file and compare strings with and without -e l.",
+  "Pipe strings of a large file through sort | uniq -c | sort -rn and look at the top lines."
+ ],
+ "see_also": "grep(1) (-a and -b), xxd(1), file(1), od(1), binwalk(1) for files hidden inside files, floss for obfuscated strings.",
+ "captured_with": "Example output captured 2026-11-23 with GNU strings (GNU Binutils for Ubuntu) 2.42 on Ubuntu 24.04 (WSL). The lab files are created by scripts/atlas_tools.py."
+}
