@@ -89,6 +89,36 @@
    "flag": "s_client -connect host:443",
    "plain": "Talk TLS to a server",
    "use": "Check a certificate chain"
+  },
+  {
+   "flag": "-help",
+   "plain": "Print a summary of the options for the chosen sub-command.",
+   "use": "A quick reminder inside openssl s_client or openssl enc."
+  },
+  {
+   "flag": "-key",
+   "plain": "Give a key (in hex) directly to a cipher command.",
+   "use": "ECB and CBC experiments with a known key."
+  },
+  {
+   "flag": "-engine id, -provider name, -provider-path path, -propquery query",
+   "plain": "Choose a crypto engine or provider (modules that supply algorithms), where to find them, and a property query to pick implementations.",
+   "use": "Advanced: legacy algorithms, hardware tokens."
+  },
+  {
+   "flag": "-rand file, -writerand file",
+   "plain": "Read random seed data from a file / write the seed state to a file.",
+   "use": "Rare; mostly for reproducing old behaviour."
+  },
+  {
+   "flag": "-ssl3, -tls1, -tls1_1, -tls1_2, -tls1_3, -dtls, -dtls1, -dtls1_2",
+   "plain": "Use only this protocol version when testing a connection (DTLS is the UDP variant).",
+   "use": "Checking whether a server still accepts weak old protocols."
+  },
+  {
+   "flag": "-no_ssl3, -no_tls1, -no_tls1_1, -no_tls1_2, -no_tls1_3",
+   "plain": "Refuse this protocol version.",
+   "use": "Forcing a negotiation to a particular version."
   }
  ],
  "mistakes": [

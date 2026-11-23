@@ -88,6 +88,146 @@
    "flag": "~ / !~",
    "plain": "Regex match / no match",
    "use": "Test a field against a pattern"
+  },
+  {
+   "flag": "-f program-file, --file program-file",
+   "plain": "Read the awk program from a file instead of the command line.",
+   "use": "A program too long for one line."
+  },
+  {
+   "flag": "-e program-text, --source program-text",
+   "plain": "Give awk program text on the command line; may be used with -f to mix files and snippets.",
+   "use": "Combining library files with a one-liner."
+  },
+  {
+   "flag": "-E file, --exec file",
+   "plain": "Read the program from a file and stop option processing: the file name is the last gawk option.",
+   "use": "Safe scripts such as #! lines in CGI programs."
+  },
+  {
+   "flag": "-i file, --include file",
+   "plain": "Load an awk source library before running.",
+   "use": "Reusing a function library."
+  },
+  {
+   "flag": "-l lib, --load lib",
+   "plain": "Load a compiled gawk extension (a shared library).",
+   "use": "Advanced: file functions, regular-expression helpers."
+  },
+  {
+   "flag": "-v var=value, --assign var=value",
+   "plain": "Set an awk variable before the program starts. -F fs and --field-separator fs set the field separator the same way.",
+   "use": "Passing shell values into awk."
+  },
+  {
+   "flag": "--field-separator fs",
+   "plain": "Long form of -F: the character or regular expression that splits fields.",
+   "use": "Reading colon- or comma-separated data."
+  },
+  {
+   "flag": "-b, --characters-as-bytes",
+   "plain": "Treat every byte as one character, ignoring UTF-8 multi-byte letters.",
+   "use": "Binary data, or exact byte counts."
+  },
+  {
+   "flag": "-c, --traditional",
+   "plain": "Run in compatibility mode: GNU extensions are switched off.",
+   "use": "Matching the behaviour of the original awk."
+  },
+  {
+   "flag": "-P, --posix",
+   "plain": "Run in strict POSIX mode.",
+   "use": "Checking portability."
+  },
+  {
+   "flag": "-C, --copyright",
+   "plain": "Print the copyright notice and exit.",
+   "use": "Rarely needed."
+  },
+  {
+   "flag": "-d[file], --dump-variables[=file]",
+   "plain": "Write all global variables and their final values to a file (default awkvars.out).",
+   "use": "Debugging a program's state."
+  },
+  {
+   "flag": "-D[file], --debug[=file]",
+   "plain": "Run the program under the gawk debugger.",
+   "use": "Stepping through a misbehaving script."
+  },
+  {
+   "flag": "-g, --gen-pot",
+   "plain": "Extract translatable strings from the program into a template.",
+   "use": "Making awk programs available in several languages."
+  },
+  {
+   "flag": "-h, --help",
+   "plain": "Print a usage summary and exit.",
+   "use": "A quick reminder."
+  },
+  {
+   "flag": "-L[value], --lint[=value]",
+   "plain": "Warn about doubtful constructs; use fatal to make warnings stop the program.",
+   "use": "Checking a new script."
+  },
+  {
+   "flag": "--lint-old",
+   "plain": "Warn about things that are not allowed in the original Unix awk.",
+   "use": "Writing scripts that must run everywhere."
+  },
+  {
+   "flag": "-M, --bignum",
+   "plain": "Use arbitrary-precision numbers (needs GMP and MPFR).",
+   "use": "Calculations with huge integers, such as RSA numbers."
+  },
+  {
+   "flag": "-n, --non-decimal-data",
+   "plain": "Treat input numbers with a leading 0 or 0x as octal or hexadecimal.",
+   "use": "Reading hex values from a dump."
+  },
+  {
+   "flag": "-N, --use-lc-numeric",
+   "plain": "Use the number format of your locale (comma as decimal point, for example).",
+   "use": "Locale-specific input."
+  },
+  {
+   "flag": "-o[file], --pretty-print[=file]",
+   "plain": "Write a neatly indented copy of the program to a file instead of running it.",
+   "use": "Reading someone else's compact awk."
+  },
+  {
+   "flag": "-O, --optimize, --no-optimize",
+   "plain": "Turn program optimisation on or off.",
+   "use": "Rarely; for speed or debugging."
+  },
+  {
+   "flag": "-p[file], --profile[=file]",
+   "plain": "Write a profile showing how often each line ran (default awkprof.out).",
+   "use": "Finding the slow part of a script."
+  },
+  {
+   "flag": "-r, --re-interval",
+   "plain": "Allow interval expressions such as {2,3} in regular expressions (on by default in current versions).",
+   "use": "Old scripts."
+  },
+  {
+   "flag": "-S, --sandbox",
+   "plain": "Disable system(), file redirection and extensions.",
+   "use": "Running an awk program you do not trust."
+  },
+  {
+   "flag": "-t",
+   "plain": "Same as --lint-old in current gawk (warn about non-traditional features).",
+   "use": "Writing portable scripts."
+  },
+  {
+   "flag": "-V, --version",
+   "plain": "Print the version and exit.",
+   "use": "Checking which awk (gawk, mawk) you have."
+  },
+  {
+   "flag": "--trace",
+   "plain": "Print the internal instructions as the program runs.",
+   "use": "Debugging gawk itself."
   }
  ],
  "mistakes": [

@@ -113,6 +113,196 @@
    "flag": "! / -not / -o",
    "plain": "NOT / OR combinators (group with `\\( \\)`)",
    "use": "More complex conditions"
+  },
+  {
+   "flag": "-H, -L, -P",
+   "plain": "How to treat symbolic links: -P never follows them (default), -L always follows them, -H follows only those named on the command line.",
+   "use": "You must decide whether a link counts as itself or as its target."
+  },
+  {
+   "flag": "-D debugopts",
+   "plain": "Print debugging information (tree, stat, opt, rates, exec, help) about how find works.",
+   "use": "Finding out why a search is slow or not matching."
+  },
+  {
+   "flag": "-O, -Olevel",
+   "plain": "Set the query optimisation level (0 to 3) that reorders cheap tests before expensive ones.",
+   "use": "Rarely: speeding up a huge search."
+  },
+  {
+   "flag": "-d, -depth",
+   "plain": "Process the contents of a directory before the directory itself.",
+   "use": "You are deleting a tree from the bottom up."
+  },
+  {
+   "flag": "-daystart",
+   "plain": "Measure -mtime, -atime and -ctime from the start of today instead of 24 hours ago.",
+   "use": "You mean 'since midnight', not 'in the last 24 hours'."
+  },
+  {
+   "flag": "-amin n, -atime n",
+   "plain": "Match files last read n minutes / n days ago.",
+   "use": "Which files were opened recently?"
+  },
+  {
+   "flag": "-cmin n, -ctime n",
+   "plain": "Match files whose metadata (permissions, owner, name) changed n minutes / days ago.",
+   "use": "Spotting files an attacker touched, since content time can be faked."
+  },
+  {
+   "flag": "-anewer file, -cnewer file",
+   "plain": "Match files read / changed more recently than a reference file.",
+   "use": "What was accessed after the first alert?"
+  },
+  {
+   "flag": "-newerXY file",
+   "plain": "Compare any two timestamps: X and Y are a (access), B (birth), c (change), m (modify) or t (a time string), for example -newermt '2026-11-10'.",
+   "use": "Selecting files by an exact date."
+  },
+  {
+   "flag": "-used n",
+   "plain": "Match files accessed n days after their status last changed.",
+   "use": "Finding files that were used well after creation."
+  },
+  {
+   "flag": "-context pattern",
+   "plain": "Match files whose SELinux security label fits the pattern.",
+   "use": "SELinux systems only."
+  },
+  {
+   "flag": "-execdir command {} ;, -ok command ;, -okdir command ;",
+   "plain": "-execdir runs the command from the file's own folder; -ok and -okdir ask you to confirm each time.",
+   "use": "-execdir is safer than -exec; -ok is for deletions you want to approve."
+  },
+  {
+   "flag": "-executable, -readable, -writable",
+   "plain": "Match files you can execute / read / write with your current permissions.",
+   "use": "Finding what you can use during privilege escalation."
+  },
+  {
+   "flag": "-true, -false",
+   "plain": "Tests that are always true / always false.",
+   "use": "Building conditions in complex expressions."
+  },
+  {
+   "flag": "-files0-from file",
+   "plain": "Read the starting points from a file, separated by NUL bytes.",
+   "use": "A very long list of start folders."
+  },
+  {
+   "flag": "-fls file, -fprint file, -fprint0 file, -fprintf file format",
+   "plain": "Like -ls, -print, -print0 and -printf but write the results into a file.",
+   "use": "Saving evidence lists directly."
+  },
+  {
+   "flag": "-ls",
+   "plain": "Print each match in the long ls -dils style (size, owner, date).",
+   "use": "A quick detailed listing."
+  },
+  {
+   "flag": "-print",
+   "plain": "Print the path of each match, then a newline. This is the default.",
+   "use": "Making it explicit, or combining with -prune."
+  },
+  {
+   "flag": "-printf format",
+   "plain": "Print each match with your own layout, such as %p (path) %s (size) %u (owner) %m (permissions) %t (time).",
+   "use": "Building a custom report."
+  },
+  {
+   "flag": "-follow",
+   "plain": "Old name for -L: follow symbolic links.",
+   "use": "Old scripts."
+  },
+  {
+   "flag": "-fstype type",
+   "plain": "Match files on a given file system type (ext4, tmpfs, nfs).",
+   "use": "Skipping network or virtual drives."
+  },
+  {
+   "flag": "-mount, -xdev",
+   "plain": "Do not descend into other file systems.",
+   "use": "Searching only the disk you are on, not mounted drives."
+  },
+  {
+   "flag": "-gid n, -uid n",
+   "plain": "Match files owned by a numeric group / user id.",
+   "use": "The owner has no name on this system."
+  },
+  {
+   "flag": "-nogroup, -nouser",
+   "plain": "Match files whose group / owner id does not exist in the system.",
+   "use": "Leftovers from deleted users, or files copied from elsewhere."
+  },
+  {
+   "flag": "-ignore_readdir_race, -noignore_readdir_race",
+   "plain": "Do not complain (or do complain) when a file vanishes between listing and checking.",
+   "use": "Searching busy folders such as /tmp or logs."
+  },
+  {
+   "flag": "-ilname pattern, -lname pattern",
+   "plain": "Match symbolic links whose target text matches the pattern (-ilname ignores case).",
+   "use": "Finding links that point somewhere suspicious."
+  },
+  {
+   "flag": "-path pattern, -ipath pattern, -wholename pattern, -iwholename pattern",
+   "plain": "Match against the whole path, not just the file name (the i versions ignore case).",
+   "use": "-name cannot see folders: use -path '*/site/*'."
+  },
+  {
+   "flag": "-regex pattern, -iregex pattern, -regextype type",
+   "plain": "Match the whole path with a regular expression; -regextype chooses the dialect (posix-extended, emacs...).",
+   "use": "Name rules that globs cannot express."
+  },
+  {
+   "flag": "-inum n, -samefile name",
+   "plain": "Match by inode number / match files that are the same file as name (hard links).",
+   "use": "Finding other names for one file."
+  },
+  {
+   "flag": "-links n",
+   "plain": "Match files with n hard links.",
+   "use": "Spotting hard-link tricks."
+  },
+  {
+   "flag": "-mode",
+   "plain": "Not a separate test: it appears in the -perm explanation as the permission mode (octal or symbolic) to compare with.",
+   "use": "Reading the -perm section of the original page."
+  },
+  {
+   "flag": "-n",
+   "plain": "Appears in the original page only as part of an example (for example -newer).",
+   "use": "Ignore as a stand-alone option."
+  },
+  {
+   "flag": "-noleaf",
+   "plain": "Do not use the trick that a folder's link count equals its sub-folders plus 2.",
+   "use": "Searching file systems that break that rule (CD-ROMs, some network drives)."
+  },
+  {
+   "flag": "-nowarn, -warn",
+   "plain": "Turn warnings off / on.",
+   "use": "Quiet scripts."
+  },
+  {
+   "flag": "-prune",
+   "plain": "Do not go into the directory that was just matched.",
+   "use": "Skipping .git or node_modules: find . -name .git -prune -o -print."
+  },
+  {
+   "flag": "-quit",
+   "plain": "Stop searching after the first match.",
+   "use": "You only need to know whether something exists."
+  },
+  {
+   "flag": "-xtype c",
+   "plain": "Like -type, but checks the target of a symbolic link.",
+   "use": "Finding broken links (-xtype l)."
+  },
+  {
+   "flag": "--help, -help, --version, -version",
+   "plain": "Print a usage summary / the version and exit.",
+   "use": "A quick reminder or version check."
   }
  ],
  "mistakes": [

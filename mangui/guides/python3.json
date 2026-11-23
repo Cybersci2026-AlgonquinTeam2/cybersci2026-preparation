@@ -109,6 +109,86 @@
    "flag": "itertools.product",
    "plain": "Every combination of a character set",
    "use": "Short brute force"
+  },
+  {
+   "flag": "-B",
+   "plain": "Do not write .pyc bytecode files.",
+   "use": "Keeping a folder clean."
+  },
+  {
+   "flag": "-b, -bb",
+   "plain": "Warn (or raise an error) when comparing bytes with text.",
+   "use": "Catching a common Python 2 to 3 bug."
+  },
+  {
+   "flag": "-d",
+   "plain": "Turn on parser debugging output.",
+   "use": "Developing Python itself."
+  },
+  {
+   "flag": "-E",
+   "plain": "Ignore PYTHON* environment variables.",
+   "use": "Predictable behaviour."
+  },
+  {
+   "flag": "-h, --help, --help-env, --help-xoptions, --help-all",
+   "plain": "Show help, the environment variables, the -X options, or everything.",
+   "use": "A quick reminder."
+  },
+  {
+   "flag": "-O, -OO",
+   "plain": "Remove assert statements (and docstrings with -OO).",
+   "use": "Optimised runs."
+  },
+  {
+   "flag": "-P",
+   "plain": "Do not put the script's folder or the current folder at the front of sys.path.",
+   "use": "Avoiding a planted json.py or similar when running in an untrusted folder."
+  },
+  {
+   "flag": "-q",
+   "plain": "Do not print the version banner in interactive mode.",
+   "use": "Tidier interactive sessions."
+  },
+  {
+   "flag": "-s",
+   "plain": "Do not add your user site-packages folder to sys.path.",
+   "use": "Isolating from user-installed packages."
+  },
+  {
+   "flag": "-S",
+   "plain": "Do not import the site module on start-up.",
+   "use": "Fast start or debugging path problems."
+  },
+  {
+   "flag": "-v",
+   "plain": "Verbose: trace every import.",
+   "use": "Finding which file an import loads."
+  },
+  {
+   "flag": "-V, --version",
+   "plain": "Print the Python version and exit.",
+   "use": "Checking which Python you run."
+  },
+  {
+   "flag": "-W arg",
+   "plain": "Control warnings: -W error turns warnings into errors, -W ignore hides them.",
+   "use": "Scripts that should fail on warnings."
+  },
+  {
+   "flag": "-x",
+   "plain": "Skip the first line of the source (so a non-Python #! line can be there).",
+   "use": "Rare scripts."
+  },
+  {
+   "flag": "-X option",
+   "plain": "Set an implementation option, such as -X dev or -X utf8.",
+   "use": "Developer mode checks."
+  },
+  {
+   "flag": "--check-hash-based-pycs",
+   "plain": "Control how hash-based .pyc files are validated (default, always or never).",
+   "use": "Reproducible builds."
   }
  ],
  "mistakes": [

@@ -93,6 +93,76 @@
    "flag": "y/abc/xyz/",
    "plain": "Transliterate characters one-to-one",
    "use": "ROT13-style swaps"
+  },
+  {
+   "flag": "-e script, --expression=script",
+   "plain": "Add the commands in script. Use it several times to run several edits.",
+   "use": "More than one edit in a single run."
+  },
+  {
+   "flag": "-f script-file, --file=script-file",
+   "plain": "Read the editing commands from a file.",
+   "use": "A long set of edits you want to keep and reuse."
+  },
+  {
+   "flag": "-E, -r, --regexp-extended",
+   "plain": "Use extended regular expressions, so + ? | ( ) need no backslash. -E is the portable spelling.",
+   "use": "Anything beyond a simple pattern."
+  },
+  {
+   "flag": "-i[SUFFIX], --in-place[=SUFFIX]",
+   "plain": "Edit the file itself; with a suffix, keep a backup copy.",
+   "use": "Changing a file for real (always give a suffix first)."
+  },
+  {
+   "flag": "-n, --quiet, --silent",
+   "plain": "Do not print every line automatically; print only what the p command selects.",
+   "use": "Printing a few chosen lines."
+  },
+  {
+   "flag": "-s, --separate",
+   "plain": "Treat each input file separately, so line numbers and ranges restart for every file.",
+   "use": "Running the same line-range edit on many files."
+  },
+  {
+   "flag": "-u, --unbuffered",
+   "plain": "Read and write in small pieces instead of large blocks.",
+   "use": "Live output from tail -f piped into sed."
+  },
+  {
+   "flag": "-z, --null-data",
+   "plain": "Use NUL bytes instead of newlines to separate lines.",
+   "use": "Editing text across lines, or output from find -print0."
+  },
+  {
+   "flag": "-l N, --line-length=N",
+   "plain": "Set how many characters the l command (show unprintables) puts on a line.",
+   "use": "Making hidden-character dumps fit the screen."
+  },
+  {
+   "flag": "--follow-symlinks",
+   "plain": "When editing in place, follow symbolic links and edit the real file.",
+   "use": "In-place edits on a path that is a link."
+  },
+  {
+   "flag": "--posix",
+   "plain": "Switch off GNU extensions so sed behaves strictly like the standard.",
+   "use": "Checking that a script will also work on other systems."
+  },
+  {
+   "flag": "--sandbox",
+   "plain": "Refuse commands that read or write files or run programs (r, w, e).",
+   "use": "Running a sed script you did not write."
+  },
+  {
+   "flag": "--debug",
+   "plain": "Print the program in canonical form and show each step as it runs.",
+   "use": "Working out why a script does not behave."
+  },
+  {
+   "flag": "--help, --version",
+   "plain": "Print a usage summary / the version and exit.",
+   "use": "A quick reminder or version check."
   }
  ],
  "mistakes": [

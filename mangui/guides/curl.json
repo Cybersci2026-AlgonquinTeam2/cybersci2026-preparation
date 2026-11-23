@@ -133,6 +133,301 @@
    "flag": "--max-time N",
    "plain": "Give up after N seconds",
    "use": "Scripts"
+  },
+  {
+   "flag": "-d, --data, --data-ascii, --data-binary, --data-raw",
+   "plain": "Send a request body (form data). --data-binary sends it exactly, --data-raw does not treat @ as a file name, --data-ascii is the old name for -d.",
+   "use": "Logins and API calls; use --data-binary for JSON or files."
+  },
+  {
+   "flag": "--expand-data, --expand-url, --expand-variable, --variable",
+   "plain": "Use variables you define with --variable inside data, URLs and options (curl 8.3 and newer).",
+   "use": "Reusing a token or host in a long command."
+  },
+  {
+   "flag": "-F, --form, --form-string, --form-escape",
+   "plain": "Send a multipart form, the way a browser uploads files: -F 'file=@pic.png'. --form-string never reads files; --form-escape changes how quotes are escaped.",
+   "use": "Testing file upload forms."
+  },
+  {
+   "flag": "-G, --get",
+   "plain": "Put the -d data into the URL as a query string and use GET.",
+   "use": "Testing search forms with parameters."
+  },
+  {
+   "flag": "-H, --header",
+   "plain": "Add or replace a request header. An empty value removes the header curl would send.",
+   "use": "User-Agent, Referer, Authorization, X-Forwarded-For."
+  },
+  {
+   "flag": "--proxy-header",
+   "plain": "Add a header to requests sent to the proxy only.",
+   "use": "Proxy authentication tests."
+  },
+  {
+   "flag": "-T, --upload-file",
+   "plain": "Upload a local file to a URL (PUT for HTTP, upload for FTP).",
+   "use": "Putting a file on a server you control."
+  },
+  {
+   "flag": "-X, --request, --request-target",
+   "plain": "Set the method (GET, POST, PUT, DELETE) or the exact request target in the first line.",
+   "use": "Testing which methods a server accepts; --request-target sends odd paths."
+  },
+  {
+   "flag": "-e, --referer",
+   "plain": "Set the Referer header (the page you claim to come from).",
+   "use": "Pages that check where you came from."
+  },
+  {
+   "flag": "-A, --user-agent",
+   "plain": "Set the User-Agent header.",
+   "use": "Servers that behave differently for different browsers."
+  },
+  {
+   "flag": "-b, --cookie, -c, --cookie-jar, -j, --junk-session-cookies",
+   "plain": "Send cookies from text or a file / save cookies to a file / ignore session cookies from the file.",
+   "use": "Keeping a login across several requests."
+  },
+  {
+   "flag": "-u, --user, -U, --proxy-user, --pass",
+   "plain": "Username and password for the server, for the proxy, or the key-file password.",
+   "use": "Basic and digest authentication."
+  },
+  {
+   "flag": "--basic, --digest, --anyauth, --negotiate, --ntlm, --ntlm-wb, --delegation",
+   "plain": "Choose the HTTP authentication method: plain Base64, digest, let curl pick, Kerberos or NTLM.",
+   "use": "Windows and corporate servers."
+  },
+  {
+   "flag": "--oauth2-bearer",
+   "plain": "Send an OAuth 2 token as Authorization: Bearer.",
+   "use": "APIs that use access tokens."
+  },
+  {
+   "flag": "--aws-sigv4",
+   "plain": "Sign the request for Amazon Web Services.",
+   "use": "Cloud challenges that use signed requests."
+  },
+  {
+   "flag": "--expect100-timeout",
+   "plain": "How long to wait for a 100-continue answer before sending the body.",
+   "use": "Large uploads that stall."
+  },
+  {
+   "flag": "--compressed, --tr-encoding, --raw",
+   "plain": "Ask for compressed answers and decompress them / ask for transfer encoding / do not decode the HTTP content at all.",
+   "use": "--raw shows exactly what the server sent."
+  },
+  {
+   "flag": "--crlf",
+   "plain": "Convert line feeds to CRLF when uploading text.",
+   "use": "Protocols that need CRLF line endings."
+  },
+  {
+   "flag": "-0, --http1.0, --http1.1, --http2, --http2-prior-knowledge, --http3, --http3-only, --proxy-http2",
+   "plain": "Choose the HTTP version.",
+   "use": "Testing how a server handles older or newer protocols."
+  },
+  {
+   "flag": "--ignore-content-length",
+   "plain": "Ignore the Content-Length header.",
+   "use": "Broken servers."
+  },
+  {
+   "flag": "--path-as-is, --globoff, -g",
+   "plain": "Do not squash /../ in the path / switch off {} and [] URL globbing.",
+   "use": "Path traversal tests and URLs with brackets."
+  },
+  {
+   "flag": "--url, --url-query",
+   "plain": "Give the URL with an option / add or encode a query part.",
+   "use": "Building a URL piece by piece."
+  },
+  {
+   "flag": "-i, --include, -I, --head",
+   "plain": "Include response headers in the output / ask for the headers only (HEAD request).",
+   "use": "Reading status lines, cookies and redirects."
+  },
+  {
+   "flag": "-D, --dump-header",
+   "plain": "Write the response headers to a file (use - for the screen).",
+   "use": "Saving cookies and headers for later."
+  },
+  {
+   "flag": "-v, --verbose, --trace, --trace-ascii, --trace-config, --trace-ids, --trace-time, --libcurl",
+   "plain": "Show everything curl does; --trace and --trace-ascii write a full byte-level log; --libcurl prints C code that does the same request.",
+   "use": "Seeing exactly what goes over the wire, or turning a command into code."
+  },
+  {
+   "flag": "-s, --silent, -S, --show-error, --no-progress-meter, -#, --progress-bar, --styled-output",
+   "plain": "Hide progress and errors / show errors even when silent / replace the meter with a bar / use bold in headers.",
+   "use": "Clean output in scripts."
+  },
+  {
+   "flag": "-w, --write-out",
+   "plain": "Print information after the transfer: %{http_code}, %{size_download}, %{url_effective}, %{time_total}.",
+   "use": "Status codes in loops and timing."
+  },
+  {
+   "flag": "-o, --output, -O, --remote-name, --remote-name-all, --output-dir, --create-dirs, --create-file-mode, --no-clobber, --remove-on-error",
+   "plain": "Save the body to a file, using your name or the remote name, in a chosen folder, without overwriting, deleting a partial file on error.",
+   "use": "Downloads."
+  },
+  {
+   "flag": "-J, --remote-header-name",
+   "plain": "Use the file name the server suggests in Content-Disposition when saving.",
+   "use": "Downloads from web apps."
+  },
+  {
+   "flag": "-R, --remote-time",
+   "plain": "Give the saved file the server's last-modified time.",
+   "use": "Evidence copies that should keep their date."
+  },
+  {
+   "flag": "-N, --no-buffer",
+   "plain": "Do not buffer the output; show it as it arrives.",
+   "use": "Streaming responses."
+  },
+  {
+   "flag": "--stderr",
+   "plain": "Send curl's messages to a file instead of the screen.",
+   "use": "Capturing the -v log separately."
+  },
+  {
+   "flag": "-V, --version, -h, --help, -M, --manual",
+   "plain": "Show the version and supported features / short help / the full manual.",
+   "use": "Check protocols and features before using an option."
+  },
+  {
+   "flag": "-L, --location, --location-trusted, --max-redirs, --post301, --post302, --post303, --proto-redir",
+   "plain": "Follow redirects (also sending credentials with --location-trusted), limit how many, keep POST on 301/302/303, and limit allowed protocols after a redirect.",
+   "use": "Reaching the final page."
+  },
+  {
+   "flag": "-f, --fail, --fail-with-body, --fail-early",
+   "plain": "Return an error code for HTTP errors instead of printing the error page; --fail-with-body also shows the page; --fail-early stops at the first failure.",
+   "use": "Scripts that must notice 404s."
+  },
+  {
+   "flag": "--retry, --retry-delay, --retry-max-time, --retry-connrefused, --retry-all-errors",
+   "plain": "Try again on failure, how long to wait, for how long, and which errors count.",
+   "use": "Flaky servers."
+  },
+  {
+   "flag": "-k, --insecure, --proxy-insecure, --doh-insecure, --ssl-no-revoke, --ssl-revoke-best-effort",
+   "plain": "Skip certificate checks (for the server, proxy or DNS-over-HTTPS server) or skip revocation checks.",
+   "use": "Lab servers with self-signed certificates. Never use with real credentials."
+  },
+  {
+   "flag": "--cacert, --capath, --ca-native, --proxy-cacert, --proxy-capath, --proxy-ca-native, --crlfile, --proxy-crlfile",
+   "plain": "Which certificate authorities to trust: a file, a folder, or the system store; and revocation lists.",
+   "use": "Checking a server against your own CA."
+  },
+  {
+   "flag": "-E, --cert, --cert-type, --key, --key-type, --pass, --proxy-cert, --proxy-cert-type, --proxy-key, --proxy-key-type, --proxy-pass",
+   "plain": "Client certificate and private key (for the server or the proxy), their formats and passwords.",
+   "use": "Mutual TLS."
+  },
+  {
+   "flag": "--pinnedpubkey, --proxy-pinnedpubkey, --cert-status, --hsts, --alt-svc",
+   "plain": "Only accept a server whose public key matches / check OCSP stapling / remember HSTS and alternative-service information in a file.",
+   "use": "Certificate pinning tests."
+  },
+  {
+   "flag": "--ciphers, --tls13-ciphers, --proxy-ciphers, --proxy-tls13-ciphers, --curves, --tls-max, --tlsv1, --proxy-tlsv1, --sslv2, --sslv3, -1, -2, -3, --ssl, --ssl-reqd, --ssl-allow-beast, --proxy-ssl-allow-beast, --ssl-auto-client-cert, --proxy-ssl-auto-client-cert, --false-start, --no-alpn, --no-npn, --no-sessionid",
+   "plain": "Pick TLS versions, ciphers and curves, and switch off features, to test how a server handles old or unusual settings.",
+   "use": "Checking for weak protocol support."
+  },
+  {
+   "flag": "--tlsauthtype, --tlsuser, --tlspassword, --proxy-tlsauthtype, --proxy-tlsuser, --proxy-tlspassword",
+   "plain": "TLS-SRP username and password authentication.",
+   "use": "Rare."
+  },
+  {
+   "flag": "--hostpubmd5, --hostpubsha256, --pubkey, --egd-file, --engine, --random-file",
+   "plain": "Check an SSH server's host key, give an SSH public key file, and set sources of randomness or a crypto engine.",
+   "use": "SFTP and SCP transfers."
+  },
+  {
+   "flag": "-x, --proxy, --preproxy, --noproxy, -p, --proxytunnel, --suppress-connect-headers",
+   "plain": "Send traffic through an HTTP proxy, a proxy in front of it, skip it for some hosts, tunnel through it with CONNECT, and hide the CONNECT headers.",
+   "use": "Going through Burp or a corporate proxy."
+  },
+  {
+   "flag": "--socks4, --socks4a, --socks5, --socks5-hostname, --socks5-basic, --socks5-gssapi, --socks5-gssapi-nec, --socks5-gssapi-service, --proxy1, --haproxy-protocol, --haproxy-clientip",
+   "plain": "Use a SOCKS proxy (version 4, 4a, 5) and its authentication, or the HAProxy protocol.",
+   "use": "Scanning or browsing through an SSH -D tunnel."
+  },
+  {
+   "flag": "--proxy-anyauth, --proxy-basic, --proxy-digest, --proxy-negotiate, --proxy-ntlm, --proxy-service-name, --service-name",
+   "plain": "Authentication methods and service names for the proxy.",
+   "use": "Authenticated corporate proxies."
+  },
+  {
+   "flag": "--resolve, --connect-to, --interface, --local-port, --dns-servers, --dns-interface, --dns-ipv4-addr, --dns-ipv6-addr, --doh-url, --doh-cert-status",
+   "plain": "Force a host name to an address, redirect a connection, choose the network interface or source port, and use specific or DNS-over-HTTPS name servers.",
+   "use": "Testing virtual hosts without editing /etc/hosts."
+  },
+  {
+   "flag": "-4, --ipv4, -6, --ipv6, --happy-eyeballs-timeout-ms, --tcp-fastopen, --tcp-nodelay, --no-keepalive, --keepalive-time, --disallow-username-in-url",
+   "plain": "IP version, connection timing and TCP behaviour, and banning user:pass@ in URLs.",
+   "use": "Network troubleshooting."
+  },
+  {
+   "flag": "--unix-socket, --abstract-unix-socket",
+   "plain": "Connect to a Unix socket (a file) instead of the network.",
+   "use": "Talking to the Docker socket."
+  },
+  {
+   "flag": "-m, --max-time, --connect-timeout, -y, --speed-time, -Y, --speed-limit, --limit-rate, --rate, --max-filesize",
+   "plain": "Time limits, minimum speeds, a speed cap, a request rate and a file size limit.",
+   "use": "Scripts that must not hang or flood a server."
+  },
+  {
+   "flag": "-Z, --parallel, --parallel-immediate, --parallel-max, --next",
+   "plain": "Run several transfers at once; --next starts a separate set of options for another URL.",
+   "use": "Faster bulk requests."
+  },
+  {
+   "flag": "-K, --config, -q, --disable, -n, --netrc, --netrc-file, --netrc-optional",
+   "plain": "Read options from a file / ignore the default .curlrc / read credentials from .netrc.",
+   "use": "Reusable settings."
+  },
+  {
+   "flag": "-r, --range, -C, --continue-at, -z, --time-cond, --etag-save, --etag-compare",
+   "plain": "Ask for part of a file, resume a download, download only if newer, or compare an ETag.",
+   "use": "Large downloads."
+  },
+  {
+   "flag": "-a, --append, -l, --list-only, -Q, --quote, -P, --ftp-port, --ftp-pasv, --disable-eprt, --disable-epsv, --ftp-alternative-to-user, --ftp-account, --ftp-create-dirs, --ftp-method, --ftp-pret, --ftp-skip-pasv-ip, --ftp-ssl-ccc, --ftp-ssl-ccc-mode, --ftp-ssl-control, --use-ascii, -B, --krb",
+   "plain": "FTP options: append to a file, list names only, send commands, choose active or passive mode, create folders, and encrypt the control channel.",
+   "use": "Interacting with FTP servers."
+  },
+  {
+   "flag": "--mail-from, --mail-rcpt, --mail-rcpt-allowfails, --mail-auth, --login-options, --sasl-authzid, --sasl-ir",
+   "plain": "SMTP and mail options: sender, recipients, authentication and login options.",
+   "use": "Testing mail servers."
+  },
+  {
+   "flag": "-t, --telnet-option, --tftp-blksize, --tftp-no-options, --ipfs-gateway, --metalink, --xattr",
+   "plain": "Telnet options, TFTP block size, an IPFS gateway, the retired Metalink feature, and storing the URL in file attributes.",
+   "use": "Rare protocols."
+  },
+  {
+   "flag": "--proto, --proto-default, --proxy-tlsv1",
+   "plain": "Limit which protocols curl may use, and the default for URLs without one.",
+   "use": "Protecting a script from file:// or gopher:// surprises."
+  },
+  {
+   "flag": "--compressed-ssh",
+   "plain": "Turn on compression for SCP and SFTP transfers.",
+   "use": "Slow links."
+  },
+  {
+   "flag": "--http0.9",
+   "plain": "Accept answers that use the ancient HTTP 0.9 format (no headers).",
+   "use": "Talking to very old or odd servers."
   }
  ],
  "mistakes": [

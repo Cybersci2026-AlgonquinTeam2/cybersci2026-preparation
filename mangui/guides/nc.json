@@ -73,6 +73,121 @@
    "flag": "-k",
    "plain": "Keep listening after one connection",
    "use": "Serve repeatedly"
+  },
+  {
+   "flag": "-4, -6",
+   "plain": "Use only IPv4 / only IPv6.",
+   "use": "Names resolve to both and you need to choose."
+  },
+  {
+   "flag": "-b",
+   "plain": "Allow sending to a broadcast address.",
+   "use": "Rare: broadcast tests on a lab network."
+  },
+  {
+   "flag": "-C",
+   "plain": "Send CRLF (carriage return plus line feed) as the line ending.",
+   "use": "Protocols that require CRLF, such as SMTP, HTTP and many text services."
+  },
+  {
+   "flag": "-D",
+   "plain": "Turn on socket debugging.",
+   "use": "Low-level troubleshooting."
+  },
+  {
+   "flag": "-d",
+   "plain": "Do not read from standard input.",
+   "use": "You only want to listen or watch, not send."
+  },
+  {
+   "flag": "-F",
+   "plain": "Pass the socket's file descriptor to another program over a Unix socket (needs -U).",
+   "use": "Advanced scripting."
+  },
+  {
+   "flag": "-h",
+   "plain": "Print a help message.",
+   "use": "A quick reminder."
+  },
+  {
+   "flag": "-I length, -O length",
+   "plain": "Set the TCP receive / send buffer size.",
+   "use": "Tuning file transfers."
+  },
+  {
+   "flag": "-i interval",
+   "plain": "Wait interval seconds between lines of text sent or between ports probed.",
+   "use": "Slowing a scan or a script."
+  },
+  {
+   "flag": "-M ttl, -m minttl",
+   "plain": "Set the outgoing IP time-to-live / require at least this TTL on incoming packets.",
+   "use": "Network experiments."
+  },
+  {
+   "flag": "-P proxy_username",
+   "plain": "Username for proxy authentication.",
+   "use": "Going through an authenticated proxy."
+  },
+  {
+   "flag": "-p source_port",
+   "plain": "Use this local source port.",
+   "use": "Testing rules that depend on the source port."
+  },
+  {
+   "flag": "-q seconds",
+   "plain": "After end of input, wait this many seconds and then quit.",
+   "use": "Making a transfer finish."
+  },
+  {
+   "flag": "-r",
+   "plain": "Choose source and destination ports at random instead of in order.",
+   "use": "Evading simple patterns when scanning in a lab."
+  },
+  {
+   "flag": "-S",
+   "plain": "Enable the TCP MD5 signature option.",
+   "use": "Router-to-router links; rare."
+  },
+  {
+   "flag": "-s source",
+   "plain": "Use this local IP address as the source.",
+   "use": "Machines with several addresses."
+  },
+  {
+   "flag": "-T keyword",
+   "plain": "Set the IP type-of-service or TLS options (for example lowdelay, throughput, reliability).",
+   "use": "Network quality-of-service tests."
+  },
+  {
+   "flag": "-t",
+   "plain": "Answer telnet negotiation requests automatically.",
+   "use": "Talking to telnet-style services."
+  },
+  {
+   "flag": "-U",
+   "plain": "Use Unix-domain sockets (files) instead of the network.",
+   "use": "Local sockets such as /var/run/docker.sock."
+  },
+  {
+   "flag": "-V rtable",
+   "plain": "Use a specific routing table (OpenBSD).",
+   "use": "Not used on Linux."
+  },
+  {
+   "flag": "-W recvlimit",
+   "plain": "Stop after receiving this many packets.",
+   "use": "Limited tests."
+  },
+  {
+   "flag": "-X proxy_protocol, -x proxy_address[:port]",
+   "plain": "Connect through a proxy (4, 5 for SOCKS, connect for HTTP) at the given address.",
+   "use": "Tunnelling nc through a proxy."
+  },
+  {
+   "flag": "-Z",
+   "plain": "Use the DCCP protocol instead of TCP.",
+   "use": "Rare."
   }
  ],
  "mistakes": [
