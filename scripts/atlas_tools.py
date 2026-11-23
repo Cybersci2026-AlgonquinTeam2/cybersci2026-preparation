@@ -499,3 +499,7 @@ TOOLS.append(dict(
     related=["sha256sum / md5sum", "base64", "gpg", "hashcat", "RsaCtfTool", "python pycryptodome"],
     practice=["Encrypt a 48-byte message of repeating blocks with ECB and with CBC and compare the dumps.", "Hash the contents of `hello.c` and verify with `sha256sum`.", "Create a certificate with a different CN and read it back."],
     cards=["Why do `echo hello` and `echo -n hello` hash differently?", "What does the `Salted__` header mean?", "Why is ECB insecure?", "How do you read a certificate's subject?"]))
+
+
+from atlas_tools2 import TOOLS2  # noqa: E402
+TOOLS.extend(TOOLS2)

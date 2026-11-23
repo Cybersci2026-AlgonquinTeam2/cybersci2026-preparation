@@ -205,7 +205,7 @@ BOOKS = [
      [ROOT / "competition-day/README.md", ROOT / "competition-day/team-roles.md", ROOT / "competition-day/templates/challenge.md",
       ROOT / "practice-resources/team-rehearsal.md", ROOT / "CONTRIBUTING.md"]),
     ("50-Command-Atlas", "50. Command Atlas: expanded manuals with real output",
-     [C / "atlas/README.md"] + [C / f"atlas/{n}.md" for n in ("grep", "find", "sed", "awk", "file-xxd-strings", "curl", "nc", "openssl")]),
+     [C / "atlas/README.md"] + [C / f"atlas/{n}.md" for n in ("grep", "find", "sed", "awk", "file-xxd-strings", "curl", "nc", "openssl", "python-oneliners", "readelf-objdump", "nmap", "tcpdump", "gdb", "sqlite3")]),
 ]
 
 
@@ -213,10 +213,19 @@ BOOKS = [
 DETAILS_OPEN = re.compile(r"<details>\s*<summary>(.*?)</summary>", re.S | re.I)
 
 
+def _mermaid_img(m):
+    import hashlib
+    k = hashlib.sha1(m.group(2).strip().encode("utf-8")).hexdigest()[:16]
+    f = ROOT / "dist" / "mermaid" / f"{k}.svg"
+    if f.exists():
+        return f"![Flowchart: pinch to zoom, or follow the text route below]({f.as_posix()})"
+    return "*(Flowchart omitted in this edition: follow the text route.)*"
+
+
 def preprocess(md_text, base_dir, image_sink):
     s = md_text
-    # mermaid flowcharts cannot render offline; the field guide gives an equivalent text route right after each one
-    s = re.sub(r"^(~~~|```)mermaid\b.*?^\1[ \t]*$", "*(Flowchart omitted in this edition: follow the text route.)*", s, flags=re.M | re.S)
+    # mermaid flowcharts: use the pre-rendered SVG (scripts/render_mermaid.py) if present, else a pointer to the text route
+    s = re.sub(r"^(~~~|```)mermaid\b[^\n]*\n(.*?)^\1[ \t]*$", _mermaid_img, s, flags=re.M | re.S)
     s = DETAILS_OPEN.sub(lambda m: f"**▶ {m.group(1).strip()}**\n", s)
     s = re.sub(r"</details>", "", s, flags=re.I)
     s = re.sub(r"^(\s*)- \[ \] ", r"\1- ☐ ", s, flags=re.M)

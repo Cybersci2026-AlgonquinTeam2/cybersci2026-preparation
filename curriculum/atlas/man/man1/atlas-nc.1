@@ -1,0 +1,139 @@
+.TH ATLAS-NC 1 "2026-11-23" "CyberSci Command Atlas" "Command Atlas"
+.SH NAME
+atlas\-nc \- Open a plain TCP (or UDP) connection and pipe text or files through it: the Swiss army knife for talking to services.
+.SH SYNOPSIS
+.nf
+nc  \-zv  \-w 2  127.0.0.1  8099
+ |   |    |     |         '\-\-\- port (or a range 8000\-8100)
+ |   |    |     '\-\-\- host
+ |   |    '\-\-\- \-w = give up after 2 seconds
+ |   '\-\-\- \-z = just check the port is open (send no data), \-v = say so
+ '\-\-\- the program (this guide uses the OpenBSD netcat that Ubuntu installs)
+.fi
+.SH WHEN TO USE
+.IP \(bu 2
+Connect to a CTF service and read its prompt (\fBnc host port\fR).
+.IP \(bu 2
+Check whether a port is open; grab a banner; send a hand\-written HTTP request.
+.IP \(bu 2
+Move a file between two machines in a lab.
+.SH FLAGS
+.TP
+\fB\-v\fR
+Verbose: report connection results.
+.br
+Use it when: See \fBsucceeded\fR/\fBrefused\fR.
+.TP
+\fB\-z\fR
+Scan mode: connect and close.
+.br
+Use it when: Quick port check.
+.TP
+\fB\-w N\fR
+Timeout in seconds.
+.br
+Use it when: Do not hang.
+.TP
+\fB\-l\fR
+Listen for an incoming connection (OpenBSD: \fBnc \-l HOST PORT\fR).
+.br
+Use it when: Receive a file, catch a connection in a lab.
+.TP
+\fB\-N\fR
+Shut down the network socket on end of input (OpenBSD).
+.br
+Use it when: Make a file transfer finish.
+.TP
+\fB\-u\fR
+UDP instead of TCP.
+.br
+Use it when: DNS\-like services, games.
+.TP
+\fB\-n\fR
+No DNS lookups.
+.br
+Use it when: Faster, avoids leaking names.
+.TP
+\fB\-k\fR
+Keep listening after one connection.
+.br
+Use it when: Serve repeatedly.
+.SH RECIPES
+.SS "1. Check whether a port is open"
+\fB\-z\fR connects without sending data. The first port has the lab server; the second has nothing.
+.PP
+.nf
+$ nc \-zv \-w2 127.0.0.1 8099; nc \-zv \-w2 127.0.0.1 9
+.fi
+.PP
+.nf
+Connection to 127.0.0.1 8099 port [tcp/*] succeeded!
+nc: connect to 127.0.0.1 port 9 (tcp) failed: Connection refused
+.fi
+.PP
+One \fBsucceeded\fR and one \fBrefused\fR. Same idea as an Nmap TCP connect scan for a single port.
+.SS "2. Hand\-write an HTTP request"
+HTTP is plain text over TCP. \fB\er\en\fR line endings and a blank line end the request.
+.PP
+.nf
+$ printf 'GET /raw HTTP/1.0\er\enX\-A: 1\er\en\er\en' | nc \-w2 127.0.0.1 8099 | head \-8
+.fi
+.PP
+.nf
+HTTP/1.0 200 OK
+Server: BaseHTTP/0.6 Python/3.12.3
+Date: Mon, 23 Nov 2026 18:22:33 GMT
+Content\-Type: text/plain
+X\-Demo: echo
+
+GET /raw
+X\-A: 1
+.fi
+.PP
+The server replies with a status line, headers and the echoed body: you spoke HTTP with no browser.
+.SS "3. Send a message to a listener"
+One side listens (\fB\-l\fR) and writes what it receives to a file; the other connects and sends a line.
+.PP
+.nf
+$ (nc \-l 127.0.0.1 9099 > got.txt &) ; sleep 0.5; echo 'hello from the client' | nc \-N 127.0.0.1 9099; sleep 0.5; cat got.txt
+.fi
+.PP
+.nf
+hello from the client
+.fi
+.PP
+The file contains the message. Two terminals, one connection: the basis of every \fBnc host port\fR challenge.
+.SS "4. Transfer a file and verify it"
+Redirects (\fB<\fR, \fB>\fR) feed a file into and out of the socket. Compare hashes to prove nothing changed.
+.PP
+.nf
+$ (nc \-l 127.0.0.1 9100 > recv.bin &) ; sleep 0.5; nc \-N 127.0.0.1 9100 < hello; sleep 0.5; cmp hello recv.bin && echo identical; sha256sum hello recv.bin
+.fi
+.PP
+.nf
+identical
+8feb47265ff2233ef1420033f46617e67605c3234209fbd69d62e9468e3eb228  hello
+8feb47265ff2233ef1420033f46617e67605c3234209fbd69d62e9468e3eb228  recv.bin
+.fi
+.PP
+\fBidentical\fR and two matching hashes. Always verify transfers in forensics work.
+.SH COMMON MISTAKES
+.IP \(bu 2
+There are several netcats: OpenBSD (\fBnc \-l host port\fR), traditional (\fBnc \-l \-p port\fR, has \fB\-e\fR), and \fBncat\fR from Nmap. Check \fBnc \-h\fR.
+.IP \(bu 2
+A connection that hangs often means you did not send the newline the service waits for.
+.IP \(bu 2
+Without \fB\-N\fR/\fB\-q\fR, a transfer may never exit; add a timeout (\fB\-w\fR).
+.IP \(bu 2
+Only connect to hosts you are allowed to test.
+.SH PRACTICE
+.IP 1. 3
+Connect to the lab server and send a PUT with a body using only \fBnc\fR.
+.IP 2. 3
+Send \fBhello\fR over UDP between two terminals (\fB\-u\fR).
+.IP 3. 3
+Check which of ports 8095\-8100 are open with \fBnc \-zv\fR.
+.SH SEE ALSO
+ncat, socat, telnet, curl, nmap, pwntools remote().
+.SH CAPTURE
+Output captured 2026\-11\-23 with: netcat\-openbsd 1.226\-1ubuntu2

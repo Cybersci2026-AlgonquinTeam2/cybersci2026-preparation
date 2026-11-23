@@ -1,0 +1,53 @@
+.TH ATLAS 1 "2026-11-23" "CyberSci Command Atlas" "Command Atlas"
+.SH NAME
+atlas \- expanded manuals for the tools used in CyberSci preparation
+.SH DESCRIPTION
+Each tool has a page named atlas\-TOOL with a purpose line, when to use it, an annotated command, a flag table that says when each flag helps, recipes with real captured output, common mistakes and practice tasks.
+.SH USAGE
+.nf
+man atlas\-grep
+gm grep        # atlas page if present, else the normal man page
+.fi
+.SH PAGES
+.TP
+\fBatlas\-grep\fR
+Search text (or binary data) for lines that match a pattern, and print them.
+.TP
+\fBatlas\-find\fR
+Walk a folder tree and list (or act on) files that match conditions such as name, size, type, time or permissions.
+.TP
+\fBatlas\-sed\fR
+A stream editor: read lines, change them with rules (mostly search\-and\-replace), print the result.
+.TP
+\fBatlas\-awk\fR
+Treat each line as fields and run a tiny program: print columns, filter, count, add up.
+.TP
+\fBatlas\-file\-xxd\-strings\fR
+The first three commands for any unknown file: what is it (\fBfile\fR), what are its bytes (\fBxxd\fR), what text is inside (\fBstrings\fR).
+.TP
+\fBatlas\-curl\fR
+Send exactly the HTTP request you describe and show exactly what comes back.
+.TP
+\fBatlas\-nc\fR
+Open a plain TCP (or UDP) connection and pipe text or files through it: the Swiss army knife for talking to services.
+.TP
+\fBatlas\-openssl\fR
+A crypto toolbox: hashes, encoding, symmetric encryption, certificates and keys, from one command.
+.TP
+\fBatlas\-python\-oneliners\fR
+Use \fBpython3 \-c\fR for the small decode, convert and brute\-force jobs that come up in every CTF.
+.TP
+\fBatlas\-readelf\-objdump\fR
+Read a Linux program without running it: headers, symbols, sections, protections and disassembly.
+.TP
+\fBatlas\-nmap\fR
+Discover hosts, open ports, services and versions on a network, and run scripts against them.
+.TP
+\fBatlas\-tcpdump\fR
+Capture and print network packets from the command line, or save them for Wireshark.
+.TP
+\fBatlas\-gdb\fR
+Run a program under a debugger: stop it, look at registers and memory, step instruction by instruction.
+.TP
+\fBatlas\-sqlite3\fR
+Open a SQLite database file and run SQL on it: list tables, read rows, search, count.

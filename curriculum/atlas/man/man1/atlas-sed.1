@@ -1,0 +1,186 @@
+.TH ATLAS-SED 1 "2026-11-23" "CyberSci Command Atlas" "Command Atlas"
+.SH NAME
+atlas\-sed \- A stream editor: read lines, change them with rules (mostly search\-and\-replace), print the result.
+.SH SYNOPSIS
+.nf
+sed  \-E  's/(alice|bob)/[\e1]/g'  users.txt
+ |    |        |     |       |  |
+ |    |        |     |       |  '\-\-\- g = replace every match on the line (default is the first only)
+ |    |        |     |       '\-\-\- replacement; \e1 is the first group; & is the whole match
+ |    |        |     '\-\-\- pattern
+ |    |        '\-\-\- s = substitute command
+ |    '\-\-\- \-E = extended regex
+ '\-\-\- the program
+.fi
+.SH WHEN TO USE
+.IP \(bu 2
+Clean up or transform text in a pipeline: strip prefixes, replace separators, mask secrets.
+.IP \(bu 2
+Print a range of lines from a big file.
+.IP \(bu 2
+Edit a file in place (with a backup).
+.SH FLAGS
+.TP
+\fBs/old/new/\fR
+Substitute: the core command.
+.br
+Use it when: Replace text.
+.TP
+\fBg / I\fR
+Flags on \fBs\fR: all matches / ignore case.
+.br
+Use it when: Replace everything, any case.
+.TP
+\fB\-n and p\fR
+Quiet mode plus print.
+.br
+Use it when: Print only chosen lines.
+.TP
+\fB\-E\fR
+Extended regex.
+.br
+Use it when: Groups and alternation without backslashes.
+.TP
+\fB\-i[SUFFIX]\fR
+Edit the file in place (\fB\-i.bak\fR keeps a backup).
+.br
+Use it when: Change a file; use a backup suffix.
+.TP
+\fBN,Md / Np\fR
+Delete / print lines N to M.
+.br
+Use it when: Cut a section out.
+.TP
+\fB/regex/d\fR
+Delete lines that match.
+.br
+Use it when: Remove noise.
+.TP
+\fB\-e A \-e B\fR
+Several commands.
+.br
+Use it when: Several edits in one pass.
+.TP
+\fBy/abc/xyz/\fR
+Transliterate characters one\-to\-one.
+.br
+Use it when: ROT13\-style swaps.
+.SH RECIPES
+.SS "1. Replace a separator"
+\fBs/old/new/g\fR replaces every colon on each line. Without \fBg\fR only the first per line changes.
+.PP
+.nf
+$ sed 's/:/ | /g' users.txt | head \-2
+.fi
+.PP
+.nf
+root | x | 0 | 0 | root | /root | /bin/bash
+alice | x | 1001 | 1001 | Alice Lee | /home/alice | /bin/bash
+.fi
+.PP
+Fields are now separated by \fB | \fR. The original file is untouched: sed prints to the screen.
+.SS "2. Print only chosen lines"
+\fB\-n\fR turns off automatic printing; \fB2,3p\fR prints lines 2 to 3.
+.PP
+.nf
+$ sed \-n '2,3p' users.txt
+.fi
+.PP
+.nf
+alice:x:1001:1001:Alice Lee:/home/alice:/bin/bash
+bob:x:1002:1002:Bob Ray:/home/bob:/bin/sh
+.fi
+.PP
+Just alice and bob. Same idea: \fBsed \-n '/ 401 /p'\fR prints matching lines like grep.
+.SS "3. Delete lines"
+\fB/regex/d\fR removes lines that match. The rest are printed.
+.PP
+.nf
+$ sed '/nologin/d' users.txt
+.fi
+.PP
+.nf
+root:x:0:0:root:/root:/bin/bash
+alice:x:1001:1001:Alice Lee:/home/alice:/bin/bash
+bob:x:1002:1002:Bob Ray:/home/bob:/bin/sh
+.fi
+.PP
+The service account with the nologin shell disappears.
+.SS "4. Use a captured group"
+\fB(..)\fR captures; \fB\e1\fR, \fB\e2\fR insert the captures; \fB.*\fR swallows the rest of the line.
+.PP
+.nf
+$ sed \-E 's/^([a\-z\-]+):x:([0\-9]+):.*/user=\e1 uid=\e2/' users.txt
+.fi
+.PP
+.nf
+user=root uid=0
+user=alice uid=1001
+user=bob uid=1002
+user=svc\-backup uid=998
+.fi
+.PP
+A compact table of user and uid. Capture groups are the main reason to learn sed.
+.SS "5. Mask secrets"
+Keep the label in group 1 and replace the secret. Useful before sharing a log.
+.PP
+.nf
+$ sed \-E 's/(Password reset for [a\-z]+: ).*/\e1[REDACTED]/' notes.txt | head \-3
+.fi
+.PP
+.nf
+Meeting at 3pm
+Password reset for bob: [REDACTED]
+TODO: rotate keys
+.fi
+.PP
+The password text is replaced while the rest of the line stays.
+.SS "6. Edit a file in place, with a backup"
+\fB\-i.bak\fR rewrites \fBcopy.txt\fR and saves the original as \fBcopy.txt.bak\fR. \fBdiff\fR shows what changed.
+.PP
+.nf
+$ cp users.txt copy.txt; sed \-i.bak 's/bash/zsh/' copy.txt; diff copy.txt.bak copy.txt
+.fi
+.PP
+.nf
+1,2c1,2
+< root:x:0:0:root:/root:/bin/bash
+< alice:x:1001:1001:Alice Lee:/home/alice:/bin/bash
+\-\-\-
+> root:x:0:0:root:/root:/bin/zsh
+> alice:x:1001:1001:Alice Lee:/home/alice:/bin/zsh
+.fi
+.PP
+Two lines changed from bash to zsh and the backup holds the original. Never use bare \fB\-i\fR on something you cannot recover.
+.SS "7. ROT13 with y///"
+\fBy/from/to/\fR maps characters one for one.
+.PP
+.nf
+$ echo 'synt{ebg13}' | sed 'y/abcdefghijklmnopqrstuvwxyz/nopqrstuvwxyzabcdefghijklm/'
+.fi
+.PP
+.nf
+flag{rot13}
+.fi
+.PP
+\fBsynt{ebg13}\fR becomes \fBflag{rot13}\fR. The same shift decodes and encodes.
+.SH COMMON MISTAKES
+.IP \(bu 2
+On macOS \fBsed \-i\fR needs an argument (\fBsed \-i ''\fR): scripts differ between GNU and BSD sed.
+.IP \(bu 2
+Use a different delimiter for paths: \fBs#/usr/bin#/opt#\fR.
+.IP \(bu 2
+\fB&\fR in the replacement means the whole match; escape it (\fB\e&\fR) for a literal ampersand.
+.IP \(bu 2
+sed works line by line; to edit across lines use \fB\-z\fR or switch to Python.
+.SH PRACTICE
+.IP 1. 3
+Turn \fBusers.txt\fR into \fBname \-> shell\fR lines.
+.IP 2. 3
+Print only line 4 of \fBaccess.log\fR.
+.IP 3. 3
+Replace every IP in \fBaccess.log\fR with \fBx.x.x.x\fR.
+.SH SEE ALSO
+awk, tr, perl \-pe, ed, python \-c.
+.SH CAPTURE
+Output captured 2026\-11\-23 with: sed (GNU sed) 4.9

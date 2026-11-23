@@ -1,0 +1,159 @@
+.TH ATLAS-NMAP 1 "2026-11-23" "CyberSci Command Atlas" "Command Atlas"
+.SH NAME
+atlas\-nmap \- Discover hosts, open ports, services and versions on a network, and run scripts against them.
+.SH SYNOPSIS
+.nf
+nmap  \-sV  \-sC  \-p 22,80,443  \-oA scan1  127.0.0.1
+ |     |    |     |            |           '\-\-\- target: IP, name, CIDR (10.0.0.0/24), range, or \-iL file
+ |     |    |     |            '\-\-\- save in all formats (scan1.nmap/.xml/.gnmap)
+ |     |    |     '\-\-\- ports (use \-p\- for all 65,535)
+ |     |    '\-\-\- default NSE scripts
+ |     '\-\-\- probe open ports for service and version
+ '\-\-\- the program
+.fi
+.SH WHEN TO USE
+.IP \(bu 2
+The first command on any network challenge or lab machine.
+.IP \(bu 2
+Find out which services run and which versions.
+.IP \(bu 2
+Check what a firewall allows (open versus filtered).
+.SH FLAGS
+.TP
+\fB\-sn\fR
+Host discovery only (ping sweep).
+.br
+Use it when: Who is up on this subnet?
+.TP
+\fB\-Pn\fR
+Skip discovery, treat host as up.
+.br
+Use it when: ICMP blocked or crossing a firewall.
+.TP
+\fB\-p\- / \-p 1\-1024 / \-\-top\-ports N\fR
+Which ports to scan.
+.br
+Use it when: All ports first, then focus.
+.TP
+\fB\-sS / \-sT / \-sU\fR
+SYN scan (root) / TCP connect / UDP.
+.br
+Use it when: Default, no\-root or proxy use, UDP services.
+.TP
+\fB\-sV\fR
+Service and version detection.
+.br
+Use it when: After you know the open ports.
+.TP
+\fB\-sC / \-\-script NAME\fR
+Default scripts / a chosen script.
+.br
+Use it when: Enumerate and check known issues.
+.TP
+\fB\-O / \-A\fR
+OS guess / aggressive (\-sV \-sC \-O \-\-traceroute).
+.br
+Use it when: Quick profile of a lab box.
+.TP
+\fB\-T0..T5\fR
+Timing template.
+.br
+Use it when: T4 in labs, slower on fragile or monitored networks.
+.TP
+\fB\-oA name / \-oN / \-oX\fR
+Save output.
+.br
+Use it when: Always save.
+.TP
+\fB\-\-open / \-v\fR
+Show only open ports / more detail.
+.br
+Use it when: Cleaner output.
+.TP
+\fB\-\-script\-help NAME\fR
+Read what a script does.
+.br
+Use it when: Before running unfamiliar scripts.
+.SH RECIPES
+.SS "1. Is the host up?"
+\fB\-sn\fR does discovery without scanning ports.
+.PP
+.nf
+$ nmap \-sn 127.0.0.1
+.fi
+.PP
+.nf
+(expected, not captured) Starting Nmap ... Nmap scan report for localhost (127.0.0.1) / Host is up / Nmap done: 1 IP address (1 host up) scanned.
+.fi
+.PP
+One host up. On a LAN you would pass a CIDR such as \fB192.168.1.0/24\fR.
+.SS "2. Default scan of localhost"
+With no options Nmap scans the 1000 most common TCP ports.
+.PP
+.nf
+$ nmap 127.0.0.1
+.fi
+.PP
+.nf
+(expected, not captured) A PORT STATE SERVICE table listing the open TCP ports among the top 1000 (for example 22/tcp ssh if sshd runs), and the number of closed ports not shown.
+.fi
+.PP
+Read the three columns: port/protocol, state (open, closed, filtered) and the service name guessed from the port number.
+.SS "3. Every port, then look closely"
+The CTF default: find all ports quickly, then spend time only on the open ones.
+.PP
+.nf
+$ nmap \-p\- \-T4 127.0.0.1 && nmap \-sV \-sC \-p 22 127.0.0.1
+.fi
+.PP
+.nf
+(expected, not captured) First scan: the list of all open ports. Second scan: the same port with a version string (for example OpenSSH 9.x) and script output such as host keys.
+.fi
+.PP
+\fB\-sV\fR replaces the guessed service name with a detected version; scripts add facts such as SSH host key fingerprints or web page titles.
+.SS "4. Save results"
+\fB\-oA\fR writes three formats at once. \fB.gnmap\fR is grep\-friendly, \fB.xml\fR feeds other tools.
+.PP
+.nf
+$ nmap \-oA scan1 127.0.0.1 && ls scan1.*
+.fi
+.PP
+.nf
+(expected, not captured) scan1.gnmap scan1.nmap scan1.xml
+.fi
+.PP
+Never scan without saving: you will want to compare scans later.
+.SS "5. Run one script"
+NSE scripts target one service. Read \fB\-\-script\-help\fR before running unfamiliar ones.
+.PP
+.nf
+$ nmap \-\-script http\-title \-p 80,8080 127.0.0.1
+.fi
+.PP
+.nf
+(expected, not captured) For an open web port: a http\-title line with the page title; for closed ports, nothing.
+.fi
+.PP
+Scripts in categories such as \fBvuln\fR or \fBbrute\fR can be intrusive: only use them where you are allowed.
+.SH COMMON MISTAKES
+.IP \(bu 2
+Scan only what you are authorised to scan, including at the venue.
+.IP \(bu 2
+\fBfiltered\fR means a firewall dropped the probe, not that the port is closed.
+.IP \(bu 2
+\fB\-sS\fR and \fB\-O\fR need root; without it Nmap falls back to \fB\-sT\fR.
+.IP \(bu 2
+UDP scans are slow: limit with \fB\-\-top\-ports\fR.
+.IP \(bu 2
+A host that blocks ping looks down: add \fB\-Pn\fR.
+.SH PRACTICE
+.IP 1. 3
+Scan your own VM with the two\-step method and write the open\-ports table.
+.IP 2. 3
+Start \fBpython3 \-m http.server 8000\fR and watch the port appear.
+.IP 3. 3
+Compare \fB\-sS\fR and \fB\-sT\fR in Wireshark.
+.SH SEE ALSO
+masscan, rustscan, nc, tcpdump, wireshark, ffuf.
+.SH CAPTURE
+Not captured yet: nmap not installed here. Re\-run atlas_build.py where the tool is installed (Kali) to replace the expected output with real output.

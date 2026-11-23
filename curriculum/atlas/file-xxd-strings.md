@@ -49,7 +49,7 @@ $ file hello pic.png holiday.txt notes.txt.gz access.log
 hello:        ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=2f3fb8ed1f8be6
 pic.png:      PNG image data, 1 x 1, 8-bit/color RGB, non-interlaced
 holiday.txt:  PNG image data, 1 x 1, 8-bit/color RGB, non-interlaced
-notes.txt.gz: gzip compressed data, was "notes.txt", last modified: Mon Nov 23 17:11:34 2026, from Unix, original size modulo 2^32 174
+notes.txt.gz: gzip compressed data, was "notes.txt", last modified: Mon Nov 23 18:22:27 2026, from Unix, original size modulo 2^32 174
 access.log:   ASCII text
 ```
 

@@ -1,0 +1,139 @@
+.TH ATLAS-GDB 1 "2026-11-23" "CyberSci Command Atlas" "Command Atlas"
+.SH NAME
+atlas\-gdb \- Run a program under a debugger: stop it, look at registers and memory, step instruction by instruction.
+.SH SYNOPSIS
+.nf
+gdb  \-q  \-\-args ./hello open\-sesame
+ |    |       '\-\-\- everything after \-\-args is the program and its arguments
+ |    '\-\-\- quiet: no banner
+ '\-\-\- the debugger
+
+inside gdb:   break main    run    next / step    info registers    x/20wx $esp    bt    continue    quit
+.fi
+.SH WHEN TO USE
+.IP \(bu 2
+Binary exploitation: find the offset that overwrites the return address.
+.IP \(bu 2
+Reverse engineering: watch what a check compares.
+.IP \(bu 2
+See what a crashed program was doing.
+.SH FLAGS
+.TP
+\fBbreak FUNC / b *ADDR\fR
+Set a breakpoint.
+.br
+Use it when: Stop where something interesting happens.
+.TP
+\fBrun [args] / r\fR
+Start the program.
+.br
+Use it when: Begin.
+.TP
+\fBnext / step / nexti / stepi\fR
+Step over / into a call; by source line or instruction.
+.br
+Use it when: Follow the logic.
+.TP
+\fBcontinue / c\fR
+Resume.
+.br
+Use it when: Run to the next breakpoint.
+.TP
+\fBinfo registers / p $rip\fR
+Show registers.
+.br
+Use it when: Where is the program, what are the values.
+.TP
+\fBx/20wx $esp / x/s ADDR / x/10i $rip\fR
+Examine memory: words, string, instructions.
+.br
+Use it when: Look at the stack, strings or code.
+.TP
+\fBdisassemble main / set disassembly\-flavor intel\fR
+Show code; Intel syntax.
+.br
+Use it when: Read assembly.
+.TP
+\fBbt\fR
+Backtrace: the call stack.
+.br
+Use it when: After a crash.
+.TP
+\fBpattern create N / pattern offset X\fR
+Cyclic pattern helpers (pwndbg/GEF).
+.br
+Use it when: Find an overflow offset.
+.TP
+\fB\-ex 'cmd' \-batch\fR
+Run commands non\-interactively.
+.br
+Use it when: Scripts.
+.SH RECIPES
+.SS "1. Break at main and look at registers"
+\fB\-batch \-ex\fR runs gdb commands without the interactive prompt.
+.PP
+.nf
+$ gdb \-q \-batch \-ex 'break main' \-ex 'run' \-ex 'info registers rip' ./hello
+.fi
+.PP
+.nf
+(expected, not captured) Breakpoint 1, 0x... in main () followed by a line like rip 0x55555555513d showing the instruction pointer.
+.fi
+.PP
+\fBrip\fR (64\-bit instruction pointer) is where the program stopped.
+.SS "2. Disassemble main in Intel syntax"
+The same view as \fBobjdump \-d\fR but inside the debugger.
+.PP
+.nf
+$ gdb \-q \-batch \-ex 'set disassembly\-flavor intel' \-ex 'disassemble main' ./hello
+.fi
+.PP
+.nf
+(expected, not captured) Assembly of main with addresses, including a call to strcmp and a conditional jump.
+.fi
+.PP
+Find the \fBcmp\fR/\fBtest\fR and the following jump: that is the decision.
+.SS "3. Crash it and read the registers"
+This is the Narnia method: send a long input and see which bytes reach the instruction pointer.
+.PP
+.nf
+$ gdb \-q \-batch \-ex 'run $(python3 \-c "print(chr(65)*200)")' \-ex 'info registers rip' ./hello
+.fi
+.PP
+.nf
+(expected, not captured) Possibly no crash for this program; for a vulnerable one: Program received signal SIGSEGV and rip showing the overwritten value (such as 0x4141414141414141).
+.fi
+.PP
+If \fBrip\fR holds your pattern, you control execution: compute the offset with a cyclic pattern.
+.SS "4. Print a string from memory"
+\fBx/s\fR examines memory as a string; use \fBx/10i\fR for instructions and \fBx/20wx\fR for words.
+.PP
+.nf
+$ gdb \-q \-batch \-ex 'break main' \-ex 'run' \-ex 'x/s $rip' ./hello
+.fi
+.PP
+.nf
+(expected, not captured) A line starting with the address and the bytes at it interpreted as text or instructions.
+.fi
+.PP
+Learn the three formats: \fBs\fR string, \fBi\fR instruction, \fBx\fR hex.
+.SH COMMON MISTAKES
+.IP \(bu 2
+Stack addresses in gdb differ from the real run (environment size and path): sweep or leak the real address.
+.IP \(bu 2
+gdb disables ASLR by default; the real program may randomise.
+.IP \(bu 2
+Set\-uid programs lose privileges under gdb.
+.IP \(bu 2
+Install pwndbg or GEF for a readable display.
+.SH PRACTICE
+.IP 1. 3
+Find which instruction of \fBhello\fR compares your argument.
+.IP 2. 3
+Change \fBargv[1]\fR in memory so the check passes.
+.IP 3. 3
+Use \fBx/20wx $rsp\fR to dump the stack at \fBmain\fR.
+.SH SEE ALSO
+pwndbg / GEF, objdump, ltrace / strace, ghidra, pwntools.
+.SH CAPTURE
+Not captured yet: gdb not installed here. Re\-run atlas_build.py where the tool is installed (Kali) to replace the expected output with real output.
