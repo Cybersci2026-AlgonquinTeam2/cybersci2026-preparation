@@ -1,0 +1,132 @@
+{
+ "name": "find",
+ "section": "1",
+ "one_line": "Walk a folder tree and list (or act on) files that match conditions such as name, size, type, time or permissions.",
+ "plain": [
+  "Walk a folder tree and list (or act on) files that match conditions such as name, size, type, time or permissions.",
+  "The sections below show when to use it, real examples, and the options explained in plain English."
+ ],
+ "when": [
+  "Locate a file when you only know part of its name, its type or when it changed.",
+  "Privilege escalation checks: world-writable files, SUID binaries, files owned by a user.",
+  "Run a command on every matching file (`-exec`)."
+ ],
+ "examples": [
+  {
+   "title": "List everything below a folder",
+   "cmd": "find site | sort",
+   "output": "site\nsite/.env\nsite/css\nsite/css/main.css\nsite/index.html\nsite/js\nsite/js/app.js\nsite/robots.txt\nsite/uploads\nsite/uploads/report.pdf"
+  },
+  {
+   "title": "By name, any depth",
+   "cmd": "find . -name '*.js' | sort",
+   "output": "./site/js/app.js"
+  },
+  {
+   "title": "Hidden files only",
+   "cmd": "find site -name '.*' -type f",
+   "output": "site/.env"
+  },
+  {
+   "title": "Executable files",
+   "cmd": "find . -maxdepth 1 -type f -perm /111 | sort",
+   "output": "./hello\n./run.sh"
+  },
+  {
+   "title": "By age",
+   "cmd": "find site -type f -newer site/robots.txt | sort",
+   "output": "site/.env\nsite/css/main.css\nsite/js/app.js\nsite/uploads/report.pdf"
+  },
+  {
+   "title": "Run a command on each match",
+   "cmd": "find site -type f -exec grep -l 'x' {} \\; | sort",
+   "output": "site/uploads/report.pdf"
+  },
+  {
+   "title": "Safe piping with spaces in names",
+   "cmd": "touch 'a file.txt'; find . -name '*.txt' -print0 | xargs -0 wc -c | tail -3",
+   "output": "  0 ./a file.txt\n103 ./holiday.txt\n471 total"
+  }
+ ],
+ "options": [
+  {
+   "flag": "-name / -iname",
+   "plain": "Match the file name with a glob (`-iname` ignores case)",
+   "use": "You remember part of the name"
+  },
+  {
+   "flag": "-type f|d|l",
+   "plain": "Regular file, directory or symlink",
+   "use": "Skip folders or find links"
+  },
+  {
+   "flag": "-maxdepth N / -mindepth N",
+   "plain": "Limit how deep to look",
+   "use": "Avoid huge trees"
+  },
+  {
+   "flag": "-size +1M / -1k",
+   "plain": "Bigger / smaller than a size (`c` bytes, `k`, `M`)",
+   "use": "Find big dumps or tiny stubs"
+  },
+  {
+   "flag": "-mtime N / -mmin N",
+   "plain": "Modified N days / minutes ago (`-1` = less than, `+1` = more than)",
+   "use": "What changed during the incident?"
+  },
+  {
+   "flag": "-newer FILE",
+   "plain": "Newer than another file",
+   "use": "What changed after the first alert?"
+  },
+  {
+   "flag": "-perm -4000 / -perm /111",
+   "plain": "Has all of these bits / any of these bits",
+   "use": "SUID files, executable files"
+  },
+  {
+   "flag": "-user NAME / -group NAME",
+   "plain": "Owned by",
+   "use": "Files an attacker or service user created"
+  },
+  {
+   "flag": "-empty",
+   "plain": "Empty files and folders",
+   "use": "Clean-up or odd leftovers"
+  },
+  {
+   "flag": "-exec CMD {} \\; / -exec CMD {} +",
+   "plain": "Run CMD per file / on batches of files",
+   "use": "Search or hash every match"
+  },
+  {
+   "flag": "-print0 | xargs -0",
+   "plain": "Null-separated output for safe piping",
+   "use": "File names with spaces"
+  },
+  {
+   "flag": "-delete",
+   "plain": "Delete matches (dangerous: test first with `-print`)",
+   "use": "Clean-up only"
+  },
+  {
+   "flag": "! / -not / -o",
+   "plain": "NOT / OR combinators (group with `\\( \\)`)",
+   "use": "More complex conditions"
+  }
+ ],
+ "mistakes": [
+  "Quote globs: `find . -name *.js` can be expanded by the shell and fail.",
+  "Order matters for performance, not logic: put cheap tests (`-type`, `-name`) before `-exec`.",
+  "`-mtime -1` means less than 24 hours ago, `-mtime 1` means exactly 1 day: easy to mix up.",
+  "`-delete` placed before the tests deletes everything: always run with `-print` first.",
+  "`find /` as a normal user prints many `Permission denied` lines; add `2>/dev/null`."
+ ],
+ "try": [
+  "Find every file in `site` larger than 5 bytes.",
+  "List only directories two levels deep.",
+  "Find files owned by your user that are not readable by others."
+ ],
+ "see_also": "locate, fd, ls -la, xargs, stat, du.",
+ "captured_with": "Example output captured 2026-11-23 with find (GNU findutils) 4.9.0 on Ubuntu 24.04 (WSL)."
+}

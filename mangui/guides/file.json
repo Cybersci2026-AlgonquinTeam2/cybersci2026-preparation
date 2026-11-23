@@ -1,0 +1,248 @@
+{
+ "name": "file",
+ "section": "1",
+ "one_line": "determine a file's real type by reading its contents",
+ "plain": [
+  "`file` looks at the first bytes inside a file (its \"magic number\") and tells you what the file really is.",
+  "A name such as holiday.txt proves nothing: anyone can rename a picture to .txt. `file` ignores the name and reads the contents, so it is the first command to run on anything you did not create."
+ ],
+ "when": [
+  "A download, e-mail attachment or CTF file has no extension, or the wrong one.",
+  "You must decide how to open something: image viewer, archive tool, disassembler or text editor.",
+  "You want to know if a program is 32-bit or 64-bit, or whether it has been stripped, before you debug it."
+ ],
+ "examples": [
+  {
+   "title": "What is each file really?",
+   "cmd": "file hello pic.png holiday.txt access.log",
+   "output": "hello:       ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[s\npic.png:     PNG image data, 1 x 1, 8-bit/color RGB, non-interlaced\nholiday.txt: PNG image data, 1 x 1, 8-bit/color RGB, non-interlaced\naccess.log:  ASCII text"
+  },
+  {
+   "title": "Just the answer, no file name  (-b)",
+   "cmd": "file -b holiday.txt",
+   "output": "PNG image data, 1 x 1, 8-bit/color RGB, non-interlaced"
+  },
+  {
+   "title": "A MIME type for scripts  (-i)",
+   "cmd": "file -i hello pic.png access.log",
+   "output": "hello:      application/x-pie-executable; charset=binary\npic.png:    image/png; charset=binary\naccess.log: text/plain; charset=us-ascii"
+  },
+  {
+   "title": "Only the type word  (--mime-type)",
+   "cmd": "file --mime-type pic.png access.log",
+   "output": "pic.png:    image/png\naccess.log: text/plain"
+  },
+  {
+   "title": "Only the character encoding  (--mime-encoding)",
+   "cmd": "file --mime-encoding pic.png access.log",
+   "output": "pic.png:    binary\naccess.log: us-ascii"
+  },
+  {
+   "title": "Show every match  (-k)",
+   "cmd": "file -k pic.png",
+   "output": "pic.png: PNG image data, 1 x 1, 8-bit/color RGB, non-interlaced\\012- data"
+  },
+  {
+   "title": "Look inside a compressed file  (-z)",
+   "cmd": "file notes.txt.gz; file -z notes.txt.gz",
+   "output": "notes.txt.gz: gzip compressed data, was \"notes.txt\", last modified: Mon Nov 23 19:10:58 2026, from Unix, original size modulo 2^32 174\nnotes.txt.gz: ASCII text (gzip compressed data, was \"notes.txt\", last modified: Mon Nov 23 19:10:58 2026, from Unix)"
+  },
+  {
+   "title": "Follow a symbolic link  (-L)",
+   "cmd": "ln -sf pic.png link.png; file link.png; file -L link.png",
+   "output": "link.png: symbolic link to pic.png\nlink.png: PNG image data, 1 x 1, 8-bit/color RGB, non-interlaced"
+  },
+  {
+   "title": "Check many names from a list  (-f)",
+   "cmd": "printf 'hello\\nusers.txt\\n' > names.txt; file -f names.txt",
+   "output": "hello:     ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha\nusers.txt: ASCII text"
+  },
+  {
+   "title": "Change the separator  (-F)",
+   "cmd": "file -F '=>' users.txt notes.txt",
+   "output": "users.txt=> ASCII text\nnotes.txt=> ASCII text"
+  },
+  {
+   "title": "Separate answers with NUL bytes  (-0)",
+   "cmd": "file -0 users.txt notes.txt | od -c | head -3",
+   "output": "0000000   u   s   e   r   s   .   t   x   t  \\0   :       A   S   C   I\n0000020   I       t   e   x   t  \\n   n   o   t   e   s   .   t   x   t\n0000040  \\0   :       A   S   C   I   I       t   e   x   t  \\n"
+  },
+  {
+   "title": "Likely file extensions  (--extension)",
+   "cmd": "file --extension pic.png access.log",
+   "output": "pic.png:    png\naccess.log: ???"
+  }
+ ],
+ "options": [
+  {
+   "flag": "-b, --brief",
+   "plain": "Print only the description, without the file name in front.",
+   "use": "You are scripting or you only want the answer."
+  },
+  {
+   "flag": "-i, --mime",
+   "plain": "Print a MIME type and encoding (image/png; charset=binary) instead of the long description.",
+   "use": "Sorting or filtering files by kind in a script."
+  },
+  {
+   "flag": "--mime-type",
+   "plain": "Print only the MIME type, for example image/png.",
+   "use": "You want a short, stable word to compare against."
+  },
+  {
+   "flag": "--mime-encoding",
+   "plain": "Print only the character encoding: us-ascii, utf-8 or binary.",
+   "use": "Deciding whether a file is text or raw bytes."
+  },
+  {
+   "flag": "--extension",
+   "plain": "Print the file extensions that normally go with this type.",
+   "use": "A file has no extension and you want to name it properly."
+  },
+  {
+   "flag": "--apple",
+   "plain": "Print an old Apple (Mac) creator and type code instead of the usual description.",
+   "use": "Rarely: identifying legacy Mac files."
+  },
+  {
+   "flag": "-k, --keep-going",
+   "plain": "Do not stop at the first match; show every type that fits.",
+   "use": "A file may be two things at once (a polyglot) or hide a second format."
+  },
+  {
+   "flag": "-z, --uncompress",
+   "plain": "Look inside compressed files (gzip, bzip2, xz) and describe what is inside as well.",
+   "use": "You want to know what a .gz contains without extracting it."
+  },
+  {
+   "flag": "-Z, --uncompress-noreport",
+   "plain": "Look inside compressed files but report only the inside, not the fact that it is compressed.",
+   "use": "You only care about the content type."
+  },
+  {
+   "flag": "-L, --dereference",
+   "plain": "Follow symbolic links, so you describe the target, not the link.",
+   "use": "A path may be a shortcut to the real file."
+  },
+  {
+   "flag": "-h, --no-dereference",
+   "plain": "Do not follow symbolic links: describe the link itself. This is the default on most systems.",
+   "use": "You want to confirm that something is a link."
+  },
+  {
+   "flag": "-f, --files-from namefile",
+   "plain": "Read the names of the files to check from a text file, one per line.",
+   "use": "Checking hundreds of files without a huge command line."
+  },
+  {
+   "flag": "-F, --separator separator",
+   "plain": "Change the separator printed between the file name and the answer (default is a colon).",
+   "use": "Making output easy to cut or parse."
+  },
+  {
+   "flag": "-0, --print0",
+   "plain": "End each file name with a NUL byte instead of a newline, to pair with xargs -0 or cut.",
+   "use": "File names contain spaces or odd characters."
+  },
+  {
+   "flag": "-N, --no-pad",
+   "plain": "Do not line up the answers in a column.",
+   "use": "You want compact output."
+  },
+  {
+   "flag": "-n, --no-buffer",
+   "plain": "Flush the output after every file instead of in chunks.",
+   "use": "You feed file's output to another program and need results immediately."
+  },
+  {
+   "flag": "-s, --special-files",
+   "plain": "Also read special files such as disks (/dev/sda) and partitions, which are normally skipped.",
+   "use": "Identifying a disk image or partition on a block device (needs permission)."
+  },
+  {
+   "flag": "-p, --preserve-date",
+   "plain": "Try to leave the file's last-access time unchanged.",
+   "use": "Evidence handling, when you do not want to change timestamps."
+  },
+  {
+   "flag": "-r, --raw",
+   "plain": "Do not translate unprintable characters into \\ooo escape codes.",
+   "use": "You are going to process the exact bytes yourself."
+  },
+  {
+   "flag": "-m, --magic-file magicfiles",
+   "plain": "Use your own list of magic rules (colon-separated files) instead of the built-in database.",
+   "use": "You are teaching file a format it does not know."
+  },
+  {
+   "flag": "-C, --compile",
+   "plain": "Turn a text magic file into the fast binary form (magic.mgc).",
+   "use": "After writing your own magic rules."
+  },
+  {
+   "flag": "-l, --list",
+   "plain": "List the magic patterns in the order they are checked, with their strength.",
+   "use": "Debugging why file picked one answer over another."
+  },
+  {
+   "flag": "-c, --checking-printout",
+   "plain": "Print the parsed form of the magic file (used with -m to check your rules).",
+   "use": "Checking a hand-written magic file."
+  },
+  {
+   "flag": "-e, --exclude testname",
+   "plain": "Skip one kind of test (apptype, ascii, cdf, compress, csv, elf, encoding, json, soft, tar, text, tokens).",
+   "use": "A test gives wrong or slow answers."
+  },
+  {
+   "flag": "--exclude-quiet",
+   "plain": "Same as -e, but ignore an unknown test name instead of complaining.",
+   "use": "Scripts that must work with older versions of file."
+  },
+  {
+   "flag": "-P, --parameter name=value",
+   "plain": "Change a limit, such as how many bytes or how deep file looks (bytes, elf_notes, indir, name, regex).",
+   "use": "A big file is mis-identified because the check stops too early."
+  },
+  {
+   "flag": "-E",
+   "plain": "Report file system errors (such as a missing file) as errors with a non-zero exit status, not as normal output.",
+   "use": "Scripts that must notice a missing file."
+  },
+  {
+   "flag": "-S, --no-sandbox",
+   "plain": "Turn off the security sandbox that restricts what file may do while it works.",
+   "use": "Only if the sandbox breaks file on your system."
+  },
+  {
+   "flag": "-d",
+   "plain": "Print debugging information to standard error.",
+   "use": "You are developing magic rules and need to see how they match."
+  },
+  {
+   "flag": "-v, --version",
+   "plain": "Print the version and exit.",
+   "use": "Checking which release you have; options differ between versions."
+  },
+  {
+   "flag": "--help",
+   "plain": "Print a short usage message and exit.",
+   "use": "A quick reminder of the options without opening the manual."
+  }
+ ],
+ "mistakes": [
+  "Trusting the extension. Always run file first.",
+  "Treating the answer as proof: file reads only a few bytes and can be fooled by a crafted file. Confirm with a format-specific tool.",
+  "Forgetting -z for .gz files and wondering what is inside.",
+  "Using -i and expecting a nice sentence: -i prints MIME types, not descriptions.",
+  "Pointing file at a huge or unknown file from an untrusted source: it is safe, but do not execute the result."
+ ],
+ "try": [
+  "Copy a picture to notes.txt and run file on both.",
+  "Run file on /bin/ls, then on a shell script, then on a folder.",
+  "Run file -k on a PDF and a ZIP, and compare with plain file.",
+  "Make a list of ten files and check them all with -f and -b."
+ ],
+ "see_also": "xxd(1) shows the bytes file is reading, strings(1) the text inside, exiftool(1) the metadata, binwalk(1) files hidden inside files, magic(5) the rule format.",
+ "captured_with": "Example output captured 2026-11-23 with file-5.45 on Ubuntu 24.04 (WSL). The lab files are created by scripts/atlas_tools.py."
+}

@@ -1,0 +1,91 @@
+{
+ "name": "sqlite3",
+ "section": "1",
+ "one_line": "Open a SQLite database file and run SQL on it: list tables, read rows, search, count.",
+ "plain": [
+  "Open a SQLite database file and run SQL on it: list tables, read rows, search, count.",
+  "The sections below show when to use it, real examples, and the options explained in plain English."
+ ],
+ "when": [
+  "Browser history, app data and many forensics challenges ship as `.db`/`.sqlite` files.",
+  "Practice basic SQL offline.",
+  "Check what an application stores."
+ ],
+ "examples": [
+  {
+   "title": "Create a small database",
+   "cmd": "rm -f t.db; sqlite3 t.db \"CREATE TABLE users(id INTEGER, name TEXT, role TEXT); INSERT INTO users VALUES (1,'alice','user'),(2,'bob','admin'),(3,'carol','user');\" && sqlite3 t.db '.tables'",
+   "output": "(expected, not captured) users"
+  },
+  {
+   "title": "Read it nicely",
+   "cmd": "sqlite3 -header -column t.db 'SELECT * FROM users;'",
+   "output": "(expected, not captured) A header row id name role, a dashed line, then three rows."
+  },
+  {
+   "title": "Filter and count",
+   "cmd": "sqlite3 -header -column t.db \"SELECT role, COUNT(*) AS n FROM users GROUP BY role;\"",
+   "output": "(expected, not captured) admin 1 and user 2."
+  },
+  {
+   "title": "Look at the structure",
+   "cmd": "sqlite3 t.db '.schema users'",
+   "output": "(expected, not captured) CREATE TABLE users(id INTEGER, name TEXT, role TEXT);"
+  }
+ ],
+ "options": [
+  {
+   "flag": ".tables",
+   "plain": "List tables",
+   "use": "First step"
+  },
+  {
+   "flag": ".schema [table]",
+   "plain": "Show table definitions",
+   "use": "Column names and types"
+  },
+  {
+   "flag": ".headers on / .mode column",
+   "plain": "Nicer output",
+   "use": "Readable tables"
+  },
+  {
+   "flag": ".mode csv / .output FILE",
+   "plain": "Export",
+   "use": "Hand off data"
+  },
+  {
+   "flag": "-readonly",
+   "plain": "Open without write access",
+   "use": "Evidence"
+  },
+  {
+   "flag": "SELECT ... WHERE ... LIKE '%x%'",
+   "plain": "Search rows",
+   "use": "Find a user, URL or message"
+  },
+  {
+   "flag": "ORDER BY / LIMIT / GROUP BY / COUNT(*)",
+   "plain": "Sort, cut, summarise",
+   "use": "Top N, counts per value"
+  },
+  {
+   "flag": ".dump",
+   "plain": "Print the whole database as SQL",
+   "use": "Search it with grep"
+  }
+ ],
+ "mistakes": [
+  "Dot-commands (`.tables`) are sqlite3 features, not SQL; they take no semicolon.",
+  "Open evidence with `-readonly` or a copy.",
+  "SQLite types are loose: text may hide in number columns.",
+  "Browser databases may be locked while the browser runs: copy the file first."
+ ],
+ "try": [
+  "List the tables of a browser history database copy.",
+  "Find the most visited domain with `GROUP BY`.",
+  "Export a table to CSV."
+ ],
+ "see_also": "MySQL client, DB Browser for SQLite, python sqlite3 module, strings, grep.",
+ "captured_with": "Examples marked expected were not captured yet (sqlite3 not installed here); run scripts/atlas_build.py where the tool is installed (Kali) to capture real output."
+}

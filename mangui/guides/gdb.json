@@ -1,0 +1,101 @@
+{
+ "name": "gdb",
+ "section": "1",
+ "one_line": "Run a program under a debugger: stop it, look at registers and memory, step instruction by instruction.",
+ "plain": [
+  "Run a program under a debugger: stop it, look at registers and memory, step instruction by instruction.",
+  "The sections below show when to use it, real examples, and the options explained in plain English."
+ ],
+ "when": [
+  "Binary exploitation: find the offset that overwrites the return address.",
+  "Reverse engineering: watch what a check compares.",
+  "See what a crashed program was doing."
+ ],
+ "examples": [
+  {
+   "title": "Break at main and look at registers",
+   "cmd": "gdb -q -batch -ex 'break main' -ex 'run' -ex 'info registers rip' ./hello",
+   "output": "(expected, not captured) Breakpoint 1, 0x... in main () followed by a line like rip 0x55555555513d showing the instruction pointer."
+  },
+  {
+   "title": "Disassemble main in Intel syntax",
+   "cmd": "gdb -q -batch -ex 'set disassembly-flavor intel' -ex 'disassemble main' ./hello",
+   "output": "(expected, not captured) Assembly of main with addresses, including a call to strcmp and a conditional jump."
+  },
+  {
+   "title": "Crash it and read the registers",
+   "cmd": "gdb -q -batch -ex 'run $(python3 -c \"print(chr(65)*200)\")' -ex 'info registers rip' ./hello",
+   "output": "(expected, not captured) Possibly no crash for this program; for a vulnerable one: Program received signal SIGSEGV and rip showing the overwritten value (such as 0x4141414141414141)."
+  },
+  {
+   "title": "Print a string from memory",
+   "cmd": "gdb -q -batch -ex 'break main' -ex 'run' -ex 'x/s $rip' ./hello",
+   "output": "(expected, not captured) A line starting with the address and the bytes at it interpreted as text or instructions."
+  }
+ ],
+ "options": [
+  {
+   "flag": "break FUNC / b *ADDR",
+   "plain": "Set a breakpoint",
+   "use": "Stop where something interesting happens"
+  },
+  {
+   "flag": "run [args] / r",
+   "plain": "Start the program",
+   "use": "Begin"
+  },
+  {
+   "flag": "next / step / nexti / stepi",
+   "plain": "Step over / into a call; by source line or instruction",
+   "use": "Follow the logic"
+  },
+  {
+   "flag": "continue / c",
+   "plain": "Resume",
+   "use": "Run to the next breakpoint"
+  },
+  {
+   "flag": "info registers / p $rip",
+   "plain": "Show registers",
+   "use": "Where is the program, what are the values"
+  },
+  {
+   "flag": "x/20wx $esp / x/s ADDR / x/10i $rip",
+   "plain": "Examine memory: words, string, instructions",
+   "use": "Look at the stack, strings or code"
+  },
+  {
+   "flag": "disassemble main / set disassembly-flavor intel",
+   "plain": "Show code; Intel syntax",
+   "use": "Read assembly"
+  },
+  {
+   "flag": "bt",
+   "plain": "Backtrace: the call stack",
+   "use": "After a crash"
+  },
+  {
+   "flag": "pattern create N / pattern offset X",
+   "plain": "Cyclic pattern helpers (pwndbg/GEF)",
+   "use": "Find an overflow offset"
+  },
+  {
+   "flag": "-ex 'cmd' -batch",
+   "plain": "Run commands non-interactively",
+   "use": "Scripts"
+  }
+ ],
+ "mistakes": [
+  "Stack addresses in gdb differ from the real run (environment size and path): sweep or leak the real address.",
+  "gdb disables ASLR by default; the real program may randomise.",
+  "Set-uid programs lose privileges under gdb.",
+  "Install pwndbg or GEF for a readable display."
+ ],
+ "try": [
+  "Find which instruction of `hello` compares your argument.",
+  "Change `argv[1]` in memory so the check passes.",
+  "Use `x/20wx $rsp` to dump the stack at `main`."
+ ],
+ "see_also": "pwndbg / GEF, objdump, ltrace / strace, ghidra, pwntools.",
+ "captured_with": "Examples marked expected were not captured yet (gdb not installed here); run scripts/atlas_build.py where the tool is installed (Kali) to capture real output."
+}

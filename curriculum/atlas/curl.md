@@ -76,7 +76,7 @@ $ curl -si http://127.0.0.1:8099/ | head -8
 ```text
 HTTP/1.0 200 OK
 Server: BaseHTTP/0.6 Python/3.12.3
-Date: Mon, 23 Nov 2026 18:22:31 GMT
+Date: Mon, 23 Nov 2026 19:12:21 GMT
 Content-Type: text/plain
 X-Demo: echo
 
@@ -159,7 +159,7 @@ $ curl -si http://127.0.0.1:8099/old | head -3; echo ---; curl -sL -o /dev/null 
 ```text
 HTTP/1.0 301 Moved Permanently
 Server: BaseHTTP/0.6 Python/3.12.3
-Date: Mon, 23 Nov 2026 18:22:31 GMT
+Date: Mon, 23 Nov 2026 19:12:22 GMT
 ---
 final=http://127.0.0.1:8099/new code=200
 ```
@@ -198,7 +198,7 @@ $ curl -sv http://127.0.0.1:8099/ 2>&1 >/dev/null | grep -E '^(>|<)'
 > 
 < HTTP/1.0 200 OK
 < Server: BaseHTTP/0.6 Python/3.12.3
-< Date: Mon, 23 Nov 2026 18:22:31 GMT
+< Date: Mon, 23 Nov 2026 19:12:22 GMT
 < Content-Type: text/plain
 < X-Demo: echo
 < 

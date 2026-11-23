@@ -1,0 +1,338 @@
+{
+ "name": "grep",
+ "section": "1",
+ "one_line": "print lines that match a pattern",
+ "plain": [
+  "`grep` reads text and prints only the lines that contain what you are looking for. It is how you find a flag, a password, an IP address or an error in a pile of text.",
+  "You give it a pattern and one or more files (or pipe text into it). Patterns can be plain words or regular expressions, and many options change what counts as a match and what is printed."
+ ],
+ "when": [
+  "Find a flag, password or username inside a log, dump, memory image or whole folder.",
+  "Count or list evidence: failed logins, an IP, a path, a user agent.",
+  "Filter the output of another command (cmd | grep word)."
+ ],
+ "examples": [
+  {
+   "title": "Find a word, ignoring case, with line numbers  (-i -n)",
+   "cmd": "grep -in password notes.txt",
+   "output": "2:Password reset for bob: Summer2026!\n4:password policy: 12 characters\n6:Remember: PASSWORD files are case sensitive?"
+  },
+  {
+   "title": "Count matching lines  (-c)",
+   "cmd": "grep -c ' 401 ' access.log",
+   "output": "3"
+  },
+  {
+   "title": "Everything except the boring lines  (-v)",
+   "cmd": "grep -v ' 200 ' access.log",
+   "output": "10.0.0.9 - - [14/Nov/2026:10:02:01 +0000] \"POST /login HTTP/1.1\" 401 87\n10.0.0.9 - - [14/Nov/2026:10:02:03 +0000] \"POST /login HTTP/1.1\" 401 87\n10.0.0.9 - - [14/Nov/2026:10:02:05 +0000] \"POST /login HTTP/1.1\" 401 87\n10.0.0.9 - - [14/Nov/2026:10:02:09 +0000] \"POST /login HTTP/1.1\" 302 0\n10.0.0.7 - - [14/Nov/2026:10:03:40 +0000] \"GET /../../etc/passwd HTTP/1.1\" 400 0\n10.0.0.7 - - [14/Nov/2026:10:03:44 +0000] \"GET /backup.zip HTTP/1.1\" 404 196"
+  },
+  {
+   "title": "Only the matching part  (-o, -E)",
+   "cmd": "grep -oE '^[0-9]+(\\.[0-9]+){3}' access.log | sort | uniq -c | sort -rn",
+   "output": "      5 10.0.0.9\n      2 10.0.0.7\n      2 10.0.0.5"
+  },
+  {
+   "title": "Context around a hit  (-C)",
+   "cmd": "grep -n -C1 ' 302 ' access.log",
+   "output": "5-10.0.0.9 - - [14/Nov/2026:10:02:05 +0000] \"POST /login HTTP/1.1\" 401 87\n6:10.0.0.9 - - [14/Nov/2026:10:02:09 +0000] \"POST /login HTTP/1.1\" 302 0\n7-10.0.0.9 - - [14/Nov/2026:10:02:15 +0000] \"GET /admin HTTP/1.1\" 200 2210"
+  },
+  {
+   "title": "Search a whole folder  (-r)",
+   "cmd": "grep -rn 'secret' site",
+   "output": "site/.env:1:secret=1"
+  },
+  {
+   "title": "Find text inside a binary  (-a, -o)",
+   "cmd": "grep -a -o 'flag{[^}]*}' pic.png",
+   "output": "flag{demo_not_a_real_flag}"
+  },
+  {
+   "title": "Byte offset of a match  (-b -a -o)",
+   "cmd": "grep -abo 'flag{' pic.png",
+   "output": "77:flag{"
+  },
+  {
+   "title": "Why -F matters",
+   "cmd": "printf 'flag{1x3}\\nflag{1.3}\\n' > t.txt; echo '--- regex:'; grep 'flag{1.3}' t.txt; echo '--- fixed string:'; grep -F 'flag{1.3}' t.txt",
+   "output": "--- regex:\nflag{1x3}\nflag{1.3}\n--- fixed string:\nflag{1.3}"
+  },
+  {
+   "title": "Whole words only  (-w)",
+   "cmd": "printf 'root\\nrootkit\\n' > w.txt; grep root w.txt; echo ---; grep -w root w.txt",
+   "output": "root\nrootkit\n---\nroot"
+  },
+  {
+   "title": "List files that match  (-l)",
+   "cmd": "grep -rl 'x' site | sort",
+   "output": "site/uploads/report.pdf"
+  },
+  {
+   "title": "Several patterns at once  (-e)",
+   "cmd": "grep -e ' 401 ' -e ' 404 ' access.log",
+   "output": "10.0.0.9 - - [14/Nov/2026:10:02:01 +0000] \"POST /login HTTP/1.1\" 401 87\n10.0.0.9 - - [14/Nov/2026:10:02:03 +0000] \"POST /login HTTP/1.1\" 401 87\n10.0.0.9 - - [14/Nov/2026:10:02:05 +0000] \"POST /login HTTP/1.1\" 401 87\n10.0.0.7 - - [14/Nov/2026:10:03:44 +0000] \"GET /backup.zip HTTP/1.1\" 404 196"
+  },
+  {
+   "title": "Just the exit status  (-q)",
+   "cmd": "grep -q admin access.log && echo found admin",
+   "output": "found admin"
+  },
+  {
+   "title": "Stop after the first match  (-m)",
+   "cmd": "grep -m1 'login' access.log",
+   "output": "10.0.0.5 - - [14/Nov/2026:10:01:15 +0000] \"GET /login HTTP/1.1\" 200 512"
+  }
+ ],
+ "options": [
+  {
+   "flag": "-E, --extended-regexp",
+   "plain": "Treat the pattern as an extended regular expression, where + ? | ( ) work without backslashes.",
+   "use": "Anything beyond a plain word."
+  },
+  {
+   "flag": "-F, --fixed-strings",
+   "plain": "Treat the pattern as plain text, not a regular expression.",
+   "use": "The pattern has characters like . { [ that you want literally (IPs, flags, copied log text)."
+  },
+  {
+   "flag": "-G, --basic-regexp",
+   "plain": "Treat the pattern as a basic regular expression. This is the default.",
+   "use": "You want to be explicit, or undo an earlier -E."
+  },
+  {
+   "flag": "-P, --perl-regexp",
+   "plain": "Treat the pattern as a Perl-style regular expression (lookahead, \\d).",
+   "use": "Complex patterns that -E cannot express; not available in every grep."
+  },
+  {
+   "flag": "-e PATTERNS, --regexp=PATTERNS",
+   "plain": "Give the pattern with an option, so you can use several -e and patterns that start with a dash.",
+   "use": "Searching for more than one thing, or for -x."
+  },
+  {
+   "flag": "-f FILE, --file=FILE",
+   "plain": "Read the patterns from a file, one per line.",
+   "use": "A long list of indicators (bad IPs, keywords)."
+  },
+  {
+   "flag": "-i, --ignore-case",
+   "plain": "Ignore upper and lower case.",
+   "use": "You do not know if it is Password or PASSWORD."
+  },
+  {
+   "flag": "--no-ignore-case",
+   "plain": "Turn off an earlier -i (for example from an alias).",
+   "use": "An alias adds -i and you want a case-sensitive search."
+  },
+  {
+   "flag": "-v, --invert-match",
+   "plain": "Show lines that do NOT match.",
+   "use": "Remove the noise to see what is left."
+  },
+  {
+   "flag": "-w, --word-regexp",
+   "plain": "Match whole words only.",
+   "use": "root should not match rootkit."
+  },
+  {
+   "flag": "-x, --line-regexp",
+   "plain": "Match only when the whole line matches.",
+   "use": "Exact-line checks, such as a specific entry in a list."
+  },
+  {
+   "flag": "-c, --count",
+   "plain": "Print the number of matching lines instead of the lines.",
+   "use": "How many failures? how many hits?"
+  },
+  {
+   "flag": "--color[=WHEN], --colour[=WHEN]",
+   "plain": "Highlight the matches in colour (WHEN is always, never or auto).",
+   "use": "Reading results on a terminal; use always when piping into less -R."
+  },
+  {
+   "flag": "-L, --files-without-match",
+   "plain": "List only the names of files that contain no match.",
+   "use": "Which files lack a required line?"
+  },
+  {
+   "flag": "-l, --files-with-matches",
+   "plain": "List only the names of files that contain a match.",
+   "use": "Which files mention this? Fast triage of a folder."
+  },
+  {
+   "flag": "-m NUM, --max-count=NUM",
+   "plain": "Stop after NUM matching lines.",
+   "use": "Huge files where the first hit is enough."
+  },
+  {
+   "flag": "-o, --only-matching",
+   "plain": "Print only the matched part of the line.",
+   "use": "Pull out IPs, e-mails, flags."
+  },
+  {
+   "flag": "-q, --quiet, --silent",
+   "plain": "Print nothing; just set the exit status (0 found, 1 not found).",
+   "use": "Inside if statements and scripts."
+  },
+  {
+   "flag": "-s, --no-messages",
+   "plain": "Hide error messages about files that do not exist or cannot be read.",
+   "use": "Recursive searches full of permission errors."
+  },
+  {
+   "flag": "-b, --byte-offset",
+   "plain": "Print the byte position of each match (with -o, of the match itself).",
+   "use": "Locating data in a binary so you can open it with xxd -s."
+  },
+  {
+   "flag": "-H, --with-filename",
+   "plain": "Always print the file name in front of each line.",
+   "use": "Searching one file but wanting the name in the output."
+  },
+  {
+   "flag": "-h, --no-filename",
+   "plain": "Never print file names, even for several files.",
+   "use": "You only want the lines."
+  },
+  {
+   "flag": "--label=LABEL",
+   "plain": "Use LABEL as the file name when reading from standard input.",
+   "use": "Piped input should show a name."
+  },
+  {
+   "flag": "-n, --line-number",
+   "plain": "Prefix each line with its line number.",
+   "use": "You need to open the file at that spot later."
+  },
+  {
+   "flag": "-T, --initial-tab",
+   "plain": "Align the prefixes (file name, line number) with a tab.",
+   "use": "Neat columns of output."
+  },
+  {
+   "flag": "-Z, --null",
+   "plain": "End file names with a NUL byte instead of a newline (with -l, -L or -H).",
+   "use": "Safe piping to xargs -0 when names contain spaces."
+  },
+  {
+   "flag": "-A NUM, --after-context=NUM",
+   "plain": "Also print NUM lines after each match.",
+   "use": "Read what happened right after the hit."
+  },
+  {
+   "flag": "-B NUM, --before-context=NUM",
+   "plain": "Also print NUM lines before each match.",
+   "use": "Read what led to the hit."
+  },
+  {
+   "flag": "-C NUM, -NUM, --context=NUM",
+   "plain": "Also print NUM lines before and after each match.",
+   "use": "Read the surroundings of a hit."
+  },
+  {
+   "flag": "--group-separator=SEP",
+   "plain": "Use SEP instead of -- between groups of context lines.",
+   "use": "Making context output easier to parse."
+  },
+  {
+   "flag": "--no-group-separator",
+   "plain": "Do not print a separator between groups of context lines.",
+   "use": "Clean output for further processing."
+  },
+  {
+   "flag": "-a, --text",
+   "plain": "Treat a binary file as if it were text.",
+   "use": "Searching images, binaries and memory dumps."
+  },
+  {
+   "flag": "--binary-files=TYPE",
+   "plain": "Say how binary files are handled: binary (default message), text, or without-match.",
+   "use": "Control the Binary file matches message."
+  },
+  {
+   "flag": "-I",
+   "plain": "Skip binary files as if they had no matches.",
+   "use": "Searching source trees without noise from compiled files."
+  },
+  {
+   "flag": "-U, --binary",
+   "plain": "Do not strip carriage returns; read files as raw bytes (matters on Windows).",
+   "use": "Exact byte matching on Windows files."
+  },
+  {
+   "flag": "-z, --null-data",
+   "plain": "Treat input as lines ended by NUL bytes instead of newlines.",
+   "use": "Working with find -print0 output or multi-line records."
+  },
+  {
+   "flag": "-D ACTION, --devices=ACTION",
+   "plain": "Say what to do with devices and sockets: read or skip.",
+   "use": "Avoid hanging on special files."
+  },
+  {
+   "flag": "-d ACTION, --directories=ACTION",
+   "plain": "Say what to do with directories: read, skip or recurse.",
+   "use": "Same as -r when set to recurse."
+  },
+  {
+   "flag": "-r, --recursive",
+   "plain": "Search every file under a folder, not following symbolic links.",
+   "use": "Search a whole project or extracted archive."
+  },
+  {
+   "flag": "-R, --dereference-recursive",
+   "plain": "Like -r, but follow symbolic links.",
+   "use": "A tree uses symlinks to other folders."
+  },
+  {
+   "flag": "--include=GLOB",
+   "plain": "Only search files whose names match GLOB.",
+   "use": "Limit a recursive search to *.py or *.log."
+  },
+  {
+   "flag": "--exclude=GLOB",
+   "plain": "Skip files whose names match GLOB.",
+   "use": "Ignore minified or binary files."
+  },
+  {
+   "flag": "--exclude-from=FILE",
+   "plain": "Skip files that match any pattern listed in FILE.",
+   "use": "A long ignore list."
+  },
+  {
+   "flag": "--exclude-dir=GLOB",
+   "plain": "Skip directories whose names match GLOB.",
+   "use": "Ignore .git or node_modules."
+  },
+  {
+   "flag": "--line-buffered",
+   "plain": "Flush output after every line.",
+   "use": "Watching a live log: tail -f log | grep --line-buffered x."
+  },
+  {
+   "flag": "-V, --version",
+   "plain": "Print the version and exit.",
+   "use": "Checking which grep you have."
+  },
+  {
+   "flag": "--help",
+   "plain": "Print a short usage message and exit.",
+   "use": "A quick reminder without opening the manual."
+  }
+ ],
+ "mistakes": [
+  "Quote the pattern: unquoted * and $ are expanded by the shell before grep sees them.",
+  "grep pattern * skips hidden files: use -r on the folder.",
+  "A dot in a regular expression means any character: escape it (\\.) or use -F for an IP such as 10.0.0.5.",
+  "On binary files without -a, grep prints only Binary file matches.",
+  "-P is not in every grep (macOS, BusyBox): -E is the portable choice."
+ ],
+ "try": [
+  "Count how many distinct IPs hit /login in access.log.",
+  "List every file under site that contains the letter x, with line numbers.",
+  "Find the byte offset of the flag text in pic.png, then print the bytes there with xxd -s.",
+  "Search a folder recursively but skip .git with --exclude-dir."
+ ],
+ "see_also": "rg(1) (ripgrep, faster and respects .gitignore), awk(1), sed(1), find(1), strings(1), zgrep(1) to search compressed files.",
+ "captured_with": "Example output captured 2026-11-23 with grep (GNU grep) 3.11 on Ubuntu 24.04 (WSL). The lab files are created by scripts/atlas_tools.py."
+}

@@ -1,0 +1,86 @@
+{
+ "name": "tcpdump",
+ "section": "1",
+ "one_line": "Capture and print network packets from the command line, or save them for Wireshark.",
+ "plain": [
+  "Capture and print network packets from the command line, or save them for Wireshark.",
+  "The sections below show when to use it, real examples, and the options explained in plain English."
+ ],
+ "when": [
+  "See whether traffic really leaves or reaches a machine.",
+  "Record a capture of an attack on your defence-challenge service.",
+  "Quick filters when Wireshark is not available."
+ ],
+ "examples": [
+  {
+   "title": "Watch local web traffic",
+   "cmd": "sudo tcpdump -i lo -nn -c 6 'tcp port 8099' & sleep 1; curl -s http://127.0.0.1:8099/ > /dev/null; wait",
+   "output": "(expected, not captured) Lines like: IP 127.0.0.1.PORT > 127.0.0.1.8099: Flags [S], seq ... showing the SYN, SYN-ACK, ACK handshake and the HTTP request."
+  },
+  {
+   "title": "See the payload in ASCII",
+   "cmd": "sudo tcpdump -i lo -nn -A -c 8 'tcp port 8099' & sleep 1; curl -s http://127.0.0.1:8099/hello > /dev/null; wait",
+   "output": "(expected, not captured) The packet containing 'GET /hello HTTP/1.1' and headers printed as readable text."
+  },
+  {
+   "title": "Save a capture for Wireshark",
+   "cmd": "sudo tcpdump -i lo -nn -c 20 -w cap.pcap 'tcp port 8099' & sleep 1; curl -s http://127.0.0.1:8099/ > /dev/null; wait; tcpdump -nn -r cap.pcap | head -5",
+   "output": "(expected, not captured) A few packet lines read back from cap.pcap."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-i IFACE",
+   "plain": "Interface to listen on",
+   "use": "`lo` for local lab traffic, `eth0`, `any`"
+  },
+  {
+   "flag": "-n / -nn",
+   "plain": "No DNS / no port names",
+   "use": "Faster, shows numbers"
+  },
+  {
+   "flag": "-c N",
+   "plain": "Stop after N packets",
+   "use": "Short captures"
+  },
+  {
+   "flag": "-w FILE / -r FILE",
+   "plain": "Write / read a capture file",
+   "use": "Hand off to Wireshark"
+  },
+  {
+   "flag": "-A / -X",
+   "plain": "Show payload as ASCII / hex+ASCII",
+   "use": "Read cleartext protocols"
+  },
+  {
+   "flag": "-v / -vv",
+   "plain": "More protocol detail",
+   "use": "Check TTL, flags"
+  },
+  {
+   "flag": "host / port / net / tcp / udp",
+   "plain": "BPF filter words",
+   "use": "Narrow what you capture"
+  },
+  {
+   "flag": "and / or / not",
+   "plain": "Combine filter words",
+   "use": "`tcp and not port 22`"
+  }
+ ],
+ "mistakes": [
+  "Needs root (`sudo`) or the capture capability.",
+  "Quote the filter so the shell does not eat `&` or parentheses.",
+  "Capturing on `any` hides which interface a packet used.",
+  "Only capture traffic you are allowed to see."
+ ],
+ "try": [
+  "Capture a DNS lookup (`udp port 53`) and read the query and answer.",
+  "Capture an SSH login and find the packet sizes.",
+  "Filter for one host and one port."
+ ],
+ "see_also": "wireshark / tshark, nmap, ss, nc, ngrep.",
+ "captured_with": "Examples marked expected were not captured yet (tcpdump not installed here); run scripts/atlas_build.py where the tool is installed (Kali) to capture real output."
+}

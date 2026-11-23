@@ -1,0 +1,152 @@
+{
+ "name": "curl",
+ "section": "1",
+ "one_line": "Send exactly the HTTP request you describe and show exactly what comes back.",
+ "plain": [
+  "Send exactly the HTTP request you describe and show exactly what comes back.",
+  "The sections below show when to use it, real examples, and the options explained in plain English."
+ ],
+ "when": [
+  "Test a web challenge without a browser: change a header, cookie, method or body and see the response.",
+  "Download a file, follow a redirect, check a status code in a script.",
+  "Reproduce what Burp or the browser sent, as a copy-paste command."
+ ],
+ "examples": [
+  {
+   "title": "A plain GET",
+   "cmd": "curl -s 'http://127.0.0.1:8099/hello?x=1'",
+   "output": "GET /hello?x=1\nUser-Agent: curl/8.5.0\nAccept: */*"
+  },
+  {
+   "title": "See the response headers",
+   "cmd": "curl -si http://127.0.0.1:8099/ | head -8",
+   "output": "HTTP/1.0 200 OK\nServer: BaseHTTP/0.6 Python/3.12.3\nDate: Mon, 23 Nov 2026 19:12:21 GMT\nContent-Type: text/plain\nX-Demo: echo\n\nGET /\nUser-Agent: curl/8.5.0"
+  },
+  {
+   "title": "Change headers and send a cookie",
+   "cmd": "curl -s -H 'X-Role: admin' -A 'MyAgent/1.0' -e 'http://natas5.example' -b 'loggedin=1' http://127.0.0.1:8099/",
+   "output": "GET /\nUser-Agent: MyAgent/1.0\nAccept: */*\nReferer: http://natas5.example\nCookie: loggedin=1\nX-Role: admin"
+  },
+  {
+   "title": "POST a form and JSON",
+   "cmd": "curl -s -d 'user=alice&pass=1' http://127.0.0.1:8099/login; echo; echo ----; curl -s -H 'Content-Type: application/json' -d '{\"a\":1}' http://127.0.0.1:8099/api",
+   "output": "POST /login\nUser-Agent: curl/8.5.0\nAccept: */*\nContent-Length: 17\nContent-Type: application/x-www-form-urlencoded\n\nuser=alice&pass=1\n----\nPOST /api\nUser-Agent: curl/8.5.0\nAccept: */*\nContent-Type: application/json\nContent-Length: 7\n\n{\"a\":1}"
+  },
+  {
+   "title": "Basic auth is just base64",
+   "cmd": "curl -s -u alice:secret http://127.0.0.1:8099/ | grep Authorization; echo 'YWxpY2U6c2VjcmV0' | base64 -d; echo",
+   "output": "Authorization: Basic YWxpY2U6c2VjcmV0\nalice:secret"
+  },
+  {
+   "title": "Redirects",
+   "cmd": "curl -si http://127.0.0.1:8099/old | head -3; echo ---; curl -sL -o /dev/null -w 'final=%{url_effective} code=%{http_code}\\n' http://127.0.0.1:8099/old",
+   "output": "HTTP/1.0 301 Moved Permanently\nServer: BaseHTTP/0.6 Python/3.12.3\nDate: Mon, 23 Nov 2026 19:12:22 GMT\n---\nfinal=http://127.0.0.1:8099/new code=200"
+  },
+  {
+   "title": "Status code only, for scripting",
+   "cmd": "for p in / /admin /missing; do curl -s -o /dev/null -w \"$p %{http_code}\\n\" http://127.0.0.1:8099$p; done",
+   "output": "/ 200\n/admin 403\n/missing 404"
+  },
+  {
+   "title": "Show the raw request curl sends",
+   "cmd": "curl -sv http://127.0.0.1:8099/ 2>&1 >/dev/null | grep -E '^(>|<)'",
+   "output": "> GET / HTTP/1.1\n> Host: 127.0.0.1:8099\n> User-Agent: curl/8.5.0\n> Accept: */*\n> \n< HTTP/1.0 200 OK\n< Server: BaseHTTP/0.6 Python/3.12.3\n< Date: Mon, 23 Nov 2026 19:12:22 GMT\n< Content-Type: text/plain\n< X-Demo: echo\n< "
+  }
+ ],
+ "options": [
+  {
+   "flag": "-s / -S",
+   "plain": "Silent / show errors even when silent",
+   "use": "Scripts and clean output"
+  },
+  {
+   "flag": "-i / -I",
+   "plain": "Include response headers / HEAD request only",
+   "use": "See status line, cookies, redirects"
+  },
+  {
+   "flag": "-v",
+   "plain": "Verbose: show the request and response headers",
+   "use": "See exactly what is sent"
+  },
+  {
+   "flag": "-X METHOD",
+   "plain": "Set the method (GET, POST, PUT, DELETE)",
+   "use": "Test method handling"
+  },
+  {
+   "flag": "-H 'Name: value'",
+   "plain": "Add or replace a header",
+   "use": "User-Agent, Referer, Authorization, X-Forwarded-For"
+  },
+  {
+   "flag": "-A / -e",
+   "plain": "User-Agent / Referer shortcuts",
+   "use": "Natas-style Referer checks"
+  },
+  {
+   "flag": "-b 'k=v' / -c file",
+   "plain": "Send cookies / save cookies",
+   "use": "Session and cookie tampering"
+  },
+  {
+   "flag": "-d / --data-urlencode",
+   "plain": "Request body (form data) / URL-encode a value",
+   "use": "Forms and logins"
+  },
+  {
+   "flag": "--json '{...}'",
+   "plain": "Send JSON with the right headers (recent curl)",
+   "use": "APIs"
+  },
+  {
+   "flag": "-u user:pass",
+   "plain": "HTTP Basic authentication",
+   "use": "Basic-auth pages (note: it is only base64)"
+  },
+  {
+   "flag": "-L",
+   "plain": "Follow redirects",
+   "use": "Reach the final page"
+  },
+  {
+   "flag": "-o FILE / -O",
+   "plain": "Save the body to a file / use the remote name",
+   "use": "Download"
+  },
+  {
+   "flag": "-w '%{http_code}'",
+   "plain": "Print a field after the transfer",
+   "use": "Status codes in loops"
+  },
+  {
+   "flag": "-k",
+   "plain": "Ignore TLS certificate errors",
+   "use": "Lab self-signed certificates only"
+  },
+  {
+   "flag": "--path-as-is",
+   "plain": "Do not squash `/../` in the URL",
+   "use": "Path traversal tests"
+  },
+  {
+   "flag": "--max-time N",
+   "plain": "Give up after N seconds",
+   "use": "Scripts"
+  }
+ ],
+ "mistakes": [
+  "Quote URLs that contain `&` or `?`: the shell treats `&` as 'run in background'.",
+  "`-d` implies POST and `application/x-www-form-urlencoded`; use `-G` to put data in the URL instead.",
+  "Use `--data-urlencode` for values with spaces or symbols, or they are sent raw.",
+  "curl may normalise `/../` in the URL; add `--path-as-is` to send it unchanged.",
+  "`-k` disables certificate checks: fine for your own lab, never for real credentials."
+ ],
+ "try": [
+  "Send the request that makes the lab echo header `X-Forwarded-For: 127.0.0.1`.",
+  "Write a loop that prints the status for 10 paths from a list in a file.",
+  "Reproduce a browser request from DevTools: right-click, Copy as cURL."
+ ],
+ "see_also": "wget, httpie, Burp Repeater, ffuf, nc (raw HTTP), python requests.",
+ "captured_with": "Example output captured 2026-11-23 with curl 8.5.0 (x86_64-pc-linux-gnu) libcurl/8.5.0 OpenSSL/3.0.13 zlib/1.3 brotli/1.1.0 zstd/1.5.5 libidn2/2.3.7 libpsl/0.21.2 (+libidn2/2.3.7) libssh/0.10.6/openssl/zlib nghttp2/1.59.0 librtmp/2.3 OpenLDAP/2.6.10 on Ubuntu 24.04 (WSL)."
+}

@@ -80,7 +80,7 @@ $ printf 'secret message' | openssl enc -aes-256-cbc -pbkdf2 -k letmein -out enc
 ```
 
 ```text
-00000000: 5361 6c74 6564 5f5f 0a99 1a9c 4af5 86f1  Salted__....J...
+00000000: 5361 6c74 6564 5f5f edc6 a962 f609 a994  Salted__...b....
 secret message
 ```
 

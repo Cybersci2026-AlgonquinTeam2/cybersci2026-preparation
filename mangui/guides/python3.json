@@ -1,0 +1,128 @@
+{
+ "name": "python3",
+ "section": "1",
+ "one_line": "Use `python3 -c` for the small decode, convert and brute-force jobs that come up in every CTF.",
+ "plain": [
+  "Use `python3 -c` for the small decode, convert and brute-force jobs that come up in every CTF.",
+  "The sections below show when to use it, real examples, and the options explained in plain English."
+ ],
+ "when": [
+  "Decode or encode base64, hex, URL or binary text.",
+  "Convert between number bases and byte orders.",
+  "XOR, hash, brute-force a short secret, or work out tiny RSA.",
+  "Parse a log with Counter instead of building a long shell pipeline."
+ ],
+ "examples": [
+  {
+   "title": "Decode base64",
+   "cmd": "python3 -c \"import base64; print(base64.b64decode('aGVsbG8gd29ybGQ=').decode())\"",
+   "output": "hello world"
+  },
+  {
+   "title": "Hex and bytes",
+   "cmd": "python3 -c \"print(bytes.fromhex('666c61677b6865787d')); print('flag'.encode().hex())\"",
+   "output": "b'flag{hex}'\n666c6167"
+  },
+  {
+   "title": "XOR with a repeating key",
+   "cmd": "python3 -c \"d=bytes.fromhex('0b0d080c'); k=b'AB'; print(bytes(b ^ k[i % len(k)] for i, b in enumerate(d)))\"",
+   "output": "b'JOIN'"
+  },
+  {
+   "title": "Number bases",
+   "cmd": "python3 -c \"n=0xdeadbeef; print(n); print(bin(10), oct(64), hex(255)); print(int('777', 8), int('1010', 2), int('ff', 16))\"",
+   "output": "3735928559\n0b1010 0o100 0xff\n511 10 255"
+  },
+  {
+   "title": "Byte order (endianness)",
+   "cmd": "python3 -c \"import struct; print(struct.pack('<I', 0xdeadbeef).hex(), struct.pack('>I', 0xdeadbeef).hex()); print(hex(struct.unpack('<I', bytes.fromhex('efbeadde'))[0]))\"",
+   "output": "efbeadde deadbeef\n0xdeadbeef"
+  },
+  {
+   "title": "Brute-force a short secret from its hash",
+   "cmd": "python3 -c \"import hashlib, itertools; t = hashlib.md5(b'4821').hexdigest(); print(t); print(next(''.join(c) for c in itertools.product('0123456789', repeat=4) if hashlib.md5(''.join(c).encode()).hexdigest() == t))\"",
+   "output": "85267d349a5e647ff0a9edcb5ffd1e02\n4821"
+  },
+  {
+   "title": "Count things in a log",
+   "cmd": "python3 -c \"import collections; print(collections.Counter(l.split()[0] for l in open('access.log')).most_common(2))\"",
+   "output": "[('10.0.0.9', 5), ('10.0.0.5', 2)]"
+  },
+  {
+   "title": "Tiny RSA",
+   "cmd": "python3 -c \"p, q, e = 61, 53, 17; n = p * q; d = pow(e, -1, (p - 1) * (q - 1)); m = 65; c = pow(m, e, n); print(n, d, c, pow(c, d, n))\"",
+   "output": "3233 2753 2790 65"
+  }
+ ],
+ "options": [
+  {
+   "flag": "-c 'code'",
+   "plain": "Run code given on the command line",
+   "use": "Quick transforms"
+  },
+  {
+   "flag": "-m http.server 8000",
+   "plain": "Run a module: a quick web server for transfers",
+   "use": "Serve files in a lab"
+  },
+  {
+   "flag": "-i",
+   "plain": "Stay interactive afterwards",
+   "use": "Explore the data you loaded"
+  },
+  {
+   "flag": "-",
+   "plain": "Read the script from stdin",
+   "use": "Here-documents with `<<'PY'`"
+  },
+  {
+   "flag": "-I",
+   "plain": "Isolated mode: ignore the current folder and user site",
+   "use": "Safe use inside an untrusted folder"
+  },
+  {
+   "flag": "-u",
+   "plain": "Unbuffered output",
+   "use": "Network scripts and pipes"
+  },
+  {
+   "flag": "bytes.fromhex(s) / b.hex()",
+   "plain": "Hex string to bytes and back",
+   "use": "Decode hex"
+  },
+  {
+   "flag": "int(x, base) / bin() / hex() / oct()",
+   "plain": "Convert between bases",
+   "use": "Binary, hex, octal puzzles"
+  },
+  {
+   "flag": "struct.pack('<I', n)",
+   "plain": "Pack a number as little-endian bytes (`>` = big-endian)",
+   "use": "Build payloads; read binary fields"
+  },
+  {
+   "flag": "pow(a, -1, m)",
+   "plain": "Modular inverse",
+   "use": "RSA private exponent"
+  },
+  {
+   "flag": "itertools.product",
+   "plain": "Every combination of a character set",
+   "use": "Short brute force"
+  }
+ ],
+ "mistakes": [
+  "Quote carefully: wrap the program in double quotes in bash and use single quotes inside (or the other way round).",
+  "`print(bytes)` shows `b'...'`: call `.decode()` for text.",
+  "Python 2 is gone: `print` needs parentheses.",
+  "Integer division is `//`; `/` gives a float, which breaks big-number maths.",
+  "For anything longer than three lines, write a file and add comments."
+ ],
+ "try": [
+  "Decode a base64 string, then hex-decode the result.",
+  "XOR two hex strings of equal length.",
+  "Find the PIN whose sha1 equals a hash of your choice."
+ ],
+ "see_also": "CyberChef, xxd, base64, pwntools, pycryptodome, sympy, z3.",
+ "captured_with": "Example output captured 2026-11-23 with Python 3.12.3 on Ubuntu 24.04 (WSL)."
+}

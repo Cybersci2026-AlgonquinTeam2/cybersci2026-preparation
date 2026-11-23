@@ -1,0 +1,112 @@
+{
+ "name": "nmap",
+ "section": "1",
+ "one_line": "Discover hosts, open ports, services and versions on a network, and run scripts against them.",
+ "plain": [
+  "Discover hosts, open ports, services and versions on a network, and run scripts against them.",
+  "The sections below show when to use it, real examples, and the options explained in plain English."
+ ],
+ "when": [
+  "The first command on any network challenge or lab machine.",
+  "Find out which services run and which versions.",
+  "Check what a firewall allows (open versus filtered)."
+ ],
+ "examples": [
+  {
+   "title": "Is the host up?",
+   "cmd": "nmap -sn 127.0.0.1",
+   "output": "(expected, not captured) Starting Nmap ... Nmap scan report for localhost (127.0.0.1) / Host is up / Nmap done: 1 IP address (1 host up) scanned."
+  },
+  {
+   "title": "Default scan of localhost",
+   "cmd": "nmap 127.0.0.1",
+   "output": "(expected, not captured) A PORT STATE SERVICE table listing the open TCP ports among the top 1000 (for example 22/tcp ssh if sshd runs), and the number of closed ports not shown."
+  },
+  {
+   "title": "Every port, then look closely",
+   "cmd": "nmap -p- -T4 127.0.0.1 && nmap -sV -sC -p 22 127.0.0.1",
+   "output": "(expected, not captured) First scan: the list of all open ports. Second scan: the same port with a version string (for example OpenSSH 9.x) and script output such as host keys."
+  },
+  {
+   "title": "Save results",
+   "cmd": "nmap -oA scan1 127.0.0.1 && ls scan1.*",
+   "output": "(expected, not captured) scan1.gnmap scan1.nmap scan1.xml"
+  },
+  {
+   "title": "Run one script",
+   "cmd": "nmap --script http-title -p 80,8080 127.0.0.1",
+   "output": "(expected, not captured) For an open web port: a http-title line with the page title; for closed ports, nothing."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-sn",
+   "plain": "Host discovery only (ping sweep)",
+   "use": "Who is up on this subnet?"
+  },
+  {
+   "flag": "-Pn",
+   "plain": "Skip discovery, treat host as up",
+   "use": "ICMP blocked or crossing a firewall"
+  },
+  {
+   "flag": "-p- / -p 1-1024 / --top-ports N",
+   "plain": "Which ports to scan",
+   "use": "All ports first, then focus"
+  },
+  {
+   "flag": "-sS / -sT / -sU",
+   "plain": "SYN scan (root) / TCP connect / UDP",
+   "use": "Default, no-root or proxy use, UDP services"
+  },
+  {
+   "flag": "-sV",
+   "plain": "Service and version detection",
+   "use": "After you know the open ports"
+  },
+  {
+   "flag": "-sC / --script NAME",
+   "plain": "Default scripts / a chosen script",
+   "use": "Enumerate and check known issues"
+  },
+  {
+   "flag": "-O / -A",
+   "plain": "OS guess / aggressive (-sV -sC -O --traceroute)",
+   "use": "Quick profile of a lab box"
+  },
+  {
+   "flag": "-T0..T5",
+   "plain": "Timing template",
+   "use": "T4 in labs, slower on fragile or monitored networks"
+  },
+  {
+   "flag": "-oA name / -oN / -oX",
+   "plain": "Save output",
+   "use": "Always save"
+  },
+  {
+   "flag": "--open / -v",
+   "plain": "Show only open ports / more detail",
+   "use": "Cleaner output"
+  },
+  {
+   "flag": "--script-help NAME",
+   "plain": "Read what a script does",
+   "use": "Before running unfamiliar scripts"
+  }
+ ],
+ "mistakes": [
+  "Scan only what you are authorised to scan, including at the venue.",
+  "`filtered` means a firewall dropped the probe, not that the port is closed.",
+  "`-sS` and `-O` need root; without it Nmap falls back to `-sT`.",
+  "UDP scans are slow: limit with `--top-ports`.",
+  "A host that blocks ping looks down: add `-Pn`."
+ ],
+ "try": [
+  "Scan your own VM with the two-step method and write the open-ports table.",
+  "Start `python3 -m http.server 8000` and watch the port appear.",
+  "Compare `-sS` and `-sT` in Wireshark."
+ ],
+ "see_also": "masscan, rustscan, nc, tcpdump, wireshark, ffuf.",
+ "captured_with": "Examples marked expected were not captured yet (nmap not installed here); run scripts/atlas_build.py where the tool is installed (Kali) to capture real output."
+}

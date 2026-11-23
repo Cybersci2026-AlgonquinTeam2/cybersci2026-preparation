@@ -1,0 +1,111 @@
+{
+ "name": "sed",
+ "section": "1",
+ "one_line": "A stream editor: read lines, change them with rules (mostly search-and-replace), print the result.",
+ "plain": [
+  "A stream editor: read lines, change them with rules (mostly search-and-replace), print the result.",
+  "The sections below show when to use it, real examples, and the options explained in plain English."
+ ],
+ "when": [
+  "Clean up or transform text in a pipeline: strip prefixes, replace separators, mask secrets.",
+  "Print a range of lines from a big file.",
+  "Edit a file in place (with a backup)."
+ ],
+ "examples": [
+  {
+   "title": "Replace a separator",
+   "cmd": "sed 's/:/ | /g' users.txt | head -2",
+   "output": "root | x | 0 | 0 | root | /root | /bin/bash\nalice | x | 1001 | 1001 | Alice Lee | /home/alice | /bin/bash"
+  },
+  {
+   "title": "Print only chosen lines",
+   "cmd": "sed -n '2,3p' users.txt",
+   "output": "alice:x:1001:1001:Alice Lee:/home/alice:/bin/bash\nbob:x:1002:1002:Bob Ray:/home/bob:/bin/sh"
+  },
+  {
+   "title": "Delete lines",
+   "cmd": "sed '/nologin/d' users.txt",
+   "output": "root:x:0:0:root:/root:/bin/bash\nalice:x:1001:1001:Alice Lee:/home/alice:/bin/bash\nbob:x:1002:1002:Bob Ray:/home/bob:/bin/sh"
+  },
+  {
+   "title": "Use a captured group",
+   "cmd": "sed -E 's/^([a-z-]+):x:([0-9]+):.*/user=\\1 uid=\\2/' users.txt",
+   "output": "user=root uid=0\nuser=alice uid=1001\nuser=bob uid=1002\nuser=svc-backup uid=998"
+  },
+  {
+   "title": "Mask secrets",
+   "cmd": "sed -E 's/(Password reset for [a-z]+: ).*/\\1[REDACTED]/' notes.txt | head -3",
+   "output": "Meeting at 3pm\nPassword reset for bob: [REDACTED]\nTODO: rotate keys"
+  },
+  {
+   "title": "Edit a file in place, with a backup",
+   "cmd": "cp users.txt copy.txt; sed -i.bak 's/bash/zsh/' copy.txt; diff copy.txt.bak copy.txt",
+   "output": "1,2c1,2\n< root:x:0:0:root:/root:/bin/bash\n< alice:x:1001:1001:Alice Lee:/home/alice:/bin/bash\n---\n> root:x:0:0:root:/root:/bin/zsh\n> alice:x:1001:1001:Alice Lee:/home/alice:/bin/zsh"
+  },
+  {
+   "title": "ROT13 with y///",
+   "cmd": "echo 'synt{ebg13}' | sed 'y/abcdefghijklmnopqrstuvwxyz/nopqrstuvwxyzabcdefghijklm/'",
+   "output": "flag{rot13}"
+  }
+ ],
+ "options": [
+  {
+   "flag": "s/old/new/",
+   "plain": "Substitute: the core command",
+   "use": "Replace text"
+  },
+  {
+   "flag": "g / I",
+   "plain": "Flags on `s`: all matches / ignore case",
+   "use": "Replace everything, any case"
+  },
+  {
+   "flag": "-n and p",
+   "plain": "Quiet mode plus print",
+   "use": "Print only chosen lines"
+  },
+  {
+   "flag": "-E",
+   "plain": "Extended regex",
+   "use": "Groups and alternation without backslashes"
+  },
+  {
+   "flag": "-i[SUFFIX]",
+   "plain": "Edit the file in place (`-i.bak` keeps a backup)",
+   "use": "Change a file; use a backup suffix"
+  },
+  {
+   "flag": "N,Md / Np",
+   "plain": "Delete / print lines N to M",
+   "use": "Cut a section out"
+  },
+  {
+   "flag": "/regex/d",
+   "plain": "Delete lines that match",
+   "use": "Remove noise"
+  },
+  {
+   "flag": "-e A -e B",
+   "plain": "Several commands",
+   "use": "Several edits in one pass"
+  },
+  {
+   "flag": "y/abc/xyz/",
+   "plain": "Transliterate characters one-to-one",
+   "use": "ROT13-style swaps"
+  }
+ ],
+ "mistakes": [
+  "On macOS `sed -i` needs an argument (`sed -i ''`): scripts differ between GNU and BSD sed.",
+  "Use a different delimiter for paths: `s#/usr/bin#/opt#`.",
+  "`&` in the replacement means the whole match; escape it (`\\&`) for a literal ampersand.",
+  "sed works line by line; to edit across lines use `-z` or switch to Python."
+ ],
+ "try": [
+  "Turn `users.txt` into `name -> shell` lines.",
+  "Print only line 4 of `access.log`.",
+  "Replace every IP in `access.log` with `x.x.x.x`."
+ ],
+ "see_also": "awk, tr, perl -pe, ed, python -c.",
+ "captured_with": "Example output captured 2026-11-23 with sed (GNU sed) 4.9 on Ubuntu 24.04 (WSL)."
+}

@@ -1,0 +1,106 @@
+{
+ "name": "awk",
+ "section": "1",
+ "one_line": "Treat each line as fields and run a tiny program: print columns, filter, count, add up.",
+ "plain": [
+  "Treat each line as fields and run a tiny program: print columns, filter, count, add up.",
+  "The sections below show when to use it, real examples, and the options explained in plain English."
+ ],
+ "when": [
+  "Pull a column out of a log, `/etc/passwd`, `ps` or a CSV.",
+  "Count events per IP or user (a one-line report).",
+  "Sum or average numbers; reformat output."
+ ],
+ "examples": [
+  {
+   "title": "Print columns",
+   "cmd": "awk '{print $1, $7, $9}' access.log | head -4",
+   "output": "10.0.0.5 /index.html 200\n10.0.0.5 /login 200\n10.0.0.9 /login 401\n10.0.0.9 /login 401"
+  },
+  {
+   "title": "Filter on a field",
+   "cmd": "awk '$9 == 401 {print $1, $7}' access.log",
+   "output": "10.0.0.9 /login\n10.0.0.9 /login\n10.0.0.9 /login"
+  },
+  {
+   "title": "Count per IP (associative array)",
+   "cmd": "awk '{c[$1]++} END {for (ip in c) print c[ip], ip}' access.log | sort -rn",
+   "output": "5 10.0.0.9\n2 10.0.0.7\n2 10.0.0.5"
+  },
+  {
+   "title": "Sum a column",
+   "cmd": "awk '{s += $NF} END {print s, \"bytes in\", NR, \"requests\"}' access.log",
+   "output": "4222 bytes in 9 requests"
+  },
+  {
+   "title": "Use another separator",
+   "cmd": "awk -F: '$3 >= 1000 {print $1, \"->\", $6}' users.txt",
+   "output": "alice -> /home/alice\nbob -> /home/bob"
+  },
+  {
+   "title": "Format a small report",
+   "cmd": "awk -F: 'BEGIN {printf \"%-12s %-6s\\n\", \"USER\", \"UID\"} {printf \"%-12s %-6s\\n\", $1, $3}' users.txt",
+   "output": "USER         UID   \nroot         0     \nalice        1001  \nbob          1002  \nsvc-backup   998   "
+  }
+ ],
+ "options": [
+  {
+   "flag": "-F SEP",
+   "plain": "Field separator (`-F:`, `-F,`, `-F'\\t'`)",
+   "use": "Colon, comma or tab separated data"
+  },
+  {
+   "flag": "$1 $2 ... $NF",
+   "plain": "Field 1, 2 ... the last field",
+   "use": "Pick columns"
+  },
+  {
+   "flag": "$0",
+   "plain": "The whole line",
+   "use": "Print or test everything"
+  },
+  {
+   "flag": "NR / NF",
+   "plain": "Line number / number of fields",
+   "use": "Skip headers (`NR>1`), check shape"
+  },
+  {
+   "flag": "BEGIN { } / END { }",
+   "plain": "Run once before / after all lines",
+   "use": "Totals and reports"
+  },
+  {
+   "flag": "arr[key]++",
+   "plain": "Associative arrays",
+   "use": "Counting per key"
+  },
+  {
+   "flag": "printf",
+   "plain": "Formatted output",
+   "use": "Aligned columns"
+  },
+  {
+   "flag": "-v var=value",
+   "plain": "Pass a shell value into awk",
+   "use": "Parameterise a filter"
+  },
+  {
+   "flag": "~ / !~",
+   "plain": "Regex match / no match",
+   "use": "Test a field against a pattern"
+  }
+ ],
+ "mistakes": [
+  "Single-quote the program; double quotes let the shell expand `$1` first.",
+  "Fields are 1-based; `$0` is the whole line.",
+  "Quoted strings inside awk use double quotes; escape them inside `bash -c`.",
+  "awk is not one program: gawk (used for these examples), mawk (the default on some Ubuntu installs) and BSD awk differ in features such as `asort`, `--version` and regex intervals."
+ ],
+ "try": [
+  "Print the unique status codes in `access.log` with counts.",
+  "Print lines where the byte count is greater than 1000.",
+  "Print each username in `users.txt` in upper case (`toupper`)."
+ ],
+ "see_also": "cut, sort, uniq, sed, column -t, python -c.",
+ "captured_with": "Example output captured 2026-11-23 with GNU Awk 5.2.1, API 3.2, PMA Avon 8-g1, (GNU MPFR 4.2.1, GNU MP 6.3.0) on Ubuntu 24.04 (WSL)."
+}

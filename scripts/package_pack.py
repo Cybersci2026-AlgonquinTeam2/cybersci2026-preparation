@@ -143,13 +143,16 @@ def main():
             zf.write(f, f"CyberSci-Offline/EPUB/{f.name}")
         for f in fcfiles:
             zf.write(f, f"CyberSci-Offline/Flashcards/{f.name}")
-    # Command Atlas man pages: copy to the VM / Kali and run install-man.sh
-    atlas = ROOT / "curriculum" / "atlas"
-    man_files = sorted((atlas / "man" / "man1").glob("*.1")) + [atlas / "install-man.sh"]
-    with zipfile.ZipFile(OD / "Atlas-Man.zip", "w", zipfile.ZIP_DEFLATED) as zf:
-        for f in man_files:
-            zf.write(f, ("man/man1/" if f.suffix == ".1" else "") + f.name)
-        zf.writestr("README.txt", "Copy this zip into your Kali VM or WSL, unzip it, run: bash install-man.sh\nThen open a new terminal and try: man atlas   |   man atlas-grep   |   gm grep\n")
+    # mangui: enhanced man pages (copy to Kali/VM, unzip, run: python3 mangui.py install)
+    mg = ROOT / "mangui"
+    with zipfile.ZipFile(OD / "Mangui.zip", "w", zipfile.ZIP_DEFLATED) as zf:
+        zf.write(mg / "mangui.py", "mangui/mangui.py")
+        for f in sorted((mg / "guides").glob("*.json")):
+            zf.write(f, "mangui/guides/" + f.name)
+        zf.writestr("mangui/README.txt", "Unzip in your Kali VM, then run: python3 mangui/mangui.py install
+Open a new terminal: man file, man grep ... show the original page plus a layman guide.
+Check progress: python3 mangui/mangui.py coverage
+")
     ezip = EP / "CyberSci-EPUBs.zip"
     ezip.unlink(missing_ok=True)
     with zipfile.ZipFile(ezip, "w", zipfile.ZIP_DEFLATED) as zf:
@@ -160,7 +163,7 @@ def main():
     dest.mkdir(parents=True, exist_ok=True)
     for old in list(dest.glob("*.pdf")) + list(dest.glob("*.epub")) + list(dest.glob("*.zip")):
         old.unlink()
-    for f in pdfs + [OD / "README.txt", z, OD / "Atlas-Man.zip"]:
+    for f in pdfs + [OD / "README.txt", z, OD / "Mangui.zip"]:
         shutil.copy2(f, dest / f.name)
     (dest / "EPUB").mkdir(exist_ok=True)
     for old in (dest / "EPUB").glob("*"):

@@ -100,11 +100,10 @@ def main():
         outs, ver = capture(tool)
         missing = [i for i in range(len(tool["recipes"]))] if outs is None else [i for i in range(len(tool["recipes"])) if i not in outs]
         (OUT / f"{tool['name']}.md").write_text(render(tool, outs, ver), encoding="utf-8")
-        import atlas_man
-        atlas_man.write(tool, outs, ver)
+        import atlas_guides
+        atlas_guides.write(tool, outs, ver, LOCAL)
         print(f"{tool['name']:16s} {0 if outs is None else len(outs)}/{len(tool['recipes'])} recipes captured", "MISSING " + str(missing) if missing else "", "|", ver[:60])
-    import atlas_man
-    atlas_man.write_index(T.TOOLS)
+
 
 
 if __name__ == "__main__":

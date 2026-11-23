@@ -64,7 +64,7 @@ $ printf 'GET /raw HTTP/1.0\r\nX-A: 1\r\n\r\n' | nc -w2 127.0.0.1 8099 | head -8
 ```text
 HTTP/1.0 200 OK
 Server: BaseHTTP/0.6 Python/3.12.3
-Date: Mon, 23 Nov 2026 18:22:33 GMT
+Date: Mon, 23 Nov 2026 19:12:26 GMT
 Content-Type: text/plain
 X-Demo: echo
 

@@ -1,0 +1,91 @@
+{
+ "name": "nc",
+ "section": "1",
+ "one_line": "Open a plain TCP (or UDP) connection and pipe text or files through it: the Swiss army knife for talking to services.",
+ "plain": [
+  "Open a plain TCP (or UDP) connection and pipe text or files through it: the Swiss army knife for talking to services.",
+  "The sections below show when to use it, real examples, and the options explained in plain English."
+ ],
+ "when": [
+  "Connect to a CTF service and read its prompt (`nc host port`).",
+  "Check whether a port is open; grab a banner; send a hand-written HTTP request.",
+  "Move a file between two machines in a lab."
+ ],
+ "examples": [
+  {
+   "title": "Check whether a port is open",
+   "cmd": "nc -zv -w2 127.0.0.1 8099; nc -zv -w2 127.0.0.1 9",
+   "output": "Connection to 127.0.0.1 8099 port [tcp/*] succeeded!\nnc: connect to 127.0.0.1 port 9 (tcp) failed: Connection refused"
+  },
+  {
+   "title": "Hand-write an HTTP request",
+   "cmd": "printf 'GET /raw HTTP/1.0\\r\\nX-A: 1\\r\\n\\r\\n' | nc -w2 127.0.0.1 8099 | head -8",
+   "output": "HTTP/1.0 200 OK\nServer: BaseHTTP/0.6 Python/3.12.3\nDate: Mon, 23 Nov 2026 19:12:26 GMT\nContent-Type: text/plain\nX-Demo: echo\n\nGET /raw\nX-A: 1"
+  },
+  {
+   "title": "Send a message to a listener",
+   "cmd": "(nc -l 127.0.0.1 9099 > got.txt &) ; sleep 0.5; echo 'hello from the client' | nc -N 127.0.0.1 9099; sleep 0.5; cat got.txt",
+   "output": "hello from the client"
+  },
+  {
+   "title": "Transfer a file and verify it",
+   "cmd": "(nc -l 127.0.0.1 9100 > recv.bin &) ; sleep 0.5; nc -N 127.0.0.1 9100 < hello; sleep 0.5; cmp hello recv.bin && echo identical; sha256sum hello recv.bin",
+   "output": "identical\n8feb47265ff2233ef1420033f46617e67605c3234209fbd69d62e9468e3eb228  hello\n8feb47265ff2233ef1420033f46617e67605c3234209fbd69d62e9468e3eb228  recv.bin"
+  }
+ ],
+ "options": [
+  {
+   "flag": "-v",
+   "plain": "Verbose: report connection results",
+   "use": "See `succeeded`/`refused`"
+  },
+  {
+   "flag": "-z",
+   "plain": "Scan mode: connect and close",
+   "use": "Quick port check"
+  },
+  {
+   "flag": "-w N",
+   "plain": "Timeout in seconds",
+   "use": "Do not hang"
+  },
+  {
+   "flag": "-l",
+   "plain": "Listen for an incoming connection (OpenBSD: `nc -l HOST PORT`)",
+   "use": "Receive a file, catch a connection in a lab"
+  },
+  {
+   "flag": "-N",
+   "plain": "Shut down the network socket on end of input (OpenBSD)",
+   "use": "Make a file transfer finish"
+  },
+  {
+   "flag": "-u",
+   "plain": "UDP instead of TCP",
+   "use": "DNS-like services, games"
+  },
+  {
+   "flag": "-n",
+   "plain": "No DNS lookups",
+   "use": "Faster, avoids leaking names"
+  },
+  {
+   "flag": "-k",
+   "plain": "Keep listening after one connection",
+   "use": "Serve repeatedly"
+  }
+ ],
+ "mistakes": [
+  "There are several netcats: OpenBSD (`nc -l host port`), traditional (`nc -l -p port`, has `-e`), and `ncat` from Nmap. Check `nc -h`.",
+  "A connection that hangs often means you did not send the newline the service waits for.",
+  "Without `-N`/`-q`, a transfer may never exit; add a timeout (`-w`).",
+  "Only connect to hosts you are allowed to test."
+ ],
+ "try": [
+  "Connect to the lab server and send a PUT with a body using only `nc`.",
+  "Send `hello` over UDP between two terminals (`-u`).",
+  "Check which of ports 8095-8100 are open with `nc -zv`."
+ ],
+ "see_also": "ncat, socat, telnet, curl, nmap, pwntools remote().",
+ "captured_with": "Example output captured 2026-11-23 with netcat-openbsd 1.226-1ubuntu2 on Ubuntu 24.04 (WSL)."
+}

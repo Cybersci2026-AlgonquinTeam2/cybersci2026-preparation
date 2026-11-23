@@ -1,0 +1,107 @@
+{
+ "name": "openssl",
+ "section": "1",
+ "one_line": "A crypto toolbox: hashes, encoding, symmetric encryption, certificates and keys, from one command.",
+ "plain": [
+  "A crypto toolbox: hashes, encoding, symmetric encryption, certificates and keys, from one command.",
+  "The sections below show when to use it, real examples, and the options explained in plain English."
+ ],
+ "when": [
+  "Hash a string or file; compare with a checksum.",
+  "Encode/decode base64; try AES with a known key.",
+  "Read a certificate or CSR (picoCTF 'ReadMyCert').",
+  "Check RSA keys in a challenge."
+ ],
+ "examples": [
+  {
+   "title": "Hash a string (and avoid the newline trap)",
+   "cmd": "echo -n hello | openssl dgst -sha256; echo hello | openssl dgst -sha256",
+   "output": "SHA2-256(stdin)= 2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824\nSHA2-256(stdin)= 5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03"
+  },
+  {
+   "title": "Base64 both ways",
+   "cmd": "printf 'hello world' | openssl base64; echo ---; cat data.b64 | openssl base64 -d; echo",
+   "output": "aGVsbG8gd29ybGQ=\n---\nhello world"
+  },
+  {
+   "title": "Encrypt with a password and look at the file",
+   "cmd": "printf 'secret message' | openssl enc -aes-256-cbc -pbkdf2 -k letmein -out enc.bin; head -c 16 enc.bin | xxd; openssl enc -d -aes-256-cbc -pbkdf2 -k letmein -in enc.bin; echo",
+   "output": "00000000: 5361 6c74 6564 5f5f edc6 a962 f609 a994  Salted__...b....\nsecret message"
+  },
+  {
+   "title": "ECB mode leaks patterns",
+   "cmd": "printf 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' | openssl enc -aes-128-ecb -K 000102030405060708090a0b0c0d0e0f -nosalt | xxd -c 16",
+   "output": "00000000: dd4b 1a0b 47da a706 7d0b 59d9 5d58 a6ae  .K..G...}.Y.]X..\n00000010: dd4b 1a0b 47da a706 7d0b 59d9 5d58 a6ae  .K..G...}.Y.]X..\n00000020: 954f 64f2 e4e8 6e9e ee82 d202 1668 4899  .Od...n......hH."
+  },
+  {
+   "title": "Read a certificate",
+   "cmd": "openssl req -x509 -newkey rsa:2048 -nodes -keyout k.pem -out c.pem -subj '/CN=demo.local/O=Lab' -days 1 2>/dev/null; openssl x509 -in c.pem -noout -subject -issuer",
+   "output": "subject=CN = demo.local, O = Lab\nissuer=CN = demo.local, O = Lab"
+  }
+ ],
+ "options": [
+  {
+   "flag": "dgst -sha256 / -md5",
+   "plain": "Hash input",
+   "use": "Checksums, flag verification"
+  },
+  {
+   "flag": "base64 [-d]",
+   "plain": "Base64 encode / decode",
+   "use": "Quick encoding"
+  },
+  {
+   "flag": "enc -aes-256-cbc -pbkdf2 -k PASS",
+   "plain": "Encrypt with a password (adds a random salt)",
+   "use": "Lab encryption"
+  },
+  {
+   "flag": "enc -aes-128-ecb -K HEX -nosalt",
+   "plain": "Raw AES with a hex key and no salt",
+   "use": "Study modes such as ECB"
+  },
+  {
+   "flag": "-d",
+   "plain": "Decrypt (with `enc`)",
+   "use": "Reverse the above"
+  },
+  {
+   "flag": "x509 -in cert -noout -subject -dates",
+   "plain": "Show certificate fields",
+   "use": "Read a certificate"
+  },
+  {
+   "flag": "req -x509 -newkey rsa:2048 -nodes",
+   "plain": "Make a self-signed certificate",
+   "use": "Lab TLS"
+  },
+  {
+   "flag": "rsa -in key -text -noout",
+   "plain": "Show RSA key parameters",
+   "use": "RSA challenges (n, e)"
+  },
+  {
+   "flag": "rand -hex N",
+   "plain": "N random bytes as hex",
+   "use": "Keys and test data"
+  },
+  {
+   "flag": "s_client -connect host:443",
+   "plain": "Talk TLS to a server",
+   "use": "Check a certificate chain"
+  }
+ ],
+ "mistakes": [
+  "`echo` without `-n` hashes a trailing newline.",
+  "`-pbkdf2` and `-md sha256` differ across OpenSSL versions: decrypting old files may need the original options.",
+  "`openssl enc` is for study: never design real encryption with raw `enc`.",
+  "CSR vs certificate vs key are different PEM types: check the header line (`-----BEGIN ...`)."
+ ],
+ "try": [
+  "Encrypt a 48-byte message of repeating blocks with ECB and with CBC and compare the dumps.",
+  "Hash the contents of `hello.c` and verify with `sha256sum`.",
+  "Create a certificate with a different CN and read it back."
+ ],
+ "see_also": "sha256sum / md5sum, base64, gpg, hashcat, RsaCtfTool, python pycryptodome.",
+ "captured_with": "Example output captured 2026-11-23 with OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024) on Ubuntu 24.04 (WSL)."
+}
