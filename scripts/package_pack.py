@@ -149,9 +149,7 @@ def main():
     with zipfile.ZipFile(OD / "Atlas-Man.zip", "w", zipfile.ZIP_DEFLATED) as zf:
         for f in man_files:
             zf.write(f, ("man/man1/" if f.suffix == ".1" else "") + f.name)
-        zf.writestr("README.txt", "Copy this zip into your Kali VM or WSL, unzip it, run: bash install-man.sh
-Then open a new terminal and try: man atlas   |   man atlas-grep   |   gm grep
-")
+        zf.writestr("README.txt", "Copy this zip into your Kali VM or WSL, unzip it, run: bash install-man.sh\nThen open a new terminal and try: man atlas   |   man atlas-grep   |   gm grep\n")
     ezip = EP / "CyberSci-EPUBs.zip"
     ezip.unlink(missing_ok=True)
     with zipfile.ZipFile(ezip, "w", zipfile.ZIP_DEFLATED) as zf:
