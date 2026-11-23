@@ -1,0 +1,248 @@
+{
+ "name": "ssh",
+ "section": "1",
+ "one_line": "OpenSSH remote login client",
+ "plain": [
+  "`ssh` opens a secure, encrypted session on another computer, runs one command there, or builds an encrypted tunnel for other traffic. It is how you log into OverTheWire, Linux servers and lab VMs.",
+  "Besides logging in, ssh can forward ports (reach a service that is hidden behind a firewall) and run as a SOCKS proxy for your browser or scanner."
+ ],
+ "when": [
+  "Log into OverTheWire games and lab machines.",
+  "Run a command on a remote host without opening a shell.",
+  "Forward a port (-L, -R) or build a proxy (-D) to reach internal services."
+ ],
+ "examples": [
+  {
+   "title": "Version  (-V)",
+   "cmd": "ssh -V",
+   "output": "OpenSSH_9.6p1 Ubuntu-3ubuntu13.20, OpenSSL 3.0.13 30 Jan 2024"
+  },
+  {
+   "title": "List the ciphers your ssh supports  (-Q cipher)",
+   "cmd": "ssh -Q cipher | head -5",
+   "output": "3des-cbc\naes128-cbc\naes192-cbc\naes256-cbc\naes128-ctr"
+  },
+  {
+   "title": "List the key types  (-Q key)",
+   "cmd": "ssh -Q key | head -5",
+   "output": "ssh-ed25519\nssh-ed25519-cert-v01@openssh.com\nsk-ssh-ed25519@openssh.com\nsk-ssh-ed25519-cert-v01@openssh.com\necdsa-sha2-nistp256"
+  },
+  {
+   "title": "Show the settings ssh would use  (-G)",
+   "cmd": "ssh -G -p 2220 bandit0@bandit.labs.overthewire.org | grep -E '^(user|hostname|port|identityfile) '",
+   "output": "Pseudo-terminal will not be allocated because stdin is not a terminal.\nuser bandit0\nhostname bandit.labs.overthewire.org\nport 2220\nidentityfile ~/.ssh/id_rsa\nidentityfile ~/.ssh/id_ecdsa\nidentityfile ~/.ssh/id_ecdsa_sk\nidentityfile ~/.ssh/id_ed25519\nidentityfile ~/.ssh/id_ed25519_sk\nidentityfile ~/.ssh/id_xmss\nidentityfile ~/.ssh/id_dsa"
+  },
+  {
+   "title": "A refused connection  (-v shows the steps)",
+   "cmd": "ssh -v -o ConnectTimeout=2 -o BatchMode=yes -p 9 127.0.0.1 2>&1 | head -6",
+   "output": "OpenSSH_9.6p1 Ubuntu-3ubuntu13.20, OpenSSL 3.0.13 30 Jan 2024\ndebug1: Reading configuration data /etc/ssh/ssh_config\ndebug1: /etc/ssh/ssh_config line 19: include /etc/ssh/ssh_config.d/*.conf matched no files\ndebug1: /etc/ssh/ssh_config line 21: Applying options for *\nPseudo-terminal will not be allocated because stdin is not a terminal.\ndebug1: Connecting to 127.0.0.1 [127.0.0.1] port 9."
+  },
+  {
+   "title": "Which options exist  (-Q help)",
+   "cmd": "ssh -Q help | head -8",
+   "output": "cipher\ncipher-auth\ncompression\nkex\nkex-gss\nkey\nkey-cert\nkey-plain"
+  }
+ ],
+ "options": [
+  {
+   "flag": "-4, -6",
+   "plain": "Use only IPv4 / only IPv6.",
+   "use": "A name resolves to both and one does not work."
+  },
+  {
+   "flag": "-A, -a",
+   "plain": "Forward / do not forward your authentication agent connection.",
+   "use": "Hopping through a jump host without copying keys (-A is risky on untrusted hosts)."
+  },
+  {
+   "flag": "-B bind_interface",
+   "plain": "Bind the connection to the address of this network interface.",
+   "use": "Machines with several networks."
+  },
+  {
+   "flag": "-b bind_address",
+   "plain": "Use this local address as the source of the connection.",
+   "use": "Multi-homed machines."
+  },
+  {
+   "flag": "-C",
+   "plain": "Compress the data.",
+   "use": "Slow links."
+  },
+  {
+   "flag": "-c cipher_spec",
+   "plain": "Choose the encryption ciphers to use, in order of preference.",
+   "use": "Testing old or specific ciphers."
+  },
+  {
+   "flag": "-D [bind_address:]port",
+   "plain": "Open a local SOCKS proxy on this port that tunnels through the remote host.",
+   "use": "Browse or scan through a pivot host (proxychains, curl --socks5)."
+  },
+  {
+   "flag": "-E log_file",
+   "plain": "Write debug logs to a file instead of the screen.",
+   "use": "Capturing -v output."
+  },
+  {
+   "flag": "-e escape_char",
+   "plain": "Change the escape character (default ~) used for commands inside a session.",
+   "use": "Nested ssh sessions."
+  },
+  {
+   "flag": "-F configfile",
+   "plain": "Use this config file instead of ~/.ssh/config.",
+   "use": "A clean test with -F /dev/null."
+  },
+  {
+   "flag": "-f",
+   "plain": "Go to the background just before running the command.",
+   "use": "Starting a tunnel (-fN) and getting your prompt back."
+  },
+  {
+   "flag": "-G",
+   "plain": "Print the final configuration for a host and exit, without connecting.",
+   "use": "Debugging config files."
+  },
+  {
+   "flag": "-g",
+   "plain": "Allow remote hosts to connect to local forwarded ports.",
+   "use": "Sharing a tunnel with other machines."
+  },
+  {
+   "flag": "-I pkcs11",
+   "plain": "Use a smart card or token library.",
+   "use": "Hardware keys."
+  },
+  {
+   "flag": "-i identity_file",
+   "plain": "Use this private key file to log in.",
+   "use": "Key-based login to a lab VM."
+  },
+  {
+   "flag": "-J destination",
+   "plain": "Connect through one or more jump hosts.",
+   "use": "Reaching an inner network: ssh -J user@jump user@inner."
+  },
+  {
+   "flag": "-K, -k",
+   "plain": "Enable / disable GSSAPI (Kerberos) credential forwarding.",
+   "use": "Windows domains."
+  },
+  {
+   "flag": "-L [bind_address:]port:host:hostport",
+   "plain": "Forward a local port to a host and port seen from the remote side.",
+   "use": "Reaching an internal web page: -L 8080:internal:80 then browse localhost:8080."
+  },
+  {
+   "flag": "-l login_name",
+   "plain": "Log in as this user.",
+   "use": "Same as user@host."
+  },
+  {
+   "flag": "-M, -S ctl_path, -O ctl_cmd",
+   "plain": "Multiplex: -M opens a master connection, -S names its control socket, -O sends it a command (check, exit, stop).",
+   "use": "Reusing one login for many commands."
+  },
+  {
+   "flag": "-m mac_spec",
+   "plain": "Choose message authentication codes.",
+   "use": "Compatibility tests."
+  },
+  {
+   "flag": "-N",
+   "plain": "Do not run a remote command; just forward ports.",
+   "use": "Tunnels."
+  },
+  {
+   "flag": "-n",
+   "plain": "Redirect standard input from /dev/null.",
+   "use": "Running ssh in the background (-n -f)."
+  },
+  {
+   "flag": "-o option",
+   "plain": "Set any config option on the command line, for example -o StrictHostKeyChecking=accept-new.",
+   "use": "One-off settings."
+  },
+  {
+   "flag": "-P tag",
+   "plain": "Specify a tag for the connection.",
+   "use": "Rare; used with Match tagged rules."
+  },
+  {
+   "flag": "-p port",
+   "plain": "Connect to this port.",
+   "use": "OverTheWire uses ports such as 2220."
+  },
+  {
+   "flag": "-Q query_option",
+   "plain": "Ask which ciphers, MACs, key types or protocol features this ssh supports.",
+   "use": "Checking compatibility."
+  },
+  {
+   "flag": "-q",
+   "plain": "Quiet: suppress warnings and diagnostics.",
+   "use": "Scripts."
+  },
+  {
+   "flag": "-R [bind_address:]port:host:hostport",
+   "plain": "Forward a port on the remote side back to a host and port on your side.",
+   "use": "Letting a remote machine reach a service on yours."
+  },
+  {
+   "flag": "-s",
+   "plain": "Request a subsystem such as sftp.",
+   "use": "Rare."
+  },
+  {
+   "flag": "-T, -t",
+   "plain": "Do not allocate / force-allocate a terminal.",
+   "use": "-t for interactive commands run remotely; -T for scripts."
+  },
+  {
+   "flag": "-V",
+   "plain": "Print the version.",
+   "use": "Checking your ssh."
+  },
+  {
+   "flag": "-v",
+   "plain": "Verbose: show what ssh does (repeat for more: -vv, -vvv).",
+   "use": "Troubleshooting failed logins."
+  },
+  {
+   "flag": "-W host:port",
+   "plain": "Forward standard input and output to a host and port through the connection.",
+   "use": "A building block for ProxyCommand and jump hosts."
+  },
+  {
+   "flag": "-w local_tun[:remote_tun]",
+   "plain": "Create a tunnel network device (a layer 2/3 VPN) between the machines.",
+   "use": "Advanced network labs."
+  },
+  {
+   "flag": "-X, -x, -Y",
+   "plain": "Enable / disable X11 forwarding, or trusted X11 forwarding (-Y).",
+   "use": "Running a graphical program remotely."
+  },
+  {
+   "flag": "-y",
+   "plain": "Send log information to syslog instead of the screen.",
+   "use": "Rare."
+  }
+ ],
+ "mistakes": [
+  "Keys with the wrong permissions are refused: chmod 600 for private keys.",
+  "Host key changed warnings: do not just delete the entry; first confirm the host really changed.",
+  "Forgetting -N with -L: you get a shell as well as the tunnel.",
+  "Using -A to a host you do not control: they can use your agent while you are connected.",
+  "Passing the port with a capital P (that is scp); ssh uses lowercase -p."
+ ],
+ "try": [
+  "Set up -L to reach a local python3 -m http.server through ssh to localhost.",
+  "Use -J to reach a second VM through the first.",
+  "Write a ~/.ssh/config entry for an OverTheWire game and check it with ssh -G.",
+  "Build a SOCKS proxy with -D and fetch a page with curl --socks5-hostname."
+ ],
+ "see_also": "scp(1), sftp(1), ssh-keygen(1), ssh-agent(1), ssh_config(5), sshd(8), proxychains, sshpass (avoid passwords on the command line).",
+ "captured_with": "Example output captured 2026-11-23 with OpenSSH_9.6p1 Ubuntu-3ubuntu13.20, OpenSSL 3.0.13 30 Jan 2024 on Ubuntu 24.04 (WSL). The lab files are created by scripts/atlas_tools.py."
+}

@@ -1,0 +1,373 @@
+{
+ "name": "tar",
+ "section": "1",
+ "one_line": "an archiving utility",
+ "plain": [
+  "`tar` bundles many files and folders into one archive file (a tarball) and unpacks them again. With a compression option it also shrinks the archive (.tar.gz, .tar.bz2, .tar.xz).",
+  "Challenges ship as tarballs, and it is also how you copy a whole folder tree preserving permissions."
+ ],
+ "when": [
+  "Unpack a downloaded .tar.gz or .tgz.",
+  "List what is inside an archive before extracting it.",
+  "Bundle files to move them or keep evidence."
+ ],
+ "examples": [
+  {
+   "title": "Create a compressed archive  (-c -z -f)",
+   "cmd": "tar -czf site.tar.gz site; ls -l site.tar.gz | awk '{print $5, $9}'",
+   "output": "390 site.tar.gz"
+  },
+  {
+   "title": "List the contents without extracting  (-t)",
+   "cmd": "tar -tzf site.tar.gz",
+   "output": "site/\nsite/index.html\nsite/css/\nsite/css/main.css\nsite/js/\nsite/js/app.js\nsite/uploads/\nsite/uploads/report.pdf\nsite/robots.txt\nsite/.env"
+  },
+  {
+   "title": "Verbose listing  (-tv)",
+   "cmd": "tar -tvzf site.tar.gz | head -4",
+   "output": "drwxr-xr-x itstack/itstack   0 2026-11-23 18:35 site/\n-rw-r--r-- itstack/itstack  19 2026-11-10 10:00 site/index.html\ndrwxr-xr-x itstack/itstack   0 2026-11-23 18:35 site/css/\n-rw-r--r-- itstack/itstack   7 2026-11-23 18:35 site/css/main.css"
+  },
+  {
+   "title": "Extract into a folder  (-x -C)",
+   "cmd": "mkdir -p out && tar -xzf site.tar.gz -C out && ls out/site",
+   "output": "css\nindex.html\njs\nrobots.txt\nuploads"
+  },
+  {
+   "title": "Extract one file  (name after the archive)",
+   "cmd": "tar -xzf site.tar.gz site/robots.txt -O",
+   "output": "Disallow: /admin"
+  },
+  {
+   "title": "Strip leading folders  (--strip-components)",
+   "cmd": "mkdir -p out2 && tar -xzf site.tar.gz -C out2 --strip-components=1 && ls out2",
+   "output": "css\nindex.html\njs\nrobots.txt\nuploads"
+  },
+  {
+   "title": "Exclude files  (--exclude)",
+   "cmd": "tar -czf nojs.tar.gz --exclude='*.js' site; tar -tzf nojs.tar.gz",
+   "output": "site/\nsite/index.html\nsite/css/\nsite/css/main.css\nsite/js/\nsite/uploads/\nsite/uploads/report.pdf\nsite/robots.txt\nsite/.env"
+  },
+  {
+   "title": "Other compressors  (-j, -J, --zstd)",
+   "cmd": "tar -cjf site.tar.bz2 site && tar -tjf site.tar.bz2 | head -2",
+   "output": "site/\nsite/index.html"
+  },
+  {
+   "title": "Let tar guess the compression  (-a)",
+   "cmd": "tar -caf site.tar.xz site && file site.tar.xz | cut -c1-60",
+   "output": "site.tar.xz: XZ compressed data, checksum CRC64"
+  },
+  {
+   "title": "Compare an archive with the folder  (--diff)",
+   "cmd": "tar -dzf site.tar.gz && echo identical",
+   "output": "identical"
+  },
+  {
+   "title": "Send an archive over a pipe  (-f -)",
+   "cmd": "tar -cf - site | tar -tf - | head -3",
+   "output": "site/\nsite/index.html\nsite/css/"
+  },
+  {
+   "title": "Show totals  (--totals)",
+   "cmd": "tar -cf /dev/null --totals site 2>&1",
+   "output": "Total bytes written: 10240 (10KiB, 34MiB/s)"
+  }
+ ],
+ "options": [
+  {
+   "flag": "-c, --create",
+   "plain": "Create a new archive.",
+   "use": "Bundling files."
+  },
+  {
+   "flag": "-x, --extract, --get",
+   "plain": "Extract files from an archive.",
+   "use": "Unpacking."
+  },
+  {
+   "flag": "-t, --list",
+   "plain": "List the contents of an archive.",
+   "use": "Look before you extract."
+  },
+  {
+   "flag": "-r, --append",
+   "plain": "Append files to the end of an existing (uncompressed) archive.",
+   "use": "Adding a file."
+  },
+  {
+   "flag": "-u, --update",
+   "plain": "Append only files that are newer than the copy in the archive.",
+   "use": "Incremental updates."
+  },
+  {
+   "flag": "-A, --catenate, --concatenate",
+   "plain": "Append the contents of other tar archives to this one.",
+   "use": "Joining archives."
+  },
+  {
+   "flag": "-d, --diff, --compare",
+   "plain": "Find differences between the archive and the file system.",
+   "use": "Verifying a backup."
+  },
+  {
+   "flag": "--delete",
+   "plain": "Delete files from the archive (not on tapes).",
+   "use": "Removing something from an uncompressed archive."
+  },
+  {
+   "flag": "-f, --file=ARCHIVE",
+   "plain": "Use this archive file (- means standard input or output).",
+   "use": "Always needed."
+  },
+  {
+   "flag": "-v, --verbose",
+   "plain": "List the files processed (twice for details).",
+   "use": "Seeing progress."
+  },
+  {
+   "flag": "-z, --gzip, --gunzip, --ungzip",
+   "plain": "Compress or decompress with gzip.",
+   "use": ".tar.gz and .tgz."
+  },
+  {
+   "flag": "-j, --bzip2",
+   "plain": "Use bzip2.",
+   "use": ".tar.bz2."
+  },
+  {
+   "flag": "-J, --xz",
+   "plain": "Use xz.",
+   "use": ".tar.xz."
+  },
+  {
+   "flag": "--lzip, --lzma, --lzop, --zstd, -Z, --compress, --uncompress",
+   "plain": "Use lzip, lzma, lzop, zstd or the old compress program.",
+   "use": "Rarer formats."
+  },
+  {
+   "flag": "-I, --use-compress-program=PROG",
+   "plain": "Use any program for compression, for example pigz.",
+   "use": "Faster multi-core compression."
+  },
+  {
+   "flag": "-a, --auto-compress, --no-auto-compress",
+   "plain": "Choose the compression from the archive's file extension / do not.",
+   "use": "tar -caf x.tar.xz dir."
+  },
+  {
+   "flag": "-C, --directory=DIR",
+   "plain": "Change to DIR before doing the operation.",
+   "use": "Extract into a chosen folder."
+  },
+  {
+   "flag": "-T, --files-from=FILE, --verbatim-files-from, --no-verbatim-files-from, --null, --no-null",
+   "plain": "Read the names to process from a file; --null for NUL-separated names; --verbatim-files-from takes the list literally.",
+   "use": "Archiving a list from find -print0."
+  },
+  {
+   "flag": "-X, --exclude-from=FILE, --exclude=PATTERN",
+   "plain": "Skip files that match a pattern or are listed in a file.",
+   "use": ".git, caches, secrets."
+  },
+  {
+   "flag": "--exclude-backups, --exclude-caches, --exclude-caches-all, --exclude-caches-under, --exclude-tag=FILE, --exclude-tag-all=FILE, --exclude-tag-under=FILE, --exclude-vcs, --exclude-vcs-ignores, --exclude-ignore=FILE, --exclude-ignore-recursive=FILE",
+   "plain": "Skip backup files, directories marked as caches, version-control folders, or anything covered by an ignore file.",
+   "use": "Clean project archives."
+  },
+  {
+   "flag": "--anchored, --no-anchored, --ignore-case, --no-ignore-case, --wildcards, --no-wildcards, --wildcards-match-slash, --no-wildcards-match-slash",
+   "plain": "Control how exclude and include patterns match: from the start, case, wildcards, and whether * matches slashes.",
+   "use": "Getting patterns to behave."
+  },
+  {
+   "flag": "--strip-components=NUMBER",
+   "plain": "Remove this many leading folders from names when extracting.",
+   "use": "Unpacking project-1.2/ without the top folder."
+  },
+  {
+   "flag": "--transform=EXPRESSION, --xform=EXPRESSION",
+   "plain": "Rename files with a sed-style expression while archiving or extracting.",
+   "use": "Changing paths."
+  },
+  {
+   "flag": "-P, --absolute-names",
+   "plain": "Do not strip a leading / from names.",
+   "use": "Archives that must keep absolute paths (be careful when extracting)."
+  },
+  {
+   "flag": "-h, --dereference",
+   "plain": "Archive the files that symbolic links point to, not the links.",
+   "use": "Packaging a tree that uses links."
+  },
+  {
+   "flag": "--hard-dereference",
+   "plain": "Archive the target of hard links as separate files.",
+   "use": "Avoiding hard-link surprises."
+  },
+  {
+   "flag": "-p, --preserve-permissions, --same-permissions, --no-same-permissions",
+   "plain": "Keep (or do not keep) the original permissions when extracting.",
+   "use": "Restoring modes."
+  },
+  {
+   "flag": "-s, --preserve-order, --same-order",
+   "plain": "Names to extract are listed in the same order as in the archive.",
+   "use": "Faster extraction from tape."
+  },
+  {
+   "flag": "--same-owner, --no-same-owner, --owner=NAME, --group=NAME, --owner-map=FILE, --group-map=FILE, --numeric-owner",
+   "plain": "Keep or set the owner and group, by name, by number or by a map.",
+   "use": "Evidence archives and files from other systems."
+  },
+  {
+   "flag": "--mode=CHANGES, --mtime=DATE, --clamp-mtime",
+   "plain": "Set permissions and modification times in the archive.",
+   "use": "Reproducible archives."
+  },
+  {
+   "flag": "-m, --touch",
+   "plain": "Do not restore modification times; use the extraction time.",
+   "use": "When you want a new timestamp."
+  },
+  {
+   "flag": "--atime-preserve[=METHOD]",
+   "plain": "Do not change the access times of the archived files.",
+   "use": "Evidence handling."
+  },
+  {
+   "flag": "--acls, --no-acls, --selinux, --no-selinux, --xattrs, --no-xattrs, --xattrs-include=PATTERN, --xattrs-exclude=PATTERN",
+   "plain": "Save or skip access-control lists, SELinux labels and extended attributes.",
+   "use": "Full-fidelity backups."
+  },
+  {
+   "flag": "--one-file-system",
+   "plain": "Stay on the starting file system when archiving.",
+   "use": "Avoid /proc, /sys and other drives."
+  },
+  {
+   "flag": "--no-recursion, --recursion",
+   "plain": "Do not go into folders / go into folders (the default).",
+   "use": "Archiving only a folder's own entry."
+  },
+  {
+   "flag": "--remove-files",
+   "plain": "Delete the original files after adding them.",
+   "use": "Moving data into an archive (dangerous)."
+  },
+  {
+   "flag": "-k, --keep-old-files, --skip-old-files, --keep-newer-files, --overwrite, --overwrite-dir, --no-overwrite-dir, --unlink-first, -U, --recursive-unlink",
+   "plain": "What to do when a file already exists on extraction: keep, skip, keep if newer, overwrite, or delete first.",
+   "use": "Extracting without destroying existing work."
+  },
+  {
+   "flag": "--keep-directory-symlink",
+   "plain": "Keep existing symbolic links to directories when extracting.",
+   "use": "Merging into a tree that uses links."
+  },
+  {
+   "flag": "-O, --to-stdout, --to-command=COMMAND",
+   "plain": "Extract files to standard output or pipe them to a command.",
+   "use": "Reading one file from an archive without extracting: tar -xOf a.tar file."
+  },
+  {
+   "flag": "-i, --ignore-zeros",
+   "plain": "Ignore zero blocks (continue past an end-of-archive marker).",
+   "use": "Joined archives."
+  },
+  {
+   "flag": "--ignore-failed-read, --ignore-command-error, --no-ignore-command-error",
+   "plain": "Do not stop when a file cannot be read or a command returns an error.",
+   "use": "Archiving a live system."
+  },
+  {
+   "flag": "-W, --verify",
+   "plain": "Check the archive after writing it.",
+   "use": "Backups."
+  },
+  {
+   "flag": "-w, --interactive, --confirmation",
+   "plain": "Ask for confirmation for every action.",
+   "use": "Extra care."
+  },
+  {
+   "flag": "-B, --read-full-records, -b, --blocking-factor=BLOCKS, --record-size=NUMBER",
+   "plain": "Reblock input, and set the block and record size.",
+   "use": "Tapes and pipes."
+  },
+  {
+   "flag": "-S, --sparse, --sparse-version=MAJOR[.MINOR], --hole-detection=METHOD",
+   "plain": "Handle files with large empty holes efficiently.",
+   "use": "Disk images."
+  },
+  {
+   "flag": "-g, --listed-incremental=FILE, -G, --incremental, -n, --seek, --no-seek, --level=NUMBER, --after-date=DATE, -N, --newer=DATE, --newer-mtime=DATE",
+   "plain": "Make incremental backups or archive only files changed after a date or level.",
+   "use": "Backups."
+  },
+  {
+   "flag": "-H, --format=FORMAT, --old-archive, --portability, -o, --posix, --pax-option=keyword[[:]=value][,keyword[[:]=value]]...",
+   "plain": "Choose the archive format (gnu, pax, posix, ustar, v7) and its options.",
+   "use": "Compatibility with other systems."
+  },
+  {
+   "flag": "-l, --check-links, --check-device, --no-check-device",
+   "plain": "Warn when not all hard links are archived / check device numbers in incremental mode.",
+   "use": "Careful backups."
+  },
+  {
+   "flag": "-M, --multi-volume, -L, --tape-length=NUMBER, -F, --info-script=NAME, --new-volume-script=NAME, -V, --label=TEXT, --test-label, --volno-file=FILE, -K, --starting-file=MEMBER, --occurrence[=NUMBER]",
+   "plain": "Archives spread over several volumes or tapes, volume labels and where to start.",
+   "use": "Rare today."
+  },
+  {
+   "flag": "-R, --block-number, --index-file=FILE, --checkpoint[=NUMBER], --checkpoint-action=ACTION, --totals[=SIGNAL], --utc, --full-time, --show-defaults, --show-omitted-dirs, --show-stored-names, --show-transformed-names",
+   "plain": "Progress, totals, timestamps and listing options.",
+   "use": "Watching a long archive."
+  },
+  {
+   "flag": "--delay-directory-restore, --no-delay-directory-restore, --restrict, --force-local, --rsh-command=COMMAND, --rmt-command=COMMAND, --sort=ORDER",
+   "plain": "Fine controls: directory timing, security restrictions, remote hosts and member sorting.",
+   "use": "Advanced use."
+  },
+  {
+   "flag": "-q, --quote-chars=STRING, --no-quote-chars=STRING, --quoting-style=STYLE, --unquote, --no-unquote, --warning=KEYWORD",
+   "plain": "How names are quoted in messages, and which warnings to show.",
+   "use": "Odd names."
+  },
+  {
+   "flag": "--add-file=FILE",
+   "plain": "Add this file to the archive even when it is not in the file list (useful with -C).",
+   "use": "Adding one file from another folder."
+  },
+  {
+   "flag": "--backup[=CONTROL], --suffix=SUFFIX",
+   "plain": "Make a backup of each existing file before overwriting it on extraction, and choose the backup suffix.",
+   "use": "Extracting over existing files safely."
+  },
+  {
+   "flag": "--one-top-level[=DIR]",
+   "plain": "Extract everything into one folder (named after the archive unless you give a name).",
+   "use": "Avoiding tar bombs."
+  },
+  {
+   "flag": "--help, --usage, --version",
+   "plain": "Print a help message, a short usage line, or the version.",
+   "use": "A quick reminder."
+  }
+ ],
+ "mistakes": [
+  "Forgetting -f or putting options after the archive name: -f must be followed directly by the file name (tar -czf a.tgz dir).",
+  "Extracting an untrusted tar as root: names like ../ or absolute paths can overwrite files; list first with -t.",
+  "Unpacking into the current folder with no top-level directory (a tar bomb): check with tar -tf first.",
+  "Mixing up -c (create) and -x (extract) when pasting commands.",
+  "Using -z on an archive that is not gzip: use tar -xf and let tar detect, or check with file."
+ ],
+ "try": [
+  "Unpack an archive into a new folder after listing it first.",
+  "Make an archive that excludes node_modules and .git.",
+  "Read one file from a .tar.gz without extracting it.",
+  "Compare tar -czf, -cjf and -cJf sizes on the same folder."
+ ],
+ "see_also": "gzip(1), bzip2(1), xz(1), zip(1), cpio(1), rsync(1), file(1), binwalk(1).",
+ "captured_with": "Example output captured 2026-11-23 with tar (GNU tar) 1.35 on Ubuntu 24.04 (WSL). The lab files are created by scripts/atlas_tools.py."
+}

@@ -1,0 +1,292 @@
+{
+ "name": "objdump",
+ "section": "1",
+ "one_line": "display information from object files",
+ "plain": [
+  "`objdump` shows what is inside a compiled program or object file, and above all it can disassemble it: turn the machine code back into assembly instructions you can read.",
+  "Use it to find the function that checks a password, to see which strings and constants are stored, and to check headers and symbols without running the file."
+ ],
+ "when": [
+  "Read the assembly of main or of a suspicious function.",
+  "Dump a data section such as .rodata.",
+  "Check headers, symbols and relocations without a full disassembler."
+ ],
+ "examples": [
+  {
+   "title": "Disassemble in Intel syntax  (-d -M intel)",
+   "cmd": "objdump -d -M intel --no-show-raw-insn hello | sed -n '/<main>:/,/ret/p' | head -20",
+   "output": "0000000000001169 <main>:\n    1169:\tendbr64\n    116d:\tpush   rbp\n    116e:\tmov    rbp,rsp\n    1171:\tsub    rsp,0x20\n    1175:\tmov    DWORD PTR [rbp-0x14],edi\n    1178:\tmov    QWORD PTR [rbp-0x20],rsi\n    117c:\tlea    rax,[rip+0xe81]        # 2004 <_IO_stdin_used+0x4>\n    1183:\tmov    QWORD PTR [rbp-0x8],rax\n    1187:\tcmp    DWORD PTR [rbp-0x14],0x1\n    118b:\tjle    11c1 <main+0x58>\n    118d:\tmov    rax,QWORD PTR [rbp-0x20]\n    1191:\tadd    rax,0x8\n    1195:\tmov    rax,QWORD PTR [rax]\n    1198:\tlea    rdx,[rip+0xe80]        # 201f <_IO_stdin_used+0x1f>\n    119f:\tmov    rsi,rdx\n    11a2:\tmov    rdi,rax\n    11a5:\tcall   1070 <strcmp@plt>\n    11aa:\ttest   eax,eax\n    11ac:\tjne    11c1 <main+0x58>"
+  },
+  {
+   "title": "Only one function  (--disassemble=main)",
+   "cmd": "objdump --disassemble=main -M intel --no-show-raw-insn hello | head -8",
+   "output": "\nhello:     file format elf64-x86-64\n\n\nDisassembly of section .init:\n\nDisassembly of section .plt:\n"
+  },
+  {
+   "title": "Section headers  (-h)",
+   "cmd": "objdump -h hello | head -10",
+   "output": "\nhello:     file format elf64-x86-64\n\nSections:\nIdx Name          Size      VMA               LMA               File off  Algn\n  0 .interp       0000001c  0000000000000318  0000000000000318  00000318  2**0\n                  CONTENTS, ALLOC, LOAD, READONLY, DATA\n  1 .note.gnu.property 00000030  0000000000000338  0000000000000338  00000338  2**3\n                  CONTENTS, ALLOC, LOAD, READONLY, DATA\n  2 .note.gnu.build-id 00000024  0000000000000368  0000000000000368  00000368  2**2"
+  },
+  {
+   "title": "Hex dump of a section  (-s -j)",
+   "cmd": "objdump -s -j .rodata hello",
+   "output": "\nhello:     file format elf64-x86-64\n\nContents of section .rodata:\n 2000 01000200 666c6167 7b64656d 6f5f6e6f  ....flag{demo_no\n 2010 745f615f 7265616c 5f666c61 677d006f  t_a_real_flag}.o\n 2020 70656e2d 73657361 6d650061 63636573  pen-sesame.acces\n 2030 73206465 6e696564 00                 s denied.       "
+  },
+  {
+   "title": "Symbol table  (-t)",
+   "cmd": "objdump -t hello | grep -E ' main|puts'",
+   "output": "0000000000000000       F *UND*\t0000000000000000              puts@GLIBC_2.2.5\n0000000000001169 g     F .text\t000000000000006e              main"
+  },
+  {
+   "title": "Dynamic symbols  (-T)",
+   "cmd": "objdump -T hello | head -6",
+   "output": "\nhello:     file format elf64-x86-64\n\nDYNAMIC SYMBOL TABLE:\n0000000000000000      DF *UND*\t0000000000000000 (GLIBC_2.34) __libc_start_main\n0000000000000000  w   D  *UND*\t0000000000000000  Base        _ITM_deregisterTMCloneTable"
+  },
+  {
+   "title": "File header summary  (-f)",
+   "cmd": "objdump -f hello",
+   "output": "\nhello:     file format elf64-x86-64\narchitecture: i386:x86-64, flags 0x00000150:\nHAS_SYMS, DYNAMIC, D_PAGED\nstart address 0x0000000000001080\n"
+  },
+  {
+   "title": "Relocations  (-R)",
+   "cmd": "objdump -R hello | head -6",
+   "output": "\nhello:     file format elf64-x86-64\n\nDYNAMIC RELOCATION RECORDS\nOFFSET           TYPE              VALUE\n0000000000003db0 R_X86_64_RELATIVE  *ABS*+0x0000000000001160"
+  },
+  {
+   "title": "Mix source and assembly  (-S)",
+   "cmd": "gcc -g -o hello_g hello.c && objdump -S -M intel --no-show-raw-insn hello_g | sed -n '/<main>:/,/ret/p' | head -16",
+   "output": "0000000000001169 <main>:\n#include <stdio.h>\n#include <string.h>\nint main(int argc, char **argv) {\n    1169:\tendbr64\n    116d:\tpush   rbp\n    116e:\tmov    rbp,rsp\n    1171:\tsub    rsp,0x20\n    1175:\tmov    DWORD PTR [rbp-0x14],edi\n    1178:\tmov    QWORD PTR [rbp-0x20],rsi\n    const char *secret = \"flag{demo_not_a_real_flag}\";"
+  },
+  {
+   "title": "Visualise jumps  (--visualize-jumps)",
+   "cmd": "objdump -d -M intel --no-show-raw-insn --visualize-jumps hello | sed -n '/<main>:/,/ret/p' | head -12",
+   "output": "0000000000001169 <main>:\n    1169:\t       endbr64\n    116d:\t       push   rbp\n    116e:\t       mov    rbp,rsp\n    1171:\t       sub    rsp,0x20\n    1175:\t       mov    DWORD PTR [rbp-0x14],edi\n    1178:\t       mov    QWORD PTR [rbp-0x20],rsi\n    117c:\t       lea    rax,[rip+0xe81]        # 2004 <_IO_stdin_used+0x4>\n    1183:\t       mov    QWORD PTR [rbp-0x8],rax\n    1187:\t       cmp    DWORD PTR [rbp-0x14],0x1\n    118b:\t/----- jle    11c1 <main+0x58>\n    118d:\t|      mov    rax,QWORD PTR [rbp-0x20]"
+  },
+  {
+   "title": "Private headers (dynamic info)  (-p)",
+   "cmd": "objdump -p hello | head -14",
+   "output": "\nhello:     file format elf64-x86-64\n\nProgram Header:\n    PHDR off    0x0000000000000040 vaddr 0x0000000000000040 paddr 0x0000000000000040 align 2**3\n         filesz 0x00000000000002d8 memsz 0x00000000000002d8 flags r--\n  INTERP off    0x0000000000000318 vaddr 0x0000000000000318 paddr 0x0000000000000318 align 2**0\n         filesz 0x000000000000001c memsz 0x000000000000001c flags r--\n    LOAD off    0x0000000000000000 vaddr 0x0000000000000000 paddr 0x0000000000000000 align 2**12\n         filesz 0x0000000000000660 memsz 0x0000000000000660 flags r--\n    LOAD off    0x0000000000001000 vaddr 0x0000000000001000 paddr 0x0000000000001000 align 2**12\n         filesz 0x00000000000001e5 memsz 0x00000000000001e5 flags r-x\n    LOAD off    0x0000000000002000 vaddr 0x0000000000002000 paddr 0x0000000000002000 align 2**12\n         filesz 0x000000000000011c memsz 0x000000000000011c flags r--"
+  }
+ ],
+ "options": [
+  {
+   "flag": "-a, --archive-headers, --archive-header",
+   "plain": "Show the headers of an archive (.a) file.",
+   "use": "Looking inside static libraries."
+  },
+  {
+   "flag": "-f, --file-headers",
+   "plain": "Show the overall file header summary: format and start address.",
+   "use": "A quick identification."
+  },
+  {
+   "flag": "-p, --private-headers, -P options, --private=options",
+   "plain": "Show format-specific headers (for ELF: program headers and dynamic section); -P selects particular ones.",
+   "use": "Checking needed libraries and segments."
+  },
+  {
+   "flag": "-h, --headers, --section-headers",
+   "plain": "Show the section headers: names, sizes, addresses.",
+   "use": "Locating .text, .data, .rodata."
+  },
+  {
+   "flag": "-x, --all-headers",
+   "plain": "Show every header and the symbol table.",
+   "use": "A full overview."
+  },
+  {
+   "flag": "-d, --disassemble",
+   "plain": "Disassemble the sections that contain code.",
+   "use": "Reading what a program does."
+  },
+  {
+   "flag": "--disassemble=symbol",
+   "plain": "Disassemble starting at a given symbol (and ending where the function ends).",
+   "use": "Only main, only check_password."
+  },
+  {
+   "flag": "-D, --disassemble-all",
+   "plain": "Disassemble every section, including data.",
+   "use": "Packed or hand-made files where code hides in data."
+  },
+  {
+   "flag": "-z, --disassemble-zeroes",
+   "plain": "Include blocks of zeros in the disassembly (normally skipped).",
+   "use": "Seeing padding."
+  },
+  {
+   "flag": "-S, --source, --source-comment[=text]",
+   "plain": "Mix source code into the disassembly (needs -g debug information).",
+   "use": "Studying how C becomes assembly."
+  },
+  {
+   "flag": "-M options, --disassembler-options=options",
+   "plain": "Pass options to the disassembler; -M intel switches to Intel syntax, -M att to AT&T.",
+   "use": "Almost always add -M intel."
+  },
+  {
+   "flag": "-m machine, --architecture=machine, -marm",
+   "plain": "Choose the CPU architecture to disassemble for (for example i386, i386:x86-64, arm).",
+   "use": "Raw firmware dumps."
+  },
+  {
+   "flag": "-b bfdname, --target=bfdname",
+   "plain": "Choose the file format.",
+   "use": "Unusual or damaged files."
+  },
+  {
+   "flag": "-EB, -EL, --endian={big|little}",
+   "plain": "Choose big or little endian when disassembling.",
+   "use": "Raw data from non-x86 devices."
+  },
+  {
+   "flag": "--disassembler-color=mode",
+   "plain": "Colour the disassembly (off, color, extended-color, on).",
+   "use": "Easier reading in a terminal."
+  },
+  {
+   "flag": "-s, --full-contents",
+   "plain": "Show the full contents of the sections as a hex dump.",
+   "use": "Reading .rodata and data tables."
+  },
+  {
+   "flag": "-j name, --section=name",
+   "plain": "Only process the named section.",
+   "use": "-s -j .rodata."
+  },
+  {
+   "flag": "-t, --syms",
+   "plain": "Show the symbol table.",
+   "use": "Function and variable names."
+  },
+  {
+   "flag": "-T, --dynamic-syms",
+   "plain": "Show the dynamic symbol table.",
+   "use": "Imported and exported functions."
+  },
+  {
+   "flag": "--special-syms, --show-all-symbols",
+   "plain": "Include special symbols that are normally hidden / show symbols in disassembly even when not needed.",
+   "use": "Rare."
+  },
+  {
+   "flag": "-r, --reloc, -R, --dynamic-reloc",
+   "plain": "Show relocations / dynamic relocations (the GOT entries).",
+   "use": "Studying how library functions are called."
+  },
+  {
+   "flag": "-g, --debugging, -e, --debugging-tags, -G, --stabs",
+   "plain": "Show debugging information in several formats.",
+   "use": "Programs built with -g."
+  },
+  {
+   "flag": "-W[lLiaprmfFsoORtUuTgAckK], --dwarf[=...]",
+   "plain": "Show DWARF debugging sections (lines, info, ranges, ...).",
+   "use": "Mapping addresses to source lines."
+  },
+  {
+   "flag": "--dwarf-depth=N, --dwarf-start=N, --dwarf-check",
+   "plain": "Limit or start the DWARF dump, and check it for inconsistencies.",
+   "use": "Huge debug data."
+  },
+  {
+   "flag": "--sframe[=section], --ctf[=section], --ctf-parent=section",
+   "plain": "Show SFrame stack-trace data and Compact C Type Format data.",
+   "use": "Rare."
+  },
+  {
+   "flag": "-l, --line-numbers",
+   "plain": "Show source file names and line numbers in the disassembly.",
+   "use": "Debug builds."
+  },
+  {
+   "flag": "-C, --demangle[=style]",
+   "plain": "Turn C++ mangled names into readable ones.",
+   "use": "C++ programs."
+  },
+  {
+   "flag": "-w, --wide",
+   "plain": "Do not cut long lines at 80 columns.",
+   "use": "Wide symbol names."
+  },
+  {
+   "flag": "-F, --file-offsets",
+   "plain": "Show the file offset of each section and instruction.",
+   "use": "Mapping a virtual address to a place in the file for patching."
+  },
+  {
+   "flag": "--start-address=address, --stop-address=address",
+   "plain": "Only process data between these two addresses.",
+   "use": "Disassembling a small region."
+  },
+  {
+   "flag": "--prefix-addresses, --prefix=prefix, --prefix-strip=level",
+   "plain": "Print full addresses on every line / add or strip a prefix from source file names.",
+   "use": "Old-style output, source path clean-up."
+  },
+  {
+   "flag": "--insn-width=width, --no-addresses, --show-raw-insn, --no-show-raw-insn",
+   "plain": "How many bytes per line of machine code / hide the addresses / show or hide the machine-code bytes.",
+   "use": "Shorter or script-friendly output."
+  },
+  {
+   "flag": "--visualize-jumps[=color|extended-color|off]",
+   "plain": "Draw lines showing where jumps go.",
+   "use": "Following loops and branches."
+  },
+  {
+   "flag": "--adjust-vma=offset",
+   "plain": "Add an offset to all displayed addresses.",
+   "use": "Raw dumps loaded at a known base."
+  },
+  {
+   "flag": "--file-start-context",
+   "plain": "Include context from the start of the file when showing source.",
+   "use": "Rare."
+  },
+  {
+   "flag": "-i, --info",
+   "plain": "List the object formats and architectures objdump supports.",
+   "use": "Finding the right -b or -m name."
+  },
+  {
+   "flag": "-I, -L, --process-links",
+   "plain": "Also read separate debug files linked from this one.",
+   "use": "Distribution debug packages."
+  },
+  {
+   "flag": "-U[d|l|e|x|h], --unicode=[d|l|e|x|h]",
+   "plain": "Choose how non-ASCII characters are shown.",
+   "use": "Odd names."
+  },
+  {
+   "flag": "-Z, --decompress, --recurse-limit, --no-recurse-limit, --recursion-limit, --no-recursion-limit",
+   "plain": "Decompress sections / limit nesting when following debug data.",
+   "use": "Compressed or damaged files."
+  },
+  {
+   "flag": "--stabs",
+   "plain": "Dump the STABS debugging sections (older format).",
+   "use": "Very old binaries."
+  },
+  {
+   "flag": "-H, --help, -V, --version",
+   "plain": "Print a short usage message / the version.",
+   "use": "A quick reminder."
+  }
+ ],
+ "mistakes": [
+  "Forgetting -M intel: AT&T syntax puts the source before the destination, the opposite of most books.",
+  "Disassembling a stripped binary and finding no function names: use --start-address or a tool like Ghidra.",
+  "Reading data as code with -D: it prints nonsense instructions.",
+  "Expecting objdump to follow what the program does at run time: it is static."
+ ],
+ "try": [
+  "Find the strcmp call in main and the jump after it.",
+  "Compile hello.c with and without -O2 and compare the assembly of main.",
+  "Dump .rodata with -s -j and match the strings with strings -t x.",
+  "Patch plan: find the file offset of a jump with -F, then edit it with xxd."
+ ],
+ "see_also": "readelf(1), nm(1), gdb(1), Ghidra, radare2 and rizin, strings(1), xxd(1).",
+ "captured_with": "Example output captured 2026-11-23 with GNU objdump (GNU Binutils for Ubuntu) 2.42 on Ubuntu 24.04 (WSL). The lab files are created by scripts/atlas_tools.py."
+}

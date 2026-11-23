@@ -1,0 +1,272 @@
+{
+ "name": "readelf",
+ "section": "1",
+ "one_line": "display information about ELF files",
+ "plain": [
+  "`readelf` reads a Linux program or library (an ELF file) and prints its structure: the header, the sections, the symbols (names of functions and variables), the protections and more. It never runs the file.",
+  "It is the safe first step in a reverse-engineering or binary-exploitation challenge: is it 32 or 64 bit, is it stripped, where are the strings, is the stack executable?"
+ ],
+ "when": [
+  "First look at a binary: architecture, type, entry point.",
+  "Check protections (stack, RELRO) and which libraries it needs.",
+  "List function names and find strings in .rodata."
+ ],
+ "examples": [
+  {
+   "title": "The ELF header  (-h)",
+   "cmd": "readelf -h hello | head -12",
+   "output": "ELF Header:\n  Magic:   7f 45 4c 46 02 01 01 00 00 00 00 00 00 00 00 00 \n  Class:                             ELF64\n  Data:                              2's complement, little endian\n  Version:                           1 (current)\n  OS/ABI:                            UNIX - System V\n  ABI Version:                       0\n  Type:                              DYN (Position-Independent Executable file)\n  Machine:                           Advanced Micro Devices X86-64\n  Version:                           0x1\n  Entry point address:               0x1080\n  Start of program headers:          64 (bytes into file)"
+  },
+  {
+   "title": "Section list  (-S)",
+   "cmd": "readelf -SW hello | head -14",
+   "output": "There are 31 section headers, starting at offset 0x36c0:\n\nSection Headers:\n  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al\n  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0\n  [ 1] .interp           PROGBITS        0000000000000318 000318 00001c 00   A  0   0  1\n  [ 2] .note.gnu.property NOTE            0000000000000338 000338 000030 00   A  0   0  8\n  [ 3] .note.gnu.build-id NOTE            0000000000000368 000368 000024 00   A  0   0  4\n  [ 4] .note.ABI-tag     NOTE            000000000000038c 00038c 000020 00   A  0   0  4\n  [ 5] .gnu.hash         GNU_HASH        00000000000003b0 0003b0 000024 00   A  6   0  8\n  [ 6] .dynsym           DYNSYM          00000000000003d8 0003d8 0000c0 18   A  7   1  8\n  [ 7] .dynstr           STRTAB          0000000000000498 000498 000094 00   A  0   0  1\n  [ 8] .gnu.version      VERSYM          000000000000052c 00052c 000010 02   A  6   0  2\n  [ 9] .gnu.version_r    VERNEED         0000000000000540 000540 000030 00   A  7   1  8"
+  },
+  {
+   "title": "Program headers and the stack flag  (-lW)",
+   "cmd": "readelf -lW hello | grep -E 'GNU_STACK|GNU_RELRO|INTERP'",
+   "output": "  INTERP         0x000318 0x0000000000000318 0x0000000000000318 0x00001c 0x00001c R   0x1\n  GNU_STACK      0x000000 0x0000000000000000 0x0000000000000000 0x000000 0x000000 RW  0x10\n  GNU_RELRO      0x002db0 0x0000000000003db0 0x0000000000003db0 0x000250 0x000250 R   0x1"
+  },
+  {
+   "title": "Symbols  (-s)",
+   "cmd": "readelf -s hello | grep -E 'main|puts|strcmp'",
+   "output": "     3: 0000000000000000     0 FUNC    GLOBAL DEFAULT  UND puts@GLIBC_2.2.5 (3)\n    21: 0000000000000000     0 FUNC    GLOBAL DEFAULT  UND puts@GLIBC_2.2.5\n    25: 0000000000000000     0 FUNC    GLOBAL DEFAULT  UND strcmp@GLIBC_2.2.5\n    32: 0000000000001169   110 FUNC    GLOBAL DEFAULT   16 main"
+  },
+  {
+   "title": "Only the dynamic symbols  (--dyn-syms)",
+   "cmd": "readelf --dyn-syms hello | head -8",
+   "output": "\nSymbol table '.dynsym' contains 8 entries:\n   Num:    Value          Size Type    Bind   Vis      Ndx Name\n     0: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT  UND \n     1: 0000000000000000     0 FUNC    GLOBAL DEFAULT  UND _[...]@GLIBC_2.34 (2)\n     2: 0000000000000000     0 NOTYPE  WEAK   DEFAULT  UND _ITM_deregisterT[...]\n     3: 0000000000000000     0 FUNC    GLOBAL DEFAULT  UND puts@GLIBC_2.2.5 (3)\n     4: 0000000000000000     0 FUNC    GLOBAL DEFAULT  UND [...]@GLIBC_2.2.5 (3)"
+  },
+  {
+   "title": "Libraries the program needs  (-d)",
+   "cmd": "readelf -d hello | grep NEEDED",
+   "output": " 0x0000000000000001 (NEEDED)             Shared library: [libc.so.6]"
+  },
+  {
+   "title": "Print a section as strings  (-p)",
+   "cmd": "readelf -p .rodata hello",
+   "output": "\nString dump of section '.rodata':\n  [     4]  flag{demo_not_a_real_flag}\n  [    1f]  open-sesame\n  [    2b]  access denied\n"
+  },
+  {
+   "title": "Hex dump of a section  (-x)",
+   "cmd": "readelf -x .rodata hello",
+   "output": "\nHex dump of section '.rodata':\n  0x00002000 01000200 666c6167 7b64656d 6f5f6e6f ....flag{demo_no\n  0x00002010 745f615f 7265616c 5f666c61 677d006f t_a_real_flag}.o\n  0x00002020 70656e2d 73657361 6d650061 63636573 pen-sesame.acces\n  0x00002030 73206465 6e696564 00                s denied.\n"
+  },
+  {
+   "title": "Notes (build id)  (-n)",
+   "cmd": "readelf -n hello | head -8",
+   "output": "\nDisplaying notes found in: .note.gnu.property\n  Owner                Data size \tDescription\n  GNU                  0x00000020\tNT_GNU_PROPERTY_TYPE_0\n      Properties: x86 feature: IBT, SHSTK\n\tx86 ISA needed: x86-64-baseline\n\nDisplaying notes found in: .note.gnu.build-id"
+  },
+  {
+   "title": "Everything at once  (-a)",
+   "cmd": "readelf -a hello | wc -l",
+   "output": "270"
+  }
+ ],
+ "options": [
+  {
+   "flag": "-a, --all",
+   "plain": "Show everything: same as -h -l -S -s -r -d -V -A -I.",
+   "use": "A full report to save or search."
+  },
+  {
+   "flag": "-h, --file-header",
+   "plain": "Show the ELF header: 32/64 bit, type, machine, entry point.",
+   "use": "The very first check."
+  },
+  {
+   "flag": "-l, --program-headers, --segments",
+   "plain": "Show the program headers (segments): how the file is loaded, including the stack flag.",
+   "use": "Checking NX (non-executable stack)."
+  },
+  {
+   "flag": "-S, --section-headers, --sections",
+   "plain": "Show the section headers (.text, .data, .rodata, ...).",
+   "use": "Finding where code, constants and symbols live."
+  },
+  {
+   "flag": "-g, --section-groups",
+   "plain": "Show section groups.",
+   "use": "Rare, mostly C++ programs."
+  },
+  {
+   "flag": "-t, --section-details",
+   "plain": "Show full details for each section.",
+   "use": "Debugging linker behaviour."
+  },
+  {
+   "flag": "-e, --headers",
+   "plain": "Shortcut for -h -l -S.",
+   "use": "A quick overview."
+  },
+  {
+   "flag": "-s, --syms, --symbols",
+   "plain": "Show the symbol table: function and variable names and addresses.",
+   "use": "Finding main and interesting functions in a non-stripped binary."
+  },
+  {
+   "flag": "--dyn-syms",
+   "plain": "Show only the dynamic symbol table: the functions the program imports and exports.",
+   "use": "Seeing which libc functions it calls."
+  },
+  {
+   "flag": "--lto-syms",
+   "plain": "Show symbols from link-time-optimisation data.",
+   "use": "Rare."
+  },
+  {
+   "flag": "--sym-base=[0|8|10|16]",
+   "plain": "Print symbol sizes in this number base (0 chooses automatically).",
+   "use": "Reading sizes in decimal or hex."
+  },
+  {
+   "flag": "-C, --demangle[=style], --no-demangle",
+   "plain": "Turn C++ mangled names into readable ones / leave them alone.",
+   "use": "Reversing C++ programs."
+  },
+  {
+   "flag": "-X, --extra-sym-info, --no-extra-sym-info",
+   "plain": "Show extra information with symbols (section name).",
+   "use": "Seeing where each symbol lives."
+  },
+  {
+   "flag": "-r, --relocs",
+   "plain": "Show relocation entries: the places the loader patches at start-up.",
+   "use": "Studying the GOT and PLT."
+  },
+  {
+   "flag": "-u, --unwind",
+   "plain": "Show the unwind (stack-walking) information.",
+   "use": "Advanced exploit work and debugging."
+  },
+  {
+   "flag": "-d, --dynamic",
+   "plain": "Show the dynamic section: needed libraries, rpath, flags.",
+   "use": "Which libraries does it load?"
+  },
+  {
+   "flag": "-V, --version-info",
+   "plain": "Show version sections (which library versions are required).",
+   "use": "Library compatibility."
+  },
+  {
+   "flag": "-A, --arch-specific",
+   "plain": "Show architecture-specific information.",
+   "use": "ARM, MIPS and other targets."
+  },
+  {
+   "flag": "-D, --use-dynamic",
+   "plain": "Use the dynamic section's own symbol table instead of the section headers.",
+   "use": "Files with broken or stripped section headers."
+  },
+  {
+   "flag": "-L, --lint, --enable-checks",
+   "plain": "Check the file for problems and report them.",
+   "use": "Finding malformed or tampered files."
+  },
+  {
+   "flag": "-I, --histogram",
+   "plain": "Show a histogram of bucket list lengths when printing symbol tables.",
+   "use": "Hash table analysis; rare."
+  },
+  {
+   "flag": "-n, --notes",
+   "plain": "Show the notes sections (build id, ABI tag).",
+   "use": "Identifying an exact build."
+  },
+  {
+   "flag": "-x, --hex-dump=<number|name>",
+   "plain": "Dump a section (by number or name) as hexadecimal bytes.",
+   "use": "Looking at raw data tables."
+  },
+  {
+   "flag": "-p, --string-dump=<number|name>",
+   "plain": "Dump a section as readable strings.",
+   "use": "Reading .rodata and .comment."
+  },
+  {
+   "flag": "-R, --relocated-dump=<number|name>",
+   "plain": "Dump a section as bytes after relocations are applied.",
+   "use": "Seeing final contents of data."
+  },
+  {
+   "flag": "-z, --decompress",
+   "plain": "Decompress sections before dumping them.",
+   "use": "Compressed debug sections."
+  },
+  {
+   "flag": "-w, --debug-dump[=...]",
+   "plain": "Dump debugging information (DWARF): line numbers, info, macros and more.",
+   "use": "Programs compiled with -g."
+  },
+  {
+   "flag": "--dwarf-depth=N, --dwarf-start=N",
+   "plain": "Limit or start the DWARF dump at a chosen depth or offset.",
+   "use": "Huge debug data."
+  },
+  {
+   "flag": "--ctf[=section], --ctf-symbols=section, --ctf-strings=section, --ctf-parent=name",
+   "plain": "Dump Compact C Type Format data and tell readelf where to find its symbols, strings and parent.",
+   "use": "Rare."
+  },
+  {
+   "flag": "-c, --archive-index",
+   "plain": "Show the symbol index of an archive (.a library).",
+   "use": "Looking inside static libraries."
+  },
+  {
+   "flag": "-P, --process-links",
+   "plain": "Also read separate debug files linked from this one.",
+   "use": "Distribution debug packages."
+  },
+  {
+   "flag": "-W, --wide",
+   "plain": "Do not cut long lines at 80 columns.",
+   "use": "Always use it for -S, -l and -s."
+  },
+  {
+   "flag": "-U[d|l|e|x|h], --unicode=[d|l|e|x|h]",
+   "plain": "Choose how non-ASCII characters in names are shown.",
+   "use": "Odd symbol names."
+  },
+  {
+   "flag": "-T, --silent-truncation",
+   "plain": "Do not mark symbol names that were cut to fit with an ellipsis.",
+   "use": "Clean output for scripts."
+  },
+  {
+   "flag": "--recurse-limit, --no-recurse-limit, --recursion-limit, --no-recursion-limit",
+   "plain": "Limit (or do not limit) how deeply nested debug data is followed.",
+   "use": "Protection against damaged files."
+  },
+  {
+   "flag": "-q, --quiet",
+   "plain": "Do not print warning messages about damaged or unusual input.",
+   "use": "Clean output for scripts."
+  },
+  {
+   "flag": "-H, --help",
+   "plain": "Print a short usage message.",
+   "use": "A quick reminder."
+  },
+  {
+   "flag": "-v, --version",
+   "plain": "Print the version.",
+   "use": "Checking which binutils you have."
+  }
+ ],
+ "mistakes": [
+  "Forgetting -W: long lines are cut and symbol names are truncated.",
+  "Assuming an empty symbol list means no functions: the binary may be stripped (use objdump -d or a disassembler).",
+  "Reading addresses of a position-independent program as final: they are offsets until it is loaded.",
+  "Expecting readelf to run or unpack a packed binary: it only shows the file as it is on disk."
+ ],
+ "try": [
+  "Find out whether hello is 32 or 64 bit and whether its stack is executable.",
+  "Compile hello.c with -static and compare readelf -d.",
+  "List the libc functions the program imports.",
+  "Strip a binary (strip hello) and compare readelf -s before and after."
+ ],
+ "see_also": "objdump(1), nm(1), file(1), strings(1), ldd(1), checksec, Ghidra and gdb for deeper analysis.",
+ "captured_with": "Example output captured 2026-11-23 with GNU readelf (GNU Binutils for Ubuntu) 2.42 on Ubuntu 24.04 (WSL). The lab files are created by scripts/atlas_tools.py."
+}
