@@ -8,7 +8,7 @@ Generated from `roadmap.csv`. Same 4 h/day + commute reading cadence; weekly gra
 
 - **Practice:** Mon: write the run record (what you solved, what stalled, minutes per flag, tools you reached for). Regionals did not go well: rank weaknesses by category and redo every failed item from memory. Material plan: save the challenge list and your notes now; when the organisers release challenges or writeups, collect them all into external/PastChallenges and rebuild every challenge you missed in the lab (see M24). Advent of Cyber opens Dec 1: 30 min a day as a warm-up.
 - **Reading:** Your qualifier notes; Hacker Playbook 3 (web + AD chapters)
-- **Backlog pulled in:** W08 W13 W14 W15
+- **Backlog pulled in:** W08 W13 W14 W15 K-GEN01
 - **Events:** CyberSci Regionals 2026 results + writeup release (M24); SANS Holiday Hack open Nov 18-Jan 5 (confirmed)
 - **Gate:** Run record + top 3 weaknesses ranked + missed-challenge log started; Advent of Cyber days 1-7 done
 
@@ -16,7 +16,7 @@ Generated from `roadmap.csv`. Same 4 h/day + commute reading cadence; weekly gra
 
 - **Practice:** VulnHub + Metasploitable; 2 HTB easy boxes; manual Linux privesc until linpeas is redundant. Use the mangui pages (man nmap, man getcap, man crontab) instead of searching the web.
 - **Reading:** HackTricks: Linux + Windows privesc
-- **Backlog pulled in:** L05 L06 L07 L13
+- **Backlog pulled in:** L05 L06 L07 L13 K-GEN02 K-WEB01 K-WEB09 K-NET01
 - **Events:** Advent of Cyber Dec 1-24 (confirmed, free, daily)
 - **Gate:** 4 boxes rooted with written methodology
 
@@ -24,7 +24,7 @@ Generated from `roadmap.csv`. Same 4 h/day + commute reading cadence; weekly gra
 
 - **Practice:** GOAD or own Server 2022 lab; BloodHound; Kerberoast; pivoting with chisel/ligolo. Weekend: HTB University CTF (if your team is eligible) or niteCTF; do one, not both.
 - **Reading:** The Hacker Recipes AD; ired.team notes
-- **Backlog pulled in:** L11 L12 L09
+- **Backlog pulled in:** L11 L12 L09 K-AD01 K-AD04 K-AD07 K-TEAM01
 - **Events:** HTB University CTF ~mid Dec (expected; needs academic email + team); niteCTF ~Dec 11-13 (expected)
 - **Gate:** Domain admin via 2 paths from a cold start; first team-CTF results written up
 
@@ -32,7 +32,7 @@ Generated from `roadmap.csv`. Same 4 h/day + commute reading cadence; weekly gra
 
 - **Practice:** HTB Sherlocks; CyberDefenders medium; Sigma/Sysmon/Suricata; 3 one-page IR reports. Confirm your exam dates and cut hours if finals fall here.
 - **Reading:** NIST 800-61; SANS DFIR posters; MITRE ATT&CK
-- **Backlog pulled in:** F08 F10 F12
+- **Backlog pulled in:** F08 F10 F12 K-FOR01 K-FOR06 K-LOG01 K-BLU01 K-MAL01
 - **Events:** Advent of Cyber finishing; school finals (confirm dates)
 - **Gate:** 3 IR reports <1 page each
 
@@ -49,7 +49,7 @@ Generated from `roadmap.csv`. Same 4 h/day + commute reading cadence; weekly gra
 
 - **Practice:** Managed code, packers, anti-debug, angr/z3, malware triage in a VM. Ghidra daily (see man ghidra).
 - **Reading:** Reverse Engineering for Beginners; Practical Malware Analysis
-- **Backlog pulled in:** R04 R05
+- **Backlog pulled in:** R04 R05 K-REV01 K-REV06 K-REV11 K-MAL02
 - **Events:** SANS Holiday Hack closes Jan 5, winners Jan 20 (confirmed)
 - **Gate:** 10 crackmes solved incl. 3 medium
 
@@ -57,20 +57,21 @@ Generated from `roadmap.csv`. Same 4 h/day + commute reading cadence; weekly gra
 
 - **Practice:** ROP Emporium 5-8; format strings; heap basics; pwn.college modules; pwntools scripts.
 - **Reading:** Nightmare; Hacking: The Art of Exploitation; how2heap
-- **Backlog pulled in:** P03 P04 P05 P06
+- **Backlog pulled in:** P03 P04 P05 P06 K-PWN01 K-PWN05 K-PWN09
 - **Gate:** A ROP chain + a format-string write from scratch
 
 ### 2027-01-11 → 2027-01-17 · Cryptography · target L3 · 28 h
 
 - **Practice:** Finish CryptoHack courses; ECC and lattices intro; padding oracle script; Cryptopals sets 2-3.
 - **Reading:** Serious Cryptography; Boneh-Shoup (selected chapters)
-- **Backlog pulled in:** C06
+- **Backlog pulled in:** C06 K-CRY01 K-CRY04 K-CRY07 K-CRY10
 - **Gate:** CryptoHack score 60%+ of challenges
 
 ### 2027-01-18 → 2027-01-24 · Web expert · target L3 · 28 h
 
 - **Practice:** PortSwigger expert labs; request smuggling; deserialisation; Burp extensions (man burpsuite). Writeup watch: collect any released Regionals challenges/writeups into external/PastChallenges; rebuild two missed challenges.
 - **Reading:** Web Application Hacker's Handbook (selected)
+- **Backlog pulled in:** K-WEB02 K-WEB10
 - **Events:** NCL Spring registration opens ~Jan 25 (expected)
 - **Gate:** 20 PortSwigger practitioner + 5 expert labs; Regionals material collected or request sent to organisers
 
@@ -78,6 +79,7 @@ Generated from `roadmap.csv`. Same 4 h/day + commute reading cadence; weekly gra
 
 - **Practice:** Recruit and test your team: roles per category, shared notes, one comms channel. Recon drill: full enumeration of a box in under 15 min with saved scripts.
 - **Reading:** NorthSec rules + past writeups
+- **Backlog pulled in:** K-NET02 K-AI01 K-TEAM02
 - **Events:** Insomni'hack Feb 1-5 (onsite Switzerland, skip; watch writeups); LACTF ~Feb (expected)
 - **Gate:** Team list agreed (aim for 8 for NorthSec); recon script set in repo
 
@@ -85,12 +87,14 @@ Generated from `roadmap.csv`. Same 4 h/day + commute reading cadence; weekly gra
 
 - **Practice:** ADCS, delegation, trusts, cross-forest; detection side with Sysmon/ELK.
 - **Reading:** ired.team + SpecterOps papers
+- **Backlog pulled in:** K-AD02 K-AD05
 - **Gate:** Domain compromise through ADCS in a lab, with the detection written
 
 ### 2027-02-08 → 2027-02-14 · Cloud + containers · target L2 · 28 h
 
 - **Practice:** Docker escape basics, K8s misconfig lab, AWS/S3 IAM labs (free tier). man docker, man bash.
 - **Reading:** OWASP Docker/Kubernetes cheat sheets
+- **Backlog pulled in:** K-CLD01 K-CLD02 K-CLD03 K-CLD04 K-CLD05
 - **Gate:** Escape one container lab; one IAM path to admin
 
 ## P7 Spring season
@@ -99,6 +103,7 @@ Generated from `roadmap.csv`. Same 4 h/day + commute reading cadence; weekly gra
 
 - **Practice:** Timed 4-hour sets: 2 web, 2 pwn/rev, 2 crypto, 2 forensics. Play DiceCTF/other spring qualifier as practice. Writeup watch: final sweep for released Regionals material; close out the missed-challenge log with a one-page lesson per miss.
 - **Reading:** Past-year writeups for the CTFs on the calendar
+- **Backlog pulled in:** K-WEB03 K-WEB11 K-PWN02 K-PWN06 K-PWN10 K-CRY02 K-CRY05 K-CRY08 K-CRY11 K-FOR02 K-FOR07 K-LOG02 K-MSC01 K-MSC04 K-MAL03
 - **Events:** DiceCTF 2027 quals ~early Mar (expected); picoCTF registration opens Feb (expected)
 - **Gate:** Timed set: 6/10 solved in 4 h; M24 closed: every miss has a lesson
 
@@ -106,6 +111,7 @@ Generated from `roadmap.csv`. Same 4 h/day + commute reading cadence; weekly gra
 
 - **Practice:** picoCTF 2027 (expected March, ~10 days, Gym practice before). Aim for a top-tier score as a guaranteed milestone.
 - **Reading:** picoGym archive
+- **Backlog pulled in:** K-GEN03
 - **Events:** picoCTF registration opens ~Feb (expected); LACTF ~Feb (expected)
 - **Gate:** picoCTF: finish with all Web/Crypto/Forensics solved; log time per flag
 
@@ -113,6 +119,7 @@ Generated from `roadmap.csv`. Same 4 h/day + commute reading cadence; weekly gra
 
 - **Practice:** Play DiceCTF quals as team practice (Fri-Sun). Start picoCTF as soon as it opens: Web, Crypto, Forensics first, log minutes per flag.
 - **Reading:** DiceCTF past writeups
+- **Backlog pulled in:** K-GEN04 K-WEB04 K-WEB12 K-CRY03 K-CRY06 K-CRY09 K-CRY12 K-FOR03 K-FOR08 K-LOG03 K-MAL04 K-TEAM03
 - **Events:** DiceCTF 2027 quals ~Mar 5-7 (expected); picoCTF 2027 ~March (expected)
 - **Gate:** DiceCTF: 3+ flags; picoCTF: first 10 challenges logged
 
@@ -120,12 +127,14 @@ Generated from `roadmap.csv`. Same 4 h/day + commute reading cadence; weekly gra
 
 - **Practice:** Run an attack/defend drill with the team: defend a Juice Shop/DVWA stack, patch, monitor logs, then attack your teammates'.
 - **Reading:** SANS blue team material; CCDC study guides
+- **Backlog pulled in:** K-BLU02 K-TEAM04
 - **Gate:** One full attack/defend session; defence runbook updated
 
 ### 2027-03-15 → 2027-03-21 · Medium boxes + registration check · target L3 · 28 h
 
 - **Practice:** Medium HTB boxes. Register NCL Spring (about $45 individual); confirm NorthSec registration process and team tickets.
 - **Reading:** HackTricks as reference only
+- **Backlog pulled in:** K-GEN05 K-NET03 K-PWD01 K-OSI01 K-LOG04 K-HW01 K-HW07 K-AI02 K-SOC01 K-TEAM05
 - **Events:** NCL Spring registration closes ~late Mar (expected)
 - **Gate:** NCL registered; NorthSec team registered or waitlist status known
 
@@ -133,6 +142,7 @@ Generated from `roadmap.csv`. Same 4 h/day + commute reading cadence; weekly gra
 
 - **Practice:** Medium web and forensics sets; NCL gym and practice game when open. Register for NCL Spring now if you have not.
 - **Reading:** PortSwigger Web Security Academy; SANS DFIR posters
+- **Backlog pulled in:** K-WEB05 K-WEB13 K-FOR04 K-FOR09 K-PWD02 K-OSI02 K-LOG05 K-MAL05
 - **Events:** NCL Spring registration closes ~Mar 27 (expected; a late fee applies after)
 - **Gate:** 6 medium web/forensics solved in timed sets; NCL registered
 
@@ -140,12 +150,14 @@ Generated from `roadmap.csv`. Same 4 h/day + commute reading cadence; weekly gra
 
 - **Practice:** Heap + stack mix, reverse medium sets, angr/z3 where useful. Daily timed 90-minute set.
 - **Reading:** how2heap; Reverse Engineering for Beginners
+- **Backlog pulled in:** K-PWN03 K-PWN07 K-PWN11 K-REV02 K-REV07 K-REV12 K-MSC02 K-MSC05 K-MOB01
 - **Gate:** 3 medium pwn + 3 medium reverse solved from scratch
 
 ### 2027-04-05 → 2027-04-11 · NCL Spring individual + reverse medium · target L3 · 28 h
 
 - **Practice:** NCL Spring individual game (3-day window; expected mid April). Reverse medium sets.
 - **Reading:** 
+- **Backlog pulled in:** K-REV03 K-REV08 K-PWD03 K-OSI03 K-MOB02
 - **Events:** NCL Spring individual game ~Apr 9-11 (expected); team game ~Apr 23-25; UMassCTF 2027 ~Apr 9-11 (expected; no-AI division if repeated)
 - **Gate:** NCL individual: top-bracket percentile target (set after the practice game)
 
@@ -153,12 +165,14 @@ Generated from `roadmap.csv`. Same 4 h/day + commute reading cadence; weekly gra
 
 - **Practice:** Full-day team rehearsal on an old NorthSec-style set (tracks: web, hardware/IoT, network, forensics, reverse). Fix roles and notes.
 - **Reading:** NorthSec past writeups
+- **Backlog pulled in:** K-WEB06 K-WEB14 K-REV04 K-REV09 K-FOR05 K-FOR10 K-NET04 K-HW02 K-HW08 K-AI03 K-SOC02
 - **Gate:** Rehearsal debrief: points/hour per person, 3 fixes
 
 ### 2027-04-19 → 2027-04-25 · Exam buffer + NCL team game · target L2 · 20 h
 
 - **Practice:** Keep maintenance only if exams. NCL team game with your team (late April, expected).
 - **Reading:** 
+- **Backlog pulled in:** K-PWD04 K-OSI04
 - **Events:** NCL Spring team game ~Apr 23-25 (expected); school finals (confirm)
 - **Gate:** NCL team game played; exam hours protected
 
@@ -166,6 +180,7 @@ Generated from `roadmap.csv`. Same 4 h/day + commute reading cadence; weekly gra
 
 - **Practice:** Second rehearsal. Freeze tools and notes: offline mirror, cheat sheets, mangui installed in the VM.
 - **Reading:** 
+- **Backlog pulled in:** K-HW03 K-HW09 K-AI04 K-SOC03
 - **Events:** NorthSec 2027 CTF May 14-16, Montreal (confirmed; regular + AI experience)
 - **Gate:** Tool freeze committed; travel/lodging booked
 
@@ -173,6 +188,7 @@ Generated from `roadmap.csv`. Same 4 h/day + commute reading cadence; weekly gra
 
 - **Practice:** Web medium, OSINT, scripting speed; final team rehearsal Saturday; print/offline everything.
 - **Reading:** 
+- **Backlog pulled in:** K-WEB07 K-WEB15 K-OSI05 K-HW04 K-MSC03 K-MSC06 K-AI05
 - **Events:** Travel + lodging for NorthSec confirmed
 - **Gate:** Timed OSINT + scripting set: 5/8 in 2 h
 
@@ -180,6 +196,7 @@ Generated from `roadmap.csv`. Same 4 h/day + commute reading cadence; weekly gra
 
 - **Practice:** Light review Mon-Wed, rest Thu, then play. NorthSec CTF Fri May 14 to Sun May 16.
 - **Reading:** None: sleep
+- **Backlog pulled in:** K-HW05
 - **Events:** NorthSec CTF May 14-16 (confirmed); NorthSec conference ~May 17-23 (unconfirmed)
 - **Gate:** MILESTONE: NorthSec played; post-event debrief written within 48 h
 
@@ -189,6 +206,7 @@ Generated from `roadmap.csv`. Same 4 h/day + commute reading cadence; weekly gra
 
 - **Practice:** Debrief NorthSec; fix the 3 weakest categories. DEF CON CTF qualifier is expected in late May: play if time allows.
 - **Reading:** NorthSec winners' writeups
+- **Backlog pulled in:** K-HW06
 - **Events:** DEF CON 35 CTF qualifier ~late May (expected; organiser BBB birds)
 - **Gate:** Debrief done; one weakness class closed
 
@@ -196,6 +214,7 @@ Generated from `roadmap.csv`. Same 4 h/day + commute reading cadence; weekly gra
 
 - **Practice:** Regionals went badly, so Nationals is out unless the organisers invite you (check once). Default Track B: Google CTF + HTB Apocalypse-style prep. If an invitation does arrive, switch to Track A (attack/defend + scenario chains).
 - **Reading:** Google CTF past writeups; CyberSci past finals writeups (if Track A)
+- **Backlog pulled in:** K-BLU03
 - **Events:** CyberSci Nationals June 2027 (regional winners only; not expected for you); Google CTF quals ~late Jun (expected)
 - **Gate:** Decision made and written: Track B (Google CTF) unless invited to Nationals
 
@@ -203,6 +222,7 @@ Generated from `roadmap.csv`. Same 4 h/day + commute reading cadence; weekly gra
 
 - **Practice:** Scenario chains (recon -> foothold -> pivot -> loot) and defend drills with the team. Skip if Track B; use the week for Google CTF prep.
 - **Reading:** CyberSci past finals writeups
+- **Backlog pulled in:** K-NET05 K-BLU04
 - **Gate:** Chain drill: foothold to domain admin in the time limit
 
 ### 2027-06-07 → 2027-06-13 · Google CTF window (Track B) · target L3 · 20 h
@@ -223,24 +243,28 @@ Generated from `roadmap.csv`. Same 4 h/day + commute reading cadence; weekly gra
 
 - **Practice:** Rest day, lab day, writeup day. Publish writeups for 3 challenges from the spring.
 - **Reading:** 
+- **Backlog pulled in:** K-BCH01
 - **Gate:** 3 writeups published
 
 ### 2027-06-28 → 2027-07-04 · Summer build 1: your own lab · target L3 · 28 h
 
 - **Practice:** Build the dojo/lab you want: a home range with AD, web, and a monitored network (see dojo-platform-backlog).
 - **Reading:** 
+- **Backlog pulled in:** K-WEB08 K-WEB16 K-NET06 K-AD03 K-AD06 K-BCH02 K-MOB03
 - **Gate:** Lab rebuildable from one command/script
 
 ### 2027-07-05 → 2027-07-11 · Summer build 2: tooling + notes · target L3 · 28 h
 
 - **Practice:** Rewrite your notes as a searchable offline wiki; extend mangui guides from your real use; automate recon.
 - **Reading:** 
+- **Backlog pulled in:** K-NET07 K-BCH03 K-MOB04
 - **Gate:** Recon automation tested on 5 boxes
 
 ### 2027-07-12 → 2027-07-18 · Hard targets · target L3 · 28 h
 
 - **Practice:** Pick 3 hard challenges from archives (CTFtime 'hard' tag) and finish them over the week.
 - **Reading:** 
+- **Backlog pulled in:** K-BCH04
 - **Gate:** 3 hard challenges solved, writeups published
 
 ### 2027-07-19 → 2027-07-25 · UIUCTF + HTB Apocalypse window · target L3 · 28 h
@@ -269,6 +293,7 @@ Generated from `roadmap.csv`. Same 4 h/day + commute reading cadence; weekly gra
 
 - **Practice:** Rest, plan the fall term, register the team for NCL Fall and CyberSci Regionals as soon as they open.
 - **Reading:** 
+- **Backlog pulled in:** K-PWD05 K-OSI06
 - **Events:** NCL Fall registration opens ~Aug (expected)
 - **Gate:** Fall calendar copied into your own calendar
 
@@ -276,6 +301,7 @@ Generated from `roadmap.csv`. Same 4 h/day + commute reading cadence; weekly gra
 
 - **Practice:** Choose a lane for the fall: OSCP-style boxes, a blue-team lane (BTL1/CySA), or reverse/pwn depth. Keep CTF practice on weekends.
 - **Reading:** Chosen lane's official syllabus
+- **Backlog pulled in:** K-GEN06 K-PWN04 K-PWN08 K-PWN12 K-REV05 K-REV10 K-BLU05
 - **Gate:** Lane chosen and week-by-week plan added
 
 ### 2027-08-23 → 2027-08-29 · Specialty week 1 · target L3 · 28 h

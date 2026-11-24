@@ -1,0 +1,150 @@
+id,category,category_name,topic,level,study_hours,content,events,n_events,n_priority,score,week,status
+K-WEB01,WEB,Web exploitation,"SQL injection: union, blind, error, second-order, filters bypass",L2,6,chapter + 3 labs + flashcards,M01 M02 M03 M04 M05 M07 M08 M10 M11 M12 M13 M14 M15 M17 M18 M19 M20 M21 M23 M25 M26 M27,22,9,40,2026-11-30,todo
+K-WEB02,WEB,Web exploitation,"XSS: reflected, stored, DOM, CSP bypass, bot/admin-visit challenges",L2,6,chapter + 3 labs + flashcards,M01 M02 M03 M04 M05 M07 M08 M10 M11 M12 M13 M14 M15 M17 M18 M19 M20 M21 M23 M25 M26 M27,22,9,40,2027-01-18,todo
+K-WEB03,WEB,Web exploitation,"SSRF and internal-service pivots (cloud metadata, gopher)",L3,4,chapter + 3 labs + flashcards,M01 M02 M03 M04 M05 M07 M08 M10 M11 M12 M13 M14 M15 M17 M18 M19 M20 M21 M23 M25 M26 M27,22,9,40,2027-02-15,todo
+K-WEB04,WEB,Web exploitation,"Authentication and sessions: JWT, cookies, password reset, IDOR",L2,5,chapter + 3 labs + flashcards,M01 M02 M03 M04 M05 M07 M08 M10 M11 M12 M13 M14 M15 M17 M18 M19 M20 M21 M23 M25 M26 M27,22,9,40,2027-03-01,todo
+K-WEB05,WEB,Web exploitation,"File upload, LFI/RFI, path traversal, PHP wrappers",L2,5,chapter + 3 labs + flashcards,M01 M02 M03 M04 M05 M07 M08 M10 M11 M12 M13 M14 M15 M17 M18 M19 M20 M21 M23 M25 M26 M27,22,9,40,2027-03-22,todo
+K-WEB06,WEB,Web exploitation,"Server-side template injection (Jinja2, Twig, Freemarker)",L3,4,chapter + 3 labs + flashcards,M01 M02 M03 M04 M05 M07 M08 M10 M11 M12 M13 M14 M15 M17 M18 M19 M20 M21 M23 M25 M26 M27,22,9,40,2027-04-12,todo
+K-WEB07,WEB,Web exploitation,"Deserialization: PHP, Java, Python pickle, .NET",L3,6,chapter + 3 labs + flashcards,M01 M02 M03 M04 M05 M07 M08 M10 M11 M12 M13 M14 M15 M17 M18 M19 M20 M21 M23 M25 M26 M27,22,9,40,2027-05-03,todo
+K-WEB08,WEB,Web exploitation,XXE and XML parsers,L3,3,chapter + 3 labs + flashcards,M01 M02 M03 M04 M05 M07 M08 M10 M11 M12 M13 M14 M15 M17 M18 M19 M20 M21 M23 M25 M26 M27,22,9,40,2027-06-28,todo
+K-WEB09,WEB,Web exploitation,"Request smuggling, cache poisoning, host-header attacks",L3,6,chapter + 3 labs + flashcards,M01 M02 M03 M04 M05 M07 M08 M10 M11 M12 M13 M14 M15 M17 M18 M19 M20 M21 M23 M25 M26 M27,22,9,40,2026-11-30,todo
+K-WEB10,WEB,Web exploitation,"Prototype pollution, NoSQL injection, mass assignment",L3,4,chapter + 3 labs + flashcards,M01 M02 M03 M04 M05 M07 M08 M10 M11 M12 M13 M14 M15 M17 M18 M19 M20 M21 M23 M25 M26 M27,22,9,40,2027-01-18,todo
+K-WEB11,WEB,Web exploitation,GraphQL and API testing,L3,4,chapter + 3 labs + flashcards,M01 M02 M03 M04 M05 M07 M08 M10 M11 M12 M13 M14 M15 M17 M18 M19 M20 M21 M23 M25 M26 M27,22,9,40,2027-02-15,todo
+K-WEB12,WEB,Web exploitation,Race conditions and logic flaws,L3,4,chapter + 3 labs + flashcards,M01 M02 M03 M04 M05 M07 M08 M10 M11 M12 M13 M14 M15 M17 M18 M19 M20 M21 M23 M25 M26 M27,22,9,40,2027-03-01,todo
+K-WEB13,WEB,Web exploitation,OAuth/SAML/SSO flaws,L3,4,chapter + 3 labs + flashcards,M01 M02 M03 M04 M05 M07 M08 M10 M11 M12 M13 M14 M15 M17 M18 M19 M20 M21 M23 M25 M26 M27,22,9,40,2027-03-22,todo
+K-WEB14,WEB,Web exploitation,"CSRF, CORS, clickjacking, WebSockets",L2,4,chapter + 3 labs + flashcards,M01 M02 M03 M04 M05 M07 M08 M10 M11 M12 M13 M14 M15 M17 M18 M19 M20 M21 M23 M25 M26 M27,22,9,40,2027-04-12,todo
+K-WEB15,WEB,Web exploitation,"Framework quirks: PHP juggling, Node, Flask, Spring",L3,5,chapter + 3 labs + flashcards,M01 M02 M03 M04 M05 M07 M08 M10 M11 M12 M13 M14 M15 M17 M18 M19 M20 M21 M23 M25 M26 M27,22,9,40,2027-05-03,todo
+K-WEB16,WEB,Web exploitation,"Web recon and content discovery speed (ffuf, gobuster, Burp)",L2,3,chapter + 3 labs + flashcards,M01 M02 M03 M04 M05 M07 M08 M10 M11 M12 M13 M14 M15 M17 M18 M19 M20 M21 M23 M25 M26 M27,22,9,40,2027-06-28,todo
+K-CRY01,CRY,Cryptography,Classical ciphers and frequency analysis,L1,3,chapter + Python notebooks + drills,M03 M04 M05 M07 M08 M10 M11 M12 M14 M15 M17 M18 M21 M23 M25 M26 M27,17,9,35,2027-01-11,todo
+K-CRY02,CRY,Cryptography,"XOR, repeating-key XOR, one-time-pad reuse",L1,3,chapter + Python notebooks + drills,M03 M04 M05 M07 M08 M10 M11 M12 M14 M15 M17 M18 M21 M23 M25 M26 M27,17,9,35,2027-02-15,todo
+K-CRY03,CRY,Cryptography,"RSA basics and attacks: small e, common modulus, Wiener, factorisation",L2,8,chapter + Python notebooks + drills,M03 M04 M05 M07 M08 M10 M11 M12 M14 M15 M17 M18 M21 M23 M25 M26 M27,17,9,35,2027-03-01,todo
+K-CRY04,CRY,Cryptography,"AES modes: ECB, CBC bit-flip, padding oracle, CTR reuse",L2,8,chapter + Python notebooks + drills,M03 M04 M05 M07 M08 M10 M11 M12 M14 M15 M17 M18 M21 M23 M25 M26 M27,17,9,35,2027-01-11,todo
+K-CRY05,CRY,Cryptography,"Hash functions, length extension, collisions, MACs",L2,4,chapter + Python notebooks + drills,M03 M04 M05 M07 M08 M10 M11 M12 M14 M15 M17 M18 M21 M23 M25 M26 M27,17,9,35,2027-02-15,todo
+K-CRY06,CRY,Cryptography,Elliptic curves and ECDSA nonce reuse,L3,8,chapter + Python notebooks + drills,M03 M04 M05 M07 M08 M10 M11 M12 M14 M15 M17 M18 M21 M23 M25 M26 M27,17,9,35,2027-03-01,todo
+K-CRY07,CRY,Cryptography,"Lattices, LLL and Coppersmith",L3,10,chapter + Python notebooks + drills,M03 M04 M05 M07 M08 M10 M11 M12 M14 M15 M17 M18 M21 M23 M25 M26 M27,17,9,35,2027-01-11,todo
+K-CRY08,CRY,Cryptography,"PRNG attacks: Mersenne Twister, LCG, state recovery",L3,5,chapter + Python notebooks + drills,M03 M04 M05 M07 M08 M10 M11 M12 M14 M15 M17 M18 M21 M23 M25 M26 M27,17,9,35,2027-02-15,todo
+K-CRY09,CRY,Cryptography,Diffie-Hellman and discrete log,L3,4,chapter + Python notebooks + drills,M03 M04 M05 M07 M08 M10 M11 M12 M14 M15 M17 M18 M21 M23 M25 M26 M27,17,9,35,2027-03-01,todo
+K-CRY10,CRY,Cryptography,Z3/SAT for custom ciphers,L3,4,chapter + Python notebooks + drills,M03 M04 M05 M07 M08 M10 M11 M12 M14 M15 M17 M18 M21 M23 M25 M26 M27,17,9,35,2027-01-11,todo
+K-CRY11,CRY,Cryptography,Side channels and timing,L3,3,chapter + Python notebooks + drills,M03 M04 M05 M07 M08 M10 M11 M12 M14 M15 M17 M18 M21 M23 M25 M26 M27,17,9,35,2027-02-15,todo
+K-CRY12,CRY,Cryptography,"Zero-knowledge, post-quantum and signatures intro",L3,5,chapter + Python notebooks + drills,M03 M04 M05 M07 M08 M10 M11 M12 M14 M15 M17 M18 M21 M23 M25 M26 M27,17,9,35,2027-03-01,todo
+K-FOR01,FOR,Digital forensics,"Disk images and file systems (Autopsy, sleuthkit, deleted files)",L2,5,chapter + sample images + tool sheets,M01 M02 M03 M04 M07 M10 M11 M13 M15 M17 M18 M20 M21 M23 M25 M26,16,9,34,2026-12-14,todo
+K-FOR02,FOR,Digital forensics,Memory forensics with Volatility 3,L3,6,chapter + sample images + tool sheets,M01 M02 M03 M04 M07 M10 M11 M13 M15 M17 M18 M20 M21 M23 M25 M26,16,9,34,2027-02-15,todo
+K-FOR03,FOR,Digital forensics,Network forensics: pcap triage in Wireshark/tshark,L2,5,chapter + sample images + tool sheets,M01 M02 M03 M04 M07 M10 M11 M13 M15 M17 M18 M20 M21 M23 M25 M26,16,9,34,2027-03-01,todo
+K-FOR04,FOR,Digital forensics,"File carving and file-format repair (foremost, binwalk, magic bytes)",L2,4,chapter + sample images + tool sheets,M01 M02 M03 M04 M07 M10 M11 M13 M15 M17 M18 M20 M21 M23 M25 M26,16,9,34,2027-03-22,todo
+K-FOR05,FOR,Digital forensics,"Steganography: image, audio, video, text (steghide, zsteg, sox, ffmpeg)",L2,5,chapter + sample images + tool sheets,M01 M02 M03 M04 M07 M10 M11 M13 M15 M17 M18 M20 M21 M23 M25 M26,16,9,34,2027-04-12,todo
+K-FOR06,FOR,Digital forensics,"Windows artefacts: registry, event logs, prefetch, shellbags",L3,6,chapter + sample images + tool sheets,M01 M02 M03 M04 M07 M10 M11 M13 M15 M17 M18 M20 M21 M23 M25 M26,16,9,34,2026-12-14,todo
+K-FOR07,FOR,Digital forensics,Linux artefacts and timeline analysis,L2,4,chapter + sample images + tool sheets,M01 M02 M03 M04 M07 M10 M11 M13 M15 M17 M18 M20 M21 M23 M25 M26,16,9,34,2027-02-15,todo
+K-FOR08,FOR,Digital forensics,"Email and phishing analysis, Office macros, PDF analysis",L2,4,chapter + sample images + tool sheets,M01 M02 M03 M04 M07 M10 M11 M13 M15 M17 M18 M20 M21 M23 M25 M26,16,9,34,2027-03-01,todo
+K-FOR09,FOR,Digital forensics,Mobile and USB forensics basics,L3,4,chapter + sample images + tool sheets,M01 M02 M03 M04 M07 M10 M11 M13 M15 M17 M18 M20 M21 M23 M25 M26,16,9,34,2027-03-22,todo
+K-FOR10,FOR,Digital forensics,Cloud and container forensics logs,L3,4,chapter + sample images + tool sheets,M01 M02 M03 M04 M07 M10 M11 M13 M15 M17 M18 M20 M21 M23 M25 M26,16,9,34,2027-04-12,todo
+K-REV01,REV,Reverse engineering,Static analysis workflow in Ghidra and radare2,L2,5,chapter + 10 crackmes + radare2/ghidra drills,M01 M03 M04 M05 M07 M08 M11 M12 M14 M15 M17 M21 M23 M25 M26 M27,16,7,30,2026-12-28,todo
+K-REV02,REV,Reverse engineering,"Dynamic analysis: gdb, ltrace, strace, Frida",L2,5,chapter + 10 crackmes + radare2/ghidra drills,M01 M03 M04 M05 M07 M08 M11 M12 M14 M15 M17 M21 M23 M25 M26 M27,16,7,30,2027-03-29,todo
+K-REV03,REV,Reverse engineering,"Anti-debug, obfuscation and packers (UPX, control-flow flattening)",L3,6,chapter + 10 crackmes + radare2/ghidra drills,M01 M03 M04 M05 M07 M08 M11 M12 M14 M15 M17 M21 M23 M25 M26 M27,16,7,30,2027-04-05,todo
+K-REV04,REV,Reverse engineering,"Managed code: .NET (dnSpy), Java (jadx), Python bytecode",L2,5,chapter + 10 crackmes + radare2/ghidra drills,M01 M03 M04 M05 M07 M08 M11 M12 M14 M15 M17 M21 M23 M25 M26 M27,16,7,30,2027-04-12,todo
+K-REV05,REV,Reverse engineering,Custom VMs and bytecode interpreters,L3,8,chapter + 10 crackmes + radare2/ghidra drills,M01 M03 M04 M05 M07 M08 M11 M12 M14 M15 M17 M21 M23 M25 M26 M27,16,7,30,2027-08-16,todo
+K-REV06,REV,Reverse engineering,Symbolic execution: z3 and angr,L3,6,chapter + 10 crackmes + radare2/ghidra drills,M01 M03 M04 M05 M07 M08 M11 M12 M14 M15 M17 M21 M23 M25 M26 M27,16,7,30,2026-12-28,todo
+K-REV07,REV,Reverse engineering,"Android APK reversing (jadx, apktool, frida)",L3,6,chapter + 10 crackmes + radare2/ghidra drills,M01 M03 M04 M05 M07 M08 M11 M12 M14 M15 M17 M21 M23 M25 M26 M27,16,7,30,2027-03-29,todo
+K-REV08,REV,Reverse engineering,WebAssembly and JavaScript obfuscation,L3,4,chapter + 10 crackmes + radare2/ghidra drills,M01 M03 M04 M05 M07 M08 M11 M12 M14 M15 M17 M21 M23 M25 M26 M27,16,7,30,2027-04-05,todo
+K-REV09,REV,Reverse engineering,Rust and Go binaries,L3,4,chapter + 10 crackmes + radare2/ghidra drills,M01 M03 M04 M05 M07 M08 M11 M12 M14 M15 M17 M21 M23 M25 M26 M27,16,7,30,2027-04-12,todo
+K-REV10,REV,Reverse engineering,Firmware images and embedded binaries,L3,5,chapter + 10 crackmes + radare2/ghidra drills,M01 M03 M04 M05 M07 M08 M11 M12 M14 M15 M17 M21 M23 M25 M26 M27,16,7,30,2027-08-16,todo
+K-REV11,REV,Reverse engineering,Game hacking and memory tools (Cheat Engine),L2,3,chapter + 10 crackmes + radare2/ghidra drills,M01 M03 M04 M05 M07 M08 M11 M12 M14 M15 M17 M21 M23 M25 M26 M27,16,7,30,2026-12-28,todo
+K-REV12,REV,Reverse engineering,Keygens and crackme patterns,L2,4,chapter + 10 crackmes + radare2/ghidra drills,M01 M03 M04 M05 M07 M08 M11 M12 M14 M15 M17 M21 M23 M25 M26 M27,16,7,30,2027-03-29,todo
+K-MSC01,MSC,"Misc, scripting and puzzles",Python jails and restricted shells,L3,4,chapter + 20 mini-puzzles,M01 M03 M04 M05 M08 M11 M12 M14 M15 M17 M19 M20 M21 M23 M25 M26 M27,17,6,29,2027-02-15,todo
+K-MSC02,MSC,"Misc, scripting and puzzles","Esoteric languages, QR/barcodes, ciphers in images",L1,3,chapter + 20 mini-puzzles,M01 M03 M04 M05 M08 M11 M12 M14 M15 M17 M19 M20 M21 M23 M25 M26 M27,17,6,29,2027-03-29,todo
+K-MSC03,MSC,"Misc, scripting and puzzles","Programming puzzles under time (parsing, graph, maths)",L2,5,chapter + 20 mini-puzzles,M01 M03 M04 M05 M08 M11 M12 M14 M15 M17 M19 M20 M21 M23 M25 M26 M27,17,6,29,2027-05-03,todo
+K-MSC04,MSC,"Misc, scripting and puzzles",Automating servers and sockets: solve scripts,L2,4,chapter + 20 mini-puzzles,M01 M03 M04 M05 M08 M11 M12 M14 M15 M17 M19 M20 M21 M23 M25 M26 M27,17,6,29,2027-02-15,todo
+K-MSC05,MSC,"Misc, scripting and puzzles",CyberChef recipes and scripting speed,L1,3,chapter + 20 mini-puzzles,M01 M03 M04 M05 M08 M11 M12 M14 M15 M17 M19 M20 M21 M23 M25 M26 M27,17,6,29,2027-03-29,todo
+K-MSC06,MSC,"Misc, scripting and puzzles",Scoreboard and flag-submission strategy,L1,2,chapter + 20 mini-puzzles,M01 M03 M04 M05 M08 M11 M12 M14 M15 M17 M19 M20 M21 M23 M25 M26 M27,17,6,29,2027-05-03,todo
+K-PWN01,PWN,Binary exploitation (pwn),"Stack overflow basics: ret2win, offsets, cyclic patterns",L2,4,chapter + lab binaries + pwntools templates,M03 M04 M05 M07 M08 M11 M12 M14 M15 M17 M21 M23 M25 M27,14,6,26,2027-01-04,todo
+K-PWN02,PWN,Binary exploitation (pwn),Shellcode and NX/ASLR/PIE/canary protections,L2,5,chapter + lab binaries + pwntools templates,M03 M04 M05 M07 M08 M11 M12 M14 M15 M17 M21 M23 M25 M27,14,6,26,2027-02-15,todo
+K-PWN03,PWN,Binary exploitation (pwn),"ROP chains and ret2libc, one_gadget",L3,8,chapter + lab binaries + pwntools templates,M03 M04 M05 M07 M08 M11 M12 M14 M15 M17 M21 M23 M25 M27,14,6,26,2027-03-29,todo
+K-PWN04,PWN,Binary exploitation (pwn),"Format-string bugs: read, write, GOT overwrite",L3,6,chapter + lab binaries + pwntools templates,M03 M04 M05 M07 M08 M11 M12 M14 M15 M17 M21 M23 M25 M27,14,6,26,2027-08-16,todo
+K-PWN05,PWN,Binary exploitation (pwn),"Heap: tcache, fastbin, use-after-free, double free",L3,12,chapter + lab binaries + pwntools templates,M03 M04 M05 M07 M08 M11 M12 M14 M15 M17 M21 M23 M25 M27,14,6,26,2027-01-04,todo
+K-PWN06,PWN,Binary exploitation (pwn),"SROP, ret2dlresolve, ret2csu",L3,6,chapter + lab binaries + pwntools templates,M03 M04 M05 M07 M08 M11 M12 M14 M15 M17 M21 M23 M25 M27,14,6,26,2027-02-15,todo
+K-PWN07,PWN,Binary exploitation (pwn),Seccomp and sandbox escapes (ORW chains),L3,5,chapter + lab binaries + pwntools templates,M03 M04 M05 M07 M08 M11 M12 M14 M15 M17 M21 M23 M25 M27,14,6,26,2027-03-29,todo
+K-PWN08,PWN,Binary exploitation (pwn),"Kernel pwn intro (modules, LKM bugs)",L3,10,chapter + lab binaries + pwntools templates,M03 M04 M05 M07 M08 M11 M12 M14 M15 M17 M21 M23 M25 M27,14,6,26,2027-08-16,todo
+K-PWN09,PWN,Binary exploitation (pwn),"Other architectures: ARM, MIPS, RISC-V emulation with qemu",L3,6,chapter + lab binaries + pwntools templates,M03 M04 M05 M07 M08 M11 M12 M14 M15 M17 M21 M23 M25 M27,14,6,26,2027-01-04,todo
+K-PWN10,PWN,Binary exploitation (pwn),Browser and JS-engine pwn intro (V8 basics),L3,10,chapter + lab binaries + pwntools templates,M03 M04 M05 M07 M08 M11 M12 M14 M15 M17 M21 M23 M25 M27,14,6,26,2027-02-15,todo
+K-PWN11,PWN,Binary exploitation (pwn),Windows pwn basics,L3,6,chapter + lab binaries + pwntools templates,M03 M04 M05 M07 M08 M11 M12 M14 M15 M17 M21 M23 M25 M27,14,6,26,2027-03-29,todo
+K-PWN12,PWN,Binary exploitation (pwn),"Exploit workflow: gdb/pwndbg, pwntools, remote vs local debug",L2,4,chapter + lab binaries + pwntools templates,M03 M04 M05 M07 M08 M11 M12 M14 M15 M17 M21 M23 M25 M27,14,6,26,2027-08-16,todo
+K-HW01,HW,"Hardware, IoT, RF and physical","UART, JTAG, SPI/I2C: identify and connect",L3,6,chapter + kit list + firmware samples,M03 M10 M11 M14 M17 M18 M19 M20 M23,9,6,21,2027-03-15,todo
+K-HW02,HW,"Hardware, IoT, RF and physical","Firmware extraction and analysis (binwalk, firmadyne)",L3,5,chapter + kit list + firmware samples,M03 M10 M11 M14 M17 M18 M19 M20 M23,9,6,21,2027-04-12,todo
+K-HW03,HW,"Hardware, IoT, RF and physical",Arduino/ESP/microcontroller code and serial protocols,L2,5,chapter + kit list + firmware samples,M03 M10 M11 M14 M17 M18 M19 M20 M23,9,6,21,2027-04-26,todo
+K-HW04,HW,"Hardware, IoT, RF and physical","Software-defined radio and RF signals (SDR basics, rtl_433)",L3,6,chapter + kit list + firmware samples,M03 M10 M11 M14 M17 M18 M19 M20 M23,9,6,21,2027-05-03,todo
+K-HW05,HW,"Hardware, IoT, RF and physical",Bluetooth Low Energy and badges (NorthSec-style),L3,5,chapter + kit list + firmware samples,M03 M10 M11 M14 M17 M18 M19 M20 M23,9,6,21,2027-05-10,todo
+K-HW06,HW,"Hardware, IoT, RF and physical",NFC/RFID and card cloning concepts,L3,4,chapter + kit list + firmware samples,M03 M10 M11 M14 M17 M18 M19 M20 M23,9,6,21,2027-05-17,todo
+K-HW07,HW,"Hardware, IoT, RF and physical",CAN bus and automotive basics,L3,4,chapter + kit list + firmware samples,M03 M10 M11 M14 M17 M18 M19 M20 M23,9,6,21,2027-03-15,todo
+K-HW08,HW,"Hardware, IoT, RF and physical",Logic analyser and protocol decoding (sigrok),L3,3,chapter + kit list + firmware samples,M03 M10 M11 M14 M17 M18 M19 M20 M23,9,6,21,2027-04-12,todo
+K-HW09,HW,"Hardware, IoT, RF and physical",Lock picking and physical security basics (legal practice),L2,4,chapter + kit list + firmware samples,M03 M10 M11 M14 M17 M18 M19 M20 M23,9,6,21,2027-04-26,todo
+K-NET01,NET,"Network, scanning and enumeration",Nmap scanning strategy and NSE scripts,L2,4,chapter + lab network + nmap/ldap sheets,M01 M02 M10 M11 M13 M18 M19 M21,8,4,16,2026-11-30,todo
+K-NET02,NET,"Network, scanning and enumeration","Service enumeration: SMB, FTP, SSH, SNMP, NFS, DNS, SMTP",L2,6,chapter + lab network + nmap/ldap sheets,M01 M02 M10 M11 M13 M18 M19 M21,8,4,16,2027-01-25,todo
+K-NET03,NET,"Network, scanning and enumeration","Wireless: WPA handshakes, aircrack, deauth, evil-twin concepts",L3,6,chapter + lab network + nmap/ldap sheets,M01 M02 M10 M11 M13 M18 M19 M21,8,4,16,2027-03-15,todo
+K-NET04,NET,"Network, scanning and enumeration","Pivoting and tunnelling: chisel, ssh -D, proxychains, ligolo",L3,5,chapter + lab network + nmap/ldap sheets,M01 M02 M10 M11 M13 M18 M19 M21,8,4,16,2027-04-12,todo
+K-NET05,NET,"Network, scanning and enumeration","Protocol analysis and custom protocols (netcat, scapy)",L3,5,chapter + lab network + nmap/ldap sheets,M01 M02 M10 M11 M13 M18 M19 M21,8,4,16,2027-05-31,todo
+K-NET06,NET,"Network, scanning and enumeration","Sniffing, ARP and MITM concepts in a lab",L2,3,chapter + lab network + nmap/ldap sheets,M01 M02 M10 M11 M13 M18 M19 M21,8,4,16,2027-06-28,todo
+K-NET07,NET,"Network, scanning and enumeration","IPv6, VLANs and routing for CTF networks",L3,4,chapter + lab network + nmap/ldap sheets,M01 M02 M10 M11 M13 M18 M19 M21,8,4,16,2027-07-05,todo
+K-OSI01,OSI,OSINT,Image geolocation and reverse image search,L2,5,chapter + 10 timed puzzles,M02 M10 M15 M18 M20 M21 M26,7,4,15,2027-03-15,todo
+K-OSI02,OSI,OSINT,"People, username and social-media research",L2,4,chapter + 10 timed puzzles,M02 M10 M15 M18 M20 M21 M26,7,4,15,2027-03-22,todo
+K-OSI03,OSI,OSINT,"Domains, IPs, certificates, Shodan and passive DNS",L2,4,chapter + 10 timed puzzles,M02 M10 M15 M18 M20 M21 M26,7,4,15,2027-04-05,todo
+K-OSI04,OSI,OSINT,"Metadata, archives (Wayback) and document leaks",L1,3,chapter + 10 timed puzzles,M02 M10 M15 M18 M20 M21 M26,7,4,15,2027-04-19,todo
+K-OSI05,OSI,OSINT,"Maps, satellite and street-level tools",L2,3,chapter + 10 timed puzzles,M02 M10 M15 M18 M20 M21 M26,7,4,15,2027-05-03,todo
+K-OSI06,OSI,OSINT,Methodology and OPSEC for investigations,L1,2,chapter + 10 timed puzzles,M02 M10 M15 M18 M20 M21 M26,7,4,15,2027-08-09,todo
+K-AD01,AD,Active Directory and Windows/Linux privilege escalation,"AD enumeration (ldapsearch, rpcclient, BloodHound)",L2,6,chapter + GOAD-style lab,M10 M11 M13 M18 M21,5,4,13,2026-12-07,todo
+K-AD02,AD,Active Directory and Windows/Linux privilege escalation,Kerberos attacks and defences,L3,6,chapter + GOAD-style lab,M10 M11 M13 M18 M21,5,4,13,2027-02-01,todo
+K-AD03,AD,Active Directory and Windows/Linux privilege escalation,ADCS and delegation misconfigurations,L3,6,chapter + GOAD-style lab,M10 M11 M13 M18 M21,5,4,13,2027-06-28,todo
+K-AD04,AD,Active Directory and Windows/Linux privilege escalation,Lateral movement and credential reuse,L3,5,chapter + GOAD-style lab,M10 M11 M13 M18 M21,5,4,13,2026-12-07,todo
+K-AD05,AD,Active Directory and Windows/Linux privilege escalation,Windows privilege escalation,L3,6,chapter + GOAD-style lab,M10 M11 M13 M18 M21,5,4,13,2027-02-01,todo
+K-AD06,AD,Active Directory and Windows/Linux privilege escalation,"Linux privilege escalation (SUID, sudo, cron, capabilities)",L2,5,chapter + GOAD-style lab,M10 M11 M13 M18 M21,5,4,13,2027-06-28,todo
+K-AD07,AD,Active Directory and Windows/Linux privilege escalation,NTLM relay and signing defences,L3,5,chapter + GOAD-style lab,M10 M11 M13 M18 M21,5,4,13,2026-12-07,todo
+K-AI01,AI,AI and LLM security,Prompt injection and jailbreak challenges,L2,4,chapter + prompt-injection labs,M01 M02 M11 M17,4,2,8,2027-01-25,todo
+K-AI02,AI,AI and LLM security,LLM agent and tool-use attacks,L3,4,chapter + prompt-injection labs,M01 M02 M11 M17,4,2,8,2027-03-15,todo
+K-AI03,AI,AI and LLM security,Adversarial examples and model extraction basics,L3,4,chapter + prompt-injection labs,M01 M02 M11 M17,4,2,8,2027-04-12,todo
+K-AI04,AI,AI and LLM security,"Using AI tools within the rules (NorthSec AI experience, allowed events)",L2,3,chapter + prompt-injection labs,M01 M02 M11 M17,4,2,8,2027-04-26,todo
+K-AI05,AI,AI and LLM security,"Policy: which events allow AI, how to train without it",L1,1,chapter + prompt-injection labs,M01 M02 M11 M17,4,2,8,2027-05-03,todo
+K-BCH01,BCH,Blockchain and smart contracts,Solidity and EVM basics,L3,5,chapter + Foundry/Hardhat labs,M03 M04 M23,3,2,7,2027-06-21,todo
+K-BCH02,BCH,Blockchain and smart contracts,"Reentrancy, overflow, access-control bugs",L3,5,chapter + Foundry/Hardhat labs,M03 M04 M23,3,2,7,2027-06-28,todo
+K-BCH03,BCH,Blockchain and smart contracts,Transaction and storage analysis,L3,4,chapter + Foundry/Hardhat labs,M03 M04 M23,3,2,7,2027-07-05,todo
+K-BCH04,BCH,Blockchain and smart contracts,Foundry/Hardhat tooling,L3,3,chapter + Foundry/Hardhat labs,M03 M04 M23,3,2,7,2027-07-12,todo
+K-BLU01,BLU,"Defence, incident response and attack/defend",Hardening Linux and Windows quickly,L2,5,runbook + defence lab,M11 M13 M21,3,2,7,2026-12-14,todo
+K-BLU02,BLU,"Defence, incident response and attack/defend",Patching a vulnerable web app under time pressure,L2,4,runbook + defence lab,M11 M13 M21,3,2,7,2027-03-08,todo
+K-BLU03,BLU,"Defence, incident response and attack/defend",Incident-response workflow and one-page reports,L2,4,runbook + defence lab,M11 M13 M21,3,2,7,2027-05-24,todo
+K-BLU04,BLU,"Defence, incident response and attack/defend",Detection engineering: write a rule for each attack you practise,L3,6,runbook + defence lab,M11 M13 M21,3,2,7,2027-05-31,todo
+K-BLU05,BLU,"Defence, incident response and attack/defend","Attack/defend game rules, scoring and patch-vs-exploit strategy",L3,5,runbook + defence lab,M11 M13 M21,3,2,7,2027-08-16,todo
+K-GEN01,GEN,"General skills (Linux, Python, encodings)","Linux shell fluency: find, grep, awk, sed, pipes",L1,4,primer chapter + 6 drills,M07 M20 M26,3,2,7,2026-11-23,todo
+K-GEN02,GEN,"General skills (Linux, Python, encodings)","File types, magic bytes, file/xxd/strings",L1,3,primer chapter + 6 drills,M07 M20 M26,3,2,7,2026-11-30,todo
+K-GEN03,GEN,"General skills (Linux, Python, encodings)","Encodings chain: base64/32/58, hex, URL, rot, morse, braille",L1,3,primer chapter + 6 drills,M07 M20 M26,3,2,7,2027-02-22,todo
+K-GEN04,GEN,"General skills (Linux, Python, encodings)","Python for CTFs: sockets, requests, struct, pwntools basics",L2,6,primer chapter + 6 drills,M07 M20 M26,3,2,7,2027-03-01,todo
+K-GEN05,GEN,"General skills (Linux, Python, encodings)","Git, archives and compression tricks (tar, zip, 7z, nested)",L1,2,primer chapter + 6 drills,M07 M20 M26,3,2,7,2027-03-15,todo
+K-GEN06,GEN,"General skills (Linux, Python, encodings)","Reading source: C, Python, JS, PHP at speed",L2,4,primer chapter + 6 drills,M07 M20 M26,3,2,7,2027-08-16,todo
+K-LOG01,LOG,Log analysis and blue-team data,Web server and application logs with grep/awk/jq,L2,4,chapter + log sets + query sheets,M02 M10 M18,3,2,7,2026-12-14,todo
+K-LOG02,LOG,Log analysis and blue-team data,Windows event IDs and Sysmon,L2,5,chapter + log sets + query sheets,M02 M10 M18,3,2,7,2027-02-15,todo
+K-LOG03,LOG,Log analysis and blue-team data,"Sigma rules, Splunk/ELK queries",L3,5,chapter + log sets + query sheets,M02 M10 M18,3,2,7,2027-03-01,todo
+K-LOG04,LOG,Log analysis and blue-team data,Zeek and Suricata logs,L3,4,chapter + log sets + query sheets,M02 M10 M18,3,2,7,2027-03-15,todo
+K-LOG05,LOG,Log analysis and blue-team data,Authentication and cloud audit logs,L3,4,chapter + log sets + query sheets,M02 M10 M18,3,2,7,2027-03-22,todo
+K-CLD01,CLD,Cloud and containers,"AWS IAM, S3 and metadata service misconfigurations",L2,5,chapter + free-tier lab,M01 M02 M13 M21,4,1,6,2027-02-08,todo
+K-CLD02,CLD,Cloud and containers,Azure and GCP basics,L3,4,chapter + free-tier lab,M01 M02 M13 M21,4,1,6,2027-02-08,todo
+K-CLD03,CLD,Cloud and containers,Docker escapes and Kubernetes misconfigurations,L3,6,chapter + free-tier lab,M01 M02 M13 M21,4,1,6,2027-02-08,todo
+K-CLD04,CLD,Cloud and containers,CI/CD and secrets in git,L2,3,chapter + free-tier lab,M01 M02 M13 M21,4,1,6,2027-02-08,todo
+K-CLD05,CLD,Cloud and containers,Serverless and cloud logging,L3,3,chapter + free-tier lab,M01 M02 M13 M21,4,1,6,2027-02-08,todo
+K-PWD01,PWD,Password cracking,Hash identification and hashcat/john modes,L1,3,chapter + wordlist/rule drills,M10 M18,2,2,6,2027-03-15,todo
+K-PWD02,PWD,Password cracking,"Wordlists, rules and masks",L2,4,chapter + wordlist/rule drills,M10 M18,2,2,6,2027-03-22,todo
+K-PWD03,PWD,Password cracking,"Cracking archives and documents: ZIP, PDF, Office, KeePass, SSH keys",L2,4,chapter + wordlist/rule drills,M10 M18,2,2,6,2027-04-05,todo
+K-PWD04,PWD,Password cracking,"Windows and AD hashes: NTLM, NetNTLMv2, Kerberos",L3,4,chapter + wordlist/rule drills,M10 M18,2,2,6,2027-04-19,todo
+K-PWD05,PWD,Password cracking,"Linux shadow, bcrypt, scrypt, argon2 and cost",L2,3,chapter + wordlist/rule drills,M10 M18,2,2,6,2027-08-09,todo
+K-MAL01,MAL,Malware analysis and deobfuscation,"Static triage: strings, imports, YARA",L2,4,chapter + safe samples in a VM,M02 M26,2,1,4,2026-12-14,todo
+K-MAL02,MAL,Malware analysis and deobfuscation,Dynamic analysis in a sandbox VM,L2,4,chapter + safe samples in a VM,M02 M26,2,1,4,2026-12-28,todo
+K-MAL03,MAL,Malware analysis and deobfuscation,"Script deobfuscation: JavaScript, PowerShell, VBA",L2,5,chapter + safe samples in a VM,M02 M26,2,1,4,2027-02-15,todo
+K-MAL04,MAL,Malware analysis and deobfuscation,Ransomware and loader patterns (CTF-style),L3,4,chapter + safe samples in a VM,M02 M26,2,1,4,2027-03-01,todo
+K-MAL05,MAL,Malware analysis and deobfuscation,Network indicators and C2 traffic reading,L3,4,chapter + safe samples in a VM,M02 M26,2,1,4,2027-03-22,todo
+K-SOC01,SOC,Social engineering and physical (rules-bound),Phishing simulation concepts and detection (no real targets),L1,2,chapter + rules-of-engagement checklist,M11 M19,2,1,4,2027-03-15,todo
+K-SOC02,SOC,Social engineering and physical (rules-bound),"Physical-security challenges: lock types, badges, tailgating concepts",L1,3,chapter + rules-of-engagement checklist,M11 M19,2,1,4,2027-04-12,todo
+K-SOC03,SOC,Social engineering and physical (rules-bound),Rules of engagement for onsite events,L1,1,chapter + rules-of-engagement checklist,M11 M19,2,1,4,2027-04-26,todo
+K-MOB01,MOB,Mobile (Android and iOS),Android app structure and APK reversing,L2,5,chapter + lab APKs,M11,1,1,3,2027-03-29,todo
+K-MOB02,MOB,Mobile (Android and iOS),Frida hooking and certificate-pinning bypass,L3,5,chapter + lab APKs,M11,1,1,3,2027-04-05,todo
+K-MOB03,MOB,Mobile (Android and iOS),"Mobile storage, intents and deep-link bugs",L3,4,chapter + lab APKs,M11,1,1,3,2027-06-28,todo
+K-MOB04,MOB,Mobile (Android and iOS),iOS basics for CTFs,L3,3,chapter + lab APKs,M11,1,1,3,2027-07-05,todo
+K-TEAM01,TEAM,Team operations (team of 8),Roles per category and a shared notes system,L2,3,team handbook + templates,M11,1,1,3,2026-12-07,todo
+K-TEAM02,TEAM,Team operations (team of 8),"Comms, handoffs and the scoreboard routine",L2,2,team handbook + templates,M11,1,1,3,2027-01-25,todo
+K-TEAM03,TEAM,Team operations (team of 8),"Rehearsal format, time boxes and post-event debrief template",L2,3,team handbook + templates,M11,1,1,3,2027-03-01,todo
+K-TEAM04,TEAM,Team operations (team of 8),"Onsite logistics (NorthSec, Hackfest): travel, kit, power, food, sleep",L1,2,team handbook + templates,M11,1,1,3,2027-03-08,todo
+K-TEAM05,TEAM,Team operations (team of 8),"Writeup pipeline: notes during, publish within 48 h",L1,2,team handbook + templates,M11,1,1,3,2027-03-15,todo
