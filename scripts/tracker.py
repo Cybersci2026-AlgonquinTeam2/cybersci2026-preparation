@@ -187,7 +187,7 @@ def cmd_render(rows):
 
     rm = roadmap_rows()
     if rm:
-        out = ["# Roadmap: after the qualifier toward advanced", "",
+        out = ["# Roadmap: Nov 2026 to Dec 2027, built around competition milestones", "",
                "Generated from `roadmap.csv`. Same 4 h/day + commute reading cadence; weekly granularity.", ""]
         for ph, items in by(rm, lambda r: r["phase"]).items():
             out += [f"## {ph}", ""]
@@ -202,7 +202,24 @@ def cmd_render(rows):
                     out.append(f"- **Gate:** {r['gate']}")
                 out.append("")
         (TDIR / "ROADMAP.md").write_text("\n".join(out), encoding="utf-8")
-    print("rendered DAILY.md, WEEKLY.md, MONTHLY.md, ROADMAP.md")
+    mp = TDIR / "milestones.csv"
+    if mp.exists():
+        with mp.open(newline="", encoding="utf-8") as f:
+            ms = sorted(csv.DictReader(f), key=lambda r: r["start"])
+        out = ["# Competition milestones: Nov 2026 to Dec 2027", "",
+               "Generated from `milestones.csv`. **confirmed** = the organiser's own page said so; **expected** = inferred from last year's pattern, so confirm before you pay or travel.",
+               "Priority: yes = a planned milestone, optional = play if the week allows, alt = an alternative to the event that weekend, skip = not for you.", "",
+               "| When | Event | Format | Confidence | Priority | Goal |", "|---|---|---|---|---|---|"]
+        for r in ms:
+            when = r["start"] if r["start"] == r["end"] else f"{r['start']} to {r['end']}"
+            out.append(f"| {when} | {r['event']} | {r['format']} | {r['confidence']} | {r['priority']} | {r['goal']} |")
+        out.append("")
+        for r in ms:
+            out += [f"### {r['id']} {r['event']}", "", f"- **Dates:** {r['start']} to {r['end']} ({r['confidence']})",
+                    f"- **Who can play:** {r['who_can_play']}", f"- **Start preparing:** {r['prep_from'] or 'n/a'}",
+                    f"- **Goal:** {r['goal']}"] + ([f"- **Notes:** {r['notes']}"] if r["notes"] else []) + [""]
+        (TDIR / "MILESTONES.md").write_text("\n".join(out), encoding="utf-8")
+    print("rendered DAILY.md, WEEKLY.md, MONTHLY.md, ROADMAP.md, MILESTONES.md")
 
 
 def main(argv):
