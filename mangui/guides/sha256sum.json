@@ -1,0 +1,122 @@
+{
+ "name": "sha256sum",
+ "section": "1",
+ "one_line": "compute and check SHA256 message digests",
+ "plain": [
+  "`sha256sum` gives a file a 64-character fingerprint. It works like md5sum but uses SHA-256, which is still considered strong, so it is the right check for downloads, forensic evidence and software releases.",
+  "A published SHA-256 lets you prove a file is exactly what its author released."
+ ],
+ "when": [
+  "Verify a downloaded ISO or tool.",
+  "Record the fingerprint of evidence in a forensics task.",
+  "Hash a string for a challenge.",
+  "Check a list of files."
+ ],
+ "examples": [
+  {
+   "title": "Hash a file",
+   "cmd": "sha256sum kali.iso",
+   "explain": "64 hex characters then the name. Compare it with the value on the download page."
+  },
+  {
+   "title": "Hash text",
+   "cmd": "printf 'flag' | sha256sum",
+   "explain": "printf avoids the trailing newline that echo adds."
+  },
+  {
+   "title": "Verify with a checksum file",
+   "cmd": "sha256sum -c SHA256SUMS",
+   "explain": "Prints OK or FAILED per file."
+  },
+  {
+   "title": "Verify only the one file you downloaded",
+   "cmd": "sha256sum -c SHA256SUMS --ignore-missing",
+   "explain": "Official checksum lists mention many files; this skips the ones you do not have."
+  },
+  {
+   "title": "Compare to a known value",
+   "cmd": "echo 'a1b2...ff  kali.iso' | sha256sum -c",
+   "explain": "The two spaces between hash and name matter. Prints kali.iso: OK when equal."
+  },
+  {
+   "title": "Hash everything below a folder",
+   "cmd": "find evidence -type f -exec sha256sum {} + > evidence.sha256",
+   "explain": "One file per line, ready to verify later with -c."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-b, --binary",
+   "plain": "Binary mode (default on Linux).",
+   "use": "Cross-platform checks."
+  },
+  {
+   "flag": "-t, --text",
+   "plain": "Text mode.",
+   "use": "Windows line endings."
+  },
+  {
+   "flag": "-c, --check",
+   "plain": "Verify hashes listed in a file.",
+   "use": "Verifying."
+  },
+  {
+   "flag": "--tag",
+   "plain": "BSD style output.",
+   "use": "Compatibility."
+  },
+  {
+   "flag": "-z, --zero",
+   "plain": "NUL line ends.",
+   "use": "Unusual names."
+  },
+  {
+   "flag": "--ignore-missing",
+   "plain": "With -c, skip missing files.",
+   "use": "Partial sets."
+  },
+  {
+   "flag": "--quiet",
+   "plain": "With -c, hide OK lines.",
+   "use": "Short reports."
+  },
+  {
+   "flag": "--status",
+   "plain": "With -c, no output; exit code only.",
+   "use": "Scripts."
+  },
+  {
+   "flag": "--strict",
+   "plain": "With -c, fail on bad lines.",
+   "use": "Strict checks."
+  },
+  {
+   "flag": "-w, --warn",
+   "plain": "Warn about bad lines.",
+   "use": "Debugging."
+  },
+  {
+   "flag": "--help",
+   "plain": "Show help.",
+   "use": "A reminder."
+  },
+  {
+   "flag": "--version",
+   "plain": "Show version.",
+   "use": "Check install."
+  }
+ ],
+ "mistakes": [
+  "Using one space instead of two in a hand-written checksum line.",
+  "echo vs printf: echo adds a newline and changes the hash.",
+  "Copying a hash from a web page with an extra space or line break.",
+  "Assuming a matching hash proves safety: it proves sameness with whatever hash you compared to."
+ ],
+ "try": [
+  "Hash a file, change one byte, hash again.",
+  "Verify a downloaded file against a checksum page.",
+  "Write a checksum list for a folder and verify it."
+ ],
+ "see_also": "md5sum(1), sha1sum(1), sha512sum(1), b2sum(1), openssl(1), gpg(1) for signatures.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

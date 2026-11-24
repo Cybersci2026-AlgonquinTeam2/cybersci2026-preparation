@@ -1,0 +1,136 @@
+{
+ "name": "mv",
+ "section": "1",
+ "one_line": "move or rename files",
+ "plain": [
+  "`mv` moves a file or folder to a new place, or renames it. There is no separate rename command: renaming is moving to a new name in the same folder.",
+  "On the same disk a move is instant; across disks it copies then deletes."
+ ],
+ "when": [
+  "Rename a file.",
+  "Move files into a folder.",
+  "Rename and keep a backup of a file you overwrite."
+ ],
+ "examples": [
+  {
+   "title": "Rename a file",
+   "cmd": "mv old.txt new.txt",
+   "explain": "Same folder, new name."
+  },
+  {
+   "title": "Move into a folder",
+   "cmd": "mv report.pdf ~/Documents/",
+   "explain": "The file keeps its name and lands in the folder."
+  },
+  {
+   "title": "Move several files",
+   "cmd": "mv a.txt b.txt c.txt backup/",
+   "explain": "The last argument must be a folder when you give several sources."
+  },
+  {
+   "title": "Ask before overwrite",
+   "cmd": "mv -i draft.txt final.txt",
+   "explain": "-i asks if final.txt exists. -n skips instead of overwriting."
+  },
+  {
+   "title": "Move with a backup",
+   "cmd": "mv -b new.conf /etc/app.conf",
+   "explain": "-b renames the existing target to app.conf~ first."
+  },
+  {
+   "title": "Show what it does",
+   "cmd": "mv -v *.log logs/",
+   "explain": "-v lists each move."
+  },
+  {
+   "title": "Move everything from a pipeline",
+   "cmd": "find . -name '*.tmp' -exec mv -t /tmp/trash {} +",
+   "explain": "-t puts the target first so find can append many files at the end."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-i, --interactive",
+   "plain": "Ask before overwriting.",
+   "use": "Safety."
+  },
+  {
+   "flag": "-n, --no-clobber",
+   "plain": "Do not overwrite.",
+   "use": "Safety."
+  },
+  {
+   "flag": "-f, --force",
+   "plain": "Do not ask before overwriting.",
+   "use": "Scripts."
+  },
+  {
+   "flag": "-u, --update",
+   "plain": "Move only when the source is newer or the target is missing.",
+   "use": "Syncing."
+  },
+  {
+   "flag": "-v, --verbose",
+   "plain": "Say what is being done.",
+   "use": "Progress."
+  },
+  {
+   "flag": "-b, --backup[=CONTROL]",
+   "plain": "Back up existing target files.",
+   "use": "Safe overwrite."
+  },
+  {
+   "flag": "-S, --suffix=SUFFIX",
+   "plain": "Backup suffix.",
+   "use": "Custom backups."
+  },
+  {
+   "flag": "-t, --target-directory=DIR",
+   "plain": "Move all sources into DIR.",
+   "use": "With find or xargs."
+  },
+  {
+   "flag": "-T, --no-target-directory",
+   "plain": "Treat the target as a normal file.",
+   "use": "Avoiding surprises."
+  },
+  {
+   "flag": "--strip-trailing-slashes",
+   "plain": "Remove trailing slashes from sources.",
+   "use": "Scripts."
+  },
+  {
+   "flag": "-Z, --context",
+   "plain": "Set SELinux context.",
+   "use": "SELinux."
+  },
+  {
+   "flag": "--exchange",
+   "plain": "Swap source and destination (needs support).",
+   "use": "Atomic swaps."
+  },
+  {
+   "flag": "--help",
+   "plain": "Show help.",
+   "use": "A reminder."
+  },
+  {
+   "flag": "--version",
+   "plain": "Show version.",
+   "use": "Check install."
+  }
+ ],
+ "mistakes": [
+  "Overwriting an existing file silently: use -i.",
+  "Moving a file onto a name that is a directory: it goes inside.",
+  "Using mv to a path that does not exist and creating a file named like a folder.",
+  "Expecting a move across disks to be atomic."
+ ],
+ "try": [
+  "Rename a file, then undo it.",
+  "Move three files into a folder in one command.",
+  "Use -b and look at the backup it makes."
+ ],
+ "see_also": "cp(1), rm(1), rename(1), ln(1), find(1), mkdir(1).",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

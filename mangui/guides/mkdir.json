@@ -1,0 +1,91 @@
+{
+ "name": "mkdir",
+ "section": "1",
+ "one_line": "make directories",
+ "plain": [
+  "`mkdir` creates a new folder. With -p it creates the whole chain (parents too) and does not complain if the folder already exists."
+ ],
+ "when": [
+  "Start a new project or working folder.",
+  "Create a nested path in one go.",
+  "Make several folders at once.",
+  "Create a directory with specific permissions."
+ ],
+ "examples": [
+  {
+   "title": "Make a folder",
+   "cmd": "mkdir loot",
+   "explain": "Creates loot in the current directory."
+  },
+  {
+   "title": "Make a nested path",
+   "cmd": "mkdir -p ctf/web/notes",
+   "explain": "-p creates ctf, ctf/web and ctf/web/notes, whichever are missing, and is happy if they exist."
+  },
+  {
+   "title": "Several at once",
+   "cmd": "mkdir recon scans exploits",
+   "explain": "One folder per name."
+  },
+  {
+   "title": "Brace expansion for a tree",
+   "cmd": "mkdir -p ctf/{web,pwn,crypto,forensics}/notes",
+   "explain": "The shell expands the braces into four paths, so one command creates a whole layout."
+  },
+  {
+   "title": "Set permissions at creation",
+   "cmd": "mkdir -m 700 private",
+   "explain": "-m sets the mode: 700 means only you can enter."
+  },
+  {
+   "title": "Show what is created",
+   "cmd": "mkdir -pv a/b/c",
+   "explain": "-v prints a line for every directory created."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-p, --parents",
+   "plain": "Make parent directories as needed; no error if existing.",
+   "use": "Nested paths and scripts."
+  },
+  {
+   "flag": "-m, --mode=MODE",
+   "plain": "Set permissions (like chmod).",
+   "use": "Private folders."
+  },
+  {
+   "flag": "-v, --verbose",
+   "plain": "Print a message for each created directory.",
+   "use": "Seeing what happens."
+  },
+  {
+   "flag": "-Z, --context=CTX",
+   "plain": "Set SELinux context.",
+   "use": "SELinux."
+  },
+  {
+   "flag": "--help",
+   "plain": "Show help.",
+   "use": "A reminder."
+  },
+  {
+   "flag": "--version",
+   "plain": "Show version.",
+   "use": "Check install."
+  }
+ ],
+ "mistakes": [
+  "Forgetting -p and getting 'No such file or directory'.",
+  "Spaces in names: mkdir my folder makes two folders.",
+  "Creating a folder that needs root (like in /opt) without sudo.",
+  "Using a mode like -m 777 casually."
+ ],
+ "try": [
+  "Build a CTF folder tree with one command using braces.",
+  "Make a private folder with -m 700 and check it with ls -ld.",
+  "Run mkdir -p twice and see that the second run is silent."
+ ],
+ "see_also": "rmdir(1), cp(1), mv(1), ls(1), chmod(1), install(1), touch(1).",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

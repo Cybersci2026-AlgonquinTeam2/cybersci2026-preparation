@@ -1,0 +1,111 @@
+{
+ "name": "id",
+ "section": "1",
+ "one_line": "print real and effective user and group IDs",
+ "plain": [
+  "`id` tells you who you are to the system: your user number (uid), your main group (gid) and every group you belong to. It is the first command after you land on a machine.",
+  "The groups matter: being in sudo, docker, lxd, disk or adm often means an easy path to root."
+ ],
+ "when": [
+  "Check who you are after getting a shell.",
+  "See whether you belong to sudo, docker or lxd.",
+  "Check another user's groups.",
+  "Use numeric ids in scripts."
+ ],
+ "examples": [
+  {
+   "title": "Who am I?",
+   "cmd": "id",
+   "explain": "Prints uid=1000(kali) gid=1000(kali) groups=...; look at the groups list."
+  },
+  {
+   "title": "Another user",
+   "cmd": "id www-data",
+   "explain": "Shows that user's ids and groups. Works for any account."
+  },
+  {
+   "title": "Just the user name",
+   "cmd": "id -un",
+   "explain": "-u user id, -n as a name instead of number."
+  },
+  {
+   "title": "Just the groups",
+   "cmd": "id -Gn",
+   "explain": "-G all groups, -n as names."
+  },
+  {
+   "title": "Numeric uid only",
+   "cmd": "id -u",
+   "explain": "Useful in scripts: [ \"$(id -u)\" -eq 0 ] checks whether you are root."
+  },
+  {
+   "title": "Real versus effective ids",
+   "cmd": "id -r -u; id -u",
+   "explain": "With setuid programs the effective uid can differ from the real uid."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-u, --user",
+   "plain": "Print only the effective user id.",
+   "use": "Scripts."
+  },
+  {
+   "flag": "-g, --group",
+   "plain": "Print only the effective group id.",
+   "use": "Scripts."
+  },
+  {
+   "flag": "-G, --groups",
+   "plain": "Print all group ids.",
+   "use": "Group list."
+  },
+  {
+   "flag": "-n, --name",
+   "plain": "Print names instead of numbers (with -u, -g or -G).",
+   "use": "Readable output."
+  },
+  {
+   "flag": "-r, --real",
+   "plain": "Print the real id instead of the effective id.",
+   "use": "setuid cases."
+  },
+  {
+   "flag": "-a",
+   "plain": "Ignored (compatibility).",
+   "use": "None."
+  },
+  {
+   "flag": "-z, --zero",
+   "plain": "Separate entries with NUL.",
+   "use": "Scripts."
+  },
+  {
+   "flag": "-Z, --context",
+   "plain": "Print the security context.",
+   "use": "SELinux."
+  },
+  {
+   "flag": "--help",
+   "plain": "Show help.",
+   "use": "A reminder."
+  },
+  {
+   "flag": "--version",
+   "plain": "Show version.",
+   "use": "Check install."
+  }
+ ],
+ "mistakes": [
+  "Reading only uid and forgetting the groups list.",
+  "Assuming uid 0 is the only danger: sudo, docker and lxd groups are almost as good for an attacker.",
+  "Confusing id with whoami: whoami prints just the effective user name."
+ ],
+ "try": [
+  "Run id, then id root and compare.",
+  "Check whether your lab user is in the sudo group.",
+  "Write a one-line script that stops if the user is not root."
+ ],
+ "see_also": "whoami(1), groups(1), su(1), sudo(8), getent(1), last(1), w(1).",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

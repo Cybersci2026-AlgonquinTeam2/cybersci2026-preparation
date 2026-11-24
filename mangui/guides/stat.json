@@ -1,0 +1,112 @@
+{
+ "name": "stat",
+ "section": "1",
+ "one_line": "display file or file-system status",
+ "plain": [
+  "`stat` shows everything the file system knows about a file apart from its contents: exact size, permissions, owner, inode number, link count and four timestamps.",
+  "The timestamps matter in forensics: Access (read), Modify (content changed), Change (metadata changed, e.g. permissions or rename) and Birth (created, where supported)."
+ ],
+ "when": [
+  "See exact permissions in octal and who owns a file.",
+  "Build a timeline in forensics.",
+  "Check a file's size in bytes.",
+  "Check whether two names are hard links to the same file (same inode)."
+ ],
+ "examples": [
+  {
+   "title": "Everything about a file",
+   "cmd": "stat notes.txt",
+   "explain": "Shows size, blocks, inode, links, permissions (numeric and symbolic), uid/gid, and Access, Modify, Change and Birth times."
+  },
+  {
+   "title": "Just the permissions and name",
+   "cmd": "stat -c '%a %U:%G %n' *",
+   "explain": "-c sets a format: %a octal permissions, %U owner, %G group, %n name. One compact line per file."
+  },
+  {
+   "title": "Size in bytes",
+   "cmd": "stat -c %s file.bin",
+   "explain": "%s is the size in bytes, ready for scripts."
+  },
+  {
+   "title": "Modification time as epoch",
+   "cmd": "stat -c '%Y %n' * | sort -n",
+   "explain": "%Y is the Unix timestamp of last modification; sorting gives a quick timeline."
+  },
+  {
+   "title": "Readable modification time",
+   "cmd": "stat -c '%y %n' *",
+   "explain": "%y is the modification time in human form."
+  },
+  {
+   "title": "File system details",
+   "cmd": "stat -f /",
+   "explain": "-f describes the file system (block size, free blocks, type)."
+  },
+  {
+   "title": "Follow a symlink",
+   "cmd": "stat -L link",
+   "explain": "-L shows the target's information instead of the link's."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-c, --format=FORMAT",
+   "plain": "Use a format string (%n name, %s size, %a/%A permissions, %U/%G owner/group, %i inode, %h hard links, %x/%y/%z/%w atime/mtime/ctime/birth, %X/%Y/%Z/%W as epoch, %F type).",
+   "use": "Scripts and tidy output."
+  },
+  {
+   "flag": "--printf=FORMAT",
+   "plain": "Like -c but interprets backslash escapes and adds no newline.",
+   "use": "Exact output."
+  },
+  {
+   "flag": "-t, --terse",
+   "plain": "Print in short form.",
+   "use": "Parsing."
+  },
+  {
+   "flag": "-f, --file-system",
+   "plain": "Show file system status instead of file status.",
+   "use": "Disk info."
+  },
+  {
+   "flag": "-L, --dereference",
+   "plain": "Follow symbolic links.",
+   "use": "Real file details."
+  },
+  {
+   "flag": "-Z, --context",
+   "plain": "Show SELinux context.",
+   "use": "SELinux."
+  },
+  {
+   "flag": "--cached=MODE",
+   "plain": "Control caching of attributes on network file systems.",
+   "use": "NFS."
+  },
+  {
+   "flag": "--help",
+   "plain": "Show help.",
+   "use": "A reminder."
+  },
+  {
+   "flag": "--version",
+   "plain": "Show version.",
+   "use": "Check install."
+  }
+ ],
+ "mistakes": [
+  "Treating access time as exact: many systems relax it, so it may not change on every read.",
+  "Believing Change time is creation time: it is the last metadata change.",
+  "Forgetting -L for symlinks and reading the link's own information.",
+  "Birth time shown as '-': the file system does not record it."
+ ],
+ "try": [
+  "Run stat on a file, touch it, then stat again and see which times changed.",
+  "Run chmod on it and watch Change.",
+  "List a folder sorted by modification epoch."
+ ],
+ "see_also": "ls(1), find(1), file(1), touch(1), chmod(1), date(1), debugfs(8).",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

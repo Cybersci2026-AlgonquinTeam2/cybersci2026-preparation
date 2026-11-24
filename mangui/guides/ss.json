@@ -1,0 +1,203 @@
+{
+ "name": "ss",
+ "section": "8",
+ "one_line": "investigate sockets (who is listening, who is connected)",
+ "plain": [
+  "`ss` shows the network connections and listening ports on this machine. It answers: which programs are waiting for connections, and who is connected to whom.",
+  "It replaces netstat. The usual call is `ss -tulpn`: TCP, UDP, Listening, Process, Numeric."
+ ],
+ "when": [
+  "Check which ports a machine is listening on after you land on it.",
+  "See which process owns a port.",
+  "Look for suspicious outbound connections.",
+  "Count connections in a given state."
+ ],
+ "examples": [
+  {
+   "title": "Everything that is listening",
+   "cmd": "ss -tulpn",
+   "explain": "-t TCP, -u UDP, -l listening only, -p show the process (needs root to see other users' processes), -n numbers not names. This is the most common form."
+  },
+  {
+   "title": "Established connections",
+   "cmd": "ss -tn",
+   "explain": "Without -l, ss shows connections that exist right now. -n keeps addresses numeric."
+  },
+  {
+   "title": "Who is using port 22?",
+   "cmd": "ss -tnp sport = :22",
+   "explain": "A filter expression after the options. sport is the local (source) port; dport is the remote port."
+  },
+  {
+   "title": "Connections to a particular host",
+   "cmd": "ss -tn dst 10.10.10.5",
+   "explain": "Only connections whose remote address matches."
+  },
+  {
+   "title": "Count by state",
+   "cmd": "ss -tan | awk 'NR>1{print $1}' | sort | uniq -c",
+   "explain": "-a includes all states. This counts ESTAB, LISTEN, TIME-WAIT... a quick sense of load."
+  },
+  {
+   "title": "Unix sockets",
+   "cmd": "ss -xl",
+   "explain": "-x shows Unix domain sockets, which services use to talk locally (docker.sock, mysql.sock)."
+  },
+  {
+   "title": "Show timers and memory",
+   "cmd": "ss -tnoi",
+   "explain": "-o shows timers, -i shows internal TCP information such as round-trip time."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-t, --tcp",
+   "plain": "Show TCP sockets.",
+   "use": "Most services."
+  },
+  {
+   "flag": "-u, --udp",
+   "plain": "Show UDP sockets.",
+   "use": "DNS, SNMP."
+  },
+  {
+   "flag": "-x, --unix",
+   "plain": "Show Unix domain sockets.",
+   "use": "Local services."
+  },
+  {
+   "flag": "-w, --raw",
+   "plain": "Raw sockets.",
+   "use": "Rare."
+  },
+  {
+   "flag": "-S, --sctp / -d, --dccp",
+   "plain": "SCTP / DCCP sockets.",
+   "use": "Rare."
+  },
+  {
+   "flag": "-l, --listening",
+   "plain": "Only listening sockets.",
+   "use": "What is waiting for connections."
+  },
+  {
+   "flag": "-a, --all",
+   "plain": "Both listening and non-listening.",
+   "use": "Full picture."
+  },
+  {
+   "flag": "-n, --numeric",
+   "plain": "Do not resolve service names or hosts.",
+   "use": "Faster, clearer."
+  },
+  {
+   "flag": "-r, --resolve",
+   "plain": "Resolve numeric addresses into names.",
+   "use": "Readable hosts."
+  },
+  {
+   "flag": "-p, --processes",
+   "plain": "Show the process using each socket.",
+   "use": "Finding which program owns a port."
+  },
+  {
+   "flag": "-e, --extended",
+   "plain": "Show extra socket information (uid, inode).",
+   "use": "Forensics."
+  },
+  {
+   "flag": "-o, --options",
+   "plain": "Show timers.",
+   "use": "Debugging."
+  },
+  {
+   "flag": "-i, --info",
+   "plain": "Show internal TCP information.",
+   "use": "Tuning."
+  },
+  {
+   "flag": "-m, --memory",
+   "plain": "Show socket memory use.",
+   "use": "Debugging."
+  },
+  {
+   "flag": "-s, --summary",
+   "plain": "Print summary statistics.",
+   "use": "A quick overview."
+  },
+  {
+   "flag": "-4 / -6",
+   "plain": "Only IPv4 / IPv6.",
+   "use": "Short output."
+  },
+  {
+   "flag": "-H, --no-header",
+   "plain": "Do not print the header.",
+   "use": "Scripts."
+  },
+  {
+   "flag": "-O, --oneline",
+   "plain": "One line per socket.",
+   "use": "Grep."
+  },
+  {
+   "flag": "-K, --kill",
+   "plain": "Forcibly close a socket.",
+   "use": "Rare; needs a kernel option."
+  },
+  {
+   "flag": "-Z, --context",
+   "plain": "Show SELinux security context.",
+   "use": "SELinux systems."
+  },
+  {
+   "flag": "-f FAMILY",
+   "plain": "Show sockets of this family (inet, inet6, unix, link, netlink).",
+   "use": "Narrowing."
+  },
+  {
+   "flag": "-A QUERY",
+   "plain": "Socket tables to show (e.g. tcp,udp,raw,unix).",
+   "use": "Custom selections."
+  },
+  {
+   "flag": "-D FILE",
+   "plain": "Dump raw TCP socket data to a file.",
+   "use": "Debugging."
+  },
+  {
+   "flag": "state STATE",
+   "plain": "Filter by state (established, syn-sent, listening, time-wait...).",
+   "use": "Finding stuck connections."
+  },
+  {
+   "flag": "sport / dport / src / dst",
+   "plain": "Filter by source/destination port or address.",
+   "use": "Specific traffic."
+  },
+  {
+   "flag": "-V, --version",
+   "plain": "Show version.",
+   "use": "Check install."
+  },
+  {
+   "flag": "-h, --help",
+   "plain": "Show help.",
+   "use": "A reminder."
+  }
+ ],
+ "mistakes": [
+  "Forgetting -n and waiting for slow DNS lookups.",
+  "Not using sudo with -p and seeing blanks in the process column.",
+  "Reading 0.0.0.0 or [::] as a remote host: it means 'every interface'.",
+  "Mixing up sport and dport.",
+  "Ignoring 127.0.0.1-only listeners: they are not reachable from outside but can matter after a pivot."
+ ],
+ "try": [
+  "Start python3 -m http.server 8000 and find it with ss -tulpn.",
+  "List only established connections on port 443.",
+  "Compare ss -tlnp with an nmap scan of localhost."
+ ],
+ "see_also": "ip(8), netstat(8), lsof(8), nmap(1), tcpdump(8), fuser(1).",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

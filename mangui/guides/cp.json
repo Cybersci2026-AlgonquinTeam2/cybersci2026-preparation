@@ -1,0 +1,223 @@
+{
+ "name": "cp",
+ "section": "1",
+ "one_line": "copy files and directories",
+ "plain": [
+  "`cp` makes a copy of a file or folder. The original stays; you get a second one with the new name or in a new place.",
+  "To copy a folder you must say -r (recursive), or it refuses. To keep timestamps, permissions and ownership, use -a (archive)."
+ ],
+ "when": [
+  "Back up a file before editing it.",
+  "Copy a whole folder.",
+  "Copy a file into another directory.",
+  "Preserve metadata when copying evidence or system files."
+ ],
+ "examples": [
+  {
+   "title": "Copy a file",
+   "cmd": "cp notes.txt notes.bak",
+   "explain": "A new file notes.bak with the same contents."
+  },
+  {
+   "title": "Copy into a directory",
+   "cmd": "cp notes.txt ~/backup/",
+   "explain": "The trailing slash makes it clear the target is a directory; the file keeps its name."
+  },
+  {
+   "title": "Copy a folder",
+   "cmd": "cp -r project project-copy",
+   "explain": "-r copies the folder and everything inside it."
+  },
+  {
+   "title": "Archive copy that keeps everything",
+   "cmd": "cp -a /etc/ssh /tmp/ssh-backup",
+   "explain": "-a = -r plus preserving permissions, owners, timestamps and symlinks. The safe choice for backups."
+  },
+  {
+   "title": "Ask before overwriting",
+   "cmd": "cp -i new.conf /etc/app.conf",
+   "explain": "-i asks y/n if the target exists. -n never overwrites, -u only copies if the source is newer."
+  },
+  {
+   "title": "Show what happens",
+   "cmd": "cp -v *.txt backup/",
+   "explain": "-v prints each file copied."
+  },
+  {
+   "title": "Make a backup of the target",
+   "cmd": "cp --backup=numbered file.txt dir/",
+   "explain": "If dir/file.txt exists it is renamed to file.txt.~1~ before the new copy is placed."
+  },
+  {
+   "title": "Copy and keep timestamps",
+   "cmd": "cp -p file.txt copy.txt",
+   "explain": "-p keeps mode, owner and timestamps, but not folder structure."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-a, --archive",
+   "plain": "Same as -dR --preserve=all: copy recursively and keep everything.",
+   "use": "Backups."
+  },
+  {
+   "flag": "-r, -R, --recursive",
+   "plain": "Copy directories recursively.",
+   "use": "Folders."
+  },
+  {
+   "flag": "-i, --interactive",
+   "plain": "Ask before overwriting.",
+   "use": "Safety."
+  },
+  {
+   "flag": "-n, --no-clobber",
+   "plain": "Never overwrite an existing file.",
+   "use": "Safety."
+  },
+  {
+   "flag": "-f, --force",
+   "plain": "If the target cannot be opened, remove it and try again.",
+   "use": "Stubborn targets."
+  },
+  {
+   "flag": "-u, --update",
+   "plain": "Copy only when the source is newer or the target is missing.",
+   "use": "Syncing."
+  },
+  {
+   "flag": "-v, --verbose",
+   "plain": "Explain what is being done.",
+   "use": "Seeing progress."
+  },
+  {
+   "flag": "-p",
+   "plain": "Preserve mode, ownership and timestamps.",
+   "use": "Keeping attributes."
+  },
+  {
+   "flag": "--preserve=ATTR_LIST",
+   "plain": "Preserve chosen attributes: mode, ownership, timestamps, links, context, xattr, all.",
+   "use": "Fine control."
+  },
+  {
+   "flag": "--no-preserve=ATTR_LIST",
+   "plain": "Do not preserve these.",
+   "use": "Fine control."
+  },
+  {
+   "flag": "-d",
+   "plain": "Same as --no-dereference --preserve=links.",
+   "use": "Keep symlinks as links."
+  },
+  {
+   "flag": "-L, --dereference",
+   "plain": "Always follow symlinks in the source.",
+   "use": "Copying the real file."
+  },
+  {
+   "flag": "-P, --no-dereference",
+   "plain": "Never follow symlinks in the source.",
+   "use": "Copying the link itself."
+  },
+  {
+   "flag": "-H",
+   "plain": "Follow command-line symlinks only.",
+   "use": "Specific cases."
+  },
+  {
+   "flag": "-l, --link",
+   "plain": "Hard link files instead of copying.",
+   "use": "Instant copies on the same disk."
+  },
+  {
+   "flag": "-s, --symbolic-link",
+   "plain": "Make symlinks instead of copies.",
+   "use": "Linking."
+  },
+  {
+   "flag": "-b, --backup[=CONTROL]",
+   "plain": "Back up each existing destination file.",
+   "use": "Safe overwrite."
+  },
+  {
+   "flag": "-S, --suffix=SUFFIX",
+   "plain": "Override the backup suffix.",
+   "use": "Custom backups."
+  },
+  {
+   "flag": "-t, --target-directory=DIR",
+   "plain": "Copy all sources into DIR.",
+   "use": "With xargs and find."
+  },
+  {
+   "flag": "-T, --no-target-directory",
+   "plain": "Treat the destination as a normal file.",
+   "use": "Avoiding surprises."
+  },
+  {
+   "flag": "-x, --one-file-system",
+   "plain": "Stay on this file system.",
+   "use": "Not crossing mounts."
+  },
+  {
+   "flag": "--parents",
+   "plain": "Use the full source path under the target directory.",
+   "use": "Keeping structure."
+  },
+  {
+   "flag": "--reflink[=WHEN]",
+   "plain": "Copy-on-write clone where supported.",
+   "use": "Large files."
+  },
+  {
+   "flag": "--sparse=WHEN",
+   "plain": "Control creation of sparse files.",
+   "use": "Disk images."
+  },
+  {
+   "flag": "--strip-trailing-slashes",
+   "plain": "Remove trailing slashes from sources.",
+   "use": "Scripts."
+  },
+  {
+   "flag": "--attributes-only",
+   "plain": "Copy only the attributes, not the data.",
+   "use": "Rare."
+  },
+  {
+   "flag": "--remove-destination",
+   "plain": "Remove the destination first.",
+   "use": "Replace safely."
+  },
+  {
+   "flag": "-Z, --context",
+   "plain": "Set SELinux context.",
+   "use": "SELinux."
+  },
+  {
+   "flag": "--help",
+   "plain": "Show help.",
+   "use": "A reminder."
+  },
+  {
+   "flag": "--version",
+   "plain": "Show version.",
+   "use": "Check install."
+  }
+ ],
+ "mistakes": [
+  "Copying a folder without -r: 'omitting directory'.",
+  "Overwriting without noticing: use -i or -n.",
+  "Using cp for backups of system files and losing permissions: use -a.",
+  "Trailing slash confusion: cp -r dir/ target/ behaves differently from rsync.",
+  "Copying a symlink and getting the target's content (or the link) when you wanted the other."
+ ],
+ "try": [
+  "Copy a folder with -a and compare ls -l before and after.",
+  "Use -i to see the overwrite prompt.",
+  "Copy all .txt files into a folder with -v."
+ ],
+ "see_also": "mv(1), rm(1), rsync(1), scp(1), dd(1), ln(1), install(1).",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

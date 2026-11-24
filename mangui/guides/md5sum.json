@@ -1,0 +1,122 @@
+{
+ "name": "md5sum",
+ "section": "1",
+ "one_line": "compute and check MD5 message digests",
+ "plain": [
+  "`md5sum` turns a file (or text) into a 32-character fingerprint. The same input always gives the same fingerprint; change one byte and the fingerprint changes completely.",
+  "Use it to check that a download was not corrupted, or that two files are identical. MD5 is broken for security (an attacker can build two different files with one MD5), so do not use it to trust a file. In CTFs it is often the format of a hash you must crack."
+ ],
+ "when": [
+  "Compare two files quickly.",
+  "Verify a downloaded file against a published checksum.",
+  "Make an MD5 of a string to test a hash cracker.",
+  "Check a list of files from a checksum file."
+ ],
+ "examples": [
+  {
+   "title": "Hash a file",
+   "cmd": "md5sum notes.txt",
+   "explain": "Prints the fingerprint and the file name."
+  },
+  {
+   "title": "Hash a piece of text",
+   "cmd": "echo -n 'password' | md5sum",
+   "explain": "echo -n leaves out the newline. Without -n the result is different, which is a very common mistake when you test a hash."
+  },
+  {
+   "title": "Write a checksum list and verify it",
+   "cmd": "md5sum *.iso > SUMS.md5\nmd5sum -c SUMS.md5",
+   "explain": "The first line records the hashes. -c reads the list and prints OK or FAILED for each file."
+  },
+  {
+   "title": "Only show failures",
+   "cmd": "md5sum -c --quiet SUMS.md5",
+   "explain": "--quiet hides the OK lines so you see only problems."
+  },
+  {
+   "title": "Are two files identical?",
+   "cmd": "md5sum a.bin b.bin",
+   "explain": "Same fingerprint, same content (for practical purposes)."
+  },
+  {
+   "title": "Find duplicate files",
+   "cmd": "find . -type f -exec md5sum {} + | sort | uniq -w32 -d",
+   "explain": "Hashes every file, sorts, and prints lines whose first 32 characters repeat: duplicates."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-b, --binary",
+   "plain": "Read in binary mode (the default on Linux).",
+   "use": "Cross-platform checks."
+  },
+  {
+   "flag": "-t, --text",
+   "plain": "Read in text mode.",
+   "use": "Windows line endings."
+  },
+  {
+   "flag": "-c, --check",
+   "plain": "Read sums from a file and check them.",
+   "use": "Verifying downloads."
+  },
+  {
+   "flag": "--tag",
+   "plain": "Print in BSD style: MD5 (file) = hash.",
+   "use": "Compatibility."
+  },
+  {
+   "flag": "-z, --zero",
+   "plain": "End output lines with NUL, not newline.",
+   "use": "File names with newlines."
+  },
+  {
+   "flag": "--ignore-missing",
+   "plain": "With -c, ignore missing files.",
+   "use": "Partial downloads."
+  },
+  {
+   "flag": "--quiet",
+   "plain": "With -c, do not print OK lines.",
+   "use": "Short reports."
+  },
+  {
+   "flag": "--status",
+   "plain": "With -c, print nothing; use the exit status.",
+   "use": "Scripts."
+  },
+  {
+   "flag": "--strict",
+   "plain": "With -c, fail on badly formatted lines.",
+   "use": "Strict checks."
+  },
+  {
+   "flag": "-w, --warn",
+   "plain": "Warn about badly formatted lines.",
+   "use": "Debugging a SUMS file."
+  },
+  {
+   "flag": "--help",
+   "plain": "Show help.",
+   "use": "A reminder."
+  },
+  {
+   "flag": "--version",
+   "plain": "Show version.",
+   "use": "Check install."
+  }
+ ],
+ "mistakes": [
+  "Forgetting echo -n: the newline changes the hash.",
+  "Trusting MD5 for security.",
+  "Comparing the hash by eye: use md5sum -c or diff.",
+  "Running md5sum on a directory: it only handles files."
+ ],
+ "try": [
+  "Hash 'password' with and without echo -n and compare.",
+  "Crack that MD5 with john or hashcat.",
+  "Modify one character in a file and watch the hash change completely."
+ ],
+ "see_also": "sha256sum(1), sha1sum(1), cksum(1), openssl(1) (openssl dgst), john(8), hashcat(1).",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

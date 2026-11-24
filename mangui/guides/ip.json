@@ -1,0 +1,185 @@
+{
+ "name": "ip",
+ "section": "8",
+ "one_line": "show and change network addresses, routes and interfaces",
+ "plain": [
+  "`ip` is the modern Linux tool to look at and change networking: your network cards (links), their addresses, the route table that decides where packets go, and the neighbour (ARP) table.",
+  "It works in objects: `ip addr`, `ip link`, `ip route`, `ip neigh`, `ip netns`. Each object has verbs: show, add, del, set. Plain `ip addr` means `ip addr show`. Most objects can be shortened (`ip a`, `ip r`, `ip l`).",
+  "It replaces the old ifconfig, route and arp commands."
+ ],
+ "when": [
+  "Find your own IP address and which interface a VPN created.",
+  "See the default gateway and routing table.",
+  "Bring an interface up or down.",
+  "Add a temporary address or route in a lab.",
+  "Check the ARP table for neighbours on the LAN."
+ ],
+ "examples": [
+  {
+   "title": "Show all addresses",
+   "cmd": "ip addr",
+   "explain": "Lists every interface with its IPv4 (inet) and IPv6 (inet6) addresses. Look for the interface that has 10.x or 192.168.x."
+  },
+  {
+   "title": "Short and brief view",
+   "cmd": "ip -br addr",
+   "explain": "-br prints one line per interface: name, state (UP/DOWN) and addresses. The easiest way to read it."
+  },
+  {
+   "title": "Only one interface",
+   "cmd": "ip addr show dev eth0",
+   "explain": "dev picks the interface."
+  },
+  {
+   "title": "Routing table",
+   "cmd": "ip route",
+   "explain": "Shows where traffic goes. The line starting default via is your gateway."
+  },
+  {
+   "title": "Which route would be used?",
+   "cmd": "ip route get 10.10.10.5",
+   "explain": "Asks the kernel how it would reach that address: the interface, the gateway and the source address it would use. Perfect for 'why does my VPN not work?'."
+  },
+  {
+   "title": "Neighbours (ARP table)",
+   "cmd": "ip neigh",
+   "explain": "Shows IP to MAC pairs the machine has recently talked to on the local network."
+  },
+  {
+   "title": "Bring an interface up or down",
+   "cmd": "sudo ip link set eth0 up\nsudo ip link set eth0 down",
+   "explain": "link set changes the interface state. Needs root."
+  },
+  {
+   "title": "Add and remove a temporary address",
+   "cmd": "sudo ip addr add 192.168.56.10/24 dev eth1\nsudo ip addr del 192.168.56.10/24 dev eth1",
+   "explain": "Handy in a lab. Changes disappear at reboot."
+  },
+  {
+   "title": "Add a route",
+   "cmd": "sudo ip route add 10.20.0.0/16 via 192.168.56.1",
+   "explain": "Tells the machine to send traffic for 10.20.x.x through the gateway 192.168.56.1."
+  },
+  {
+   "title": "Live changes",
+   "cmd": "ip monitor",
+   "explain": "Prints a line each time an address, link or route changes. Useful when a VPN connects."
+  }
+ ],
+ "options": [
+  {
+   "flag": "addr, address (a)",
+   "plain": "Object: protocol addresses on an interface. Verbs: show, add, del, flush.",
+   "use": "Reading or setting IPs."
+  },
+  {
+   "flag": "link (l)",
+   "plain": "Object: network devices. Verbs: show, set up/down, set mtu, set name, add (vlan, bridge, veth...).",
+   "use": "Interface state."
+  },
+  {
+   "flag": "route (r)",
+   "plain": "Object: routing table. Verbs: show, add, del, get, replace, flush.",
+   "use": "Gateways and static routes."
+  },
+  {
+   "flag": "neigh, neighbor (n)",
+   "plain": "Object: ARP / neighbour cache.",
+   "use": "Seeing local hosts."
+  },
+  {
+   "flag": "rule",
+   "plain": "Object: policy routing rules.",
+   "use": "Advanced routing."
+  },
+  {
+   "flag": "netns",
+   "plain": "Object: network namespaces (isolated network stacks).",
+   "use": "Containers and labs."
+  },
+  {
+   "flag": "tunnel",
+   "plain": "Object: IP tunnels (GRE, IPIP, SIT).",
+   "use": "Tunnelling."
+  },
+  {
+   "flag": "maddr",
+   "plain": "Object: multicast addresses.",
+   "use": "Rare."
+  },
+  {
+   "flag": "monitor",
+   "plain": "Watch for changes.",
+   "use": "Debugging."
+  },
+  {
+   "flag": "-4 / -6",
+   "plain": "Only IPv4 / only IPv6.",
+   "use": "Short output."
+  },
+  {
+   "flag": "-br, -brief",
+   "plain": "Brief tabular output.",
+   "use": "Easy reading."
+  },
+  {
+   "flag": "-c, -color",
+   "plain": "Use colours.",
+   "use": "Readability."
+  },
+  {
+   "flag": "-s, -stats",
+   "plain": "Show statistics (packets, errors, drops).",
+   "use": "Finding errors."
+  },
+  {
+   "flag": "-d, -details",
+   "plain": "More detail.",
+   "use": "Debugging."
+  },
+  {
+   "flag": "-j, -json",
+   "plain": "JSON output (add -p for pretty).",
+   "use": "Scripts and jq."
+  },
+  {
+   "flag": "-o, -oneline",
+   "plain": "One line per record.",
+   "use": "Scripts and grep."
+  },
+  {
+   "flag": "-r, -resolve",
+   "plain": "Resolve names.",
+   "use": "Names instead of IPs."
+  },
+  {
+   "flag": "-n NAME, -netns NAME",
+   "plain": "Run in the named namespace.",
+   "use": "Namespaces."
+  },
+  {
+   "flag": "-V, -Version",
+   "plain": "Show version.",
+   "use": "Check install."
+  },
+  {
+   "flag": "-h, -help",
+   "plain": "Show help; `ip addr help` gives help for an object.",
+   "use": "A reminder."
+  }
+ ],
+ "mistakes": [
+  "Setting an address with ip addr add and expecting it to survive a reboot: it does not.",
+  "Forgetting the prefix length (/24): without it ip assumes /32.",
+  "Assuming ifconfig exists: on a minimal Kali or Ubuntu it may not be installed.",
+  "Bringing down the interface you are connected over.",
+  "Reading only the first line of ip route: multiple routes decide where traffic goes."
+ ],
+ "try": [
+  "Run ip -br addr and say which interface is your VPN.",
+  "Use ip route get on a lab IP and on 8.8.8.8 and compare.",
+  "Run ip monitor in one terminal and connect your VPN in another."
+ ],
+ "see_also": "ss(8), ping(8), traceroute(8), nmcli(1), resolvectl(1), ifconfig(8), route(8), arp(8).",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}
