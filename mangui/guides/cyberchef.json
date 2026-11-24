@@ -1,0 +1,181 @@
+{
+ "name": "cyberchef",
+ "section": "1",
+ "one_line": "the 'Cyber Swiss Army Knife' for encoding, decoding and data analysis",
+ "plain": [
+  "CyberChef is a web page (it also works offline from one HTML file) that converts and analyses data by chaining small operations. You drag operations into a recipe (From Base64, then Gunzip, then XOR...) and the output updates as you build.",
+  "It is the fastest way to decode a mystery string in a CTF: Base64, hex, URL encoding, ROT13, XOR, hashing, compression, regular expressions, file type detection, and many more.",
+  "The page has four areas: Operations (left, searchable), Recipe (the chain), Input and Output. Because it runs entirely in the browser, your data does not leave your machine when you use the offline copy."
+ ],
+ "when": [
+  "Decode an unknown string.",
+  "Chain several decodings (Base64 then hex then gzip).",
+  "Try XOR with a key or brute-force a single-byte key.",
+  "Extract IPs, URLs, emails or flags with a regex.",
+  "Hash or encrypt a value, or find the file type of a blob."
+ ],
+ "examples": [
+  {
+   "title": "Decode Base64",
+   "cmd": "Search 'From Base64', drag it into the Recipe, paste the text in Input",
+   "explain": "The decoded text appears in Output. If it is still garbled, add another operation after it."
+  },
+  {
+   "title": "Let Magic guess",
+   "cmd": "Drag 'Magic' into the Recipe",
+   "explain": "Magic tries many decoders and shows the ones that produce readable text. Raise the depth to try chains. A superb first move on an unknown blob."
+  },
+  {
+   "title": "Chain operations",
+   "cmd": "From Base64 > From Hex > Gunzip",
+   "explain": "Operations run top to bottom. Use the disable and breakpoint icons to debug a chain."
+  },
+  {
+   "title": "XOR with a key",
+   "cmd": "XOR with Key 'k' (UTF8)    or    XOR Brute Force",
+   "explain": "XOR Brute Force tries every single-byte key and lets you grep the results for known text (crib) such as 'flag'."
+  },
+  {
+   "title": "Extract with a regex",
+   "cmd": "Regular expression > Output format: List matches   (pattern: flag\\{.*?\\})",
+   "explain": "Pulls every match out of a large input. Use 'Extract IP addresses' or 'Extract URLs' for common cases."
+  },
+  {
+   "title": "Identify a file",
+   "cmd": "Detect File Type    or    Extract Files",
+   "explain": "Finds magic bytes and can carve out embedded files; the output can be downloaded."
+  },
+  {
+   "title": "Hash a value",
+   "cmd": "MD5 / SHA2 / HMAC / Bcrypt",
+   "explain": "Quick checks of a hash against what you have."
+  },
+  {
+   "title": "Save and share a recipe",
+   "cmd": "Save recipe icon > Chef format / Deep link",
+   "explain": "A deep link contains your recipe in the URL after #, so you can bookmark or share a decode chain without the data."
+  },
+  {
+   "title": "Work from a file",
+   "cmd": "Open file as input icon (top of Input)",
+   "explain": "Loads a binary directly; Output has Save to file."
+  }
+ ],
+ "options": [
+  {
+   "flag": "Operations list",
+   "plain": "Searchable list of hundreds of operations by category (Encryption, Hashing, Data format, Utils, Extractors, Compression...).",
+   "use": "Finding an operation."
+  },
+  {
+   "flag": "Recipe",
+   "plain": "The ordered chain of operations. Drag to reorder; each shows its own arguments.",
+   "use": "Building decodes."
+  },
+  {
+   "flag": "Input",
+   "plain": "Where you paste or load data. Shows length and lines; a drop-down chooses the character encoding.",
+   "use": "Starting data."
+  },
+  {
+   "flag": "Output",
+   "plain": "Result of the recipe; copy, save, or send it back to Input (replace input with output).",
+   "use": "Chaining runs."
+  },
+  {
+   "flag": "BAKE!",
+   "plain": "Run the recipe. Turn on Auto Bake to run after every change.",
+   "use": "Running."
+  },
+  {
+   "flag": "Step",
+   "plain": "Run one operation at a time.",
+   "use": "Debugging a chain."
+  },
+  {
+   "flag": "Breakpoint / Disable",
+   "plain": "Stop before an operation or skip it.",
+   "use": "Debugging."
+  },
+  {
+   "flag": "Magic",
+   "plain": "Auto-detects encodings and file types and suggests a recipe.",
+   "use": "Unknown input."
+  },
+  {
+   "flag": "From Base64 / To Base64 / From Hex / To Hex / URL Decode / From Binary / From Decimal / From Charcode",
+   "plain": "Common encodings in both directions.",
+   "use": "Everyday decoding."
+  },
+  {
+   "flag": "ROT13 / ROT47 / Caesar-like operations / Vigenere Decode / Atbash",
+   "plain": "Classic ciphers.",
+   "use": "Crypto warmups."
+  },
+  {
+   "flag": "XOR / XOR Brute Force / Bit shift / Rotate",
+   "plain": "Bitwise operations.",
+   "use": "Simple obfuscation."
+  },
+  {
+   "flag": "AES / DES / RC4 / Blowfish Decrypt",
+   "plain": "Standard ciphers with key and IV fields.",
+   "use": "Known-key decryption."
+  },
+  {
+   "flag": "Gunzip / Gzip / Bzip2 Decompress / Unzip / Raw Inflate / Zlib Inflate",
+   "plain": "Compression operations.",
+   "use": "Packed data."
+  },
+  {
+   "flag": "MD5 / SHA1 / SHA2 / HMAC / Bcrypt / Hash",
+   "plain": "Hash generation.",
+   "use": "Checking hashes."
+  },
+  {
+   "flag": "Regular expression / Find / Replace / Extract IP addresses / Extract URLs",
+   "plain": "Search, replace and extract.",
+   "use": "Finding values."
+  },
+  {
+   "flag": "Detect File Type / Extract Files / Entropy / Strings / Parse X.509 certificate",
+   "plain": "Analysis of binaries.",
+   "use": "Forensics."
+  },
+  {
+   "flag": "To Hexdump / From Hexdump / Hex Dump",
+   "plain": "xxd-style views.",
+   "use": "Reading bytes."
+  },
+  {
+   "flag": "Fork / Merge / Register / Subsection",
+   "plain": "Flow control: run operations on each line or on a part.",
+   "use": "Complex recipes."
+  },
+  {
+   "flag": "Save / Load recipe",
+   "plain": "Store a recipe as JSON or a link.",
+   "use": "Reusing and sharing."
+  },
+  {
+   "flag": "Offline use",
+   "plain": "Download the release zip and open CyberChef_*.html in a browser.",
+   "use": "No internet or private data."
+  }
+ ],
+ "mistakes": [
+  "Pasting binary data into the Input and having it altered by character encoding: use 'Open file as input' for binaries.",
+  "Wrong order of operations: always decode in the reverse of how it was encoded.",
+  "Trusting Magic blindly: check the output makes sense.",
+  "Using the online site for secrets: use the offline copy.",
+  "Forgetting that Output replaced Input: use the 'replace input' button deliberately."
+ ],
+ "try": [
+  "Decode 'SGVsbG8gQ3liZXJTY2k=' with From Base64.",
+  "Use Magic on a string you do not recognise.",
+  "Build From Base64 > From Hex > Gunzip for a nested test string you make yourself.",
+  "Run XOR Brute Force and search for 'flag'."
+ ],
+ "see_also": "base64(1), xxd(1), openssl(1), tr(1), gzip(1), strings(1), file(1), exiftool(1), binwalk(1), and gchq.github.io/CyberChef.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

@@ -1,0 +1,192 @@
+{
+ "name": "burpsuite",
+ "section": "1",
+ "one_line": "web security testing proxy (Burp Suite)",
+ "plain": [
+  "Burp Suite sits between your browser and a website. Every request your browser sends goes through Burp first, so you can read it, stop it, change it and send it again. That is how you test what a web app really does, not just what the page lets you click.",
+  "The free Community edition has everything a CTF needs: Proxy (catch and change requests), Repeater (resend one request again and again with edits), Decoder (convert encodings), Comparer (diff two responses) and a slow Intruder (automated guessing). Scanner and Collaborator belong to Burp Pro.",
+  "The browser must trust Burp's certificate for HTTPS, and be pointed at Burp's listener, normally 127.0.0.1 port 8080. The built-in browser (Proxy > Intercept > Open browser) is already set up for both."
+ ],
+ "when": [
+  "See exactly what a web form sends and what the server answers.",
+  "Change a hidden field, cookie, header or parameter and resend.",
+  "Brute-force or fuzz a field with a wordlist.",
+  "Decode a strange token (Base64, URL, hex).",
+  "Save a request for sqlmap (-r)."
+ ],
+ "examples": [
+  {
+   "title": "Start the proxy the easy way",
+   "cmd": "burpsuite  >  Proxy tab  >  Open browser",
+   "explain": "The built-in Chromium is pre-configured for the proxy and trusts Burp's CA, so HTTPS works at once. Browse to your lab target in it."
+  },
+  {
+   "title": "Catch and edit a request",
+   "cmd": "Proxy > Intercept > Intercept is on  >  edit the text  >  Forward",
+   "explain": "With intercept on, each request waits for you. Change a parameter (price=100 to price=1) in the raw text and press Forward to send it. Turn intercept off to let traffic flow and read it later in HTTP history."
+  },
+  {
+   "title": "Resend a request again and again",
+   "cmd": "Right-click a request in HTTP history > Send to Repeater  (Ctrl+R)\nIn Repeater: edit, then Send  (Ctrl+Space)",
+   "explain": "Repeater is your lab bench. Change one thing, press Send, read the response on the right, repeat. This is where most testing happens."
+  },
+  {
+   "title": "Guess values with Intruder",
+   "cmd": "Right-click > Send to Intruder (Ctrl+I) > Positions: select the value, click Add § > Payloads: load a list > Start attack",
+   "explain": "Intruder replaces the marked position with every payload. Sort the results by Status or Length: the odd one out is usually the hit. Community Intruder is rate-limited."
+  },
+  {
+   "title": "Decode a token",
+   "cmd": "Decoder tab > paste text > Decode as > Base64 / URL / HTML / Hex",
+   "explain": "Quickly turn a cookie or parameter into readable text, or encode your payload before sending."
+  },
+  {
+   "title": "Compare two responses",
+   "cmd": "Right-click a response > Send to Comparer (twice) > Words or Bytes",
+   "explain": "Highlights the differences between, for example, a logged-in and a logged-out page."
+  },
+  {
+   "title": "Limit Burp to your target",
+   "cmd": "Target > Site map > right-click the host > Add to scope  (then Proxy > HTTP history > filter: show only in-scope)",
+   "explain": "Scope keeps the history readable and prevents you from testing things that are not yours."
+  },
+  {
+   "title": "Save a request for sqlmap",
+   "cmd": "Right-click a request > Copy to file  >  sqlmap -r request.txt",
+   "explain": "Saves the raw request with cookies and body so sqlmap can reuse it."
+  },
+  {
+   "title": "Replace a response before the browser sees it",
+   "cmd": "Proxy > Proxy settings > Match and replace",
+   "explain": "Rules that rewrite headers or bodies automatically, such as changing 'isAdmin=false' to 'isAdmin=true' in responses."
+  }
+ ],
+ "options": [
+  {
+   "flag": "Dashboard",
+   "plain": "Overview of tasks, issues and events.",
+   "use": "Seeing what Burp is doing."
+  },
+  {
+   "flag": "Target > Site map",
+   "plain": "Tree of hosts and pages Burp has seen. Add to scope from here.",
+   "use": "Mapping the app and setting scope."
+  },
+  {
+   "flag": "Target > Scope",
+   "plain": "The list of addresses you are allowed or want to test.",
+   "use": "Filtering the noise."
+  },
+  {
+   "flag": "Proxy > Intercept",
+   "plain": "Hold each request or response so you can edit it before forwarding.",
+   "use": "Changing live traffic."
+  },
+  {
+   "flag": "Proxy > HTTP history",
+   "plain": "Log of every request and response that passed through.",
+   "use": "Reviewing and picking requests to resend."
+  },
+  {
+   "flag": "Proxy > WebSockets history",
+   "plain": "Log of WebSocket messages.",
+   "use": "Real-time apps."
+  },
+  {
+   "flag": "Proxy > Proxy settings (Options)",
+   "plain": "Listeners (127.0.0.1:8080), intercept rules, match and replace.",
+   "use": "Setup and rewriting."
+  },
+  {
+   "flag": "Repeater",
+   "plain": "Edit and resend one request many times. Ctrl+Space sends. Right pane shows the response; use Pretty, Raw and Render.",
+   "use": "Hands-on testing."
+  },
+  {
+   "flag": "Intruder",
+   "plain": "Send many variants of a request. Attack types: Sniper (one position, one list), Battering ram (one list, all positions at once), Pitchfork (lists in parallel), Cluster bomb (every combination).",
+   "use": "Guessing and fuzzing."
+  },
+  {
+   "flag": "Decoder",
+   "plain": "Encode and decode text: URL, HTML, Base64, ASCII hex, hex, octal, binary, gzip; smart decode; hash.",
+   "use": "Reading tokens."
+  },
+  {
+   "flag": "Comparer",
+   "plain": "Diff two items by words or bytes.",
+   "use": "Spotting differences."
+  },
+  {
+   "flag": "Sequencer",
+   "plain": "Tests how random session tokens are.",
+   "use": "Weak token checks."
+  },
+  {
+   "flag": "Extensions (BApp Store)",
+   "plain": "Add features: Logger++, JWT Editor, Autorize, Hackvertor, Param Miner.",
+   "use": "Specialist tests."
+  },
+  {
+   "flag": "Collaborator (Pro)",
+   "plain": "External server that detects out-of-band callbacks.",
+   "use": "Blind injection and SSRF; Pro only."
+  },
+  {
+   "flag": "Scanner (Pro)",
+   "plain": "Automatic vulnerability scanner.",
+   "use": "Pro only."
+  },
+  {
+   "flag": "Search / right-click menu",
+   "plain": "Send to Repeater, Intruder, Comparer, Decoder; copy as curl; copy to file; engagement tools.",
+   "use": "Moving a request around."
+  },
+  {
+   "flag": "Ctrl+R / Ctrl+I",
+   "plain": "Shortcut: send selected request to Repeater / Intruder.",
+   "use": "Speed."
+  },
+  {
+   "flag": "Ctrl+Space",
+   "plain": "Shortcut in Repeater: send.",
+   "use": "Speed."
+  },
+  {
+   "flag": "Ctrl+Shift+R / Ctrl+Shift+I",
+   "plain": "Switch to the Repeater / Intruder tab.",
+   "use": "Navigation."
+  },
+  {
+   "flag": "Inspector panel",
+   "plain": "Side panel in Repeater and Proxy showing a parsed view of parameters, cookies and headers.",
+   "use": "Editing without breaking the format."
+  },
+  {
+   "flag": "Burp CA certificate",
+   "plain": "Get it from http://burpsuite (browser set to the proxy) and import it into your browser's trusted authorities.",
+   "use": "HTTPS interception in your own browser."
+  },
+  {
+   "flag": "Project and settings files",
+   "plain": "Save the project to keep history; Community only offers temporary projects.",
+   "use": "Preserving work."
+  }
+ ],
+ "mistakes": [
+  "Leaving intercept on and thinking the browser is broken: pages hang because Burp is waiting for Forward.",
+  "Testing out-of-scope hosts: set scope and filter the history.",
+  "Forgetting to import the CA certificate in an outside browser: you get certificate warnings.",
+  "Pointing Intruder at a real production site: Intruder is noisy.",
+  "Editing the request and breaking Content-Length: Burp usually fixes it for you, but check when a request fails.",
+  "Using Burp where the event bans proxy tools: read the rules."
+ ],
+ "try": [
+  "Open the built-in browser, log into a lab app and find the login request in HTTP history.",
+  "Send it to Repeater, change the password field and compare responses.",
+  "Send a request to Intruder with a short wordlist and sort by length.",
+  "Copy a request to a file and feed it to sqlmap -r."
+ ],
+ "see_also": "curl(1), sqlmap(1), ffuf(1), gobuster(1), tshark(1), wireshark(1), and portswigger.net/web-security for free labs.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

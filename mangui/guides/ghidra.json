@@ -1,0 +1,206 @@
+{
+ "name": "ghidra",
+ "section": "1",
+ "one_line": "software reverse-engineering suite (disassembler and decompiler)",
+ "plain": [
+  "Ghidra takes a compiled program (which you cannot read) and turns it back into something you can: assembly instructions, and a rough reconstruction of the original C code called the decompilation. You then read what the program does without having its source.",
+  "In CTFs it is the main tool for 'reverse engineering' challenges: find the check that compares your input with the flag, or find the vulnerable function in a pwn binary.",
+  "You work inside a project: create a project, import the binary, double-click it to open the CodeBrowser, say yes to analysis, and then explore. Ghidra starts with `ghidraRun`."
+ ],
+ "when": [
+  "Find the function that validates a password or a flag.",
+  "Read strings and see where each is used.",
+  "Understand a binary's control flow before exploiting it.",
+  "Rename functions and variables as you learn what they do.",
+  "Compare what the decompiler says with the assembly."
+ ],
+ "examples": [
+  {
+   "title": "Open a binary",
+   "cmd": "ghidraRun  >  File > New Project (Non-Shared) > File > Import File > double-click the file > Yes to analyze > OK",
+   "explain": "Import detects the format (ELF, PE) and architecture. The default analysis options are fine for a first pass. Wait for the progress bar at the bottom right."
+  },
+  {
+   "title": "Find main",
+   "cmd": "Symbol Tree (left) > Functions > main   or   Navigation > Go To... (G) > type main",
+   "explain": "On stripped binaries main is not named: look for entry, then the function it passes to __libc_start_main."
+  },
+  {
+   "title": "Read the decompiler",
+   "cmd": "Select a function. The right pane (Decompile) shows C-like code. Click a variable to highlight all uses.",
+   "explain": "It is a good guess, not the truth. Variable names are invented (local_28, param_1) and types may be wrong."
+  },
+  {
+   "title": "Rename something",
+   "cmd": "Click a name, press L, type a new name, Enter",
+   "explain": "Renaming local_28 to input_buf makes the rest of the function read like English. Do it as you learn."
+  },
+  {
+   "title": "Fix a variable's type",
+   "cmd": "Click a variable in the decompiler, press Ctrl+L, enter e.g. char[32]",
+   "explain": "A correct type often untangles an array access that looked like a mess."
+  },
+  {
+   "title": "Search for interesting strings",
+   "cmd": "Window > Defined Strings   (or Search > For Strings...)",
+   "explain": "Look for 'flag', 'correct', 'wrong', 'password'. Double-click one, then press Ctrl+Shift+F (Show references to) to jump to the code that uses it."
+  },
+  {
+   "title": "Follow who calls a function",
+   "cmd": "Click the function name, then Ctrl+Shift+F or Window > Function Call Trees",
+   "explain": "References show every place the function is used: where the check is called."
+  },
+  {
+   "title": "See the program as boxes",
+   "cmd": "Window > Function Graph",
+   "explain": "Draws basic blocks with arrows for true/false jumps: ideal for if/else checks."
+  },
+  {
+   "title": "Add a comment",
+   "cmd": "Click a line, press ;  (semicolon), type, Enter",
+   "explain": "Notes stay with the project. Use them to record what each step does."
+  },
+  {
+   "title": "Run without the GUI",
+   "cmd": "analyzeHeadless /tmp/proj myproj -import ./crackme -postScript MyScript.py",
+   "explain": "The headless mode analyses and scripts binaries in bulk."
+  }
+ ],
+ "options": [
+  {
+   "flag": "Project window",
+   "plain": "Where you create projects and import files. Double-click a file to open the CodeBrowser.",
+   "use": "Starting."
+  },
+  {
+   "flag": "File > Import File",
+   "plain": "Load a binary; choose format and language (architecture).",
+   "use": "Opening a target."
+  },
+  {
+   "flag": "CodeBrowser: Listing window",
+   "plain": "The disassembly: addresses, bytes, instructions, labels.",
+   "use": "Reading assembly."
+  },
+  {
+   "flag": "CodeBrowser: Decompile window",
+   "plain": "C-like reconstruction of the current function.",
+   "use": "Reading logic fast."
+  },
+  {
+   "flag": "Symbol Tree",
+   "plain": "Functions, labels, imports, exports, classes.",
+   "use": "Finding names."
+  },
+  {
+   "flag": "Program Trees",
+   "plain": "Sections of the binary (.text, .data, .rodata).",
+   "use": "Layout."
+  },
+  {
+   "flag": "Data Type Manager",
+   "plain": "Structs, enums and types you can apply.",
+   "use": "Cleaning types."
+  },
+  {
+   "flag": "Window > Defined Strings",
+   "plain": "List of strings found in the binary.",
+   "use": "Hunting for clues."
+  },
+  {
+   "flag": "Window > Function Graph",
+   "plain": "Control-flow graph of a function.",
+   "use": "Understanding branches."
+  },
+  {
+   "flag": "Window > Bytes / Console / Script Manager",
+   "plain": "Raw bytes, log output, built-in scripts.",
+   "use": "Verification and scripts."
+  },
+  {
+   "flag": "Navigation > Go To (G)",
+   "plain": "Jump to an address, label or function.",
+   "use": "Moving around."
+  },
+  {
+   "flag": "Search > For Strings / Memory (S) / Program Text",
+   "plain": "Search strings, bytes or text.",
+   "use": "Finding values."
+  },
+  {
+   "flag": "L",
+   "plain": "Rename the label or variable under the cursor.",
+   "use": "Naming."
+  },
+  {
+   "flag": "; (semicolon)",
+   "plain": "Add an end-of-line comment.",
+   "use": "Notes."
+  },
+  {
+   "flag": "Ctrl+L",
+   "plain": "Retype a variable in the decompiler.",
+   "use": "Fixing types."
+  },
+  {
+   "flag": "T",
+   "plain": "Set the data type at the cursor in the listing.",
+   "use": "Defining data."
+  },
+  {
+   "flag": "D / C / P",
+   "plain": "Disassemble / clear code and data / create function (shortcuts vary by version).",
+   "use": "Fixing bad analysis."
+  },
+  {
+   "flag": "Ctrl+Shift+F",
+   "plain": "Show references to the selected item.",
+   "use": "Who uses this?"
+  },
+  {
+   "flag": "Edit > Tool Options",
+   "plain": "Display, decompiler and analysis settings.",
+   "use": "Customising."
+  },
+  {
+   "flag": "Analysis > Auto Analyze / One Shot",
+   "plain": "Run or re-run analysers.",
+   "use": "After changing the binary or settings."
+  },
+  {
+   "flag": "Scripts (Java/Python)",
+   "plain": "Automate with the Script Manager; PyGhidra for Python 3.",
+   "use": "Bulk tasks."
+  },
+  {
+   "flag": "ghidraRun / ghidraRun.bat",
+   "plain": "Start the GUI.",
+   "use": "Launch."
+  },
+  {
+   "flag": "analyzeHeadless",
+   "plain": "Import and analyse from the command line.",
+   "use": "Batch work."
+  },
+  {
+   "flag": "Debugger (Ghidra 10.3+)",
+   "plain": "Live debugging that uses GDB, LLDB or other back ends.",
+   "use": "Dynamic analysis."
+  }
+ ],
+ "mistakes": [
+  "Trusting the decompiler blindly: compare with the assembly when something looks off.",
+  "Not waiting for auto-analysis to finish before reading.",
+  "Choosing the wrong architecture when importing: the code looks like garbage.",
+  "Not renaming as you go: you will re-read the same function many times.",
+  "Skipping dynamic checks: run the binary with gdb or ltrace to confirm what you think it does."
+ ],
+ "try": [
+  "Import a small crackme and find main.",
+  "Rename three variables and one function until the check makes sense.",
+  "Find the string 'wrong' and trace back to the comparison.",
+  "Open the function graph and identify the true/false branch for the right answer."
+ ],
+ "see_also": "gdb(1), objdump(1), readelf(1), strings(1), ltrace(1), strace(1), radare2(1), file(1), and ghidra-sre.org.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

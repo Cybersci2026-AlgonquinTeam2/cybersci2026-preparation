@@ -1,0 +1,181 @@
+{
+ "name": "bloodhound",
+ "section": "1",
+ "one_line": "map Active Directory attack paths as a graph",
+ "plain": [
+  "An Active Directory (AD) domain is a big web of users, groups, computers and permissions. BloodHound collects that data, draws it as a graph and answers: starting from this user, what is the shortest path to Domain Admin?",
+  "You use it in two steps. First a collector gathers data from the domain (SharpHound on Windows, bloodhound-python from Linux). Second you upload the zip into BloodHound and run queries or click through the graph.",
+  "It is used by defenders to find and cut dangerous paths, and by pen testers and CTF players in authorised labs. Use it only on domains you own or have permission to test."
+ ],
+ "when": [
+  "Find who has admin on which machines.",
+  "Find the shortest path from a compromised user to Domain Admins.",
+  "List Kerberoastable and AS-REP-roastable accounts.",
+  "Find dangerous permissions (GenericAll, WriteDacl, DCSync rights).",
+  "As a defender, measure and reduce attack paths."
+ ],
+ "examples": [
+  {
+   "title": "Collect from Linux (lab)",
+   "cmd": "bloodhound-python -u alice -p 'Passw0rd!' -d corp.local -ns 10.10.10.2 -c All --zip",
+   "explain": "-u/-p are lab credentials, -d the domain, -ns the DNS server (usually the domain controller), -c All collects everything, --zip packs the JSON files for upload."
+  },
+  {
+   "title": "Collect from Windows (lab)",
+   "cmd": ".\\SharpHound.exe -c All --zipfilename corp.zip",
+   "explain": "SharpHound runs on a domain-joined host and writes a zip. Some environments detect and block it."
+  },
+  {
+   "title": "Start and sign in",
+   "cmd": "sudo bloodhound-setup; bloodhound",
+   "explain": "On Kali the legacy version needs Neo4j started and its password set once. Newer BloodHound Community Edition runs as a web service; follow its first-run instructions."
+  },
+  {
+   "title": "Upload the data",
+   "cmd": "Upload Data (right side) > select the zip",
+   "explain": "The graph fills as the files are imported. Wait for the import to finish before querying."
+  },
+  {
+   "title": "Run a pre-built query",
+   "cmd": "Analysis > Shortest Paths to Domain Admins",
+   "explain": "Draws the shortest chains of relationships from any account to the Domain Admins group. Click each edge for help on how to abuse or fix it."
+  },
+  {
+   "title": "Mark what you own",
+   "cmd": "Right-click a user > Mark User as Owned",
+   "explain": "Owned accounts are the starting points. Then use 'Shortest Paths from Owned Principals'."
+  },
+  {
+   "title": "Find Kerberoastable accounts",
+   "cmd": "Analysis > List all Kerberoastable Accounts",
+   "explain": "Service accounts with a service principal name can have their tickets requested and cracked offline."
+  },
+  {
+   "title": "Find AS-REP roastable accounts",
+   "cmd": "Analysis > Find AS-REP Roastable Users",
+   "explain": "Accounts that do not require Kerberos pre-authentication leak crackable data."
+  },
+  {
+   "title": "Look up one account",
+   "cmd": "Search box > type the name > click it",
+   "explain": "Shows its properties, group memberships, sessions and outbound control in the node panel."
+  },
+  {
+   "title": "Write your own query",
+   "cmd": "Raw Query bar: MATCH p=shortestPath((u:User {name:'ALICE@CORP.LOCAL'})-[*1..]->(g:Group {name:'DOMAIN ADMINS@CORP.LOCAL'})) RETURN p",
+   "explain": "The Cypher language lets you ask any question of the graph. This one is the shortest path from one user to Domain Admins."
+  }
+ ],
+ "options": [
+  {
+   "flag": "Search bar",
+   "plain": "Find a node by name.",
+   "use": "Starting a path."
+  },
+  {
+   "flag": "Pathfinding",
+   "plain": "Pick a start and an end node; BloodHound draws a path.",
+   "use": "Direct questions."
+  },
+  {
+   "flag": "Analysis (Queries) tab",
+   "plain": "Pre-built queries: Domain Admins, Shortest Paths to Domain Admins, Kerberoastable, AS-REP roastable, unconstrained delegation, high-value targets.",
+   "use": "Quick wins."
+  },
+  {
+   "flag": "Node Info",
+   "plain": "Properties, memberships, sessions, local admin rights for the selected node.",
+   "use": "Details."
+  },
+  {
+   "flag": "Mark as Owned / Mark as High Value",
+   "plain": "Flag nodes you control or want to reach.",
+   "use": "Planning paths."
+  },
+  {
+   "flag": "Raw Query (Cypher)",
+   "plain": "Run your own graph queries.",
+   "use": "Custom questions."
+  },
+  {
+   "flag": "Upload Data",
+   "plain": "Import collector zip or JSON files.",
+   "use": "Loading data."
+  },
+  {
+   "flag": "Clear Database",
+   "plain": "Delete all graph data.",
+   "use": "Starting fresh."
+  },
+  {
+   "flag": "Edges: MemberOf",
+   "plain": "A user or group is a member of a group; privileges flow upwards.",
+   "use": "Reading paths."
+  },
+  {
+   "flag": "Edges: AdminTo",
+   "plain": "The principal is a local admin on a computer.",
+   "use": "Lateral movement."
+  },
+  {
+   "flag": "Edges: HasSession",
+   "plain": "A user has a logged-on session on a computer; credentials may be in memory.",
+   "use": "Credential exposure."
+  },
+  {
+   "flag": "Edges: CanRDP / CanPSRemote",
+   "plain": "Remote login rights.",
+   "use": "Access paths."
+  },
+  {
+   "flag": "Edges: GenericAll / GenericWrite / WriteOwner / WriteDacl",
+   "plain": "Powerful rights over an object.",
+   "use": "Taking over an object."
+  },
+  {
+   "flag": "Edges: ForceChangePassword / AddMember",
+   "plain": "Reset a password or add yourself to a group.",
+   "use": "Privilege escalation."
+  },
+  {
+   "flag": "Edges: AllExtendedRights / DCSync (GetChanges + GetChangesAll)",
+   "plain": "Rights that include reading password data.",
+   "use": "Domain compromise."
+  },
+  {
+   "flag": "Collector: SharpHound -c All|DCOnly|Session|LoggedOn|Group|ACL|Trusts",
+   "plain": "Collection methods.",
+   "use": "Choosing how loud to be."
+  },
+  {
+   "flag": "Collector: bloodhound-python -u -p -d -ns -c --zip",
+   "plain": "Python collector for Linux.",
+   "use": "Remote collection with credentials."
+  },
+  {
+   "flag": "Collector: --dns-tcp, --disable-pooling, -w N",
+   "plain": "Network and performance options.",
+   "use": "Slow or unusual labs."
+  },
+  {
+   "flag": "Edge help (right-click an edge > Help)",
+   "plain": "Explains how the relationship can be abused and how to fix it.",
+   "use": "Learning and remediation."
+  }
+ ],
+ "mistakes": [
+  "Treating BloodHound as proof of vulnerability: it shows possible paths; confirm each step.",
+  "Collecting with -c All on a monitored network: it is noisy.",
+  "Forgetting DNS: bloodhound-python often needs -ns pointing to the domain controller.",
+  "Importing partial or old data and trusting an old graph.",
+  "Using it on a domain you do not own: it generates real queries and logs."
+ ],
+ "try": [
+  "Collect data from a lab domain and import it.",
+  "Run 'Shortest Paths to Domain Admins' and read the edge help for each step.",
+  "Mark one user as owned and find paths from it.",
+  "List Kerberoastable accounts and write what a defender could change."
+ ],
+ "see_also": "nmap(1), smbclient(1), enum4linux(1), crackmapexec(1), impacket scripts, ldapsearch(1), and the BloodHound docs at support.bloodhoundenterprise.io.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}
