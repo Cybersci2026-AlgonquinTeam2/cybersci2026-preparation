@@ -1,0 +1,200 @@
+{
+ "name": "wireshark",
+ "section": "1",
+ "one_line": "interactive network traffic analyzer",
+ "plain": [
+  "`wireshark` is a graphical program that captures network traffic (or opens a saved .pcap) and shows every packet with its layers decoded. It is the tool to look at a conversation and read it.",
+  "Three areas matter: the packet list (one line per packet), the packet details (the protocol layers you can expand) and the bytes (raw hex). Filters at the top bar decide which packets you see.",
+  "The command-line twin is tshark. Use Wireshark to explore, tshark to extract in scripts."
+ ],
+ "when": [
+  "Open a .pcap from a challenge.",
+  "Follow a TCP or HTTP stream and read it.",
+  "Find clear-text passwords, files and DNS names.",
+  "Capture live traffic on a lab network.",
+  "Decrypt TLS with a key log file."
+ ],
+ "examples": [
+  {
+   "title": "Open a capture",
+   "cmd": "wireshark capture.pcap",
+   "explain": "Starts the GUI with the file. Without an argument you pick a file or a network interface."
+  },
+  {
+   "title": "Capture live on an interface",
+   "cmd": "sudo wireshark -i eth0 -k",
+   "explain": "-i picks the interface and -k starts capturing at once."
+  },
+  {
+   "title": "Filter by protocol",
+   "cmd": "http",
+   "explain": "Type this in the display filter bar. It shows only HTTP packets. Green bar means the filter is valid."
+  },
+  {
+   "title": "Filter by host and port",
+   "cmd": "ip.addr == 10.10.10.5 && tcp.port == 4444",
+   "explain": "Packets to or from this IP and port. && means and, || means or."
+  },
+  {
+   "title": "Find text in packets",
+   "cmd": "frame contains \"password\"",
+   "explain": "Shows packets containing that string anywhere."
+  },
+  {
+   "title": "Follow a stream",
+   "cmd": "Right-click a packet > Follow > TCP Stream",
+   "explain": "Rebuilds the whole conversation as readable text. Red is client data, blue is server data. In a CTF this often holds the flag."
+  },
+  {
+   "title": "Export files",
+   "cmd": "File > Export Objects > HTTP",
+   "explain": "Lists files transferred over HTTP (and SMB, TFTP and others) so you can save them."
+  },
+  {
+   "title": "See who talks the most",
+   "cmd": "Statistics > Conversations",
+   "explain": "Tables of address pairs with packets and bytes. Sort by bytes to find the biggest transfer."
+  },
+  {
+   "title": "Decrypt TLS",
+   "cmd": "Edit > Preferences > Protocols > TLS > (Pre)-Master-Secret log filename",
+   "explain": "Point it at the key log file from the browser and HTTPS traffic appears decrypted."
+  }
+ ],
+ "options": [
+  {
+   "flag": "Display filter bar",
+   "plain": "Type a filter such as http, dns, tcp.port == 80, ip.addr == 1.2.3.4. It selects what you see, not what is captured.",
+   "use": "Narrowing a capture."
+  },
+  {
+   "flag": "Capture filter (before capture)",
+   "plain": "tcpdump-style filter such as host 10.10.10.5 and port 80. It selects what is stored.",
+   "use": "Small files."
+  },
+  {
+   "flag": "Follow TCP/UDP/HTTP/TLS stream",
+   "plain": "Right-click or Analyze > Follow. Rebuilds a conversation.",
+   "use": "Reading dialogs."
+  },
+  {
+   "flag": "Statistics > Protocol Hierarchy",
+   "plain": "How much of the traffic is each protocol.",
+   "use": "A quick overview."
+  },
+  {
+   "flag": "Statistics > Conversations / Endpoints",
+   "plain": "Pairs and hosts with counts.",
+   "use": "Top talkers."
+  },
+  {
+   "flag": "Statistics > I/O Graph",
+   "plain": "Traffic over time.",
+   "use": "Spotting spikes."
+  },
+  {
+   "flag": "File > Export Objects",
+   "plain": "Save files carried in HTTP, SMB, TFTP, IMF, DICOM.",
+   "use": "Extracting files."
+  },
+  {
+   "flag": "File > Export Packet Dissections",
+   "plain": "Export the packet list as text or CSV.",
+   "use": "Reports."
+  },
+  {
+   "flag": "Edit > Find Packet",
+   "plain": "Search by string, hex, or display filter.",
+   "use": "Locating a packet."
+  },
+  {
+   "flag": "Edit > Mark / Ignore Packet",
+   "plain": "Mark or hide packets.",
+   "use": "Focus."
+  },
+  {
+   "flag": "View > Colouring Rules",
+   "plain": "Packets coloured by rule (red for problems, grey for TCP resets).",
+   "use": "Visual cues."
+  },
+  {
+   "flag": "Analyze > Decode As",
+   "plain": "Interpret a port as another protocol.",
+   "use": "Services on odd ports."
+  },
+  {
+   "flag": "Analyze > Expert Information",
+   "plain": "Warnings, retransmissions, errors.",
+   "use": "Finding trouble."
+  },
+  {
+   "flag": "Telephony / Wireless menus",
+   "plain": "VoIP calls, Wi-Fi details.",
+   "use": "Specialised captures."
+  },
+  {
+   "flag": "-i INTERFACE",
+   "plain": "Command line: capture from this interface.",
+   "use": "Live capture."
+  },
+  {
+   "flag": "-k",
+   "plain": "Start capturing immediately.",
+   "use": "Live capture."
+  },
+  {
+   "flag": "-r FILE",
+   "plain": "Open this file.",
+   "use": "Analysis."
+  },
+  {
+   "flag": "-f FILTER",
+   "plain": "Capture filter.",
+   "use": "Small files."
+  },
+  {
+   "flag": "-Y FILTER",
+   "plain": "Apply a display filter on open.",
+   "use": "Direct to the point."
+  },
+  {
+   "flag": "-w FILE",
+   "plain": "Write the capture to a file.",
+   "use": "Saving evidence."
+  },
+  {
+   "flag": "-a / -b",
+   "plain": "Autostop and ring-buffer conditions.",
+   "use": "Time limits."
+  },
+  {
+   "flag": "-D",
+   "plain": "List interfaces.",
+   "use": "Choosing -i."
+  },
+  {
+   "flag": "-o PREF:VALUE",
+   "plain": "Set a preference (e.g. tls.keylog_file).",
+   "use": "Decrypting."
+  },
+  {
+   "flag": "-h, --help / -v, --version",
+   "plain": "Help / version.",
+   "use": "A reminder."
+  }
+ ],
+ "mistakes": [
+  "Mixing the capture filter (stores less) and the display filter (hides).",
+  "Reading only the packet list: expand the details to see the real data.",
+  "Forgetting that HTTPS needs the key log to be readable.",
+  "Capturing on the wrong interface (the VPN is tun0).",
+  "Opening untrusted captures on your main machine: dissectors have had bugs; use the lab VM."
+ ],
+ "try": [
+  "Open a capture, filter http, follow a stream and read it.",
+  "Use Statistics > Conversations to find the busiest pair.",
+  "Export HTTP objects and run file and exiftool on them."
+ ],
+ "see_also": "tshark(1), tcpdump(8), capinfos(1), editcap(1), mergecap(1), nmap(1), and the display filter reference at wireshark.org.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

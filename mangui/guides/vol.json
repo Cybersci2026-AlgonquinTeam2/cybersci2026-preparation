@@ -1,0 +1,226 @@
+{
+ "name": "vol",
+ "section": "1",
+ "one_line": "Volatility 3: analyse memory dumps (also run as vol3, volatility3 or vol.py)",
+ "plain": [
+  "A memory dump is a copy of everything that was in a computer's RAM at one moment. `vol` (Volatility 3) reads that dump and rebuilds what the operating system was doing: running processes, open network connections, loaded DLLs, command lines, passwords in memory, and more.",
+  "You run one plugin at a time, such as windows.pslist or linux.bash, with -f naming the dump. Volatility 3 finds the right symbols for the operating system itself (it may download them, so a lab may need them pre-installed).",
+  "In CTFs and incident response it answers: what was running, what was it connected to, and what did the attacker type or leave behind?"
+ ],
+ "when": [
+  "List the processes in a memory image.",
+  "Find suspicious or hidden processes.",
+  "See network connections at capture time.",
+  "Dump a process or a file from memory.",
+  "Read command lines, history and registry keys."
+ ],
+ "examples": [
+  {
+   "title": "What kind of image is it?",
+   "cmd": "vol -f mem.raw windows.info",
+   "explain": "Shows the Windows version, build and kernel details. If this works, symbols are found and other plugins will work too."
+  },
+  {
+   "title": "List processes",
+   "cmd": "vol -f mem.raw windows.pslist",
+   "explain": "Prints PID, parent PID, name and start time. Look for odd names, wrong parents (cmd.exe from a Word process) and processes in strange paths."
+  },
+  {
+   "title": "Process tree",
+   "cmd": "vol -f mem.raw windows.pstree",
+   "explain": "Same data as a tree, so parent-child relations are easy to see."
+  },
+  {
+   "title": "Find hidden processes",
+   "cmd": "vol -f mem.raw windows.psscan",
+   "explain": "psscan scans raw memory for process structures, so it also finds processes that were unlinked from the normal list. Compare with pslist."
+  },
+  {
+   "title": "Command lines",
+   "cmd": "vol -f mem.raw windows.cmdline",
+   "explain": "Shows the full command each process was started with, often revealing the attacker's tool and arguments."
+  },
+  {
+   "title": "Network connections",
+   "cmd": "vol -f mem.raw windows.netscan",
+   "explain": "Lists connections and listeners with owning process and addresses."
+  },
+  {
+   "title": "Dump a process's files in memory",
+   "cmd": "vol -f mem.raw -o out windows.dumpfiles --pid 1234",
+   "explain": "-o sets the output folder. Saves the files that process had mapped so you can analyse them with strings, file and exiftool."
+  },
+  {
+   "title": "Check for injected code",
+   "cmd": "vol -f mem.raw windows.malfind",
+   "explain": "Looks for memory regions that are executable and not backed by a file on disk, a classic sign of injected code."
+  },
+  {
+   "title": "Linux image: bash history",
+   "cmd": "vol -f linux.lime linux.bash",
+   "explain": "Reads the bash history from memory. Linux images need a matching symbol table for the kernel."
+  },
+  {
+   "title": "Search memory with strings",
+   "cmd": "strings -a mem.raw | grep -i 'flag{'",
+   "explain": "Not a Volatility plugin but often the fastest first look in a CTF."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-f, --file FILE",
+   "plain": "The memory image to analyse.",
+   "use": "Always."
+  },
+  {
+   "flag": "-o, --output-dir DIR",
+   "plain": "Where plugins write extracted files.",
+   "use": "Dumping files."
+  },
+  {
+   "flag": "-r, --renderer RENDERER",
+   "plain": "Output style: quick, pretty, csv, json, jsonl.",
+   "use": "csv/json for scripts."
+  },
+  {
+   "flag": "-q, --quiet",
+   "plain": "Hide progress bars.",
+   "use": "Clean output."
+  },
+  {
+   "flag": "-v / -vv / -vvv",
+   "plain": "More verbose logging.",
+   "use": "Debugging symbol problems."
+  },
+  {
+   "flag": "-p, --plugin-dirs",
+   "plain": "Extra plugin folders.",
+   "use": "Custom plugins."
+  },
+  {
+   "flag": "-s, --symbol-dirs",
+   "plain": "Extra symbol table folders.",
+   "use": "Offline labs and Linux/Mac symbols."
+  },
+  {
+   "flag": "-c, --config FILE",
+   "plain": "Load a saved configuration.",
+   "use": "Repeated runs."
+  },
+  {
+   "flag": "--save-config FILE",
+   "plain": "Save the current configuration.",
+   "use": "Repeated runs."
+  },
+  {
+   "flag": "--clear-cache",
+   "plain": "Clear the cache.",
+   "use": "After symbol changes."
+  },
+  {
+   "flag": "--cache-path",
+   "plain": "Where to cache data.",
+   "use": "Custom cache location."
+  },
+  {
+   "flag": "--offline",
+   "plain": "Do not download symbol tables.",
+   "use": "Lab without internet."
+  },
+  {
+   "flag": "--remote-isf-url URL",
+   "plain": "Use a remote symbol server.",
+   "use": "Custom symbols."
+  },
+  {
+   "flag": "--parallelism MODE",
+   "plain": "Use threads or processes.",
+   "use": "Speed."
+  },
+  {
+   "flag": "--single-location URL",
+   "plain": "Treat the file as one location.",
+   "use": "Special file layouts."
+  },
+  {
+   "flag": "-l, --log FILE",
+   "plain": "Write a log.",
+   "use": "Records."
+  },
+  {
+   "flag": "-h, --help",
+   "plain": "Help; `vol PLUGIN -h` shows plugin options.",
+   "use": "Reading a plugin's options."
+  },
+  {
+   "flag": "windows.info / windows.pslist / windows.pstree / windows.psscan",
+   "plain": "Basic system and process listing plugins.",
+   "use": "First steps."
+  },
+  {
+   "flag": "windows.cmdline / windows.envars / windows.getsids",
+   "plain": "Command lines, environment, owner SIDs.",
+   "use": "Understanding processes."
+  },
+  {
+   "flag": "windows.netscan / windows.netstat",
+   "plain": "Network connections.",
+   "use": "Finding C2 and sessions."
+  },
+  {
+   "flag": "windows.dlllist / windows.handles / windows.ldrmodules",
+   "plain": "DLLs and handles; hidden modules.",
+   "use": "Spotting injected code."
+  },
+  {
+   "flag": "windows.malfind / windows.vadinfo",
+   "plain": "Suspicious memory regions.",
+   "use": "Injection."
+  },
+  {
+   "flag": "windows.dumpfiles / windows.memmap --dump / windows.pslist --dump",
+   "plain": "Write files and process memory to disk.",
+   "use": "Extracting evidence."
+  },
+  {
+   "flag": "windows.registry.hivelist / windows.registry.printkey",
+   "plain": "Registry hives and keys.",
+   "use": "Persistence and settings."
+  },
+  {
+   "flag": "windows.hashdump / windows.lsadump / windows.cachedump",
+   "plain": "Password hashes and secrets.",
+   "use": "Credentials in a lab image."
+  },
+  {
+   "flag": "windows.filescan",
+   "plain": "Find file objects in memory.",
+   "use": "Seeing files that were open."
+  },
+  {
+   "flag": "linux.pslist / linux.bash / linux.lsof / linux.sockstat",
+   "plain": "Linux processes, shell history, open files, sockets.",
+   "use": "Linux images."
+  },
+  {
+   "flag": "mac.pslist / mac.bash",
+   "plain": "macOS equivalents.",
+   "use": "macOS images."
+  }
+ ],
+ "mistakes": [
+  "Running windows plugins on a Linux image: check the OS first with windows.info or banners.",
+  "Missing symbol tables: with no internet vol cannot analyse the image. Install symbols into the symbols folder first.",
+  "Trusting pslist alone: always compare with psscan.",
+  "Forgetting -o and dumping files into the current folder.",
+  "Wanting Volatility 2 profiles: Volatility 3 does not use --profile."
+ ],
+ "try": [
+  "Run windows.info, pslist and pstree on a sample image and sketch the tree.",
+  "Compare pslist and psscan and look for a process that appears in only one.",
+  "Dump one process's files and run strings on them.",
+  "Write down the IP and port of every non-system connection in netscan."
+ ],
+ "see_also": "strings(1), exiftool(1), binwalk(1), file(1), foremost(1), and the Volatility 3 plugin list with vol --help.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

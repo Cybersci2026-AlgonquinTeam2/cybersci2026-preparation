@@ -1,0 +1,178 @@
+{
+ "name": "searchsploit",
+ "section": "1",
+ "one_line": "search the Exploit Database offline",
+ "plain": [
+  "`searchsploit` searches a local copy of Exploit-DB, the public archive of exploit code and security papers. You give it a product and version you found with nmap, and it lists exploits that match.",
+  "It works offline, which is why it is handy in labs and on exam machines. It also copies an exploit file next to you so you can read and edit it before using it."
+ ],
+ "when": [
+  "You found a service version with nmap -sV and want known exploits.",
+  "Look for a vulnerability by CVE or title.",
+  "Copy an exploit script to your working folder.",
+  "Read what an exploit does before running it."
+ ],
+ "examples": [
+  {
+   "title": "Search by product and version",
+   "cmd": "searchsploit apache 2.4.49",
+   "explain": "Lists matching exploits with their title and path. Several words are ANDed together."
+  },
+  {
+   "title": "Search a service from nmap",
+   "cmd": "searchsploit vsftpd 2.3.4",
+   "explain": "A well-known backdoor in one particular version. Compare the exact version number your scan showed."
+  },
+  {
+   "title": "Exact phrase search",
+   "cmd": "searchsploit -e 'wordpress 5.0'",
+   "explain": "-e requires the exact phrase instead of any word order."
+  },
+  {
+   "title": "Look at the code without copying",
+   "cmd": "searchsploit -x 49757",
+   "explain": "-x opens (examines) the exploit with its EDB-ID so you can read what it does."
+  },
+  {
+   "title": "Copy an exploit to the current folder",
+   "cmd": "searchsploit -m 49757",
+   "explain": "-m mirrors (copies) the exploit file. Edit your copy, never the database."
+  },
+  {
+   "title": "Search by CVE",
+   "cmd": "searchsploit --cve 2021-41773",
+   "explain": "Finds exploits that reference the given CVE."
+  },
+  {
+   "title": "Take nmap's XML output",
+   "cmd": "searchsploit --nmap scan.xml",
+   "explain": "Reads an nmap -oX file and searches every detected service."
+  },
+  {
+   "title": "Machine-readable results",
+   "cmd": "searchsploit -j apache | jq .",
+   "explain": "-j gives JSON for scripts."
+  },
+  {
+   "title": "Update the database",
+   "cmd": "sudo searchsploit -u",
+   "explain": "Pulls the newest exploit entries (needs internet)."
+  }
+ ],
+ "options": [
+  {
+   "flag": "TERM...",
+   "plain": "One or more search words; all must match.",
+   "use": "Normal use."
+  },
+  {
+   "flag": "-t, --title",
+   "plain": "Search the title only.",
+   "use": "Less noise."
+  },
+  {
+   "flag": "-e, --exact",
+   "plain": "Match the exact phrase.",
+   "use": "Exact searches."
+  },
+  {
+   "flag": "-s, --strict",
+   "plain": "Strict version match (no version ranges).",
+   "use": "Precise results."
+  },
+  {
+   "flag": "-i, --case",
+   "plain": "Case-sensitive search.",
+   "use": "Special cases."
+  },
+  {
+   "flag": "--exclude=TERMS",
+   "plain": "Remove results matching these terms (separate with |).",
+   "use": "Cutting noise like dos or Metasploit."
+  },
+  {
+   "flag": "-w, --www",
+   "plain": "Show the Exploit-DB web URL instead of the local path.",
+   "use": "Reading in a browser."
+  },
+  {
+   "flag": "-x, --examine=EDB-ID",
+   "plain": "Show an exploit in the pager.",
+   "use": "Reading before use."
+  },
+  {
+   "flag": "-m, --mirror=EDB-ID",
+   "plain": "Copy an exploit into the current folder.",
+   "use": "Using it."
+  },
+  {
+   "flag": "-p, --path=EDB-ID",
+   "plain": "Show the full path and copy it to the clipboard.",
+   "use": "Quick access."
+  },
+  {
+   "flag": "-c, --cve=CVE",
+   "plain": "Search by CVE.",
+   "use": "Known vulnerabilities."
+  },
+  {
+   "flag": "--nmap FILE",
+   "plain": "Search from an nmap XML file.",
+   "use": "From scan to exploits."
+  },
+  {
+   "flag": "-j, --json",
+   "plain": "JSON output.",
+   "use": "Scripts."
+  },
+  {
+   "flag": "-o, --overflow",
+   "plain": "Allow long titles to overflow the column.",
+   "use": "Reading full titles."
+  },
+  {
+   "flag": "-v, --verbose",
+   "plain": "Show more detail.",
+   "use": "Comparing results."
+  },
+  {
+   "flag": "--id",
+   "plain": "Show EDB-IDs.",
+   "use": "Referencing results."
+  },
+  {
+   "flag": "-u, --update",
+   "plain": "Update the database.",
+   "use": "Fresh data."
+  },
+  {
+   "flag": "-r, --rebuild",
+   "plain": "Rebuild the local database.",
+   "use": "Repairs."
+  },
+  {
+   "flag": "--colour",
+   "plain": "Colour output.",
+   "use": "Readability."
+  },
+  {
+   "flag": "-h, --help",
+   "plain": "Show help.",
+   "use": "A reminder."
+  }
+ ],
+ "mistakes": [
+  "Searching with a long full banner: use the product and the first two version numbers.",
+  "Running an exploit without reading it: it may need editing or may do harm.",
+  "Editing the original file in the database: copy it with -m first.",
+  "Assuming a match means the target is vulnerable: check the exact version and conditions.",
+  "Using exploits on systems you do not have permission to test."
+ ],
+ "try": [
+  "Search for vsftpd 2.3.4 and read the exploit with -x.",
+  "Copy it with -m and note what ports it uses.",
+  "Run searchsploit --nmap on one of your own scans."
+ ],
+ "see_also": "nmap(1), msfconsole(1), curl(1), and exploit-db.com for the web view.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

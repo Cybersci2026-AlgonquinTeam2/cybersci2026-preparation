@@ -1,0 +1,190 @@
+{
+ "name": "pwntools",
+ "section": "7",
+ "one_line": "Python library for writing exploits and talking to CTF programs",
+ "plain": [
+  "`pwntools` is a Python library (import with `from pwn import *`) that makes binary-exploitation challenges less painful. It connects to a program locally or over the network, sends and receives data, packs numbers into bytes, and builds payloads.",
+  "It is not a command you run, so this page is a guide to the functions you use most. Write a small Python script, run it with python3 and iterate.",
+  "The pwn command-line helper (pwn cyclic, pwn checksec, pwn shellcraft) wraps some features for quick use in the shell."
+ ],
+ "when": [
+  "Talk to a service on a remote CTF port.",
+  "Send a buffer overflow payload with the right padding.",
+  "Pack addresses into little-endian bytes.",
+  "Build a ROP chain or format-string payload.",
+  "Check which protections a binary has."
+ ],
+ "examples": [
+  {
+   "title": "Run a local program and talk to it",
+   "cmd": "from pwn import *\np = process('./vuln')\np.sendline(b'hello')\nprint(p.recvline())",
+   "explain": "process starts the binary. sendline sends text plus a newline; recvline reads one line back. Use bytes (b'...')."
+  },
+  {
+   "title": "Connect to a remote challenge",
+   "cmd": "from pwn import *\nr = remote('10.10.10.5', 9001)\nr.recvuntil(b'name: ')\nr.sendline(b'Alice')\nr.interactive()",
+   "explain": "remote connects over TCP. recvuntil waits for a prompt. interactive() hands the keyboard to you, to use a shell you obtained."
+  },
+  {
+   "title": "Find the offset with a cyclic pattern",
+   "cmd": "from pwn import *\nprint(cyclic(200))\n# crash the program, read the value in the instruction pointer, say 0x6161616c\nprint(cyclic_find(0x6161616c))",
+   "explain": "cyclic makes a pattern with no repeats. After a crash, cyclic_find turns the value found in the instruction pointer into the exact offset."
+  },
+  {
+   "title": "Pack an address",
+   "cmd": "from pwn import *\npayload = b'A' * 72 + p64(0x401196)",
+   "explain": "p64 makes a 64-bit little-endian address; p32 for 32-bit. The padding fills the buffer up to the saved return address."
+  },
+  {
+   "title": "Set context for the target",
+   "cmd": "from pwn import *\ncontext.binary = ELF('./vuln')\ncontext.log_level = 'debug'",
+   "explain": "context tells pwntools the architecture, so packing and shellcode match. log_level debug prints every byte sent and received."
+  },
+  {
+   "title": "Read symbols from a binary",
+   "cmd": "from pwn import *\nelf = ELF('./vuln')\nprint(hex(elf.symbols['win']))\nprint(hex(elf.got['puts']))",
+   "explain": "ELF gives function addresses (symbols), GOT and PLT entries and section addresses, useful for ret2win and ret2plt."
+  },
+  {
+   "title": "Shellcode",
+   "cmd": "from pwn import *\ncontext.arch = 'amd64'\nsc = asm(shellcraft.sh())\nprint(len(sc))",
+   "explain": "shellcraft creates assembly for common tasks; asm assembles it to bytes."
+  },
+  {
+   "title": "Debug with gdb",
+   "cmd": "from pwn import *\np = gdb.debug('./vuln', 'break main\\ncontinue')",
+   "explain": "Starts the binary under gdb with commands. Needs a terminal such as tmux (context.terminal = ['tmux','splitw','-h'])."
+  },
+  {
+   "title": "Check protections from the shell",
+   "cmd": "pwn checksec ./vuln",
+   "explain": "Shows RELRO, stack canary, NX and PIE. This tells you which exploitation techniques are possible."
+  }
+ ],
+ "options": [
+  {
+   "flag": "process(argv) / remote(host, port) / ssh(user, host)",
+   "plain": "Connections: a local program, a TCP service, or an SSH session.",
+   "use": "Starting any exploit."
+  },
+  {
+   "flag": "send(data) / sendline(data) / sendafter(delim, data) / sendlineafter(delim, data)",
+   "plain": "Send bytes. After variants wait for a prompt first.",
+   "use": "Interacting with menus."
+  },
+  {
+   "flag": "recv(n) / recvline() / recvuntil(delim) / recvall() / recvrepeat()",
+   "plain": "Receive bytes: n bytes, a line, up to a marker, everything, or all for a while.",
+   "use": "Reading output."
+  },
+  {
+   "flag": "interactive()",
+   "plain": "Give you a live terminal with the connection.",
+   "use": "After a shell is spawned."
+  },
+  {
+   "flag": "p8/p16/p32/p64(n) and u8/u16/u32/u64(b)",
+   "plain": "Pack integers into bytes and unpack them back (little-endian by default).",
+   "use": "Addresses and leaks."
+  },
+  {
+   "flag": "flat(...)",
+   "plain": "Build a payload from a mix of numbers and strings with the right packing.",
+   "use": "ROP chains."
+  },
+  {
+   "flag": "cyclic(n) / cyclic_find(x)",
+   "plain": "Make a de Bruijn pattern and find the offset of a value in it.",
+   "use": "Finding the overflow offset."
+  },
+  {
+   "flag": "context.arch / context.os / context.endian / context.bits",
+   "plain": "Set target architecture and size.",
+   "use": "Matching the target."
+  },
+  {
+   "flag": "context.binary = ELF(path)",
+   "plain": "Set the context from a binary.",
+   "use": "Automatic settings."
+  },
+  {
+   "flag": "context.log_level = 'debug'",
+   "plain": "Show all sent and received data.",
+   "use": "Debugging."
+  },
+  {
+   "flag": "ELF(path)",
+   "plain": "Load a binary: .symbols, .got, .plt, .search(), .address.",
+   "use": "Reading addresses."
+  },
+  {
+   "flag": "ROP(elf)",
+   "plain": "Build ROP chains automatically (rop.call, rop.raw, rop.chain()).",
+   "use": "Return-oriented programming."
+  },
+  {
+   "flag": "asm(code) / disasm(bytes)",
+   "plain": "Assemble or disassemble.",
+   "use": "Shellcode work."
+  },
+  {
+   "flag": "shellcraft.<arch>.linux.sh()",
+   "plain": "Ready-made shellcode generators.",
+   "use": "Spawning a shell."
+  },
+  {
+   "flag": "fmtstr_payload(offset, writes)",
+   "plain": "Build a format-string write payload.",
+   "use": "Format string bugs."
+  },
+  {
+   "flag": "gdb.debug(args, script) / gdb.attach(p, script)",
+   "plain": "Run or attach gdb.",
+   "use": "Debugging the exploit."
+  },
+  {
+   "flag": "log.info / log.success / log.warn",
+   "plain": "Coloured messages.",
+   "use": "Readable scripts."
+  },
+  {
+   "flag": "pause()",
+   "plain": "Wait for a key press.",
+   "use": "Attaching a debugger at the right moment."
+  },
+  {
+   "flag": "pwn checksec FILE",
+   "plain": "Show binary protections.",
+   "use": "First step."
+  },
+  {
+   "flag": "pwn cyclic N / pwn cyclic -l VALUE",
+   "plain": "Make or look up a pattern from the shell.",
+   "use": "Offsets."
+  },
+  {
+   "flag": "pwn shellcraft ...",
+   "plain": "Generate shellcode from the shell.",
+   "use": "Payloads."
+  },
+  {
+   "flag": "pwn disasm / pwn asm / pwn hex / pwn unhex",
+   "plain": "Quick conversions.",
+   "use": "Small jobs."
+  }
+ ],
+ "mistakes": [
+  "Sending str instead of bytes in Python 3: always b'...'.",
+  "Wrong architecture in context: addresses pack to the wrong width.",
+  "Forgetting a newline: sendline adds it, send does not.",
+  "Off-by-one in the offset: always confirm with cyclic_find after a real crash.",
+  "Testing with ASLR off locally and forgetting it is on remotely."
+ ],
+ "try": [
+  "Write a script that launches ./vuln, sends cyclic(200), and prints the crash offset.",
+  "Use ELF to find the address of a win function and jump to it.",
+  "Run pwn checksec on three binaries and compare protections."
+ ],
+ "see_also": "gdb(1), objdump(1), readelf(1), ROPgadget(1), one_gadget, python3(1), and docs.pwntools.com.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}
