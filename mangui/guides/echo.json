@@ -1,0 +1,103 @@
+{
+ "name": "echo",
+ "section": "1",
+ "one_line": "display a line of text",
+ "plain": [
+  "`echo` prints the words you give it. It is the simplest way to show a message, write a line into a file, or feed some text into another command.",
+  "Careful: bash has its own built-in echo, and the program /bin/echo behaves slightly differently. For exact control (no surprises with backslashes) prefer printf."
+ ],
+ "when": [
+  "Print a message in a script.",
+  "Create a file with one line (echo hi > file).",
+  "Pipe a string into another command.",
+  "Check what a variable contains."
+ ],
+ "examples": [
+  {
+   "title": "Print text",
+   "cmd": "echo Hello CyberSci",
+   "explain": "Prints the words separated by single spaces."
+  },
+  {
+   "title": "Keep the spaces and special characters",
+   "cmd": "echo 'a   b  $HOME'",
+   "explain": "Single quotes stop the shell from changing anything inside."
+  },
+  {
+   "title": "No trailing newline",
+   "cmd": "echo -n 'flag' | md5sum",
+   "explain": "-n leaves out the final newline. Forgetting it changes the hash. The most common hashing mistake."
+  },
+  {
+   "title": "Interpret escapes",
+   "cmd": "echo -e 'line1\\nline2\\tTabbed'",
+   "explain": "-e turns \\n into a newline and \\t into a tab. In some shells it is on by default; printf is safer."
+  },
+  {
+   "title": "Write into a file",
+   "cmd": "echo 'secret' > note.txt\necho 'more' >> note.txt",
+   "explain": "> replaces the file, >> appends."
+  },
+  {
+   "title": "Show a variable",
+   "cmd": "echo \"$PATH\"",
+   "explain": "Double quotes let the variable expand but keep spaces safe."
+  },
+  {
+   "title": "Show expanded wildcards",
+   "cmd": "echo *.txt",
+   "explain": "Prints the file names the shell matched: a cheap way to see what a glob does."
+  },
+  {
+   "title": "Print a string in hex-escaped form",
+   "cmd": "echo -e '\\x41\\x42\\x43'",
+   "explain": "Prints ABC. Useful for building tiny payloads; pair with xxd to verify."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-n",
+   "plain": "Do not output the trailing newline.",
+   "use": "Hashing and prompts."
+  },
+  {
+   "flag": "-e",
+   "plain": "Enable backslash escapes: \\n \\t \\\\ \\xHH \\0NNN \\c and more.",
+   "use": "Special characters."
+  },
+  {
+   "flag": "-E",
+   "plain": "Disable backslash escapes (the default).",
+   "use": "Literal output."
+  },
+  {
+   "flag": "--help",
+   "plain": "Show help (the /bin/echo program only).",
+   "use": "A reminder."
+  },
+  {
+   "flag": "--version",
+   "plain": "Show version (the /bin/echo program only).",
+   "use": "Check install."
+  },
+  {
+   "flag": "ESCAPES: \\n \\t \\r \\a \\b \\e \\\\ \\xHH \\0NNN \\uHHHH \\c",
+   "plain": "Newline, tab, carriage return, bell, backspace, escape, backslash, hex byte, octal byte, unicode, stop output.",
+   "use": "With -e."
+  }
+ ],
+ "mistakes": [
+  "Forgetting -n when hashing a string.",
+  "Using echo -e in a script run by sh (dash): -e may be printed literally. Use printf.",
+  "Forgetting quotes around variables with spaces.",
+  "Expecting > to append: it overwrites; use >>.",
+  "Assuming echo prints the same everywhere: builtin and /bin/echo differ."
+ ],
+ "try": [
+  "Hash 'test' with echo and with echo -n and compare.",
+  "Write three lines to a file with > then >>.",
+  "Use echo *.txt to see what a wildcard matches."
+ ],
+ "see_also": "printf(1), cat(1), tee(1), md5sum(1), xxd(1), tr(1).",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

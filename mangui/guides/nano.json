@@ -1,0 +1,218 @@
+{
+ "name": "nano",
+ "section": "1",
+ "one_line": "small friendly text editor for the terminal",
+ "plain": [
+  "`nano` is a simple text editor that runs in the terminal. You just type; the commands are shown at the bottom of the screen, where ^ means the Ctrl key (^X is Ctrl+X).",
+  "It is the easy way to edit a config file, a script or a note on a server without learning vim."
+ ],
+ "when": [
+  "Edit a config file or script on a server.",
+  "Write a quick note or a payload file.",
+  "Open a file at a certain line.",
+  "Edit files with line numbers shown."
+ ],
+ "examples": [
+  {
+   "title": "Open or create a file",
+   "cmd": "nano notes.txt",
+   "explain": "If it does not exist it is created when you save. Type, then Ctrl+O (write out) and Enter to save, Ctrl+X to exit."
+  },
+  {
+   "title": "Edit a system file",
+   "cmd": "sudo nano /etc/hosts",
+   "explain": "Files owned by root need sudo, or nano says it cannot write."
+  },
+  {
+   "title": "Jump to a line when opening",
+   "cmd": "nano +42 script.sh",
+   "explain": "+42 opens with the cursor on line 42. +42,10 also sets the column."
+  },
+  {
+   "title": "Show line numbers",
+   "cmd": "nano -l script.sh",
+   "explain": "-l (--linenumbers) shows numbers in the margin."
+  },
+  {
+   "title": "Search and replace",
+   "cmd": "Ctrl+W to search, Ctrl+\\ to replace",
+   "explain": "Type the old text, Enter, then the new text, then A to replace all or Y/N for each match."
+  },
+  {
+   "title": "Cut and paste lines",
+   "cmd": "Ctrl+K cut the line, Ctrl+U paste it",
+   "explain": "Cut several lines in a row to move a block. Ctrl+6 (or Alt+A) marks the start of a selection."
+  },
+  {
+   "title": "Undo and redo",
+   "cmd": "Alt+U undo, Alt+E redo",
+   "explain": "Fix a mistake without leaving the file."
+  },
+  {
+   "title": "Read another file in",
+   "cmd": "Ctrl+R, type a file name, Enter",
+   "explain": "Inserts the contents of that file at the cursor."
+  },
+  {
+   "title": "Go to a line",
+   "cmd": "Ctrl+_ (underscore) then the number",
+   "explain": "Also Ctrl+/ on many terminals."
+  },
+  {
+   "title": "Safe editing",
+   "cmd": "nano -B important.conf",
+   "explain": "-B saves a backup file important.conf~ when you write."
+  }
+ ],
+ "options": [
+  {
+   "flag": "+LINE[,COLUMN]",
+   "plain": "Start with the cursor at this line and column.",
+   "use": "Jumping into a file."
+  },
+  {
+   "flag": "-l, --linenumbers",
+   "plain": "Show line numbers.",
+   "use": "Scripts and logs."
+  },
+  {
+   "flag": "-m, --mouse",
+   "plain": "Enable mouse support.",
+   "use": "Click to place the cursor."
+  },
+  {
+   "flag": "-i, --autoindent",
+   "plain": "Indent new lines like the previous one.",
+   "use": "Scripts and code."
+  },
+  {
+   "flag": "-E, --tabstospaces",
+   "plain": "Convert typed tabs to spaces.",
+   "use": "Python, YAML."
+  },
+  {
+   "flag": "-T N, --tabsize=N",
+   "plain": "Set the tab width.",
+   "use": "Alignment."
+  },
+  {
+   "flag": "-w, --nowrap",
+   "plain": "Do not wrap long lines.",
+   "use": "Configs and code."
+  },
+  {
+   "flag": "-$, --softwrap",
+   "plain": "Wrap long lines on screen only.",
+   "use": "Readability."
+  },
+  {
+   "flag": "-B, --backup",
+   "plain": "Save a backup of the old file when writing.",
+   "use": "Safety."
+  },
+  {
+   "flag": "-C DIR, --backupdir=DIR",
+   "plain": "Where to put backups.",
+   "use": "Keeping folders clean."
+  },
+  {
+   "flag": "-c, --constantshow",
+   "plain": "Always show the cursor position.",
+   "use": "Orientation."
+  },
+  {
+   "flag": "-v, --view",
+   "plain": "Read-only mode.",
+   "use": "Looking without changing."
+  },
+  {
+   "flag": "-R, --restricted",
+   "plain": "Restricted mode: no reading or writing other files, no shell.",
+   "use": "Safe editing environments."
+  },
+  {
+   "flag": "-A, --smarthome",
+   "plain": "Home key goes to the first text, not column 0.",
+   "use": "Convenience."
+  },
+  {
+   "flag": "-S, --smooth",
+   "plain": "Smooth scrolling.",
+   "use": "Old option."
+  },
+  {
+   "flag": "-L, --nonewlines",
+   "plain": "Do not add a newline at the end of the file.",
+   "use": "Exact bytes (hash and CTF work)."
+  },
+  {
+   "flag": "-Y NAME, --syntax=NAME",
+   "plain": "Use this syntax highlighting.",
+   "use": "Code colours."
+  },
+  {
+   "flag": "-D, --boldtext",
+   "plain": "Use bold instead of reverse video for the title bar.",
+   "use": "Looks."
+  },
+  {
+   "flag": "-x, --nohelp",
+   "plain": "Hide the shortcut list at the bottom.",
+   "use": "More room."
+  },
+  {
+   "flag": "-p, --preserve",
+   "plain": "Preserve XON/XOFF keys (Ctrl+Q, Ctrl+S).",
+   "use": "Special terminals."
+  },
+  {
+   "flag": "-q, --quiet / -z, --suspendable",
+   "plain": "Quiet; allow Ctrl+Z suspend.",
+   "use": "Convenience."
+  },
+  {
+   "flag": "-h, --help / -V, --version",
+   "plain": "Help and version.",
+   "use": "A reminder."
+  },
+  {
+   "flag": "KEYS: ^O, ^X, ^S",
+   "plain": "Write out, exit, save.",
+   "use": "Saving."
+  },
+  {
+   "flag": "KEYS: ^W, ^\\, Alt+W",
+   "plain": "Search, replace, repeat the search.",
+   "use": "Finding text."
+  },
+  {
+   "flag": "KEYS: ^K, ^U, ^6",
+   "plain": "Cut, paste (uncut), set mark.",
+   "use": "Moving text."
+  },
+  {
+   "flag": "KEYS: ^G, ^C, ^_",
+   "plain": "Help, show cursor position, go to line.",
+   "use": "Navigating."
+  },
+  {
+   "flag": "KEYS: Alt+U, Alt+E",
+   "plain": "Undo, redo.",
+   "use": "Fixing mistakes."
+  }
+ ],
+ "mistakes": [
+  "Closing with Ctrl+X and answering N by accident: you lose changes. Answer Y then Enter to save.",
+  "Editing a file you lack write permission to: use sudo.",
+  "Terminal wrap adding invisible line breaks in long commands: use -w.",
+  "Pasting tabs or spaces into a YAML file and breaking it: use -E.",
+  "Not noticing nano added a trailing newline when the exact bytes matter (-L)."
+ ],
+ "try": [
+  "Create a file, type three lines, save and exit.",
+  "Open it at line 2 with nano +2.",
+  "Cut one line and paste it two lines lower."
+ ],
+ "see_also": "vim(1), vi(1), sed(1), less(1), cat(1), tee(1), and nano's own help with Ctrl+G.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

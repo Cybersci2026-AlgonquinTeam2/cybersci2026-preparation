@@ -1,0 +1,278 @@
+{
+ "name": "less",
+ "section": "1",
+ "one_line": "view a file or output one screen at a time",
+ "plain": [
+  "`less` shows a long file or long command output one page at a time. You can scroll up and down, search, and quit. It is also the pager that `man` uses, so every key you learn here works inside man pages.",
+  "Unlike an editor it never changes the file, and it opens big files instantly because it does not read everything first."
+ ],
+ "when": [
+  "Read a big log or text file.",
+  "Page through the output of any command (command | less).",
+  "Search a file for a word and jump between matches.",
+  "Follow a growing log like tail -f (press F)."
+ ],
+ "examples": [
+  {
+   "title": "Open a file",
+   "cmd": "less access.log",
+   "explain": "Use Space or f for next page, b for previous, q to quit."
+  },
+  {
+   "title": "Page any command's output",
+   "cmd": "ls -l /etc | less",
+   "explain": "Pipe the output into less when it is longer than the screen."
+  },
+  {
+   "title": "Search while reading",
+   "cmd": "/error   then n for next, N for previous, ?error to search backwards",
+   "explain": "Type / then the text and Enter. Matches are highlighted."
+  },
+  {
+   "title": "Show line numbers",
+   "cmd": "less -N script.sh",
+   "explain": "-N prefixes each line with its number: handy when you need to say 'line 42'."
+  },
+  {
+   "title": "Do not wrap long lines",
+   "cmd": "less -S wide.csv",
+   "explain": "-S chops long lines instead of wrapping; scroll sideways with the arrow keys."
+  },
+  {
+   "title": "Keep colours from a command",
+   "cmd": "ls --color=always | less -R",
+   "explain": "-R passes colour codes through instead of showing ESC characters."
+  },
+  {
+   "title": "Follow a log live",
+   "cmd": "less +F /var/log/syslog",
+   "explain": "+F starts in follow mode like tail -f. Press Ctrl+C to stop following and scroll, then F to follow again."
+  },
+  {
+   "title": "Start at a pattern",
+   "cmd": "less -p 'password' config.txt",
+   "explain": "-p opens the file at the first match."
+  },
+  {
+   "title": "Jump around",
+   "cmd": "g (top)   G (bottom)   50g (line 50)   50% (halfway)",
+   "explain": "Number then g goes to that line; a percentage goes to that part of the file."
+  },
+  {
+   "title": "Show only lines with a word",
+   "cmd": "&error",
+   "explain": "Inside less, & filters the display to lines matching the pattern. &  with nothing resets it."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-N, --LINE-NUMBERS",
+   "plain": "Show a line number in front of each line.",
+   "use": "Referencing lines."
+  },
+  {
+   "flag": "-n, --line-numbers",
+   "plain": "Turn off line numbers (faster on huge files).",
+   "use": "Large files."
+  },
+  {
+   "flag": "-S, --chop-long-lines",
+   "plain": "Do not wrap; cut long lines at the screen edge.",
+   "use": "CSV and wide logs."
+  },
+  {
+   "flag": "-R, --RAW-CONTROL-CHARS",
+   "plain": "Show colour escape codes as colours.",
+   "use": "Coloured output."
+  },
+  {
+   "flag": "-r, --raw-control-chars",
+   "plain": "Show all control characters raw.",
+   "use": "Rare; can garble the screen."
+  },
+  {
+   "flag": "-i, --ignore-case",
+   "plain": "Ignore case in searches unless you type a capital letter.",
+   "use": "Easy searching."
+  },
+  {
+   "flag": "-I, --IGNORE-CASE",
+   "plain": "Ignore case in searches always.",
+   "use": "Always case-blind."
+  },
+  {
+   "flag": "-F, --quit-if-one-screen",
+   "plain": "Quit at once if the whole file fits on one screen.",
+   "use": "Use in aliases and pipes."
+  },
+  {
+   "flag": "-X, --no-init",
+   "plain": "Do not clear the screen at start or exit.",
+   "use": "Keep the output visible after quitting."
+  },
+  {
+   "flag": "-e, --quit-at-eof / -E, --QUIT-AT-EOF",
+   "plain": "Quit the second / first time you reach the end.",
+   "use": "Short views."
+  },
+  {
+   "flag": "-f, --force",
+   "plain": "Open non-regular files such as a binary or device.",
+   "use": "Odd files."
+  },
+  {
+   "flag": "-p PATTERN, --pattern=PATTERN",
+   "plain": "Start at the first line matching the pattern.",
+   "use": "Jump to a topic."
+  },
+  {
+   "flag": "-s, --squeeze-blank-lines",
+   "plain": "Merge runs of blank lines into one.",
+   "use": "Tidier reading."
+  },
+  {
+   "flag": "-x N, --tabs=N",
+   "plain": "Set tab stops.",
+   "use": "Alignment."
+  },
+  {
+   "flag": "-M, --LONG-PROMPT",
+   "plain": "Show a long prompt with name and percentage.",
+   "use": "Orientation."
+  },
+  {
+   "flag": "-m, --long-prompt",
+   "plain": "Medium prompt with percentage.",
+   "use": "Orientation."
+  },
+  {
+   "flag": "-q, --quiet, --silent",
+   "plain": "No bell on errors.",
+   "use": "Quiet terminals."
+  },
+  {
+   "flag": "-g, --hilite-search",
+   "plain": "Highlight only the current match.",
+   "use": "Less colour noise."
+  },
+  {
+   "flag": "-G, --HILITE-SEARCH",
+   "plain": "Do not highlight any match.",
+   "use": "Plain output."
+  },
+  {
+   "flag": "-W, --HILITE-UNREAD",
+   "plain": "Highlight the first unread line after a jump.",
+   "use": "Not losing your place."
+  },
+  {
+   "flag": "-j N, --jump-target=N",
+   "plain": "Place search targets on this screen line.",
+   "use": "Context above matches."
+  },
+  {
+   "flag": "-z N, --window=N",
+   "plain": "Set the scroll window size.",
+   "use": "Custom paging."
+  },
+  {
+   "flag": "-a, --search-skip-screen",
+   "plain": "Searches start after the current screen.",
+   "use": "Skipping what you saw."
+  },
+  {
+   "flag": "-B / --auto-buffers",
+   "plain": "Control automatic buffer growth for pipes.",
+   "use": "Large pipes."
+  },
+  {
+   "flag": "-b N, --buffers=N",
+   "plain": "Buffer space in kilobytes.",
+   "use": "Tuning."
+  },
+  {
+   "flag": "-c, --clear-screen",
+   "plain": "Repaint from the top instead of scrolling.",
+   "use": "Slow terminals."
+  },
+  {
+   "flag": "-d, --dumb",
+   "plain": "No error about a dumb terminal.",
+   "use": "Odd terminals."
+  },
+  {
+   "flag": "-K, --quit-on-intr",
+   "plain": "Quit when Ctrl+C is pressed.",
+   "use": "Scripts."
+  },
+  {
+   "flag": "-L, --no-lessopen",
+   "plain": "Do not use LESSOPEN preprocessors.",
+   "use": "Raw file view."
+  },
+  {
+   "flag": "-t TAG, --tag=TAG",
+   "plain": "Start at a tag from the tags file.",
+   "use": "Code browsing."
+  },
+  {
+   "flag": "-T FILE, --tag-file=FILE",
+   "plain": "Use another tags file.",
+   "use": "Code browsing."
+  },
+  {
+   "flag": "-P PROMPT, --prompt=PROMPT",
+   "plain": "Set a custom prompt.",
+   "use": "Customising."
+  },
+  {
+   "flag": "--mouse",
+   "plain": "Use the mouse wheel for scrolling.",
+   "use": "Convenience."
+  },
+  {
+   "flag": "--follow-name",
+   "plain": "With F, follow the file name not the descriptor.",
+   "use": "Rotated logs."
+  },
+  {
+   "flag": "-V, --version",
+   "plain": "Show version.",
+   "use": "Check install."
+  },
+  {
+   "flag": "-?, --help",
+   "plain": "Show help summary; press h inside less for all keys.",
+   "use": "A reminder."
+  },
+  {
+   "flag": "KEYS: Space/f, b, d, u, g, G, q",
+   "plain": "Page down, page up, half down, half up, top, bottom, quit.",
+   "use": "Moving."
+  },
+  {
+   "flag": "KEYS: /pat, ?pat, n, N",
+   "plain": "Search forward, search backward, next, previous.",
+   "use": "Searching."
+  },
+  {
+   "flag": "KEYS: F, v, =, h, :n, :p, m, ', &pat",
+   "plain": "Follow, open in editor, show position, help, next file, previous file, set mark, go to mark, filter lines.",
+   "use": "Power use."
+  }
+ ],
+ "mistakes": [
+  "Typing q when you wanted to type / : q always quits.",
+  "Expecting less to edit: it only reads (press v to open an editor).",
+  "Colour showing as ESC[0m: add -R.",
+  "Piping into less and then wondering why the command already finished: the pipe waits for you to quit.",
+  "Not knowing F follows a log: it is the live tail you often need."
+ ],
+ "try": [
+  "Open /etc/passwd with less -N and search for root.",
+  "Page a long man page and use / and n.",
+  "Use less +F on a log that is being written (try ping localhost > /tmp/p.log)."
+ ],
+ "see_also": "more(1), man(1), cat(1), head(1), tail(1), grep(1), vim(1), nano(1).",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

@@ -1,0 +1,152 @@
+{
+ "name": "bzip2",
+ "section": "1",
+ "one_line": "block-sorting file compressor (also bunzip2 and bzcat)",
+ "plain": [
+  "`bzip2` squeezes a file into a smaller .bz2 file. It compresses better than gzip but is slower. `bunzip2` (or `bzip2 -d`) turns it back.",
+  "It compresses one file at a time; to pack a folder, use tar with -j, giving .tar.bz2. In CTFs you often meet nested layers (a .bz2 inside a gzip inside a tar), so know all three."
+ ],
+ "when": [
+  "Compress or decompress a .bz2 file.",
+  "Read a compressed file without extracting (bzcat).",
+  "Handle .tar.bz2 archives.",
+  "Peel layers of a nested archive challenge."
+ ],
+ "examples": [
+  {
+   "title": "Compress a file",
+   "cmd": "bzip2 notes.txt",
+   "explain": "Creates notes.txt.bz2 and removes the original unless you use -k."
+  },
+  {
+   "title": "Keep the original",
+   "cmd": "bzip2 -k notes.txt",
+   "explain": "-k keeps the input file."
+  },
+  {
+   "title": "Decompress",
+   "cmd": "bunzip2 notes.txt.bz2",
+   "explain": "Same as bzip2 -d. Restores notes.txt."
+  },
+  {
+   "title": "Read without extracting",
+   "cmd": "bzcat notes.txt.bz2 | head",
+   "explain": "Prints the uncompressed content to the screen or the pipe."
+  },
+  {
+   "title": "Test a file",
+   "cmd": "bzip2 -t notes.txt.bz2",
+   "explain": "-t checks the integrity without writing anything."
+  },
+  {
+   "title": "Compress to standard output",
+   "cmd": "bzip2 -c big.log > big.log.bz2",
+   "explain": "-c writes to the screen (or redirect) and leaves the original alone."
+  },
+  {
+   "title": "A tar archive",
+   "cmd": "tar -cjf backup.tar.bz2 folder/\ntar -xjf backup.tar.bz2",
+   "explain": "tar -j uses bzip2 for you."
+  },
+  {
+   "title": "Strongest and fastest",
+   "cmd": "bzip2 -9 data   |   bzip2 --fast data",
+   "explain": "-1 to -9 set the block size; 9 is the best and default. --fast is -1."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-z, --compress",
+   "plain": "Compress (the default).",
+   "use": "Explicit mode."
+  },
+  {
+   "flag": "-d, --decompress",
+   "plain": "Decompress.",
+   "use": "Extracting."
+  },
+  {
+   "flag": "-k, --keep",
+   "plain": "Do not delete the input file.",
+   "use": "Safe compress."
+  },
+  {
+   "flag": "-f, --force",
+   "plain": "Overwrite existing output.",
+   "use": "Scripts."
+  },
+  {
+   "flag": "-t, --test",
+   "plain": "Check the file's integrity.",
+   "use": "Verifying."
+  },
+  {
+   "flag": "-c, --stdout",
+   "plain": "Write to standard output.",
+   "use": "Pipes."
+  },
+  {
+   "flag": "-q, --quiet",
+   "plain": "Suppress non-essential messages.",
+   "use": "Scripts."
+  },
+  {
+   "flag": "-v, --verbose",
+   "plain": "Show compression ratio per file.",
+   "use": "Seeing the effect."
+  },
+  {
+   "flag": "-s, --small",
+   "plain": "Use less memory (slower).",
+   "use": "Small machines."
+  },
+  {
+   "flag": "-1 ... -9",
+   "plain": "Block size 100k to 900k.",
+   "use": "Speed vs size."
+  },
+  {
+   "flag": "--fast / --best",
+   "plain": "Aliases for -1 and -9.",
+   "use": "Readable options."
+  },
+  {
+   "flag": "-L, --license / -V, --version",
+   "plain": "Show license / version.",
+   "use": "Check install."
+  },
+  {
+   "flag": "-h, --help",
+   "plain": "Show help.",
+   "use": "A reminder."
+  },
+  {
+   "flag": "bunzip2",
+   "plain": "Same as bzip2 -d.",
+   "use": "Decompress."
+  },
+  {
+   "flag": "bzcat",
+   "plain": "Same as bzip2 -dc.",
+   "use": "Read to the screen."
+  },
+  {
+   "flag": "bzip2recover",
+   "plain": "Try to recover data from a damaged .bz2 file.",
+   "use": "Broken archives."
+  }
+ ],
+ "mistakes": [
+  "Expecting bzip2 to archive a folder: it compresses only one file; use tar.",
+  "Not using -k and losing the original.",
+  "Running bunzip2 on a file that is not really bzip2 (check with file).",
+  "Forgetting that format layers can be mixed: run file after every step."
+ ],
+ "try": [
+  "Compress a text file with -k and compare sizes with ls -l.",
+  "Create a tar.bz2 and list it with tar -tjf.",
+  "Make a file compressed three times (gzip, bzip2, gzip) and peel it with file."
+ ],
+ "see_also": "gzip(1), xz(1), tar(1), zip(1), file(1), binwalk(1), bzip2recover(1).",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

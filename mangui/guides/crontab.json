@@ -1,0 +1,145 @@
+{
+ "name": "crontab",
+ "section": "1",
+ "one_line": "maintain per-user scheduled jobs (cron tables)",
+ "plain": [
+  "cron runs commands on a schedule: every minute, every night at 02:00, at every reboot. `crontab` is the command that edits your personal schedule.",
+  "Each line has five time fields and then a command: minute, hour, day of month, month, day of week. A star * means every.",
+  "For security work it matters twice: persistence (an attacker adds a job) and privilege escalation (a root cron job runs a script that you can write to)."
+ ],
+ "when": [
+  "Schedule a script to run regularly.",
+  "List what a user has scheduled.",
+  "Hunt a writable root cron script on a target (privilege escalation).",
+  "Find persistence left behind in an incident."
+ ],
+ "examples": [
+  {
+   "title": "List your jobs",
+   "cmd": "crontab -l",
+   "explain": "Prints your schedule or 'no crontab for user'."
+  },
+  {
+   "title": "Edit your jobs",
+   "cmd": "crontab -e",
+   "explain": "Opens your editor (first time asks which). Save and exit to install."
+  },
+  {
+   "title": "A job every 5 minutes",
+   "cmd": "*/5 * * * * /home/user/check.sh >> /tmp/check.log 2>&1",
+   "explain": "*/5 means every 5 minutes. Output goes to a log, otherwise it is mailed or lost."
+  },
+  {
+   "title": "A nightly job at 02:30",
+   "cmd": "30 2 * * * /usr/bin/backup.sh",
+   "explain": "Minute 30, hour 2, any day, any month, any weekday."
+  },
+  {
+   "title": "Weekdays at 9",
+   "cmd": "0 9 * * 1-5 /usr/bin/report.sh",
+   "explain": "Day of week 1-5 is Monday to Friday."
+  },
+  {
+   "title": "At boot",
+   "cmd": "@reboot /home/user/start.sh",
+   "explain": "@reboot, @hourly, @daily, @weekly, @monthly, @yearly are shortcuts."
+  },
+  {
+   "title": "Look at another user's jobs (root)",
+   "cmd": "sudo crontab -l -u alice",
+   "explain": "-u names the user."
+  },
+  {
+   "title": "Hunt system cron on a target",
+   "cmd": "cat /etc/crontab; ls -la /etc/cron.d /etc/cron.daily; ls -la /var/spool/cron/crontabs",
+   "explain": "System cron files have an extra column for the user to run as. Look for scripts you can write to, and for wildcards in tar or rsync commands."
+  },
+  {
+   "title": "Watch what runs without root",
+   "cmd": "pspy64",
+   "explain": "A separate tool that watches processes and reveals cron jobs as they run, even without reading the files."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-l",
+   "plain": "List the current crontab.",
+   "use": "Reading."
+  },
+  {
+   "flag": "-e",
+   "plain": "Edit the crontab.",
+   "use": "Changing."
+  },
+  {
+   "flag": "-r",
+   "plain": "Remove the whole crontab (no confirmation unless -i).",
+   "use": "Cleaning, with care."
+  },
+  {
+   "flag": "-i",
+   "plain": "With -r, ask before deleting.",
+   "use": "Safety."
+  },
+  {
+   "flag": "-u USER",
+   "plain": "Act on this user's crontab (root only).",
+   "use": "Administering."
+  },
+  {
+   "flag": "-s",
+   "plain": "Include the SELinux security context.",
+   "use": "SELinux systems."
+  },
+  {
+   "flag": "-n HOST",
+   "plain": "Set the host that runs the cron jobs (some versions).",
+   "use": "Clusters."
+  },
+  {
+   "flag": "-V",
+   "plain": "Show version.",
+   "use": "Check install."
+  },
+  {
+   "flag": "FIELDS: m h dom mon dow command",
+   "plain": "Minute 0-59, hour 0-23, day of month 1-31, month 1-12, day of week 0-7 (0 and 7 are Sunday).",
+   "use": "Writing a schedule."
+  },
+  {
+   "flag": "Operators: * , - /",
+   "plain": "Every / list / range / step. */10 means every 10.",
+   "use": "Patterns."
+  },
+  {
+   "flag": "@reboot @hourly @daily @weekly @monthly @yearly",
+   "plain": "Shortcuts for common schedules.",
+   "use": "Simple jobs."
+  },
+  {
+   "flag": "/etc/crontab, /etc/cron.d/, /etc/cron.{hourly,daily,weekly,monthly}/",
+   "plain": "System-wide schedules; /etc/crontab and /etc/cron.d need a user field.",
+   "use": "System jobs."
+  },
+  {
+   "flag": "/etc/cron.allow, /etc/cron.deny",
+   "plain": "Control who may use crontab.",
+   "use": "Access control."
+  }
+ ],
+ "mistakes": [
+  "Cron has a tiny PATH: use full paths to every program.",
+  "Forgetting 2>&1 and a log, so errors vanish.",
+  "Using % in a command without escaping it as \\%.",
+  "Editing /etc/crontab and leaving out the user column.",
+  "Wiping a crontab with crontab -r when you meant -e.",
+  "Not making scripts executable."
+ ],
+ "try": [
+  "Add a job that appends the date to a file every minute, and watch it.",
+  "List /etc/cron.d on your machine and read each file.",
+  "Find a script run by root cron that is writable by your user (in a lab)."
+ ],
+ "see_also": "cron(8), crontab(5), at(1), systemd.timer(5), anacron(8), pspy, and linpeas for privilege-escalation checks.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

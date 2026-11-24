@@ -1,0 +1,138 @@
+{
+ "name": "printf",
+ "section": "1",
+ "one_line": "format and print data",
+ "plain": [
+  "`printf` prints text exactly as you describe it, using a format string like in the C language. Unlike echo it does not add a newline unless you ask, and it treats backslash escapes the same way everywhere.",
+  "That makes it the right tool for exact output: no trailing newline, a precise hex byte, a padded number, a repeated pattern."
+ ],
+ "when": [
+  "Print exact bytes (shellcode, a magic header).",
+  "Hash a string with no newline.",
+  "Format numbers (hex, octal, padded).",
+  "Write the same pattern many times."
+ ],
+ "examples": [
+  {
+   "title": "Print with a newline",
+   "cmd": "printf 'Hello\\n'",
+   "explain": "printf adds nothing for you: write \\n where you want a new line."
+  },
+  {
+   "title": "Hash without a newline",
+   "cmd": "printf 'password' | sha256sum",
+   "explain": "Reliable in every shell, unlike echo -n."
+  },
+  {
+   "title": "Insert values",
+   "cmd": "printf 'user=%s id=%d\\n' alice 1000",
+   "explain": "%s is a string, %d a number. The values follow the format."
+  },
+  {
+   "title": "Hex and octal",
+   "cmd": "printf '%x %o %X\\n' 255 255 255",
+   "explain": "Prints ff 377 FF."
+  },
+  {
+   "title": "Pad a number",
+   "cmd": "printf '%05d\\n' 42",
+   "explain": "00042: width 5, filled with zeros."
+  },
+  {
+   "title": "Write raw bytes",
+   "cmd": "printf '\\x7fELF' | xxd",
+   "explain": "\\xHH writes one byte. This is how you build tiny test files and payloads."
+  },
+  {
+   "title": "Repeat a pattern",
+   "cmd": "printf 'A%.0s' {1..32}",
+   "explain": "Prints 32 A characters: the format has one %.0s that eats a number but prints nothing, while A is printed each time."
+  },
+  {
+   "title": "Convert a decimal to hex",
+   "cmd": "printf '%x\\n' 4919",
+   "explain": "Prints 1337."
+  },
+  {
+   "title": "Store in a variable",
+   "cmd": "printf -v line '%-10s|' hi; echo \"$line\"",
+   "explain": "-v (bash) saves the result in a variable instead of printing."
+  }
+ ],
+ "options": [
+  {
+   "flag": "FORMAT",
+   "plain": "The pattern: ordinary text, escapes and % conversions. Reused if more arguments than conversions remain.",
+   "use": "Always."
+  },
+  {
+   "flag": "%s / %b",
+   "plain": "String / string with backslash escapes interpreted.",
+   "use": "Text."
+  },
+  {
+   "flag": "%d, %i / %u",
+   "plain": "Signed / unsigned decimal.",
+   "use": "Numbers."
+  },
+  {
+   "flag": "%x, %X / %o",
+   "plain": "Hex lower or upper / octal.",
+   "use": "Number bases."
+  },
+  {
+   "flag": "%f, %e, %g",
+   "plain": "Floating point.",
+   "use": "Decimals."
+  },
+  {
+   "flag": "%c",
+   "plain": "First character of the argument.",
+   "use": "Single letters."
+  },
+  {
+   "flag": "%q",
+   "plain": "Quote the argument so it can be reused as shell input (bash).",
+   "use": "Safe quoting."
+  },
+  {
+   "flag": "%%",
+   "plain": "A literal percent sign.",
+   "use": "Printing %."
+  },
+  {
+   "flag": "%5d / %-5d / %05d / %.3f",
+   "plain": "Width, left-align, zero-pad, precision.",
+   "use": "Tidy columns."
+  },
+  {
+   "flag": "\\n \\t \\r \\\\ \\a \\0NNN \\xHH",
+   "plain": "Newline, tab, carriage return, backslash, bell, octal byte, hex byte.",
+   "use": "Exact bytes."
+  },
+  {
+   "flag": "-v VAR",
+   "plain": "bash builtin: assign the output to VAR.",
+   "use": "Building strings."
+  },
+  {
+   "flag": "--help / --version",
+   "plain": "Help and version (the /usr/bin/printf program).",
+   "use": "Check install."
+  }
+ ],
+ "mistakes": [
+  "Passing user text as the format: printf \"$input\" interprets % and backslashes; use printf '%s' \"$input\".",
+  "Forgetting \\n and gluing lines together.",
+  "Using %d with a non-number: you get 0 and a warning.",
+  "Mixing up \\xHH and \\0NNN (octal).",
+  "Forgetting that format is reused for extra arguments."
+ ],
+ "try": [
+  "Print your name and a number with %s and %d.",
+  "Write the bytes 0x89 0x50 0x4e 0x47 to a file with printf and check with file.",
+  "Convert 1000 to hex and octal."
+ ],
+ "see_also": "echo(1), xxd(1), od(1), awk(1), bash(1), md5sum(1).",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

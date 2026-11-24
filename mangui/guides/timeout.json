@@ -1,0 +1,113 @@
+{
+ "name": "timeout",
+ "section": "1",
+ "one_line": "run a command with a time limit",
+ "plain": [
+  "`timeout` runs a command and stops it if it takes too long. It is the safe way to try something that might hang: a scan, a network connection or a brute-force loop.",
+  "When the time is up it sends a signal (TERM by default) to the command. You can add a second, harsher signal (KILL) for commands that ignore the first."
+ ],
+ "when": [
+  "Stop a command that may hang (nc, ssh, a script).",
+  "Limit how long a scan or loop runs.",
+  "Use in scripts so one step cannot block everything.",
+  "Give a stubborn process a grace time then kill it."
+ ],
+ "examples": [
+  {
+   "title": "Stop after 5 seconds",
+   "cmd": "timeout 5 ping 127.0.0.1",
+   "explain": "Pings for 5 seconds, then timeout ends it."
+  },
+  {
+   "title": "Use minutes or hours",
+   "cmd": "timeout 2m nmap -p- 10.10.10.5",
+   "explain": "Suffixes: s seconds (default), m minutes, h hours, d days."
+  },
+  {
+   "title": "Check whether it timed out",
+   "cmd": "timeout 3 sleep 10; echo $?",
+   "explain": "The exit status is 124 when the time limit hit. It is the command's own status otherwise."
+  },
+  {
+   "title": "Ask first, then kill",
+   "cmd": "timeout -k 5 20 ./slow_program",
+   "explain": "After 20 seconds send TERM; 5 seconds later, if still running, send KILL."
+  },
+  {
+   "title": "Send a different signal",
+   "cmd": "timeout -s INT 10 ./server",
+   "explain": "-s chooses the first signal (INT is like pressing Ctrl+C)."
+  },
+  {
+   "title": "Run in a script safely",
+   "cmd": "timeout 10 nc -zv 10.10.10.5 22 || echo 'no answer'",
+   "explain": "|| runs the echo if the command fails or times out."
+  },
+  {
+   "title": "Keep the command's own exit code",
+   "cmd": "timeout --preserve-status 5 ./check.sh",
+   "explain": "Returns the command's status even if it was cut off by the timer."
+  }
+ ],
+ "options": [
+  {
+   "flag": "DURATION",
+   "plain": "Number with optional suffix s, m, h, d. 0 means no time limit.",
+   "use": "Always."
+  },
+  {
+   "flag": "-s, --signal=SIGNAL",
+   "plain": "Signal to send at the end of the time (default TERM).",
+   "use": "INT, HUP, KILL."
+  },
+  {
+   "flag": "-k, --kill-after=DURATION",
+   "plain": "Also send KILL after this extra time.",
+   "use": "Stubborn processes."
+  },
+  {
+   "flag": "--preserve-status",
+   "plain": "Exit with the command's own status, even on timeout.",
+   "use": "Scripts that read the code."
+  },
+  {
+   "flag": "--foreground",
+   "plain": "Do not create a separate background group; allow keyboard signals to reach the command.",
+   "use": "Interactive commands."
+  },
+  {
+   "flag": "-v, --verbose",
+   "plain": "Print a message when a signal is sent.",
+   "use": "Debugging."
+  },
+  {
+   "flag": "--help",
+   "plain": "Show help.",
+   "use": "A reminder."
+  },
+  {
+   "flag": "--version",
+   "plain": "Show version.",
+   "use": "Check install."
+  },
+  {
+   "flag": "EXIT STATUS",
+   "plain": "124 timed out, 125 timeout itself failed, 126 command cannot be run, 127 command not found, 137 command was killed by KILL.",
+   "use": "Reading $? in scripts."
+  }
+ ],
+ "mistakes": [
+  "Putting the duration after the command: it must come first.",
+  "Forgetting that a setuid binary may not be signalled when you wrap it as another user.",
+  "Expecting TERM to stop everything: some programs ignore it, so add -k.",
+  "Using timeout on an interactive shell without --foreground.",
+  "Forgetting 124 means timeout: do not treat it as the command's failure."
+ ],
+ "try": [
+  "Run timeout 3 sleep 10 and print $?.",
+  "Run timeout -k 1 2 sleep 100 and watch it end.",
+  "Use timeout in a loop to test 5 ports with a 2 second limit each."
+ ],
+ "see_also": "sleep(1), kill(1), nc(1), ssh(1), watch(1), nohup(1).",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

@@ -1,0 +1,92 @@
+{
+ "name": "fold",
+ "section": "1",
+ "one_line": "wrap each input line to fit in a given width",
+ "plain": [
+  "`fold` cuts long lines into shorter ones of a fixed width. By default it cuts at 80 characters, even in the middle of a word, unless you ask it to break at spaces.",
+  "It is handy for turning one huge line (a Base64 string, a hash list or a key) into neat blocks that you can read, copy or compare."
+ ],
+ "when": [
+  "Wrap a long Base64 or hex string.",
+  "Cut a long line into equal pieces.",
+  "Make text fit a narrow screen.",
+  "Prepare data in fixed-width blocks."
+ ],
+ "examples": [
+  {
+   "title": "Wrap at 80 columns",
+   "cmd": "fold longline.txt",
+   "explain": "Every output line has at most 80 characters."
+  },
+  {
+   "title": "Choose the width",
+   "cmd": "fold -w 40 longline.txt",
+   "explain": "-w sets the width."
+  },
+  {
+   "title": "Break at spaces, not mid-word",
+   "cmd": "fold -s -w 60 article.txt",
+   "explain": "-s breaks after the last space before the limit, so words stay whole."
+  },
+  {
+   "title": "Wrap Base64 to the standard 64",
+   "cmd": "base64 file.bin | fold -w 64",
+   "explain": "PEM and many tools expect 64-character lines."
+  },
+  {
+   "title": "Count bytes, not columns",
+   "cmd": "fold -b -w 16 data.txt",
+   "explain": "-b counts bytes instead of display columns, good for non-ASCII text."
+  },
+  {
+   "title": "Split a string into characters",
+   "cmd": "echo 'flag' | fold -w 1",
+   "explain": "Width 1 puts each character on its own line, which you can then sort or count."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-w, --width=WIDTH",
+   "plain": "Maximum line width (default 80).",
+   "use": "Always."
+  },
+  {
+   "flag": "-s, --spaces",
+   "plain": "Break lines at spaces.",
+   "use": "Readable text."
+  },
+  {
+   "flag": "-b, --bytes",
+   "plain": "Count bytes, not columns.",
+   "use": "Binary-ish data."
+  },
+  {
+   "flag": "-c, --characters",
+   "plain": "Count characters (non-standard on some versions).",
+   "use": "Multibyte text."
+  },
+  {
+   "flag": "--help",
+   "plain": "Show help.",
+   "use": "A reminder."
+  },
+  {
+   "flag": "--version",
+   "plain": "Show version.",
+   "use": "Check install."
+  }
+ ],
+ "mistakes": [
+  "Cutting words in half without -s.",
+  "Forgetting that fold does not remove existing newlines.",
+  "Confusing fold with fmt: fmt reflows paragraphs, fold only chops.",
+  "Using fold -w 1 on a very large file and flooding the screen."
+ ],
+ "try": [
+  "Take a long hash and fold it at 16 characters.",
+  "Fold a paragraph at 50 with and without -s.",
+  "Use fold -w 1 on a word and count letters with sort | uniq -c."
+ ],
+ "see_also": "fmt(1), cut(1), base64(1), tr(1), column(1), less(1).",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

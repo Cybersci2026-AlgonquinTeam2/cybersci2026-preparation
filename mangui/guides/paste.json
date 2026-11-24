@@ -1,0 +1,87 @@
+{
+ "name": "paste",
+ "section": "1",
+ "one_line": "merge lines of files side by side",
+ "plain": [
+  "`paste` glues files together line by line, like putting columns next to each other. Line 1 of file A and line 1 of file B become one line separated by a tab.",
+  "With -s it does the opposite job: it turns one column into one long row. With -d you choose the separator."
+ ],
+ "when": [
+  "Combine a username list and a password list into user:pass pairs.",
+  "Turn a column of values into one comma-separated line.",
+  "Number lines or pair them up.",
+  "Build a CSV from separate lists."
+ ],
+ "examples": [
+  {
+   "title": "Two files side by side",
+   "cmd": "paste names.txt scores.txt",
+   "explain": "Line 1 of each, joined with a tab, then line 2, and so on."
+  },
+  {
+   "title": "Choose the separator",
+   "cmd": "paste -d: users.txt passwords.txt",
+   "explain": "-d sets the delimiter: here user:password pairs, ready for a credentials list."
+  },
+  {
+   "title": "One column into a row",
+   "cmd": "paste -sd, ports.txt",
+   "explain": "-s joins all lines of one file into a single line; -d, uses commas. 22, 80, 443 becomes 22,80,443."
+  },
+  {
+   "title": "Pair up lines from one file",
+   "cmd": "paste - - < list.txt",
+   "explain": "Each - reads one line from standard input, so two dashes pair up lines two at a time."
+  },
+  {
+   "title": "Three columns from commands",
+   "cmd": "paste <(seq 1 3) <(printf 'a\\nb\\nc\\n') <(seq 10 12)",
+   "explain": "Process substitution turns commands into files so you can merge their outputs."
+  },
+  {
+   "title": "Several separators in turn",
+   "cmd": "paste -d',;' a.txt b.txt c.txt",
+   "explain": "The separator list is used in rotation: first , then ; ..."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-d, --delimiters=LIST",
+   "plain": "Use these characters instead of a tab, taken in turn.",
+   "use": "CSV and colon lists."
+  },
+  {
+   "flag": "-s, --serial",
+   "plain": "Paste one file at a time instead of in parallel (join all lines of each file).",
+   "use": "Column to row."
+  },
+  {
+   "flag": "-z, --zero-terminated",
+   "plain": "Lines end with NUL instead of newline.",
+   "use": "find -print0 output."
+  },
+  {
+   "flag": "--help",
+   "plain": "Show help.",
+   "use": "A reminder."
+  },
+  {
+   "flag": "--version",
+   "plain": "Show version.",
+   "use": "Check install."
+  }
+ ],
+ "mistakes": [
+  "Files of different length: paste leaves the missing fields empty.",
+  "Forgetting that the default separator is a TAB, not a space.",
+  "Using -s and expecting columns: it merges lines of each file into one line per file.",
+  "Windows line endings (CRLF) inside the files adding stray carriage returns."
+ ],
+ "try": [
+  "Combine two small lists with paste -d:.",
+  "Turn seq 1 5 into 1,2,3,4,5 with paste -sd,.",
+  "Pair up lines of a file with paste - -."
+ ],
+ "see_also": "cut(1), join(1), column(1), sort(1), awk(1), cat(1), tr(1).",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

@@ -1,0 +1,163 @@
+{
+ "name": "test",
+ "section": "1",
+ "one_line": "check file types and compare values (also written as [ ... ])",
+ "plain": [
+  "`test` answers yes/no questions: does this file exist, is this string empty, is 5 bigger than 3? It prints nothing; it sets its exit status to 0 for true and 1 for false. Shell scripts use it inside if and while.",
+  "The square-bracket form `[ ... ]` is the same command with a closing ] required. In bash, `[[ ... ]]` is a related built-in with extra features (pattern matching and no word-splitting surprises)."
+ ],
+ "when": [
+  "Check whether a file or directory exists before using it.",
+  "Compare numbers or strings in a script.",
+  "Test permissions (readable, writable, executable).",
+  "Decide in a script whether you are root."
+ ],
+ "examples": [
+  {
+   "title": "Does the file exist?",
+   "cmd": "test -f notes.txt && echo yes",
+   "explain": "-f is true for a regular file. && runs echo only when the test is true."
+  },
+  {
+   "title": "Bracket form in an if",
+   "cmd": "if [ -d /tmp/loot ]; then echo 'folder exists'; fi",
+   "explain": "Spaces inside the brackets are required."
+  },
+  {
+   "title": "Is the string empty?",
+   "cmd": "[ -z \"$name\" ] && echo 'name is empty'",
+   "explain": "-z true if length zero; -n true if not zero."
+  },
+  {
+   "title": "Compare strings",
+   "cmd": "[ \"$a\" = \"$b\" ] && echo same",
+   "explain": "Use = for strings (with spaces around it) and always quote variables."
+  },
+  {
+   "title": "Compare numbers",
+   "cmd": "[ \"$n\" -gt 10 ] && echo big",
+   "explain": "-eq -ne -lt -le -gt -ge are for numbers. Using > or < compares nothing useful in [ ]."
+  },
+  {
+   "title": "Combine tests",
+   "cmd": "[ -r file ] && [ -w file ] && echo 'read and write'",
+   "explain": "Chain with && or use -a / -o inside (older style)."
+  },
+  {
+   "title": "Am I root?",
+   "cmd": "[ \"$(id -u)\" -eq 0 ] || echo 'run as root'",
+   "explain": "id -u prints your numeric user id; root is 0."
+  },
+  {
+   "title": "Newer than?",
+   "cmd": "[ a.txt -nt b.txt ] && echo 'a is newer'",
+   "explain": "-nt is newer than, -ot older than, -ef the same file."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-e FILE",
+   "plain": "File exists (any type).",
+   "use": "Existence."
+  },
+  {
+   "flag": "-f FILE / -d FILE",
+   "plain": "Regular file / directory.",
+   "use": "Type checks."
+  },
+  {
+   "flag": "-L FILE, -h FILE",
+   "plain": "Symbolic link.",
+   "use": "Links."
+  },
+  {
+   "flag": "-r FILE / -w FILE / -x FILE",
+   "plain": "Readable / writable / executable by you.",
+   "use": "Permissions."
+  },
+  {
+   "flag": "-s FILE",
+   "plain": "File exists and is not empty.",
+   "use": "Empty file checks."
+  },
+  {
+   "flag": "-b / -c / -p / -S FILE",
+   "plain": "Block device / character device / named pipe / socket.",
+   "use": "Special files."
+  },
+  {
+   "flag": "-u FILE / -g FILE / -k FILE",
+   "plain": "Set-user-ID bit / set-group-ID bit / sticky bit.",
+   "use": "Finding privilege bits."
+  },
+  {
+   "flag": "-O FILE / -G FILE",
+   "plain": "Owned by your user / your group.",
+   "use": "Ownership."
+  },
+  {
+   "flag": "-N FILE",
+   "plain": "Modified since it was last read.",
+   "use": "Change detection."
+  },
+  {
+   "flag": "F1 -nt F2 / F1 -ot F2 / F1 -ef F2",
+   "plain": "Newer than / older than / same file (same inode).",
+   "use": "Comparing files."
+  },
+  {
+   "flag": "-z STRING / -n STRING",
+   "plain": "Empty / not empty.",
+   "use": "Checking variables."
+  },
+  {
+   "flag": "S1 = S2 / S1 != S2",
+   "plain": "Strings equal / not equal.",
+   "use": "Matching text."
+  },
+  {
+   "flag": "N1 -eq N2, -ne, -lt, -le, -gt, -ge",
+   "plain": "Numeric equal, not equal, less, less or equal, greater, greater or equal.",
+   "use": "Number checks."
+  },
+  {
+   "flag": "! EXPR",
+   "plain": "Negate.",
+   "use": "Reversing a test."
+  },
+  {
+   "flag": "EXPR1 -a EXPR2 / EXPR1 -o EXPR2",
+   "plain": "And / or (prefer && and || between tests).",
+   "use": "Combining."
+  },
+  {
+   "flag": "( EXPR )",
+   "plain": "Group tests (escape the parentheses in the shell).",
+   "use": "Complex logic."
+  },
+  {
+   "flag": "-t FD",
+   "plain": "File descriptor is a terminal.",
+   "use": "Interactive or piped check."
+  },
+  {
+   "flag": "--help / --version",
+   "plain": "Help and version.",
+   "use": "Check install."
+  }
+ ],
+ "mistakes": [
+  "Missing spaces: [ -f file] or [-f file] fail.",
+  "Not quoting variables: an empty variable removes the argument and breaks the test.",
+  "Using = for numbers or -eq for strings.",
+  "Using > inside [ ] and creating a file named after the number.",
+  "Forgetting that [[ ]] is bash only: scripts for sh must use [ ]."
+ ],
+ "try": [
+  "Write a script that checks a file exists and is readable.",
+  "Test whether a variable is empty or not.",
+  "Compare two numbers with each of the numeric operators."
+ ],
+ "see_also": "bash(1), expr(1), find(1), stat(1), ls(1), id(1), and the bash manual section on conditional expressions.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}
