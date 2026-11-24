@@ -1,0 +1,178 @@
+{
+ "name": "ltrace",
+ "section": "1",
+ "one_line": "trace the library calls of a program",
+ "plain": [
+  "`ltrace` shows each call a program makes into shared libraries (strcmp, strlen, malloc, printf, puts, memcmp...) with the arguments and the return values. For a simple crackme that calls strcmp(your_input, secret), ltrace prints both strings, giving you the secret straight away.",
+  "It is the quick first step before opening a disassembler. It only sees dynamic library calls, so statically linked or stripped-down programs may show little; use strace or gdb then."
+ ],
+ "when": [
+  "Reveal what a crackme compares your input with.",
+  "See which library functions a program uses.",
+  "Watch string and memory function calls with arguments.",
+  "Understand a program quickly without a disassembler."
+ ],
+ "examples": [
+  {
+   "title": "Trace a program",
+   "cmd": "ltrace ./crackme",
+   "explain": "Each line is a call like strcmp(\"guess\", \"s3cret\") = -1. Run it with a wrong answer and read both arguments."
+  },
+  {
+   "title": "Only the string compare",
+   "cmd": "ltrace -e strcmp+strncmp+memcmp ./crackme",
+   "explain": "-e selects functions; + joins several names."
+  },
+  {
+   "title": "Follow child processes",
+   "cmd": "ltrace -f ./server",
+   "explain": "-f follows fork()s."
+  },
+  {
+   "title": "Show system calls too",
+   "cmd": "ltrace -S ./crackme",
+   "explain": "-S also prints system calls (like strace). Noisy but complete."
+  },
+  {
+   "title": "Longer strings",
+   "cmd": "ltrace -s 200 ./crackme",
+   "explain": "-s sets the maximum string length shown (default 32)."
+  },
+  {
+   "title": "Write to a file",
+   "cmd": "ltrace -o trace.txt ./crackme",
+   "explain": "-o saves the trace."
+  },
+  {
+   "title": "Count and summarise",
+   "cmd": "ltrace -c ./program",
+   "explain": "-c prints a table of calls and time spent."
+  },
+  {
+   "title": "Attach to a process",
+   "cmd": "sudo ltrace -p 1234",
+   "explain": "-p attaches to a running process."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-e FILTER",
+   "plain": "Trace only these functions (use + to list, ! to exclude, @lib to restrict).",
+   "use": "Cutting noise."
+  },
+  {
+   "flag": "-f",
+   "plain": "Follow forks.",
+   "use": "Multi-process programs."
+  },
+  {
+   "flag": "-S",
+   "plain": "Display system calls as well.",
+   "use": "A fuller picture."
+  },
+  {
+   "flag": "-s STRSIZE",
+   "plain": "Maximum string length.",
+   "use": "Reading secrets."
+  },
+  {
+   "flag": "-n NR",
+   "plain": "Indent nested calls by NR spaces.",
+   "use": "Readable traces."
+  },
+  {
+   "flag": "-o FILE",
+   "plain": "Write the output to a file.",
+   "use": "Keeping a trace."
+  },
+  {
+   "flag": "-p PID",
+   "plain": "Attach to a process.",
+   "use": "Live programs."
+  },
+  {
+   "flag": "-c",
+   "plain": "Count calls and time, then summarise.",
+   "use": "Profiling."
+  },
+  {
+   "flag": "-C",
+   "plain": "Demangle C++ names.",
+   "use": "C++ programs."
+  },
+  {
+   "flag": "-i",
+   "plain": "Print the instruction pointer at each call.",
+   "use": "Locating callers."
+  },
+  {
+   "flag": "-l FILTER",
+   "plain": "Show only calls from the given library.",
+   "use": "Library focus."
+  },
+  {
+   "flag": "-r / -t / -tt / -ttt",
+   "plain": "Relative and absolute time stamps.",
+   "use": "Timelines."
+  },
+  {
+   "flag": "-T",
+   "plain": "Show time spent in each call.",
+   "use": "Profiling."
+  },
+  {
+   "flag": "-u USERNAME",
+   "plain": "Run the command as this user.",
+   "use": "Testing."
+  },
+  {
+   "flag": "-w COUNT",
+   "plain": "Print a stack trace COUNT frames deep for each call.",
+   "use": "Locating callers."
+  },
+  {
+   "flag": "-x FILTER",
+   "plain": "Trace functions in the program's own symbol table.",
+   "use": "Static binaries with symbols."
+  },
+  {
+   "flag": "-b",
+   "plain": "Do not print arguments of the traced calls.",
+   "use": "Short output."
+  },
+  {
+   "flag": "-a COLUMN",
+   "plain": "Align the return value in this column.",
+   "use": "Neat output."
+  },
+  {
+   "flag": "-A MAXELTS",
+   "plain": "Maximum number of array elements shown.",
+   "use": "Large arrays."
+  },
+  {
+   "flag": "-D MASK",
+   "plain": "Debug flags.",
+   "use": "Troubleshooting ltrace."
+  },
+  {
+   "flag": "-V / -h",
+   "plain": "Version / help.",
+   "use": "Check install."
+  }
+ ],
+ "mistakes": [
+  "Expecting a result on a static or Go/Rust binary: little or no library calls appear.",
+  "Reading only the first strcmp: your input may be compared to several strings.",
+  "Forgetting that the real secret may be transformed first (XOR, base64) before it is compared.",
+  "Running an unknown binary outside a VM: ltrace runs it for real.",
+  "Not trying strace when ltrace shows nothing."
+ ],
+ "try": [
+  "Compile a tiny C program that calls strcmp and trace it.",
+  "Run ltrace on a crackme with a wrong answer and read the arguments.",
+  "Compare the output of ltrace and strace for the same program."
+ ],
+ "see_also": "strace(1), gdb(1), objdump(1), readelf(1), ldd(1), ghidra, radare2.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

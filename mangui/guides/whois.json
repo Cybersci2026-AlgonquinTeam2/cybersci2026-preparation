@@ -1,0 +1,127 @@
+{
+ "name": "whois",
+ "section": "1",
+ "one_line": "look up who owns a domain name or IP address",
+ "plain": [
+  "`whois` asks a public registry who registered a domain or owns an IP range: organisation, registrar, creation date, name servers, abuse contact. Modern registrations often hide personal details behind a privacy service, but the dates and name servers are still useful.",
+  "It is the first step in passive recon (OSINT): you learn who is behind a target without touching the target."
+ ],
+ "when": [
+  "Find who owns a domain and when it was registered.",
+  "Find the network range and owner of an IP.",
+  "Find name servers and abuse contacts.",
+  "Spot newly registered (suspicious) domains."
+ ],
+ "examples": [
+  {
+   "title": "A domain",
+   "cmd": "whois example.com",
+   "explain": "Prints registrar, creation and expiry dates, name servers and status. Very new dates on a phishing-looking domain are a red flag."
+  },
+  {
+   "title": "An IP address",
+   "cmd": "whois 8.8.8.8",
+   "explain": "Shows the network block, the organisation and the abuse contact for the address."
+  },
+  {
+   "title": "Ask a specific registry",
+   "cmd": "whois -h whois.arin.net 8.8.8.8",
+   "explain": "-h chooses the server; useful when the default server sends you to another one."
+  },
+  {
+   "title": "Keep only a few lines",
+   "cmd": "whois example.com | grep -iE 'creation|expir|name server|registrar'",
+   "explain": "whois output is long; grep keeps the facts you need."
+  },
+  {
+   "title": "Several domains",
+   "cmd": "for d in a.com b.com; do whois $d | grep -i 'creation date'; done",
+   "explain": "A small loop to compare registration dates."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-h HOST, --host HOST",
+   "plain": "Query this whois server.",
+   "use": "Choosing the registry."
+  },
+  {
+   "flag": "-p PORT, --port PORT",
+   "plain": "Use this port (default 43).",
+   "use": "Special servers."
+  },
+  {
+   "flag": "-H",
+   "plain": "Hide legal disclaimers.",
+   "use": "Short output."
+  },
+  {
+   "flag": "-r",
+   "plain": "Do not look up contact details (RIPE).",
+   "use": "Cleaner output."
+  },
+  {
+   "flag": "-B / -b",
+   "plain": "Return full details / brief output (RIPE).",
+   "use": "Choosing detail."
+  },
+  {
+   "flag": "-c",
+   "plain": "Find the smallest IP block with a contact (RIPE).",
+   "use": "Abuse contacts."
+  },
+  {
+   "flag": "-d",
+   "plain": "Also return reverse DNS data (RIPE).",
+   "use": "More context."
+  },
+  {
+   "flag": "-i ATTR",
+   "plain": "Do an inverse lookup on an attribute (RIPE).",
+   "use": "Finding all objects of an owner."
+  },
+  {
+   "flag": "-m / -M / -l / -L",
+   "plain": "Find more / all more specific / less specific / all less specific networks.",
+   "use": "Mapping address blocks."
+  },
+  {
+   "flag": "-s SOURCES / -t TYPE / -T TYPES",
+   "plain": "Limit the sources or object types (RIPE).",
+   "use": "Filtering."
+  },
+  {
+   "flag": "-q KEYWORD",
+   "plain": "Ask the server for info such as version or sources.",
+   "use": "Server info."
+  },
+  {
+   "flag": "-x",
+   "plain": "Exact match only.",
+   "use": "Avoiding near matches."
+  },
+  {
+   "flag": "--verbose",
+   "plain": "Be verbose about what whois does.",
+   "use": "Debugging."
+  },
+  {
+   "flag": "--help / --version",
+   "plain": "Help and version.",
+   "use": "A reminder."
+  }
+ ],
+ "mistakes": [
+  "Treating privacy-protected data as an error: it is normal.",
+  "Forgetting that IPs and domains use different registries.",
+  "Querying too fast and getting rate-limited.",
+  "Using whois data for harassment: use it for research and abuse reports only."
+ ],
+ "try": [
+  "Compare the whois of your own domain and a big site.",
+  "Look up the owner of an IP from your own logs.",
+  "Find the name servers and check them with dig."
+ ],
+ "see_also": "dig(1), nslookup(1), host(1), nmap(1), theHarvester, and the registry sites (ARIN, RIPE, ICANN lookup).",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

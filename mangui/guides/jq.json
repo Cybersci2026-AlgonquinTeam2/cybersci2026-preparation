@@ -1,0 +1,184 @@
+{
+ "name": "jq",
+ "section": "1",
+ "one_line": "command-line JSON processor",
+ "plain": [
+  "`jq` is like sed and awk for JSON. JSON is the text format almost every web API and many tools (nmap -oJ, tshark, docker inspect, BloodHound, cloud CLIs) speak. jq pretty-prints it, picks out fields, filters lists and reshapes them.",
+  "You give it a filter, a small expression such as `.name` (the name field) or `.[] | select(.port == 80)` (items whose port is 80)."
+ ],
+ "when": [
+  "Read a big JSON response comfortably.",
+  "Extract one field from an API reply.",
+  "Filter a list by a condition.",
+  "Turn JSON into plain lines or CSV for other tools.",
+  "Process tool output (tshark -T json, docker inspect, ffuf -of json)."
+ ],
+ "examples": [
+  {
+   "title": "Pretty-print",
+   "cmd": "curl -s http://10.10.10.5/api | jq .",
+   "explain": "The dot means 'the whole input'. jq indents and colours it."
+  },
+  {
+   "title": "One field",
+   "cmd": "jq '.user.name' data.json",
+   "explain": "Follows the path user -> name."
+  },
+  {
+   "title": "Raw text, no quotes",
+   "cmd": "jq -r '.token' data.json",
+   "explain": "-r prints strings without the surrounding quotes, so you can use them in the shell."
+  },
+  {
+   "title": "Every item of a list",
+   "cmd": "jq '.[] | .id' users.json",
+   "explain": ".[] walks through the list; | passes each item to the next filter."
+  },
+  {
+   "title": "Filter",
+   "cmd": "jq '.[] | select(.role == \"admin\")' users.json",
+   "explain": "select keeps only items where the test is true."
+  },
+  {
+   "title": "Build a new object",
+   "cmd": "jq '{name: .user, port: .service.port}' data.json",
+   "explain": "Curly braces create a new object with just the fields you want."
+  },
+  {
+   "title": "To CSV",
+   "cmd": "jq -r '.[] | [.id, .name] | @csv' users.json",
+   "explain": "@csv, @tsv, @base64, @uri and @sh format values; here each item becomes a CSV row."
+  },
+  {
+   "title": "Count",
+   "cmd": "jq 'length' users.json",
+   "explain": "length of a list or object."
+  },
+  {
+   "title": "Compact one-line output",
+   "cmd": "jq -c '.[]' users.json",
+   "explain": "-c puts each result on one line, which suits grep and wc -l."
+  },
+  {
+   "title": "Decode a base64 field",
+   "cmd": "jq -r '.data | @base64d' reply.json",
+   "explain": "@base64d decodes base64 text inside the pipeline."
+  },
+  {
+   "title": "Pass a variable in",
+   "cmd": "jq --arg name alice '.[] | select(.name == $name)' users.json",
+   "explain": "--arg safely passes a shell value into the filter."
+  }
+ ],
+ "options": [
+  {
+   "flag": "FILTER",
+   "plain": "The program: ., .key, .[], .[0], |, select(), map(), keys, length, ...",
+   "use": "Always."
+  },
+  {
+   "flag": "-r, --raw-output",
+   "plain": "Print strings without quotes.",
+   "use": "Using values in the shell."
+  },
+  {
+   "flag": "-j, --join-output",
+   "plain": "Like -r with no newline between outputs.",
+   "use": "Joining values."
+  },
+  {
+   "flag": "-c, --compact-output",
+   "plain": "One line per result.",
+   "use": "Pipelines."
+  },
+  {
+   "flag": "-s, --slurp",
+   "plain": "Read all inputs into one array.",
+   "use": "Combining many JSON lines."
+  },
+  {
+   "flag": "-n, --null-input",
+   "plain": "Do not read any input; start from null.",
+   "use": "Generating JSON."
+  },
+  {
+   "flag": "-e, --exit-status",
+   "plain": "Set the exit code from the last output (false/null gives 1).",
+   "use": "Scripts."
+  },
+  {
+   "flag": "-S, --sort-keys",
+   "plain": "Sort object keys.",
+   "use": "Diffing JSON."
+  },
+  {
+   "flag": "-C / -M",
+   "plain": "Force colour / no colour.",
+   "use": "Piping to less -R or files."
+  },
+  {
+   "flag": "-R, --raw-input",
+   "plain": "Treat each input line as a string.",
+   "use": "Plain-text input."
+  },
+  {
+   "flag": "-f FILE, --from-file FILE",
+   "plain": "Read the filter from a file.",
+   "use": "Long programs."
+  },
+  {
+   "flag": "--arg NAME VALUE",
+   "plain": "Pass a string variable ($NAME).",
+   "use": "Shell values."
+  },
+  {
+   "flag": "--argjson NAME JSON",
+   "plain": "Pass a JSON value.",
+   "use": "Numbers and objects."
+  },
+  {
+   "flag": "--slurpfile NAME FILE / --rawfile NAME FILE",
+   "plain": "Load a file into a variable.",
+   "use": "Lookup tables."
+  },
+  {
+   "flag": "--args / --jsonargs",
+   "plain": "Treat remaining arguments as positional strings / JSON.",
+   "use": "Scripts."
+  },
+  {
+   "flag": "--tab / --indent N",
+   "plain": "Use tabs or N spaces for indentation.",
+   "use": "Formatting."
+  },
+  {
+   "flag": "-a, --ascii-output",
+   "plain": "Escape non-ASCII characters.",
+   "use": "Terminals without UTF-8."
+  },
+  {
+   "flag": "--seq / --stream",
+   "plain": "Use the application/json-seq format / stream large inputs.",
+   "use": "Huge files."
+  },
+  {
+   "flag": "-h / -V",
+   "plain": "Help / version.",
+   "use": "A reminder."
+  }
+ ],
+ "mistakes": [
+  "Quoting: always wrap the filter in single quotes so the shell leaves $ and | alone.",
+  "Forgetting -r and getting values with quotes.",
+  "Using .[] on an object (it iterates the values, not the keys): use keys or to_entries.",
+  "Expecting jq to accept invalid JSON: remove prefixes or comments first.",
+  "Using --arg for numbers (it is a string): use --argjson."
+ ],
+ "try": [
+  "Save an API reply and list every key with jq 'keys'.",
+  "Filter a list to items with a condition using select.",
+  "Turn a list of objects into CSV with @csv."
+ ],
+ "see_also": "curl(1), tshark(1), nmap(1), awk(1), sed(1), yq(1), gron, python3(1) (json.tool).",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

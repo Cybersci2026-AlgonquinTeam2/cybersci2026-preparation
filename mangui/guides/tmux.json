@@ -1,0 +1,168 @@
+{
+ "name": "tmux",
+ "section": "1",
+ "one_line": "terminal multiplexer: many terminals in one, that survive disconnects",
+ "plain": [
+  "`tmux` lets you run several terminal windows and split panes inside one terminal, and keeps them running if your connection drops. You can leave a long scan or a shell running, close the window, and come back later with the session intact.",
+  "All its keyboard commands start with a prefix key, Ctrl+B (hold Ctrl, press B, release, then press the next key). For a CTF it means: one pane for the exploit, one for the listener, one for notes, all at once, and a lifeline over SSH."
+ ],
+ "when": [
+  "Run several things side by side in one window.",
+  "Keep a long job running after you disconnect from SSH.",
+  "Share a terminal layout between sessions.",
+  "Scroll back through output and copy text."
+ ],
+ "examples": [
+  {
+   "title": "Start a named session",
+   "cmd": "tmux new -s ctf",
+   "explain": "Creates a session called ctf. You are now inside it."
+  },
+  {
+   "title": "Leave it running and come back",
+   "cmd": "Ctrl+B then D     (detach)\ntmux attach -t ctf",
+   "explain": "Detach leaves everything running; attach reconnects."
+  },
+  {
+   "title": "List sessions",
+   "cmd": "tmux ls",
+   "explain": "Shows all running sessions."
+  },
+  {
+   "title": "Split the window",
+   "cmd": "Ctrl+B then %    (side by side)\nCtrl+B then \"    (one above the other)",
+   "explain": "Panes let you watch a listener while you type in another."
+  },
+  {
+   "title": "Move between panes",
+   "cmd": "Ctrl+B then arrow keys   or   Ctrl+B then O",
+   "explain": "Arrow keys jump to the pane in that direction."
+  },
+  {
+   "title": "New window and switching",
+   "cmd": "Ctrl+B then C (new)   N (next)   P (previous)   0-9 (go to)",
+   "explain": "Windows are like tabs inside the session."
+  },
+  {
+   "title": "Scroll and copy",
+   "cmd": "Ctrl+B then [   (copy mode), arrows or PgUp, Q to leave",
+   "explain": "Copy mode lets you scroll back; Space starts a selection and Enter copies it (in default emacs keys)."
+  },
+  {
+   "title": "Zoom one pane",
+   "cmd": "Ctrl+B then Z",
+   "explain": "Makes the current pane fill the window; press again to return."
+  },
+  {
+   "title": "Kill a session",
+   "cmd": "tmux kill-session -t ctf",
+   "explain": "Ends a session and everything in it."
+  }
+ ],
+ "options": [
+  {
+   "flag": "tmux new -s NAME",
+   "plain": "Create a new session.",
+   "use": "Starting."
+  },
+  {
+   "flag": "tmux ls",
+   "plain": "List sessions.",
+   "use": "Finding them."
+  },
+  {
+   "flag": "tmux attach -t NAME (a)",
+   "plain": "Reconnect to a session.",
+   "use": "Coming back."
+  },
+  {
+   "flag": "tmux kill-session -t NAME",
+   "plain": "Delete a session.",
+   "use": "Cleaning up."
+  },
+  {
+   "flag": "tmux kill-server",
+   "plain": "Stop every session.",
+   "use": "Reset."
+  },
+  {
+   "flag": "-f FILE",
+   "plain": "Use another configuration file (default ~/.tmux.conf).",
+   "use": "Custom setups."
+  },
+  {
+   "flag": "-L NAME",
+   "plain": "Use a separate server socket.",
+   "use": "Separate environments."
+  },
+  {
+   "flag": "-2 / -u",
+   "plain": "Force 256 colours / UTF-8.",
+   "use": "Terminal problems."
+  },
+  {
+   "flag": "Ctrl+B D",
+   "plain": "Detach.",
+   "use": "Leaving it running."
+  },
+  {
+   "flag": "Ctrl+B C / N / P / W / , / &",
+   "plain": "New window / next / previous / list / rename / close.",
+   "use": "Windows."
+  },
+  {
+   "flag": "Ctrl+B % / \"",
+   "plain": "Split vertically / horizontally.",
+   "use": "Panes."
+  },
+  {
+   "flag": "Ctrl+B arrows / O / X / Z / Q",
+   "plain": "Switch pane / cycle / close pane / zoom / show numbers.",
+   "use": "Pane control."
+  },
+  {
+   "flag": "Ctrl+B [ / ]",
+   "plain": "Enter copy mode / paste.",
+   "use": "Scroll and copy."
+  },
+  {
+   "flag": "Ctrl+B S / $",
+   "plain": "Choose a session / rename the session.",
+   "use": "Sessions."
+  },
+  {
+   "flag": "Ctrl+B : COMMAND",
+   "plain": "Open the command prompt (e.g. setw synchronize-panes).",
+   "use": "Special commands."
+  },
+  {
+   "flag": "Ctrl+B ?",
+   "plain": "List all key bindings.",
+   "use": "Learning."
+  },
+  {
+   "flag": "set -g mouse on  (in ~/.tmux.conf)",
+   "plain": "Enable mouse for scrolling, selecting panes and resizing.",
+   "use": "Convenience."
+  },
+  {
+   "flag": "set -g prefix C-a  (in ~/.tmux.conf)",
+   "plain": "Change the prefix key.",
+   "use": "Habit and nesting."
+  }
+ ],
+ "mistakes": [
+  "Forgetting the prefix and typing the command key directly into the shell.",
+  "Nesting tmux inside tmux (over SSH) and sending the prefix to the wrong one: press the prefix twice.",
+  "Closing the terminal with exit instead of detaching: exit inside the shell ends the pane.",
+  "Not using named sessions and losing track of them.",
+  "Copying text with the mouse and wondering why it is not in the clipboard: use copy mode or enable mouse support."
+ ],
+ "try": [
+  "Start a session, split into three panes, run top, a listener and a shell.",
+  "Detach and re-attach.",
+  "Open ~/.tmux.conf, turn on mouse mode and reload with tmux source-file ~/.tmux.conf."
+ ],
+ "see_also": "screen(1), ssh(1), nohup(1), byobu(1), vim(1), and the tmux cheat sheet.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

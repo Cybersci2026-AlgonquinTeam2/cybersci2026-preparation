@@ -1,0 +1,205 @@
+{
+ "name": "dig",
+ "section": "1",
+ "one_line": "DNS lookup utility",
+ "plain": [
+  "`dig` asks the Domain Name System questions and shows the full answer. DNS is the phone book of the internet: it turns names such as example.com into IP addresses and holds other records (mail servers, text notes, name servers).",
+  "In security work dig is how you enumerate a domain: find mail servers, name servers, hidden subdomains, and test whether a name server leaks its whole zone (a zone transfer).",
+  "The shape is `dig [@server] NAME [TYPE] [+options]`."
+ ],
+ "when": [
+  "Find the IP address of a name (and the reverse).",
+  "List mail (MX), name (NS) and text (TXT) records.",
+  "Try a zone transfer on a lab DNS server.",
+  "Check which DNS server answers and how long it takes.",
+  "Trace how a name is resolved from the root."
+ ],
+ "examples": [
+  {
+   "title": "A simple lookup",
+   "cmd": "dig example.com",
+   "explain": "Shows the question, the answer section (the A record, i.e. the IPv4 address) and some statistics."
+  },
+  {
+   "title": "Just the answer",
+   "cmd": "dig +short example.com",
+   "explain": "+short prints only the answer, one line per record: ideal for scripts."
+  },
+  {
+   "title": "A specific record type",
+   "cmd": "dig example.com MX\ndig example.com TXT\ndig example.com NS",
+   "explain": "MX is mail servers, TXT is free text (SPF, verification codes), NS lists the name servers."
+  },
+  {
+   "title": "Ask a particular server",
+   "cmd": "dig @10.10.10.5 target.htb",
+   "explain": "@server sends the question to that server instead of your default. Essential in labs with their own DNS."
+  },
+  {
+   "title": "Reverse lookup",
+   "cmd": "dig -x 8.8.8.8 +short",
+   "explain": "-x turns an IP back into a name (a PTR record)."
+  },
+  {
+   "title": "Everything the server will tell you",
+   "cmd": "dig example.com ANY",
+   "explain": "ANY asks for all record types, but many servers now refuse or answer partially."
+  },
+  {
+   "title": "Zone transfer attempt",
+   "cmd": "dig axfr target.htb @10.10.10.5",
+   "explain": "AXFR asks for a copy of the entire zone. A misconfigured server returns every host name: a classic CTF finding."
+  },
+  {
+   "title": "Trace the resolution",
+   "cmd": "dig +trace example.com",
+   "explain": "Starts at the root servers and follows the delegation down to the answer."
+  },
+  {
+   "title": "Clean output",
+   "cmd": "dig +noall +answer example.com",
+   "explain": "+noall hides everything, +answer shows only the answer section."
+  },
+  {
+   "title": "Over TCP",
+   "cmd": "dig +tcp example.com",
+   "explain": "Forces TCP instead of UDP, useful if UDP is blocked or the answer is large."
+  }
+ ],
+ "options": [
+  {
+   "flag": "@SERVER",
+   "plain": "Name server to ask (name or IP).",
+   "use": "Lab DNS servers."
+  },
+  {
+   "flag": "NAME",
+   "plain": "The name to look up.",
+   "use": "Always."
+  },
+  {
+   "flag": "TYPE",
+   "plain": "Record type: A, AAAA, MX, NS, TXT, CNAME, SOA, PTR, SRV, ANY, AXFR.",
+   "use": "Choosing what to ask."
+  },
+  {
+   "flag": "-t TYPE",
+   "plain": "Same as giving the type, written as an option.",
+   "use": "Scripts."
+  },
+  {
+   "flag": "-c CLASS",
+   "plain": "Query class (IN default).",
+   "use": "Rare."
+  },
+  {
+   "flag": "-x ADDRESS",
+   "plain": "Reverse lookup.",
+   "use": "IP to name."
+  },
+  {
+   "flag": "-p PORT",
+   "plain": "Use another port.",
+   "use": "Non-standard DNS."
+  },
+  {
+   "flag": "-4 / -6",
+   "plain": "IPv4 only / IPv6 only transport.",
+   "use": "Network choice."
+  },
+  {
+   "flag": "-b ADDRESS",
+   "plain": "Source address to use.",
+   "use": "Several interfaces."
+  },
+  {
+   "flag": "-f FILE",
+   "plain": "Batch mode: read queries from a file.",
+   "use": "Many names."
+  },
+  {
+   "flag": "-q NAME",
+   "plain": "Give the name as an option.",
+   "use": "Unusual names."
+  },
+  {
+   "flag": "-k FILE / -y NAME:KEY",
+   "plain": "TSIG keys for signed queries.",
+   "use": "Secured servers."
+  },
+  {
+   "flag": "+short",
+   "plain": "Print a terse answer.",
+   "use": "Scripts."
+  },
+  {
+   "flag": "+noall +answer",
+   "plain": "Show only the answer section.",
+   "use": "Clean output."
+  },
+  {
+   "flag": "+trace",
+   "plain": "Trace delegation from the root.",
+   "use": "Understanding resolution."
+  },
+  {
+   "flag": "+tcp / +notcp",
+   "plain": "Use TCP / UDP.",
+   "use": "Large answers."
+  },
+  {
+   "flag": "+norecurse / +recurse",
+   "plain": "Ask the server not to / to look things up for you.",
+   "use": "Cache snooping, recursion tests."
+  },
+  {
+   "flag": "+dnssec",
+   "plain": "Request DNSSEC records.",
+   "use": "DNSSEC checks."
+  },
+  {
+   "flag": "+multiline",
+   "plain": "Print long records readably.",
+   "use": "SOA and DNSKEY."
+  },
+  {
+   "flag": "+time=N / +tries=N",
+   "plain": "Timeout and number of tries.",
+   "use": "Slow servers."
+  },
+  {
+   "flag": "+search / +nosearch",
+   "plain": "Use the resolver's search list.",
+   "use": "Short names."
+  },
+  {
+   "flag": "+stats / +nostats / +cmd / +nocmd",
+   "plain": "Show or hide the statistics and the command line.",
+   "use": "Tidy output."
+  },
+  {
+   "flag": "+ttlid / +nottlid",
+   "plain": "Show or hide TTL values.",
+   "use": "Caching analysis."
+  },
+  {
+   "flag": "-v / -h",
+   "plain": "Version / help.",
+   "use": "Check install."
+  }
+ ],
+ "mistakes": [
+  "Asking your default resolver about a lab domain that only the lab DNS knows: use @server.",
+  "Forgetting that ANY is often refused: query each type.",
+  "Reading 'NOERROR' with no answer as success: the name exists but has no record of that type.",
+  "Trying a zone transfer on servers you are not authorised to test.",
+  "Mixing up the question section with the answer section."
+ ],
+ "try": [
+  "Look up the A, MX, NS and TXT records of a domain you own.",
+  "Run dig +trace on a name and count the steps.",
+  "Try dig axfr against a deliberately vulnerable lab DNS."
+ ],
+ "see_also": "nslookup(1), host(1), whois(1), nmap(1) (dns-* scripts), dnsrecon, fierce, gobuster(1) (dns mode).",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

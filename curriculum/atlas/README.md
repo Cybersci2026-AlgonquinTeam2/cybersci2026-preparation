@@ -33,7 +33,7 @@ sudo apt update && sudo apt install -y nmap tcpdump tshark gdb ltrace strace sql
 
 ## Use these as real man pages in Kali or any Linux VM
 
-The atlas pages are now delivered as **mangui** guides: `man file`, `man grep`, `man nmap` ... show the original manual page followed by a layman guide (84 guides, including standalone pages such as `man ghidra`). The old `atlas-NAME.1` pages, `install-man.sh` and the `gm` helper were removed. See `mangui/README.md` for install, `coverage` and the Kali steps, and `COVERAGE.md` here for status.
+The atlas pages are now delivered as **mangui** guides: `man file`, `man grep`, `man nmap` ... show the original manual page followed by a layman guide (93 guides, including standalone pages such as `man ghidra`). The old `atlas-NAME.1` pages, `install-man.sh` and the `gm` helper were removed. See `mangui/README.md` for install, `coverage` and the Kali steps, and `COVERAGE.md` here for status.
 
 ```bash
 python3 mangui/mangui.py install     # then: source ~/.bashrc ; man file

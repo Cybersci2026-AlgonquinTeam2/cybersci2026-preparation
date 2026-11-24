@@ -2,7 +2,7 @@
 
 The Command Atlas pages (`curriculum/atlas/*.md`) are the long-form study notes with captured output. The **man-page guides** (`mangui/guides/*.json`, installed with `python3 mangui/mangui.py install`) are what you read in the terminal: the original `man` page followed by a layman guide. The old `atlas-NAME.1` pages and `install-man.sh` are gone; their content was merged into the guides and the `atlas-` naming dropped.
 
-Status as of 2026-11-24: **84 guides** (see `mangui/README.md` for the list by group).
+Status as of 2026-11-24: **93 guides** (see `mangui/README.md` for the list by group).
 
 ## Done
 
@@ -10,7 +10,7 @@ Status as of 2026-11-24: **84 guides** (see `mangui/README.md` for the list by g
 |---|---|
 | Captured with real output | file, grep, and the early batch converted from the atlas pages (awk, curl, find, nc, openssl, python3, sed, xxd, strings, readelf, objdump, ssh, tar, cat, sort, ls) |
 | Explained examples, every option | head, tail, wc, cut, tr, uniq, base64, gzip, bzip2, chmod, date, diff, cmp, less, nano, timeout, paste, fold, echo, printf, test, getcap, crontab, ip, ss, md5sum, sha256sum, cp, mv, mkdir, stat, id |
-| Security tools | nmap, tshark, exiftool, binwalk, john, hashcat, gobuster, ffuf, hydra, sqlmap, steghide, nikto, wfuzz, dirb, smbclient, enum4linux, hashid, zsteg, searchsploit, msfconsole, vol, wireshark |
+| Security and CTF tools | dig, whois, strace, ltrace, checksec, jq, tmux, socat, foremost, nmap, tshark, exiftool, binwalk, john, hashcat, gobuster, ffuf, hydra, sqlmap, steghide, nikto, wfuzz, dirb, smbclient, enum4linux, hashid, zsteg, searchsploit, msfconsole, vol, wireshark |
 | Focused guides (most-used options) | gcc, git, docker, bash |
 | Standalone pages for tools with no man page | burpsuite, ghidra, cyberchef, bloodhound, pwntools |
 
@@ -22,7 +22,7 @@ Status as of 2026-11-24: **84 guides** (see `mangui/README.md` for the list by g
 | **Check every security-tool guide** against Kali's real pages | option lists were written from knowledge | same coverage run |
 | awk `-I`/`-s`, cut `-M` | not explained; not guessed | confirm against Kali's man page |
 | Real captured output for nmap, tcpdump, gdb, sqlite3 | not installed in WSL | `python3 scripts/atlas_build.py` on Kali (updates the atlas `.md` pages) |
-| Extra tools not yet written | not in the first scope | dig/whois, ltrace/strace, checksec, ffmpeg/sox, jq, tmux, socat, chisel, proxychains, radare2, foremost, impacket, ROPgadget |
+| Extra tools not yet written | not in the first scope | ffmpeg/sox, chisel, proxychains, radare2, impacket, ROPgadget, ldapsearch, rpcclient |
 | Platform pages (OverTheWire, TryHackMe, picoCTF, CTFd, VulnHub) | you asked for guides on tools and commands, not platforms | not planned; the platform books in the offline pack cover them |
 
 ## How to finish a guide

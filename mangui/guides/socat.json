@@ -1,0 +1,185 @@
+{
+ "name": "socat",
+ "section": "1",
+ "one_line": "multipurpose relay: connect two data streams",
+ "plain": [
+  "`socat` (SOcket CAT) connects any two 'addresses' and copies data between them: a TCP port and a file, a terminal and a network connection, one port and another port, a Unix socket and a TCP port. It is netcat with many more kinds of endpoint.",
+  "The shape is `socat ADDRESS1 ADDRESS2`. Each address is a type plus options, such as `TCP-LISTEN:8080,fork,reuseaddr` or `TCP:10.10.10.5:80`.",
+  "Typical uses are port forwarding, relaying between networks, TLS wrapping, serving a program on a port in a lab, and talking to Unix sockets."
+ ],
+ "when": [
+  "Forward a local port to a remote host (pivoting in a lab).",
+  "Relay or log traffic between two sides.",
+  "Wrap a plain service in TLS.",
+  "Test a service by hand with line editing.",
+  "Talk to a Unix socket such as /var/run/docker.sock."
+ ],
+ "examples": [
+  {
+   "title": "Connect to a port by hand",
+   "cmd": "socat - TCP:10.10.10.5:80",
+   "explain": "- is the terminal (stdin/stdout). Type an HTTP request and see the reply."
+  },
+  {
+   "title": "Listen and print",
+   "cmd": "socat TCP-LISTEN:4444,reuseaddr -",
+   "explain": "Waits for a connection on 4444 and prints what arrives: a netcat-style listener."
+  },
+  {
+   "title": "Forward a port",
+   "cmd": "socat TCP-LISTEN:8080,fork,reuseaddr TCP:10.10.10.5:80",
+   "explain": "Anything sent to your port 8080 goes to 10.10.10.5:80. fork lets several connections work at once."
+  },
+  {
+   "title": "Serve a file",
+   "cmd": "socat TCP-LISTEN:9000,reuseaddr,fork FILE:./note.txt,rdonly",
+   "explain": "Each connection reads the file. Useful for quick file transfer in a lab."
+  },
+  {
+   "title": "Receive a file",
+   "cmd": "socat TCP-LISTEN:9000,reuseaddr OPEN:received.bin,creat,trunc",
+   "explain": "Saves whatever is sent to received.bin."
+  },
+  {
+   "title": "Log both directions",
+   "cmd": "socat -v TCP-LISTEN:8080,fork,reuseaddr TCP:10.10.10.5:80",
+   "explain": "-v prints the traffic as text, so the relay doubles as a simple proxy log."
+  },
+  {
+   "title": "Talk to a Unix socket",
+   "cmd": "socat - UNIX-CONNECT:/var/run/docker.sock",
+   "explain": "Lets you send raw HTTP to the Docker API on its socket."
+  },
+  {
+   "title": "TLS wrapper",
+   "cmd": "socat OPENSSL-LISTEN:4433,cert=server.pem,verify=0,fork TCP:127.0.0.1:8080",
+   "explain": "Accepts TLS connections and passes them on in plain text to a local service (needs a certificate)."
+  },
+  {
+   "title": "A better line editor",
+   "cmd": "socat READLINE TCP:10.10.10.5:25",
+   "explain": "READLINE gives you history and editing while talking to a service."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-",
+   "plain": "Standard input and output (the terminal).",
+   "use": "One side of a connection."
+  },
+  {
+   "flag": "TCP:HOST:PORT / TCP-LISTEN:PORT",
+   "plain": "Connect to / listen on a TCP port.",
+   "use": "Network endpoints."
+  },
+  {
+   "flag": "UDP:HOST:PORT / UDP-LISTEN:PORT",
+   "plain": "UDP equivalents.",
+   "use": "UDP services."
+  },
+  {
+   "flag": "OPENSSL:HOST:PORT / OPENSSL-LISTEN:PORT",
+   "plain": "TLS client / server (options cert=, key=, cafile=, verify=).",
+   "use": "Encrypted links."
+  },
+  {
+   "flag": "UNIX-CONNECT:PATH / UNIX-LISTEN:PATH",
+   "plain": "Unix socket client / server.",
+   "use": "Local services."
+  },
+  {
+   "flag": "FILE:PATH / OPEN:PATH",
+   "plain": "Read or write a file (options creat, trunc, append, rdonly).",
+   "use": "File transfer."
+  },
+  {
+   "flag": "PIPE / PTY / EXEC:CMD / SYSTEM:CMD",
+   "plain": "Pipes, pseudo terminals and running a program as an endpoint.",
+   "use": "Connecting a program to a network. Powerful: use only in a lab."
+  },
+  {
+   "flag": "READLINE",
+   "plain": "Line editing and history on the terminal side.",
+   "use": "Hand-driven sessions."
+  },
+  {
+   "flag": "fork",
+   "plain": "After accepting a connection, fork to handle it so the listener stays up.",
+   "use": "Servers and relays."
+  },
+  {
+   "flag": "reuseaddr",
+   "plain": "Allow reuse of the port right after closing.",
+   "use": "Restarting a listener."
+  },
+  {
+   "flag": "bind=IP",
+   "plain": "Bind to a specific address.",
+   "use": "Listen on localhost only."
+  },
+  {
+   "flag": "range=NET/BITS",
+   "plain": "Accept connections only from this network.",
+   "use": "Restricting access."
+  },
+  {
+   "flag": "pty, raw, echo=0, setsid, sigint, sane, stderr",
+   "plain": "Terminal behaviour options for PTY and EXEC addresses.",
+   "use": "Interactive programs."
+  },
+  {
+   "flag": "-v",
+   "plain": "Verbose text dump of data.",
+   "use": "Seeing traffic."
+  },
+  {
+   "flag": "-x",
+   "plain": "Verbose hex dump.",
+   "use": "Binary traffic."
+  },
+  {
+   "flag": "-d, -dd, -ddd",
+   "plain": "Increase diagnostic messages.",
+   "use": "Debugging."
+  },
+  {
+   "flag": "-u / -U",
+   "plain": "Unidirectional: copy only left to right / right to left.",
+   "use": "One-way transfers."
+  },
+  {
+   "flag": "-b SIZE",
+   "plain": "Block size of transfers.",
+   "use": "Tuning."
+  },
+  {
+   "flag": "-t SECONDS / -T SECONDS",
+   "plain": "Time to wait for the second side after EOF / total inactivity timeout.",
+   "use": "Closing idle relays."
+  },
+  {
+   "flag": "-lf FILE / -ls",
+   "plain": "Log to a file / to syslog.",
+   "use": "Records."
+  },
+  {
+   "flag": "-V / -h",
+   "plain": "Version / help (-hh for all address types).",
+   "use": "A reminder."
+  }
+ ],
+ "mistakes": [
+  "Forgetting fork on a listener: it accepts one connection and then exits.",
+  "Forgetting reuseaddr and getting 'address already in use' on restart.",
+  "Listening on all interfaces when localhost is enough: add bind=127.0.0.1.",
+  "Exposing a relay to the internet by accident.",
+  "Using EXEC/SYSTEM endpoints on machines you do not control."
+ ],
+ "try": [
+  "Forward local port 8080 to a lab web server and browse it.",
+  "Send a file between two terminals with TCP-LISTEN and OPEN.",
+  "Use -v on a relay and read the HTTP traffic."
+ ],
+ "see_also": "nc(1), ncat(1), ssh(1) (tunnels), openssl(1), curl(1), chisel, proxychains, tcpdump(8).",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

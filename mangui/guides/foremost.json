@@ -1,0 +1,143 @@
+{
+ "name": "foremost",
+ "section": "8",
+ "one_line": "recover files by their headers and footers (file carving)",
+ "plain": [
+  "`foremost` scans a disk image, a memory dump or any raw data for the signature bytes at the start (header) and sometimes end (footer) of known file types and cuts the matching bytes out into files. This is called file carving, and it works even when the file system is damaged or the file was deleted.",
+  "In forensics and CTFs it is a quick way to pull pictures, documents, archives and executables out of a disk image or a packet capture dump. binwalk and scalpel do similar jobs."
+ ],
+ "when": [
+  "Recover deleted files from a disk image.",
+  "Extract pictures or documents hidden in a raw file.",
+  "Carve files out of a memory dump.",
+  "Get a quick overview of what a blob contains."
+ ],
+ "examples": [
+  {
+   "title": "Carve everything it knows",
+   "cmd": "foremost -i disk.img -o out",
+   "explain": "-i is the input, -o an output folder (must be empty or new). It creates a folder per file type and an audit.txt summary."
+  },
+  {
+   "title": "Only some types",
+   "cmd": "foremost -t jpg,png,pdf -i disk.img -o out",
+   "explain": "-t restricts to the listed types: jpg, gif, png, bmp, avi, exe, mpg, wav, riff, wmv, mov, pdf, ole, doc, zip, rar, htm, cpp."
+  },
+  {
+   "title": "Verbose",
+   "cmd": "foremost -v -i dump.raw -o out",
+   "explain": "-v shows what is being found."
+  },
+  {
+   "title": "Quick mode",
+   "cmd": "foremost -q -i disk.img -o out",
+   "explain": "-q searches only at the start of 512-byte blocks: faster, but misses files that do not start on a block boundary."
+  },
+  {
+   "title": "Audit only",
+   "cmd": "foremost -w -i disk.img -o out",
+   "explain": "-w writes only the audit file listing what was found, without extracting."
+  },
+  {
+   "title": "Look at the result",
+   "cmd": "cat out/audit.txt\nls out/*",
+   "explain": "The audit lists each hit with its offset; the per-type folders hold the files."
+  },
+  {
+   "title": "Check what you carved",
+   "cmd": "file out/jpg/* | head\nexiftool out/jpg/00000001.jpg",
+   "explain": "Always check the files: carving can produce partial or false hits."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-i FILE",
+   "plain": "Input file (disk image, dump). Default is standard input.",
+   "use": "Always."
+  },
+  {
+   "flag": "-o DIR",
+   "plain": "Output directory (default ./output).",
+   "use": "Always; it must be empty."
+  },
+  {
+   "flag": "-t TYPES",
+   "plain": "File types to carve, comma separated.",
+   "use": "Focused carving."
+  },
+  {
+   "flag": "-c FILE",
+   "plain": "Use another configuration file (default /etc/foremost.conf).",
+   "use": "Custom signatures."
+  },
+  {
+   "flag": "-a",
+   "plain": "Write all headers, do no error detection (carve even corrupt matches).",
+   "use": "Damaged files."
+  },
+  {
+   "flag": "-b SIZE",
+   "plain": "Block size (default 512).",
+   "use": "Alignment on other file systems."
+  },
+  {
+   "flag": "-d",
+   "plain": "Indirect block detection for UNIX file systems.",
+   "use": "ext2/3 images."
+  },
+  {
+   "flag": "-k SIZE",
+   "plain": "Chunk size for loading the image into memory.",
+   "use": "Large images."
+  },
+  {
+   "flag": "-q",
+   "plain": "Quick mode.",
+   "use": "Speed."
+  },
+  {
+   "flag": "-Q",
+   "plain": "Quiet mode: suppress most messages.",
+   "use": "Scripts."
+  },
+  {
+   "flag": "-s N",
+   "plain": "Skip N blocks at the start of the input.",
+   "use": "Partial scans."
+  },
+  {
+   "flag": "-T",
+   "plain": "Time-stamp the output directory.",
+   "use": "Repeated runs."
+  },
+  {
+   "flag": "-v",
+   "plain": "Verbose.",
+   "use": "Seeing progress."
+  },
+  {
+   "flag": "-w",
+   "plain": "Write only the audit file.",
+   "use": "Surveying."
+  },
+  {
+   "flag": "-V / -h",
+   "plain": "Version / help.",
+   "use": "A reminder."
+  }
+ ],
+ "mistakes": [
+  "Forgetting that the output folder must not already contain files.",
+  "Trusting carved files without checking them (fragmented files come out broken).",
+  "Using it on a live disk instead of a copy: always work on an image.",
+  "Expecting file names: carving recovers contents, not names.",
+  "Skipping binwalk or scalpel when foremost finds nothing."
+ ],
+ "try": [
+  "Append a JPEG and a ZIP to a binary file and carve them out with foremost.",
+  "Compare the result with binwalk -e.",
+  "Read audit.txt and match each offset to a file."
+ ],
+ "see_also": "binwalk(1), scalpel(1), photorec(8), dd(1), file(1), exiftool(1), testdisk(8), sleuthkit tools.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

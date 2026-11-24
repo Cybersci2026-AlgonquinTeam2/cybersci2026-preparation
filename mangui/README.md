@@ -19,16 +19,16 @@ Nothing under `/usr` is touched. Merged pages go to `~/.local/share/mangui/man<N
 
 Get it into the VM: `git clone` the repository, or unzip `Mangui.zip` from the offline pack (OneDrive `CyberSci-Offline`). Step by step for Kali, including the apt line that installs the tools whose real pages should exist first: see **Kali steps** below.
 
-## What is covered (84 guides)
+## What is covered (93 guides)
 
 | Group | Guides |
 |---|---|
 | Text and files | cat, head, tail, less, nano, wc, cut, sort, uniq, tr, paste, fold, diff, cmp, sed, awk, grep, find, file, strings, xxd, ls, cp, mv, mkdir, stat, id |
-| Shell and system | bash (focused), echo, printf, test, timeout, date, chmod, getcap, crontab, git (focused), docker (focused), ip, ss, ssh, tar, gzip, bzip2, base64, md5sum, sha256sum, curl, nc, openssl, python3 |
-| Build and debug | gcc (focused), gdb, readelf, objdump, pwntools |
-| Network and web | nmap, tcpdump, tshark, wireshark, nikto, gobuster, ffuf, wfuzz, dirb, sqlmap, burpsuite, smbclient, enum4linux, hydra |
+| Shell and system | jq, tmux, bash (focused), echo, printf, test, timeout, date, chmod, getcap, crontab, git (focused), docker (focused), ip, ss, ssh, tar, gzip, bzip2, base64, md5sum, sha256sum, curl, nc, openssl, python3 |
+| Build and debug | gcc (focused), gdb, readelf, objdump, strace, ltrace, checksec, pwntools |
+| Network and web | nmap, tcpdump, tshark, wireshark, dig, whois, socat, nikto, gobuster, ffuf, wfuzz, dirb, sqlmap, burpsuite, smbclient, enum4linux, hydra |
 | Cracking | john, hashcat, hashid |
-| Forensics and stego | exiftool, binwalk, steghide, zsteg, vol (Volatility 3), cyberchef |
+| Forensics and stego | exiftool, binwalk, foremost, steghide, zsteg, vol (Volatility 3), cyberchef |
 | Exploitation and AD | searchsploit, msfconsole, ghidra, bloodhound |
 
 "Focused" means the most-used options and cases rather than every option (marked `"partial": true` in the guide, so `coverage` does not count it against the original).

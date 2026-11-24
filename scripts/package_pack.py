@@ -149,7 +149,7 @@ def main():
         zf.write(mg / "mangui.py", "mangui/mangui.py")
         for f in sorted((mg / "guides").glob("*.json")):
             zf.write(f, "mangui/guides/" + f.name)
-        zf.writestr("mangui/README.txt", 'Unzip in your Kali VM, then run: python3 mangui/mangui.py install   (then: source ~/.bashrc)\nman file, man grep, man nmap ... show the original page plus a layman guide; press G to jump to it. 84 guides, incl. standalone pages (man ghidra).\nInstall the tools first (apt) so their real pages exist, then: python3 mangui/mangui.py refresh\nCheck gaps: python3 mangui/mangui.py coverage   (several minutes)  |  show the original page once: MANGUI=0 man file\nFull steps: mangui/README.md in the repository.\n')
+        zf.writestr("mangui/README.txt", 'Unzip in your Kali VM, then run: python3 mangui/mangui.py install   (then: source ~/.bashrc)\nman file, man grep, man nmap ... show the original page plus a layman guide; press G to jump to it. 93 guides, incl. standalone pages (man ghidra).\nInstall the tools first (apt) so their real pages exist, then: python3 mangui/mangui.py refresh\nCheck gaps: python3 mangui/mangui.py coverage   (several minutes)  |  show the original page once: MANGUI=0 man file\nFull steps: mangui/README.md in the repository.\n')
     ezip = EP / "CyberSci-EPUBs.zip"
     ezip.unlink(missing_ok=True)
     with zipfile.ZipFile(ezip, "w", zipfile.ZIP_DEFLATED) as zf:

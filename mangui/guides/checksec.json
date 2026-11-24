@@ -1,0 +1,157 @@
+{
+ "name": "checksec",
+ "section": "1",
+ "one_line": "check the security protections of a binary",
+ "plain": [
+  "`checksec` reads a program file and tells you which defences were compiled in: stack canaries, non-executable stack (NX), position-independent code (PIE), RELRO and more. In a pwn challenge this tells you which attacks are possible before you write any exploit.",
+  "The check exists as a shell script (`checksec --file=BINARY`) and as a pwntools command (`pwn checksec BINARY`); the meanings are the same."
+ ],
+ "when": [
+  "First step on any binary-exploitation challenge.",
+  "Decide between shellcode on the stack, ROP, ret2libc or GOT overwrite.",
+  "Check whether a kernel or running process has hardening on.",
+  "Audit what a build system produced."
+ ],
+ "examples": [
+  {
+   "title": "Check a binary",
+   "cmd": "checksec --file=./vuln",
+   "explain": "Prints RELRO, Stack, NX, PIE, RPATH, RUNPATH, Symbols and FORTIFY, with colours for good and bad."
+  },
+  {
+   "title": "With pwntools",
+   "cmd": "pwn checksec ./vuln",
+   "explain": "Gives a shorter report and also the architecture and whether the binary is stripped."
+  },
+  {
+   "title": "Check a whole folder",
+   "cmd": "checksec --dir=/usr/local/bin",
+   "explain": "Reports every binary in the folder."
+  },
+  {
+   "title": "Check a running process",
+   "cmd": "checksec --proc=1234",
+   "explain": "Shows the protections in effect for that process."
+  },
+  {
+   "title": "Check the kernel",
+   "cmd": "checksec --kernel",
+   "explain": "Lists kernel hardening options if the configuration is readable."
+  },
+  {
+   "title": "Machine-readable output",
+   "cmd": "checksec --output=json --file=./vuln",
+   "explain": "Formats: cli, csv, xml, json. Handy for scripts."
+  },
+  {
+   "title": "Reading the result",
+   "cmd": "NX disabled  ->  shellcode on the stack can run\nNo canary found  ->  a plain stack overflow can overwrite the return address\nNo PIE  ->  addresses are fixed, so ROP and ret2plt are easy",
+   "explain": "Match each finding to the attack it allows or blocks."
+  }
+ ],
+ "options": [
+  {
+   "flag": "--file=FILE",
+   "plain": "Check one file.",
+   "use": "The usual form."
+  },
+  {
+   "flag": "--dir=DIR [-v]",
+   "plain": "Check all files in a directory (verbose lists each).",
+   "use": "Audits."
+  },
+  {
+   "flag": "--proc=NAME",
+   "plain": "Check a running process by name.",
+   "use": "Live processes."
+  },
+  {
+   "flag": "--proc-all",
+   "plain": "Check all running processes.",
+   "use": "System audit."
+  },
+  {
+   "flag": "--proc-libs=PID",
+   "plain": "Check the libraries loaded by a process.",
+   "use": "Library protections."
+  },
+  {
+   "flag": "--kernel[=CONFIG]",
+   "plain": "Check kernel hardening.",
+   "use": "Hosts."
+  },
+  {
+   "flag": "--fortify-file=FILE",
+   "plain": "Check FORTIFY_SOURCE protections of a file.",
+   "use": "Details."
+  },
+  {
+   "flag": "--fortify-proc=PID",
+   "plain": "Check FORTIFY_SOURCE for a process.",
+   "use": "Details."
+  },
+  {
+   "flag": "--output=cli|csv|xml|json",
+   "plain": "Output format.",
+   "use": "Scripts."
+  },
+  {
+   "flag": "--extended",
+   "plain": "Show extra columns.",
+   "use": "More detail."
+  },
+  {
+   "flag": "--update",
+   "plain": "Update the script to the newest version.",
+   "use": "Fresh checks."
+  },
+  {
+   "flag": "--version / --help",
+   "plain": "Version / help.",
+   "use": "A reminder."
+  },
+  {
+   "flag": "RELRO",
+   "plain": "Partial: the GOT is writable (GOT overwrite possible). Full: it is read-only after start-up.",
+   "use": "Reading the report."
+  },
+  {
+   "flag": "Stack canary",
+   "plain": "A random value placed before the return address; overflow is detected unless you leak or avoid it.",
+   "use": "Reading the report."
+  },
+  {
+   "flag": "NX",
+   "plain": "Data memory cannot run as code: shellcode on the stack fails; use ROP.",
+   "use": "Reading the report."
+  },
+  {
+   "flag": "PIE",
+   "plain": "The program loads at a random address each run: you need an address leak.",
+   "use": "Reading the report."
+  },
+  {
+   "flag": "RPATH / RUNPATH",
+   "plain": "Custom library paths inside the binary: possible library hijack.",
+   "use": "Reading the report."
+  },
+  {
+   "flag": "Symbols / FORTIFY",
+   "plain": "Whether names remain for debugging; whether safer copies of libc functions are used.",
+   "use": "Reading the report."
+  }
+ ],
+ "mistakes": [
+  "Reading a result as a guarantee: protections can be bypassed with leaks and ROP.",
+  "Forgetting that libc and the kernel (ASLR) add their own protections: check cat /proc/sys/kernel/randomize_va_space.",
+  "Using the pwntools and shell versions and expecting identical wording.",
+  "Running checksec on a file that is not an ELF (it reports nothing)."
+ ],
+ "try": [
+  "Compile a C program with gcc -fno-stack-protector -z execstack -no-pie and check it.",
+  "Compile it with default options and compare.",
+  "Write down which attack each missing protection would allow."
+ ],
+ "see_also": "gcc(1), gdb(1), readelf(1), objdump(1), pwntools, ROPgadget(1), file(1).",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

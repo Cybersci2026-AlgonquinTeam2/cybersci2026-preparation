@@ -1,0 +1,199 @@
+{
+ "name": "strace",
+ "section": "1",
+ "one_line": "trace the system calls of a program",
+ "plain": [
+  "A program cannot do much by itself: to open a file, read the network or start another program it must ask the operating system, using system calls. `strace` shows each of those requests as it happens, with the arguments and the result.",
+  "That makes it a flashlight for mystery binaries: which files does it open, which config does it read, which server does it connect to, what does it compare your input against? You do not need the source code."
+ ],
+ "when": [
+  "See which files and libraries a program opens (and which ones fail).",
+  "Find out why a program fails with a vague error.",
+  "Watch a crackme call strcmp-like functions or read a flag file.",
+  "See network connections and exec calls a program makes.",
+  "Get a quick count of which system calls take the time."
+ ],
+ "examples": [
+  {
+   "title": "Trace a command",
+   "cmd": "strace ls /tmp",
+   "explain": "Prints every system call: execve, openat, read, write, close... Lines with -1 ENOENT mean a file was not found."
+  },
+  {
+   "title": "Save the trace to a file",
+   "cmd": "strace -o trace.txt ./crackme",
+   "explain": "-o writes the trace to a file so you can grep it; the program's own output stays on screen."
+  },
+  {
+   "title": "Only file-related calls",
+   "cmd": "strace -e trace=file ./crackme",
+   "explain": "-e trace=file shows only calls that use file names (open, stat, access...). Other groups: network, process, memory, signal."
+  },
+  {
+   "title": "Only some calls",
+   "cmd": "strace -e trace=openat,read,write ./crackme",
+   "explain": "Names the calls you want to see."
+  },
+  {
+   "title": "Follow child processes",
+   "cmd": "strace -f -o trace.txt ./server",
+   "explain": "-f follows forks and threads. A program that starts another program is traced through it."
+  },
+  {
+   "title": "Show long strings",
+   "cmd": "strace -s 200 ./crackme",
+   "explain": "By default strings are cut at 32 characters; -s raises the limit so you can read the whole path or password check."
+  },
+  {
+   "title": "Count instead of listing",
+   "cmd": "strace -c ./program",
+   "explain": "-c prints a summary table at the end: how many times each call ran and where the time went."
+  },
+  {
+   "title": "Attach to a running process",
+   "cmd": "sudo strace -p 1234",
+   "explain": "-p attaches to a process id. Needs the right permissions."
+  },
+  {
+   "title": "Timestamps and durations",
+   "cmd": "strace -tt -T ./program",
+   "explain": "-tt prefixes wall-clock time, -T appends the time spent in each call."
+  },
+  {
+   "title": "Find the secret it compares",
+   "cmd": "strace -s 100 -e trace=read,write,execve ./crackme",
+   "explain": "Look at what it reads after you type input: the comparison data sometimes appears in a read or write."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-o FILE",
+   "plain": "Write the trace to FILE.",
+   "use": "Keeping a clean terminal."
+  },
+  {
+   "flag": "-f / -ff",
+   "plain": "Follow forks / write a separate file per process (with -o).",
+   "use": "Servers and shells."
+  },
+  {
+   "flag": "-e EXPR",
+   "plain": "Filter: trace=SET, signal=SET, read=FDS, write=FDS, status=failed.",
+   "use": "Cutting noise."
+  },
+  {
+   "flag": "-e trace=file / process / network / memory / signal / ipc / desc",
+   "plain": "Predefined groups of calls.",
+   "use": "Quick filters."
+  },
+  {
+   "flag": "-e status=failed",
+   "plain": "Show only calls that returned an error.",
+   "use": "Why does it fail?"
+  },
+  {
+   "flag": "-p PID",
+   "plain": "Attach to a running process.",
+   "use": "Live debugging."
+  },
+  {
+   "flag": "-s SIZE",
+   "plain": "Maximum length of printed strings (default 32).",
+   "use": "Reading paths and passwords."
+  },
+  {
+   "flag": "-x / -xx",
+   "plain": "Print non-ASCII strings in hex.",
+   "use": "Binary data."
+  },
+  {
+   "flag": "-v",
+   "plain": "Verbose: print full structures.",
+   "use": "Detail."
+  },
+  {
+   "flag": "-y / -yy",
+   "plain": "Print the paths or addresses behind file descriptors.",
+   "use": "Understanding fd numbers."
+  },
+  {
+   "flag": "-c / -C",
+   "plain": "Count calls and times; -C also prints the normal trace.",
+   "use": "Profiling."
+  },
+  {
+   "flag": "-S SORTBY",
+   "plain": "Sort the -c summary (time, calls, errors, name).",
+   "use": "Reading the summary."
+  },
+  {
+   "flag": "-t / -tt / -ttt",
+   "plain": "Prefix with time, microsecond time, or epoch seconds.",
+   "use": "Timeline."
+  },
+  {
+   "flag": "-r",
+   "plain": "Relative timestamps between calls.",
+   "use": "Spotting slow steps."
+  },
+  {
+   "flag": "-T",
+   "plain": "Show the time spent in each call.",
+   "use": "Profiling."
+  },
+  {
+   "flag": "-i",
+   "plain": "Print the instruction pointer at each call.",
+   "use": "Locating the caller."
+  },
+  {
+   "flag": "-k",
+   "plain": "Print a stack trace for each call.",
+   "use": "Finding who called it."
+  },
+  {
+   "flag": "-q / -qq",
+   "plain": "Suppress attach/exit messages.",
+   "use": "Clean output."
+  },
+  {
+   "flag": "-u USER",
+   "plain": "Run the command as this user.",
+   "use": "Testing privileges."
+  },
+  {
+   "flag": "-E VAR=VALUE",
+   "plain": "Set an environment variable for the program.",
+   "use": "Testing behaviour."
+  },
+  {
+   "flag": "-P PATH",
+   "plain": "Trace only calls that touch this path.",
+   "use": "A specific file."
+  },
+  {
+   "flag": "-z / -Z",
+   "plain": "Show only successful / failed calls.",
+   "use": "Simple filtering."
+  },
+  {
+   "flag": "-V, -h",
+   "plain": "Version, help.",
+   "use": "Check install."
+  }
+ ],
+ "mistakes": [
+  "Reading all output: filter with -e trace=file or grep the -o file.",
+  "Forgetting -f and missing the real work done in a child process.",
+  "Truncated strings hiding the password: use -s 200.",
+  "Running strace on a setuid program and expecting it to keep privileges: it will not.",
+  "Mixing up strace (system calls) with ltrace (library calls)."
+ ],
+ "try": [
+  "Run strace -e trace=file cat /etc/hostname and name each file it opens.",
+  "Trace a small crackme with -s 100 and find where it reads your input.",
+  "Use -c on ls -R / and see which call costs the most."
+ ],
+ "see_also": "ltrace(1), gdb(1), ldd(1), lsof(8), perf(1), and the system-call list in syscalls(2).",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}
