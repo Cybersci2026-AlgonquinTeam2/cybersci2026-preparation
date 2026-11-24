@@ -1,0 +1,137 @@
+{
+ "name": "date",
+ "section": "1",
+ "one_line": "print or set the system date and time",
+ "plain": [
+  "`date` prints the current date and time in whatever format you ask for, converts between formats, and does date arithmetic (such as 'what is 90 days from now?').",
+  "In forensics and CTFs it converts Unix timestamps (seconds since 1970) to readable dates and back, and builds timestamps for logs and filenames."
+ ],
+ "when": [
+  "Convert a Unix timestamp such as 1767225600 to a date.",
+  "Put a date in a file name: backup-$(date +%F).tar.gz.",
+  "Work out how long ago something happened."
+ ],
+ "examples": [
+  {
+   "title": "The current date and time",
+   "cmd": "date",
+   "explain": "Prints the date in your locale's default format."
+  },
+  {
+   "title": "A custom format  (+FORMAT)",
+   "cmd": "date '+%Y-%m-%d %H:%M:%S'",
+   "explain": "Format letters: %Y year, %m month, %d day, %H hour, %M minute, %S second, %F is %Y-%m-%d, %T is %H:%M:%S, %s is Unix seconds."
+  },
+  {
+   "title": "Unix timestamp now",
+   "cmd": "date +%s",
+   "explain": "Seconds since 1 January 1970 UTC. Forensic tools show many times this way."
+  },
+  {
+   "title": "Convert a timestamp to a date  (-d @N)",
+   "cmd": "date -d @1767225600",
+   "explain": "The @ means 'seconds since the epoch'. Add -u to show UTC instead of your local zone."
+  },
+  {
+   "title": "Show UTC  (-u)",
+   "cmd": "date -u '+%F %T UTC'",
+   "explain": "Always use UTC when comparing logs from different machines."
+  },
+  {
+   "title": "Date arithmetic  (-d)",
+   "cmd": "date -d '90 days ago' +%F; date -d 'next friday' +%F; date -d '2026-11-21 + 2 weeks' +%F",
+   "explain": "-d understands phrases such as 'yesterday', '3 hours ago' or a date plus an offset."
+  },
+  {
+   "title": "A file's modification time  (-r)",
+   "cmd": "date -r users.txt",
+   "explain": "-r prints the last-modified time of a file."
+  },
+  {
+   "title": "Standard formats  (-I, -R, --rfc-3339)",
+   "cmd": "date -I; date -R; date --rfc-3339=seconds",
+   "explain": "-I gives ISO 8601 (2026-11-14), -R the e-mail style, --rfc-3339 another standard form. These are safe formats for logs."
+  }
+ ],
+ "options": [
+  {
+   "flag": "+FORMAT",
+   "plain": "Output format using % codes (%Y, %m, %d, %H, %M, %S, %s, %F, %T, %z, %Z ...).",
+   "use": "Every custom output."
+  },
+  {
+   "flag": "-d, --date=STRING",
+   "plain": "Show the time described by STRING instead of now: @TIMESTAMP, 'yesterday', '2 hours ago'.",
+   "use": "Conversions and date arithmetic."
+  },
+  {
+   "flag": "--debug",
+   "plain": "Annotate the parsed date and warn about questionable usage.",
+   "use": "Working out why a date string is misread."
+  },
+  {
+   "flag": "-f, --file=DATEFILE",
+   "plain": "Process each line of DATEFILE like -d.",
+   "use": "Converting many timestamps."
+  },
+  {
+   "flag": "-I[FMT], --iso-8601[=FMT]",
+   "plain": "Output ISO 8601 form (date, hours, minutes, seconds, ns).",
+   "use": "Unambiguous timestamps."
+  },
+  {
+   "flag": "--rfc-3339=FMT",
+   "plain": "Output RFC 3339 form (date, seconds, ns).",
+   "use": "Machine-readable timestamps."
+  },
+  {
+   "flag": "-R, --rfc-email",
+   "plain": "Output an RFC 5322 e-mail date such as Sat, 14 Nov 2026 10:00:00 +0000.",
+   "use": "Headers."
+  },
+  {
+   "flag": "-r, --reference=FILE",
+   "plain": "Show the last modification time of FILE.",
+   "use": "File timestamps."
+  },
+  {
+   "flag": "-s, --set=STRING",
+   "plain": "Set the system time (needs root).",
+   "use": "Rare: fixing a lab clock."
+  },
+  {
+   "flag": "-u, --utc, --universal",
+   "plain": "Print or set Coordinated Universal Time.",
+   "use": "Comparing machines."
+  },
+  {
+   "flag": "--resolution",
+   "plain": "Output the available resolution of timestamps.",
+   "use": "Rare."
+  },
+  {
+   "flag": "--help",
+   "plain": "Print a short usage message.",
+   "use": "A quick reminder."
+  },
+  {
+   "flag": "--version",
+   "plain": "Print the version.",
+   "use": "Checking which date you have."
+  }
+ ],
+ "mistakes": [
+  "Unix timestamps in milliseconds (13 digits) need dividing by 1000 before date -d @.",
+  "Forgetting the time zone: use -u when comparing logs.",
+  "date -d is a GNU feature: macOS date uses -r for timestamps.",
+  "Using spaces or colons in file names made from dates: prefer %F_%H%M%S."
+ ],
+ "try": [
+  "Convert the epoch value 0 and 2147483647 and see what they are.",
+  "Find the date 100 days after today.",
+  "Name a backup file with a timestamp.",
+  "Compare a log time in UTC and in your local time zone."
+ ],
+ "see_also": "cal(1), hwclock(1), timedatectl(1), stat(1), python datetime, ls(1) --time-style.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

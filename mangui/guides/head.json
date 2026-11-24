@@ -1,0 +1,95 @@
+{
+ "name": "head",
+ "section": "1",
+ "one_line": "output the first part of files",
+ "plain": [
+  "`head` prints the beginning of a file: by default the first 10 lines. It lets you peek at a big file without opening all of it.",
+  "In security work it is the quickest look at a log, a CSV, a wordlist or the first bytes of a binary."
+ ],
+ "when": [
+  "See what a big log or data file looks like.",
+  "Keep only the top results of a ranked list (sort | uniq -c | sort -rn | head).",
+  "Cut a file to its first N bytes, for example to test a header."
+ ],
+ "examples": [
+  {
+   "title": "First 10 lines",
+   "cmd": "head access.log",
+   "explain": "With no option you get the first ten lines. Handy to learn the layout of a log before you search it."
+  },
+  {
+   "title": "A chosen number of lines  (-n)",
+   "cmd": "head -n 3 users.txt",
+   "explain": "Prints the first three lines. head -3 is a short way to write the same thing."
+  },
+  {
+   "title": "All but the last 2 lines  (-n -2)",
+   "cmd": "head -n -2 users.txt",
+   "explain": "A negative number means 'everything except the last N lines'. Useful for dropping a footer."
+  },
+  {
+   "title": "The first bytes of a file  (-c)",
+   "cmd": "head -c 16 pic.png | xxd",
+   "explain": "-c counts bytes, not lines. Together with xxd you see the magic number of a file without reading all of it."
+  },
+  {
+   "title": "Top of a ranked list",
+   "cmd": "awk '{print $1}' access.log | sort | uniq -c | sort -rn | head -3",
+   "explain": "The classic counting pipeline ends with head to keep only the three busiest IPs."
+  },
+  {
+   "title": "Several files at once",
+   "cmd": "head -n 2 users.txt notes.txt",
+   "explain": "When you give several files head prints a header line with each file's name. -q hides the headers and -v forces them even for one file."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-c, --bytes=[-]NUM",
+   "plain": "Print the first NUM bytes. With a minus sign, print everything except the last NUM bytes.",
+   "use": "Reading a file header or trimming bytes."
+  },
+  {
+   "flag": "-n, --lines=[-]NUM",
+   "plain": "Print the first NUM lines (default 10). With a minus sign, everything except the last NUM lines.",
+   "use": "Almost every use."
+  },
+  {
+   "flag": "-q, --quiet, --silent",
+   "plain": "Never print the file-name headers when you give several files.",
+   "use": "You want one clean stream of text."
+  },
+  {
+   "flag": "-v, --verbose",
+   "plain": "Always print the file-name header, even for a single file.",
+   "use": "Labelling output in scripts."
+  },
+  {
+   "flag": "-z, --zero-terminated",
+   "plain": "Treat NUL bytes, not newlines, as the end of a line.",
+   "use": "Output of find -print0."
+  },
+  {
+   "flag": "--help",
+   "plain": "Print a short usage message and exit.",
+   "use": "A quick reminder."
+  },
+  {
+   "flag": "--version",
+   "plain": "Print the version and exit.",
+   "use": "Checking which head you have."
+  }
+ ],
+ "mistakes": [
+  "head -n 1 file only reads the start; it does not tell you the file has more lines.",
+  "On a binary file the output can garble your terminal: use head -c N file | xxd instead.",
+  "A size suffix works (head -c 1K) but means 1024 bytes, while 1KB means 1000."
+ ],
+ "try": [
+  "Show the first line of every .txt file in a folder, with names.",
+  "Print the header row of a CSV.",
+  "Cut a file in half by line count with wc -l and head."
+ ],
+ "see_also": "tail(1), less(1), cat(1), sed(1) (sed -n '1,5p'), awk(1), xxd(1).",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

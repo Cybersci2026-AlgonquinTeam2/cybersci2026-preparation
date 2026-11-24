@@ -42,12 +42,27 @@ def real_man():
     return "/usr/bin/man"
 
 
+_MP = None
+
+
+def manpath_dirs():
+    """man directories to search, without slow Windows (/mnt) paths when running inside WSL"""
+    global _MP
+    if _MP is None:
+        r = subprocess.run(["manpath"], capture_output=True, text=True, stdin=subprocess.DEVNULL)
+        _MP = [d for d in r.stdout.strip().split(":") if d and not d.startswith("/mnt/") and os.path.isdir(d)]
+        if not _MP:
+            _MP = ["/usr/share/man", "/usr/local/share/man"]
+    return _MP
+
+
 def find_page(name, section):
     for sec in dict.fromkeys([section, "1", "8", "5", "7", "6", "3"]):
-        r = subprocess.run([real_man(), "-w", sec, name], capture_output=True, text=True, stdin=subprocess.DEVNULL)
-        p = r.stdout.strip().split("\n")[0].strip()
-        if r.returncode == 0 and p and not p.startswith(str(OUT)):
-            return p, sec
+        for d in manpath_dirs():
+            md = Path(d) / f"man{sec}"
+            if md.is_dir() and not str(md).startswith(str(OUT)):
+                for p in sorted(md.glob(f"{name}.{sec}*")):
+                    return str(p), sec
     return None, section
 
 
@@ -231,7 +246,10 @@ def uninstall():
 
 
 def options_of(name, sec):
-    r = subprocess.run(f'MANWIDTH=200 {real_man()} {sec} {name} 2>/dev/null </dev/null | col -bx', shell=True, capture_output=True, text=True)
+    path, _ = find_page(name, sec)
+    if not path:
+        return set()
+    r = subprocess.run(f'MANWIDTH=200 {real_man()} -l "{path}" 2>/dev/null </dev/null | col -bx', shell=True, capture_output=True, text=True)
     found = set()
     for ln in r.stdout.split("\n"):
         m = re.match(r"^\s{2,12}(-.*)$", ln)
@@ -246,10 +264,10 @@ def coverage():
         have = set()
         for op in g["options"]:
             have |= set(re.findall(r"(?<![\w-])(--?[A-Za-z0-9][\w-]*)", op["flag"]))
-        orig = options_of(g["name"], str(g.get("section", "1")))
         if g.get("partial"):
-            print(f"  {g['name']:<10} focused guide by design: {len(have)} options explained (original page has {len(orig)})")
+            print(f"  {g['name']:<10} focused guide by design: {len(have)} options explained")
             continue
+        orig = options_of(g["name"], str(g.get("section", "1")))
         if not orig:
             print(f"  {g['name']:<10} (no system page here)  guide documents {len(have)} options")
             continue

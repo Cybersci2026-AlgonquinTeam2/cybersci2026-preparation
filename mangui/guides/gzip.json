@@ -1,0 +1,161 @@
+{
+ "name": "gzip",
+ "section": "1",
+ "one_line": "compress or expand files",
+ "plain": [
+  "`gzip` compresses a file to make it smaller and replaces it with a .gz file; gzip -d (or gunzip) expands it back. It compresses one file at a time; tar bundles many files and gzip compresses the bundle (.tar.gz).",
+  "In CTFs you meet .gz files, and data that is compressed inside other formats."
+ ],
+ "when": [
+  "Open or create a .gz file.",
+  "Read a compressed log without unpacking it (zcat, zgrep).",
+  "Check whether a .gz file is damaged (gzip -t)."
+ ],
+ "examples": [
+  {
+   "title": "Compress a file  (keeps your original with -k)",
+   "cmd": "gzip -k notes.txt",
+   "explain": "Creates notes.txt.gz. Without -k the original file is replaced by the .gz file."
+  },
+  {
+   "title": "Decompress  (-d)",
+   "cmd": "gzip -d notes.txt.gz",
+   "explain": "Restores notes.txt and removes the .gz (add -k to keep it). gunzip is the same command."
+  },
+  {
+   "title": "Read it without unpacking",
+   "cmd": "zcat notes.txt.gz | head -2; zgrep -i password notes.txt.gz",
+   "explain": "zcat prints the uncompressed text; zgrep searches inside the compressed file."
+  },
+  {
+   "title": "Show details  (-l, -v)",
+   "cmd": "gzip -l notes.txt.gz",
+   "explain": "Lists compressed and uncompressed sizes and the compression ratio."
+  },
+  {
+   "title": "Test integrity  (-t)",
+   "cmd": "gzip -t notes.txt.gz && echo ok",
+   "explain": "Checks the file without unpacking. A damaged archive prints an error."
+  },
+  {
+   "title": "Write to the screen  (-c)",
+   "cmd": "gzip -c notes.txt | wc -c",
+   "explain": "-c sends the output to standard output and keeps the original. Good for pipelines and for measuring compressed size."
+  },
+  {
+   "title": "Best or fastest compression  (-9, -1)",
+   "cmd": "gzip -9 -c notes.txt | wc -c; gzip -1 -c notes.txt | wc -c",
+   "explain": "Levels 1 to 9: faster and larger versus slower and smaller (--best and --fast are the same as 9 and 1)."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-c, --stdout, --to-stdout",
+   "plain": "Write the result to standard output and keep the original file.",
+   "use": "Pipelines."
+  },
+  {
+   "flag": "-d, --decompress, --uncompress",
+   "plain": "Decompress.",
+   "use": "Opening .gz files."
+  },
+  {
+   "flag": "-k, --keep",
+   "plain": "Keep the input file instead of deleting it.",
+   "use": "Safe compression and decompression."
+  },
+  {
+   "flag": "-f, --force",
+   "plain": "Force: overwrite files, compress links, or write to a terminal.",
+   "use": "Overriding refusals."
+  },
+  {
+   "flag": "-l, --list",
+   "plain": "List the compressed and uncompressed size and the ratio of a .gz file.",
+   "use": "Checking an archive."
+  },
+  {
+   "flag": "-t, --test",
+   "plain": "Test the integrity of a compressed file.",
+   "use": "Verifying downloads."
+  },
+  {
+   "flag": "-v, --verbose",
+   "plain": "Show the name and compression percentage of each file.",
+   "use": "Seeing progress."
+  },
+  {
+   "flag": "-q, --quiet",
+   "plain": "Suppress warnings.",
+   "use": "Scripts."
+  },
+  {
+   "flag": "-r, --recursive",
+   "plain": "Go into folders and process the files inside.",
+   "use": "Compressing a whole tree (file by file)."
+  },
+  {
+   "flag": "-S, --suffix=SUF",
+   "plain": "Use this suffix instead of .gz.",
+   "use": "Odd file names."
+  },
+  {
+   "flag": "-n, --no-name",
+   "plain": "Do not save or restore the original file name and timestamp.",
+   "use": "Reproducible output."
+  },
+  {
+   "flag": "-N, --name",
+   "plain": "Save and restore the original file name and timestamp (the default when compressing).",
+   "use": "Keeping the name."
+  },
+  {
+   "flag": "-1 .. -9, --fast, --best",
+   "plain": "Compression level: 1 is fastest, 9 is smallest; --fast is -1 and --best is -9.",
+   "use": "Trading speed for size."
+  },
+  {
+   "flag": "-a, --ascii",
+   "plain": "Text mode (ignored on Unix).",
+   "use": "Old systems only."
+  },
+  {
+   "flag": "--rsyncable",
+   "plain": "Make the output friendlier to rsync by resetting compression at intervals.",
+   "use": "Backups."
+  },
+  {
+   "flag": "--synchronous",
+   "plain": "Flush the output to disk after each write.",
+   "use": "Data safety."
+  },
+  {
+   "flag": "-L, --license",
+   "plain": "Display the gzip licence.",
+   "use": "Rarely."
+  },
+  {
+   "flag": "-V, --version",
+   "plain": "Display the version.",
+   "use": "Checking which gzip you have."
+  },
+  {
+   "flag": "-h, --help",
+   "plain": "Print a short usage message.",
+   "use": "A quick reminder."
+  }
+ ],
+ "mistakes": [
+  "gzip replaces the original file by default: use -k or -c if you want to keep it.",
+  "gzip compresses single files: for folders use tar -czf.",
+  "A .gz file can hide another format inside; run file on the result.",
+  "gzip -d on a file without the .gz suffix fails: name it .gz or use -S or -c."
+ ],
+ "try": [
+  "Compress a log, read it with zcat, then unpack it.",
+  "Compare the compressed size at -1 and -9.",
+  "Use file on a .gz and on its contents to see both layers."
+ ],
+ "see_also": "gunzip(1), zcat(1), zgrep(1), tar(1), bzip2(1), xz(1), zip(1), file(1).",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

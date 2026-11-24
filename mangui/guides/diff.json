@@ -1,0 +1,282 @@
+{
+ "name": "diff",
+ "section": "1",
+ "one_line": "compare files line by line",
+ "plain": [
+  "`diff` shows exactly what differs between two files (or two folders): which lines were added, removed or changed.",
+  "It is how you see what a patch changes, what an attacker modified, or what differs between a backup and the current file."
+ ],
+ "when": [
+  "Compare two versions of a config or source file.",
+  "Check which files differ between two folders.",
+  "Read a patch (the unified format is what git shows)."
+ ],
+ "examples": [
+  {
+   "title": "Compare two files",
+   "cmd": "diff old.txt new.txt",
+   "explain": "Lines starting with < exist only in the first file, lines with > only in the second. Letters like 3c3 mean 'line 3 was changed'; a = added and d = deleted."
+  },
+  {
+   "title": "Unified format  (-u)",
+   "cmd": "diff -u old.txt new.txt",
+   "explain": "Shows context with - and + lines, the format patches and git use. Add -U 5 for five context lines."
+  },
+  {
+   "title": "Side by side  (-y)",
+   "cmd": "diff -y -W 100 old.txt new.txt",
+   "explain": "Two columns with markers in the middle: | for a changed line, < and > for lines only on one side."
+  },
+  {
+   "title": "Only say whether they differ  (-q, -s)",
+   "cmd": "diff -q a.txt b.txt; diff -s a.txt a.txt",
+   "explain": "-q reports just 'Files differ'; -s also tells you when they are the same."
+  },
+  {
+   "title": "Compare folders  (-r)",
+   "cmd": "diff -rq dir1 dir2",
+   "explain": "Recursively lists which files differ or exist only on one side. Add -N to treat missing files as empty."
+  },
+  {
+   "title": "Ignore whitespace and case  (-w, -b, -i)",
+   "cmd": "diff -w old.txt new.txt; diff -i a b",
+   "explain": "-w ignores all white space, -b ignores changes in the amount of white space, -i ignores letter case."
+  },
+  {
+   "title": "Make a patch and apply it",
+   "cmd": "diff -u old.txt new.txt > fix.patch;  patch old.txt < fix.patch",
+   "explain": "The patch file records the changes; patch applies them. This is how fixes are shared in a defence challenge."
+  },
+  {
+   "title": "Colour  (--color)",
+   "cmd": "diff --color=auto -u old.txt new.txt",
+   "explain": "Colours removed lines red and added lines green in a terminal."
+  }
+ ],
+ "options": [
+  {
+   "flag": "--normal",
+   "plain": "Output a normal diff: the default, old-style format with < and > lines and change commands like 3c3.",
+   "use": "Reading classic diff output."
+  },
+  {
+   "flag": "-u, -U NUM, --unified[=NUM]",
+   "plain": "Output NUM (default 3) lines of unified context.",
+   "use": "Patches and reading changes."
+  },
+  {
+   "flag": "-c, -C NUM, --context[=NUM]",
+   "plain": "Output NUM (default 3) lines of the older context format.",
+   "use": "Old patch formats."
+  },
+  {
+   "flag": "-y, --side-by-side",
+   "plain": "Output in two columns.",
+   "use": "Reading changes at a glance."
+  },
+  {
+   "flag": "-W, --width=NUM",
+   "plain": "Output at most NUM columns (with -y).",
+   "use": "Fitting the screen."
+  },
+  {
+   "flag": "--left-column",
+   "plain": "With -y, output only the left column of common lines.",
+   "use": "Shorter side-by-side."
+  },
+  {
+   "flag": "--suppress-common-lines",
+   "plain": "With -y, do not output common lines.",
+   "use": "Show only differences side by side."
+  },
+  {
+   "flag": "-e, --ed",
+   "plain": "Output an ed script.",
+   "use": "Old tools."
+  },
+  {
+   "flag": "-n, --rcs",
+   "plain": "Output an RCS-format diff.",
+   "use": "Old version-control tools."
+  },
+  {
+   "flag": "-q, --brief",
+   "plain": "Report only whether files differ.",
+   "use": "Quick checks."
+  },
+  {
+   "flag": "-s, --report-identical-files",
+   "plain": "Report when two files are the same.",
+   "use": "Confirming equality."
+  },
+  {
+   "flag": "-r, --recursive",
+   "plain": "Recursively compare subdirectories.",
+   "use": "Comparing folders."
+  },
+  {
+   "flag": "-N, --new-file",
+   "plain": "Treat absent files as empty.",
+   "use": "Folders with added or removed files."
+  },
+  {
+   "flag": "--unidirectional-new-file",
+   "plain": "Treat absent first files as empty.",
+   "use": "Patch creation."
+  },
+  {
+   "flag": "-x, --exclude=PAT",
+   "plain": "Exclude files that match PAT.",
+   "use": "Ignoring .git or logs."
+  },
+  {
+   "flag": "-X, --exclude-from=FILE",
+   "plain": "Exclude files that match any pattern in FILE.",
+   "use": "A long ignore list."
+  },
+  {
+   "flag": "-S, --starting-file=FILE",
+   "plain": "Start with FILE when comparing directories.",
+   "use": "Resuming a long comparison."
+  },
+  {
+   "flag": "--from-file=FILE1, --to-file=FILE2",
+   "plain": "Compare FILE1 (or FILE2) to all operands.",
+   "use": "One file against many."
+  },
+  {
+   "flag": "-i, --ignore-case",
+   "plain": "Ignore case differences in file contents.",
+   "use": "Case-insensitive comparisons."
+  },
+  {
+   "flag": "--no-ignore-file-name-case, --ignore-file-name-case",
+   "plain": "Compare (or ignore) case when comparing file names.",
+   "use": "Comparing across systems."
+  },
+  {
+   "flag": "-E, --ignore-tab-expansion",
+   "plain": "Ignore changes due to tab expansion.",
+   "use": "Mixed tab/space indentation."
+  },
+  {
+   "flag": "-Z, --ignore-trailing-space",
+   "plain": "Ignore white space at line end.",
+   "use": "Trailing spaces."
+  },
+  {
+   "flag": "-b, --ignore-space-change",
+   "plain": "Ignore changes in the amount of white space.",
+   "use": "Reformatted code."
+  },
+  {
+   "flag": "-w, --ignore-all-space",
+   "plain": "Ignore all white space.",
+   "use": "Comparing code regardless of layout."
+  },
+  {
+   "flag": "-B, --ignore-blank-lines",
+   "plain": "Ignore changes where lines are all blank.",
+   "use": "Blank-line noise."
+  },
+  {
+   "flag": "-I, --ignore-matching-lines=RE",
+   "plain": "Ignore changes where all lines match RE.",
+   "use": "Ignoring comments or timestamps."
+  },
+  {
+   "flag": "--strip-trailing-cr",
+   "plain": "Strip trailing carriage returns on input.",
+   "use": "Windows versus Unix line endings."
+  },
+  {
+   "flag": "-a, --text",
+   "plain": "Treat all files as text.",
+   "use": "Forcing a comparison of binary-looking files."
+  },
+  {
+   "flag": "-t, --expand-tabs, -T, --initial-tab, --tabsize=NUM",
+   "plain": "Expand tabs to spaces, align tabs, or set the tab width in output.",
+   "use": "Tidy output."
+  },
+  {
+   "flag": "-l, --paginate",
+   "plain": "Pass the output through pr to paginate it.",
+   "use": "Printing."
+  },
+  {
+   "flag": "-p, --show-c-function",
+   "plain": "Show which C function each change is in.",
+   "use": "Reading source patches."
+  },
+  {
+   "flag": "-F, --show-function-line=RE",
+   "plain": "Show the most recent line matching RE.",
+   "use": "Context labels."
+  },
+  {
+   "flag": "--label=LABEL",
+   "plain": "Use LABEL instead of a file name in the header.",
+   "use": "Cleaner patches."
+  },
+  {
+   "flag": "--color[=WHEN], --palette=PALETTE",
+   "plain": "Colour the output and choose the colours.",
+   "use": "Readable terminals."
+  },
+  {
+   "flag": "-d, --minimal",
+   "plain": "Try hard to find a smaller set of changes.",
+   "use": "Small diffs on big files."
+  },
+  {
+   "flag": "--speed-large-files, --horizon-lines=NUM",
+   "plain": "Assume large files and many small changes; keep NUM lines of the common prefix and suffix.",
+   "use": "Speed on huge files."
+  },
+  {
+   "flag": "--suppress-blank-empty",
+   "plain": "Suppress the space or tab before an empty output line.",
+   "use": "Strict patch formats."
+  },
+  {
+   "flag": "--no-dereference",
+   "plain": "Do not follow symbolic links.",
+   "use": "Comparing links themselves."
+  },
+  {
+   "flag": "-D NAME, --ifdef=NAME",
+   "plain": "Output a merged file with #ifdef NAME ... #endif.",
+   "use": "Merging C versions."
+  },
+  {
+   "flag": "--GTYPE-group-format=GFMT, --line-format=LFMT, --LTYPE-line-format=LFMT",
+   "plain": "Custom formats for groups of lines and single lines.",
+   "use": "Advanced scripted output."
+  },
+  {
+   "flag": "-v, --version",
+   "plain": "Print the version.",
+   "use": "Checking which diff you have."
+  },
+  {
+   "flag": "--help",
+   "plain": "Print a short usage message.",
+   "use": "A quick reminder."
+  }
+ ],
+ "mistakes": [
+  "Reading the arrows backwards: < is the first file, > the second.",
+  "diff exits with 1 when the files differ: in scripts that is not an error.",
+  "Comparing binaries with diff shows 'Binary files differ': use cmp or xxd.",
+  "Forgetting -r when comparing folders: diff old/ new/ without it only says 'Common subdirectories'."
+ ],
+ "try": [
+  "Edit one line of a copy of users.txt and read the plain and -u output.",
+  "Compare two folders recursively and list the differing files.",
+  "Make a patch and apply it to a clean copy.",
+  "Compare a file with its Windows-line-ending copy with and without --strip-trailing-cr."
+ ],
+ "see_also": "cmp(1), comm(1), patch(1), sdiff(1), git diff, vimdiff(1), meld.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

@@ -1,0 +1,96 @@
+{
+ "name": "cmp",
+ "section": "1",
+ "one_line": "compare two files byte by byte",
+ "plain": [
+  "`cmp` tells you whether two files are identical, and if not, where the first difference is. It works on any file, including binaries, because it compares bytes, not lines.",
+  "It is the right tool to check that a copy, a download or a transfer did not change anything."
+ ],
+ "when": [
+  "Verify a copy: cmp original copy && echo identical.",
+  "Find the first byte that differs between two binaries or images.",
+  "List every differing byte."
+ ],
+ "examples": [
+  {
+   "title": "Are they identical?",
+   "cmd": "cmp hello hello_copy && echo identical",
+   "explain": "cmp prints nothing and exits with 0 when the files are the same, so && echo runs. If they differ it says where."
+  },
+  {
+   "title": "Where is the first difference?",
+   "cmd": "cmp a.bin b.bin",
+   "explain": "Prints 'a.bin b.bin differ: byte 17, line 1': the byte offset of the first difference (counted from 1)."
+  },
+  {
+   "title": "Show the differing bytes  (-b)",
+   "cmd": "cmp -b a.bin b.bin",
+   "explain": "Adds the two differing byte values (and their characters) to the report."
+  },
+  {
+   "title": "List all differences  (-l)",
+   "cmd": "cmp -l a.bin b.bin | head",
+   "explain": "Prints, for every differing byte, its position (decimal) and the two values in octal. Good for seeing exactly what a patch changed."
+  },
+  {
+   "title": "Only the exit status  (-s)",
+   "cmd": "cmp -s a b && echo same || echo different",
+   "explain": "-s prints nothing; use it in scripts and read the result with $?."
+  },
+  {
+   "title": "Skip bytes and limit  (-i, -n)",
+   "cmd": "cmp -i 100 -n 50 a b",
+   "explain": "-i 100 skips the first 100 bytes of both files; -n 50 compares at most 50 bytes. Use it to ignore a changing header."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-b, --print-bytes",
+   "plain": "Print the differing bytes.",
+   "use": "Seeing the values."
+  },
+  {
+   "flag": "-i, --ignore-initial=SKIP",
+   "plain": "Skip the first SKIP bytes of both files; SKIP1:SKIP2 skips a different number in each file.",
+   "use": "Ignoring a header."
+  },
+  {
+   "flag": "-l, --verbose",
+   "plain": "Output the byte number and the differing byte values for every difference.",
+   "use": "Listing all changes."
+  },
+  {
+   "flag": "-n, --bytes=LIMIT",
+   "plain": "Compare at most LIMIT bytes.",
+   "use": "Comparing a prefix."
+  },
+  {
+   "flag": "-s, --quiet, --silent",
+   "plain": "Print nothing; only set the exit status.",
+   "use": "Scripts."
+  },
+  {
+   "flag": "-v, --version",
+   "plain": "Print the version.",
+   "use": "Checking which cmp you have."
+  },
+  {
+   "flag": "--help",
+   "plain": "Print a short usage message.",
+   "use": "A quick reminder."
+  }
+ ],
+ "mistakes": [
+  "Exit status: 0 identical, 1 different, 2 trouble (for example a missing file).",
+  "Byte numbers start at 1 and -l shows values in octal.",
+  "For text files diff gives more useful output than cmp.",
+  "Comparing files of different length: cmp reports EOF on the shorter file."
+ ],
+ "try": [
+  "Copy a file, change one byte with xxd -r, and find it with cmp -l.",
+  "Verify that two downloads are identical.",
+  "Compare only the data part of two files, skipping a 16-byte header."
+ ],
+ "see_also": "diff(1), sha256sum(1), md5sum(1), xxd(1), comm(1).",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

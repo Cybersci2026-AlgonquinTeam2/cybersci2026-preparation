@@ -1,0 +1,86 @@
+{
+ "name": "base64",
+ "section": "1",
+ "one_line": "base64 encode or decode data and print to standard output",
+ "plain": [
+  "`base64` converts any data (even binary) into plain text made of letters, digits, + and /, and back. It is an encoding, not encryption: anyone can reverse it with no key.",
+  "You meet it everywhere: in HTTP Basic auth headers, tokens (JWT), emails, and challenge hints that end with = or =="
+ ],
+ "when": [
+  "Decode a string that looks like base64 (ends with =, only A-Za-z0-9+/).",
+  "Encode a file to paste it into a form or message.",
+  "Decode the parts of a JWT or a Basic auth header."
+ ],
+ "examples": [
+  {
+   "title": "Encode text",
+   "cmd": "echo -n 'hello world' | base64",
+   "explain": "-n on echo stops it adding a newline, which would change the result."
+  },
+  {
+   "title": "Decode  (-d)",
+   "cmd": "echo 'aGVsbG8gd29ybGQ=' | base64 -d",
+   "explain": "-d decodes. If the output is binary, redirect it to a file instead of the terminal."
+  },
+  {
+   "title": "Decode a file",
+   "cmd": "base64 -d data.b64 > out.bin",
+   "explain": "Writes the decoded bytes into out.bin. Then check what it is with file out.bin."
+  },
+  {
+   "title": "No line wrapping  (-w 0)",
+   "cmd": "base64 -w 0 hello | head -c 60; echo",
+   "explain": "By default lines are wrapped at 76 characters. -w 0 puts everything on one line, as you need for tokens and headers."
+  },
+  {
+   "title": "Ignore junk characters  (-i)",
+   "cmd": "printf 'aGVs\\nbG8=!!' | base64 -d -i",
+   "explain": "-i skips characters that are not in the base64 alphabet, which helps with pasted text that has stray symbols."
+  },
+  {
+   "title": "Basic auth header",
+   "cmd": "echo 'YWxpY2U6c2VjcmV0' | base64 -d",
+   "explain": "The part after 'Authorization: Basic ' is user:password in base64, so anyone who sees the request can read it."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-d, --decode",
+   "plain": "Decode data instead of encoding it.",
+   "use": "Reading base64."
+  },
+  {
+   "flag": "-i, --ignore-garbage",
+   "plain": "When decoding, ignore characters that are not part of the base64 alphabet.",
+   "use": "Pasted text with spaces or symbols."
+  },
+  {
+   "flag": "-w, --wrap=COLS",
+   "plain": "Wrap encoded lines after COLS characters (default 76); 0 disables wrapping.",
+   "use": "-w 0 for one line."
+  },
+  {
+   "flag": "--help",
+   "plain": "Print a short usage message.",
+   "use": "A quick reminder."
+  },
+  {
+   "flag": "--version",
+   "plain": "Print the version.",
+   "use": "Checking which base64 you have."
+  }
+ ],
+ "mistakes": [
+  "Treating base64 as secrecy: it is only a format.",
+  "Missing = padding makes decoding fail: add = until the length is a multiple of 4.",
+  "URL-safe base64 uses - and _ instead of + and /: translate them first (tr '_-' '/+').",
+  "echo adds a newline: use echo -n or printf."
+ ],
+ "try": [
+  "Encode your name, then decode it.",
+  "Decode a JWT's middle part (add padding if needed).",
+  "Decode a base64 file and identify the result with file."
+ ],
+ "see_also": "xxd(1), openssl base64, python3 base64 module, CyberChef (From Base64), basenc(1) for other bases.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

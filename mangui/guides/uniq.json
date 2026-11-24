@@ -1,0 +1,120 @@
+{
+ "name": "uniq",
+ "section": "1",
+ "one_line": "report or omit repeated lines",
+ "plain": [
+  "`uniq` finds repeated lines and either removes the repeats, counts them, or shows only the repeated ones. It only compares lines that are next to each other, so you almost always sort first.",
+  "uniq -c after sort is the standard way to count how often each thing occurs."
+ ],
+ "when": [
+  "Count how many times each IP, user or URL appears.",
+  "Remove duplicate lines from a list.",
+  "Show only the lines that appear once (or more than once)."
+ ],
+ "examples": [
+  {
+   "title": "Count each distinct line  (-c)",
+   "cmd": "awk '{print $1}' access.log | sort | uniq -c",
+   "explain": "sort puts equal lines next to each other, then uniq -c prefixes each distinct line with its count."
+  },
+  {
+   "title": "Rank by count",
+   "cmd": "awk '{print $9}' access.log | sort | uniq -c | sort -rn",
+   "explain": "Adding sort -rn at the end puts the most common value first. This pipeline is worth memorising."
+  },
+  {
+   "title": "Only the duplicates  (-d)",
+   "cmd": "sort users.txt notes.txt | uniq -d",
+   "explain": "-d prints one copy of each line that occurs more than once."
+  },
+  {
+   "title": "Only the lines that occur once  (-u)",
+   "cmd": "awk '{print $1}' access.log | sort | uniq -u",
+   "explain": "-u prints lines that never repeat: the rare events, which are often the interesting ones."
+  },
+  {
+   "title": "Ignore case  (-i)",
+   "cmd": "printf 'A\\na\\nB\\n' | sort -f | uniq -i -c",
+   "explain": "Treats upper and lower case as the same when comparing."
+  },
+  {
+   "title": "Compare only part of the line  (-f, -s, -w)",
+   "cmd": "uniq -f 3 file",
+   "explain": "-f N skips the first N fields, -s N skips N characters and -w N compares at most N characters. Useful for lines that start with a timestamp."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-c, --count",
+   "plain": "Prefix lines with the number of occurrences.",
+   "use": "Counting."
+  },
+  {
+   "flag": "-d, --repeated",
+   "plain": "Print only the duplicated lines, one per group.",
+   "use": "Finding repeats."
+  },
+  {
+   "flag": "-D, --all-repeated[=METHOD]",
+   "plain": "Print all the duplicated lines; METHOD (none, prepend, separate) controls blank-line separators between groups.",
+   "use": "Seeing every copy."
+  },
+  {
+   "flag": "--group[=METHOD]",
+   "plain": "Show all lines, separating groups with an empty line; METHOD is separate, prepend, append or both.",
+   "use": "Visually grouping equal lines."
+  },
+  {
+   "flag": "-u, --unique",
+   "plain": "Print only the lines that are not repeated.",
+   "use": "Rare events."
+  },
+  {
+   "flag": "-i, --ignore-case",
+   "plain": "Ignore case when comparing.",
+   "use": "Case-insensitive counts."
+  },
+  {
+   "flag": "-f, --skip-fields=N",
+   "plain": "Avoid comparing the first N fields.",
+   "use": "Lines that start with a changing timestamp."
+  },
+  {
+   "flag": "-s, --skip-chars=N",
+   "plain": "Avoid comparing the first N characters.",
+   "use": "Fixed-width prefixes."
+  },
+  {
+   "flag": "-w, --check-chars=N",
+   "plain": "Compare no more than N characters of each line.",
+   "use": "Comparing only a prefix."
+  },
+  {
+   "flag": "-z, --zero-terminated",
+   "plain": "Lines end with a NUL byte instead of a newline.",
+   "use": "Output of find -print0."
+  },
+  {
+   "flag": "--help",
+   "plain": "Print a short usage message.",
+   "use": "A quick reminder."
+  },
+  {
+   "flag": "--version",
+   "plain": "Print the version.",
+   "use": "Checking which uniq you have."
+  }
+ ],
+ "mistakes": [
+  "Forgetting to sort first: uniq removes only adjacent duplicates, so unsorted input leaves duplicates behind.",
+  "Reading the count wrongly: the number is in front of the line, padded with spaces.",
+  "sort | uniq can be replaced by sort -u when you only want duplicates removed."
+ ],
+ "try": [
+  "Rank the paths requested in access.log.",
+  "List the IPs that appear exactly once.",
+  "Count how many different status codes occur."
+ ],
+ "see_also": "sort(1) -u, awk(1), comm(1), wc(1), cut(1).",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

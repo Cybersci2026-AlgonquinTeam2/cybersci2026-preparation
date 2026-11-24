@@ -1,0 +1,132 @@
+{
+ "name": "tail",
+ "section": "1",
+ "one_line": "output the last part of files",
+ "plain": [
+  "`tail` prints the end of a file: by default the last 10 lines. With -f it keeps the file open and prints new lines as they are added, which is how you watch a log in real time.",
+  "In incident response and defence challenges, tail -f is how you watch what an attacker is doing right now."
+ ],
+ "when": [
+  "See the newest log lines.",
+  "Watch a log live while you test a service or while an attack runs.",
+  "Skip a header: print from line 2 on."
+ ],
+ "examples": [
+  {
+   "title": "Last 10 lines",
+   "cmd": "tail access.log",
+   "explain": "The newest entries of a log are at the bottom, so the end is usually the most interesting part."
+  },
+  {
+   "title": "A chosen number of lines  (-n)",
+   "cmd": "tail -n 3 users.txt",
+   "explain": "Prints the last three lines."
+  },
+  {
+   "title": "Start from a line number  (-n +N)",
+   "cmd": "tail -n +2 users.txt",
+   "explain": "A plus sign means 'start at line N and print the rest'. -n +2 skips a header row."
+  },
+  {
+   "title": "Follow a log as it grows  (-f)",
+   "cmd": "tail -f /var/log/auth.log",
+   "explain": "Prints new lines as they appear, until you press Ctrl-C. Run it in a spare terminal while you try a login or send a request."
+  },
+  {
+   "title": "Follow and filter",
+   "cmd": "tail -f access.log | grep --line-buffered ' 401 '",
+   "explain": "Shows only failed logins as they happen. --line-buffered stops grep from holding output back."
+  },
+  {
+   "title": "Follow a file that gets replaced  (-F)",
+   "cmd": "tail -F app.log",
+   "explain": "-F re-opens the file when log rotation replaces it, and keeps waiting if it does not exist yet. Use it for long watches."
+  },
+  {
+   "title": "The last bytes  (-c)",
+   "cmd": "tail -c 40 pic.png | xxd",
+   "explain": "Look at the end of a binary: data hidden after an image's end marker shows up here."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-c, --bytes=[+]NUM",
+   "plain": "Print the last NUM bytes; with a plus sign, start at byte NUM.",
+   "use": "Inspecting the end of a binary or an appended payload."
+  },
+  {
+   "flag": "-n, --lines=[+]NUM",
+   "plain": "Print the last NUM lines (default 10); with a plus sign, start at line NUM.",
+   "use": "Most uses."
+  },
+  {
+   "flag": "-f, --follow[={name|descriptor}]",
+   "plain": "Keep reading and print new data as the file grows. The default follows the open file even if it is renamed.",
+   "use": "Watching a live log."
+  },
+  {
+   "flag": "-F",
+   "plain": "Same as --follow=name --retry: follow the file by name and keep trying if it disappears or is rotated.",
+   "use": "Logs that are rotated."
+  },
+  {
+   "flag": "--retry",
+   "plain": "Keep trying to open a file that is not accessible yet.",
+   "use": "Following a file that will be created later."
+  },
+  {
+   "flag": "--pid=PID",
+   "plain": "With -f, stop when the process with this id ends.",
+   "use": "Watching a program's log only while it runs."
+  },
+  {
+   "flag": "-s, --sleep-interval=N",
+   "plain": "With -f, wait about N seconds between checks.",
+   "use": "Reducing load on a slow disk."
+  },
+  {
+   "flag": "--max-unchanged-stats=N",
+   "plain": "With --follow=name, re-open the file after N checks without change.",
+   "use": "Detecting a replaced file quickly."
+  },
+  {
+   "flag": "-q, --quiet, --silent",
+   "plain": "Never print file-name headers.",
+   "use": "One clean stream."
+  },
+  {
+   "flag": "-v, --verbose",
+   "plain": "Always print the file-name header.",
+   "use": "Labelled output."
+  },
+  {
+   "flag": "-z, --zero-terminated",
+   "plain": "Lines end with a NUL byte instead of a newline.",
+   "use": "Output of find -print0."
+  },
+  {
+   "flag": "--help",
+   "plain": "Print a short usage message.",
+   "use": "A quick reminder."
+  },
+  {
+   "flag": "--version",
+   "plain": "Print the version.",
+   "use": "Checking which tail you have."
+  }
+ ],
+ "mistakes": [
+  "Using tail -f on a file that is rotated: you stop receiving data; use -F.",
+  "Piping tail -f into another command that buffers (grep, awk): use --line-buffered or stdbuf.",
+  "Forgetting Ctrl-C ends -f.",
+  "tail -n 5 file is the last five lines; tail -n +5 file starts at line 5."
+ ],
+ "try": [
+  "Watch auth.log in one terminal and trigger a failed ssh login in another.",
+  "Print a CSV without its header row.",
+  "Follow two logs at once with tail -f a b.",
+  "Use tail -c 100 to find data appended after the end of an image."
+ ],
+ "see_also": "head(1), less(1) (press F inside less to follow), journalctl -f, multitail, grep(1), watch(1).",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

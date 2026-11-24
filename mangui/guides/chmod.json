@@ -1,0 +1,116 @@
+{
+ "name": "chmod",
+ "section": "1",
+ "one_line": "change file mode bits",
+ "plain": [
+  "`chmod` changes who may read, write or execute a file. Every file has three sets of permissions: for its owner, for its group and for everyone else.",
+  "It is how you make a script executable, lock down a private key, and, in security work, how you spot dangerous settings such as world-writable files or the SUID bit."
+ ],
+ "when": [
+  "Make a script runnable: chmod +x script.sh.",
+  "Protect a secret: chmod 600 private.key (ssh refuses keys that others can read).",
+  "Understand a permission string like -rwxr-xr--."
+ ],
+ "examples": [
+  {
+   "title": "Make a file executable  (+x)",
+   "cmd": "chmod +x run.sh && ./run.sh",
+   "explain": "+x adds the execute permission for everybody who already has some access. Without it ./run.sh fails with 'Permission denied'."
+  },
+  {
+   "title": "Numeric modes  (644, 600, 755, 700)",
+   "cmd": "chmod 600 secret.key",
+   "explain": "Each digit is owner, group, others. Read = 4, write = 2, execute = 1, added together: 6 = read+write, 7 = all, 5 = read+execute, 0 = nothing. 600 means only the owner can read and write; 755 is a typical program; 644 a normal file."
+  },
+  {
+   "title": "Symbolic modes  (u g o a, + - =)",
+   "cmd": "chmod u+x,g-w,o-rwx file",
+   "explain": "u = owner (user), g = group, o = others, a = all. + adds, - removes, = sets exactly. This line adds execute for the owner, removes write from the group and removes everything from others."
+  },
+  {
+   "title": "Recursive  (-R)",
+   "cmd": "chmod -R go-w site",
+   "explain": "Applies to the folder and everything inside it. Be careful with -R on a whole system folder."
+  },
+  {
+   "title": "Copy permissions from another file  (--reference)",
+   "cmd": "chmod --reference=run.sh other.sh",
+   "explain": "Gives other.sh exactly the permissions of run.sh."
+  },
+  {
+   "title": "See what changed  (-v, -c)",
+   "cmd": "chmod -v 640 users.txt",
+   "explain": "-v reports every file processed; -c reports only files whose mode actually changed."
+  },
+  {
+   "title": "Special bits: SUID, SGID, sticky",
+   "cmd": "chmod u+s prog;  chmod g+s dir;  chmod +t /tmp/shared",
+   "explain": "SUID (4000) runs a program with its owner's privileges, which is why find / -perm -4000 is a privilege-escalation check. SGID (2000) and the sticky bit (1000, as on /tmp) control group inheritance and who may delete files."
+  }
+ ],
+ "options": [
+  {
+   "flag": "MODE (octal or symbolic)",
+   "plain": "The new permissions: a number such as 755, or a symbolic form such as u+rwx,go-w.",
+   "use": "Every use."
+  },
+  {
+   "flag": "-R, --recursive",
+   "plain": "Change files and directories recursively.",
+   "use": "Fixing a whole tree."
+  },
+  {
+   "flag": "-c, --changes",
+   "plain": "Like verbose, but report only when a change is made.",
+   "use": "Seeing what was actually changed."
+  },
+  {
+   "flag": "-v, --verbose",
+   "plain": "Report every file that is processed.",
+   "use": "Confirming what happened."
+  },
+  {
+   "flag": "-f, --silent, --quiet",
+   "plain": "Suppress most error messages.",
+   "use": "Scripts."
+  },
+  {
+   "flag": "--reference=RFILE",
+   "plain": "Use the mode of RFILE instead of giving a mode.",
+   "use": "Copying permissions."
+  },
+  {
+   "flag": "--preserve-root",
+   "plain": "Refuse to operate recursively on /.",
+   "use": "Protection against a disastrous chmod -R on /."
+  },
+  {
+   "flag": "--no-preserve-root",
+   "plain": "Do not treat / specially (the default).",
+   "use": "Almost never."
+  },
+  {
+   "flag": "--help",
+   "plain": "Print a short usage message.",
+   "use": "A quick reminder."
+  },
+  {
+   "flag": "--version",
+   "plain": "Print the version.",
+   "use": "Checking which chmod you have."
+  }
+ ],
+ "mistakes": [
+  "chmod 777 is almost never the answer: it lets everybody change the file.",
+  "chmod -R 777 or chmod -R +x on a tree makes data files executable.",
+  "ssh refuses private keys that other users can read: use 600 (and 700 for ~/.ssh).",
+  "Directories need the execute bit to be entered: a folder with r but no x lists names but cannot be opened."
+ ],
+ "try": [
+  "Create a file, set each of 000, 400, 600, 644, 755 and try to read, write and run it.",
+  "Find files in /usr/bin with the SUID bit using find / -perm -4000 2>/dev/null.",
+  "Make a script executable and run it, then remove the bit and see the error."
+ ],
+ "see_also": "chown(1), chgrp(1), umask(1), ls(1) -l, find(1) -perm, stat(1), getfacl(1), setfacl(1).",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

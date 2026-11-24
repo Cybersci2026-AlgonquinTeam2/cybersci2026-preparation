@@ -1,0 +1,120 @@
+{
+ "name": "cut",
+ "section": "1",
+ "one_line": "remove sections from each line of files",
+ "plain": [
+  "`cut` keeps only chosen columns of each line: fields separated by a character, or character and byte positions.",
+  "It is the quick way to pull a column out of a CSV, /etc/passwd, or a log when awk is more than you need."
+ ],
+ "when": [
+  "Take field 1 of /etc/passwd (the usernames).",
+  "Pull one column from a CSV or log.",
+  "Keep characters 5 to 10 of every line."
+ ],
+ "examples": [
+  {
+   "title": "A field with a delimiter  (-d, -f)",
+   "cmd": "cut -d: -f1 users.txt",
+   "explain": "-d: says the separator is a colon, -f1 keeps field 1. The result is the list of usernames."
+  },
+  {
+   "title": "Several fields  (-f1,3 or -f1-3)",
+   "cmd": "cut -d: -f1,3 users.txt",
+   "explain": "Commas pick separate fields, a dash picks a range. The output keeps the original delimiter between fields."
+  },
+  {
+   "title": "From a field to the end  (-f2-)",
+   "cmd": "cut -d' ' -f4- access.log | head -2",
+   "explain": "A trailing dash means 'field 4 and everything after it'."
+  },
+  {
+   "title": "Character positions  (-c)",
+   "cmd": "cut -c1-8 users.txt",
+   "explain": "Keeps characters 1 to 8 of each line. Good for fixed-width text."
+  },
+  {
+   "title": "Everything except a field  (--complement)",
+   "cmd": "cut -d: -f2,4-7 --complement users.txt",
+   "explain": "Keeps all fields except those listed."
+  },
+  {
+   "title": "Change the output separator  (--output-delimiter)",
+   "cmd": "cut -d: -f1,6 --output-delimiter=' -> ' users.txt",
+   "explain": "Replaces the delimiter in the output so it reads better."
+  },
+  {
+   "title": "Lines without the delimiter  (-s)",
+   "cmd": "printf 'a:b\\nnodelim\\n' | cut -d: -f1 -s",
+   "explain": "-s drops lines that do not contain the delimiter. Without it such lines are printed whole."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-b, --bytes=LIST",
+   "plain": "Select only these byte positions.",
+   "use": "Binary or fixed-width data."
+  },
+  {
+   "flag": "-c, --characters=LIST",
+   "plain": "Select only these character positions.",
+   "use": "Fixed-width text."
+  },
+  {
+   "flag": "-f, --fields=LIST",
+   "plain": "Select only these fields (columns).",
+   "use": "Delimited data."
+  },
+  {
+   "flag": "-d, --delimiter=DELIM",
+   "plain": "Use DELIM instead of the tab character as the field separator (one character).",
+   "use": "Colon, comma, space."
+  },
+  {
+   "flag": "-s, --only-delimited",
+   "plain": "Do not print lines that do not contain the delimiter.",
+   "use": "Skipping header or junk lines."
+  },
+  {
+   "flag": "--complement",
+   "plain": "Select everything except the chosen fields or characters.",
+   "use": "Removing a column."
+  },
+  {
+   "flag": "--output-delimiter=STRING",
+   "plain": "Use STRING between output fields instead of the input delimiter.",
+   "use": "Readable or re-formatted output."
+  },
+  {
+   "flag": "-n",
+   "plain": "With -b: do not split multi-byte characters. (Ignored by GNU cut, kept for compatibility.)",
+   "use": "Old scripts."
+  },
+  {
+   "flag": "-z, --zero-terminated",
+   "plain": "Lines end with a NUL byte instead of a newline.",
+   "use": "Output of find -print0."
+  },
+  {
+   "flag": "--help",
+   "plain": "Print a short usage message.",
+   "use": "A quick reminder."
+  },
+  {
+   "flag": "--version",
+   "plain": "Print the version.",
+   "use": "Checking which cut you have."
+  }
+ ],
+ "mistakes": [
+  "cut only accepts a single-character delimiter and splits on every one: spaces separated by several spaces make empty fields; use awk for 'any amount of whitespace'.",
+  "Fields are counted from 1, not 0.",
+  "cut cannot reorder fields: -f3,1 still prints 1 then 3."
+ ],
+ "try": [
+  "Print the home directory (field 6) of every user in users.txt.",
+  "Print the usernames of users with a bash shell using grep and cut.",
+  "Extract the date part of each log line with -c."
+ ],
+ "see_also": "awk(1), paste(1), tr(1), sed(1), column(1), sort(1) -k.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

@@ -1,0 +1,97 @@
+{
+ "name": "tr",
+ "section": "1",
+ "one_line": "translate or delete characters",
+ "plain": [
+  "`tr` changes characters in text that you pipe into it: swap one set of characters for another, delete characters, or squeeze repeats into one.",
+  "It is the one-line answer to ROT13 and Caesar shifts, upper/lower case conversion, and cleaning up line endings."
+ ],
+ "when": [
+  "Decode ROT13 or a Caesar shift.",
+  "Convert upper case to lower case.",
+  "Delete Windows carriage returns or squeeze runs of spaces."
+ ],
+ "examples": [
+  {
+   "title": "ROT13",
+   "cmd": "echo 'synt{ebg13}' | tr 'A-Za-z' 'N-ZA-Mn-za-m'",
+   "explain": "Each letter of the first set is replaced by the letter in the same position of the second set. Shifting by 13 twice returns the original, so the same command encodes and decodes."
+  },
+  {
+   "title": "Upper case to lower case",
+   "cmd": "echo 'HELLO' | tr 'A-Z' 'a-z'",
+   "explain": "Ranges such as A-Z are allowed. [:upper:] and [:lower:] also work: tr '[:upper:]' '[:lower:]'."
+  },
+  {
+   "title": "Delete characters  (-d)",
+   "cmd": "printf 'a\\r\\nb\\r\\n' | tr -d '\\r'",
+   "explain": "Removes every carriage return, turning Windows line endings into Unix ones."
+  },
+  {
+   "title": "Squeeze repeats  (-s)",
+   "cmd": "echo 'a    b     c' | tr -s ' '",
+   "explain": "Replaces each run of spaces by one space. Good before cut -d' '."
+  },
+  {
+   "title": "Keep only what you choose  (-cd)",
+   "cmd": "echo 'abc123!@#' | tr -cd '[:alnum:]'; echo",
+   "explain": "-c means 'the complement' (everything not in the set) and -d deletes it, so only letters and digits remain."
+  },
+  {
+   "title": "Lines to spaces",
+   "cmd": "printf 'one\\ntwo\\nthree\\n' | tr '\\n' ' '; echo",
+   "explain": "Joins lines into one by turning newlines into spaces."
+  },
+  {
+   "title": "A Caesar shift of 3",
+   "cmd": "echo 'khoor' | tr 'd-za-c' 'a-z'",
+   "explain": "Maps each letter back three places: d to a, e to b, ... a to x. A general shift needs the two sets rotated by the shift amount."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-c, -C, --complement",
+   "plain": "Use the complement of the first set: every character not listed.",
+   "use": "Keep or delete 'everything except these'."
+  },
+  {
+   "flag": "-d, --delete",
+   "plain": "Delete the characters in the first set instead of translating.",
+   "use": "Stripping characters."
+  },
+  {
+   "flag": "-s, --squeeze-repeats",
+   "plain": "Replace each run of a repeated character from the last set by one occurrence.",
+   "use": "Collapsing spaces or newlines."
+  },
+  {
+   "flag": "-t, --truncate-set1",
+   "plain": "First cut the first set down to the length of the second set.",
+   "use": "Translating when the sets are different lengths."
+  },
+  {
+   "flag": "--help",
+   "plain": "Print a short usage message.",
+   "use": "A quick reminder."
+  },
+  {
+   "flag": "--version",
+   "plain": "Print the version.",
+   "use": "Checking which tr you have."
+  }
+ ],
+ "mistakes": [
+  "tr reads standard input only: tr a b file does not work; use tr a b < file or a pipe.",
+  "Sets must be the same length for a clean one-to-one map (the shorter second set repeats its last character).",
+  "tr works on single bytes: it does not handle multi-byte UTF-8 letters well.",
+  "Quote the sets so the shell does not expand [] or *."
+ ],
+ "try": [
+  "Decode a ROT13 string, then encode it again.",
+  "Make a password list upper case.",
+  "Remove all digits from a string.",
+  "Turn a comma-separated line into one item per line."
+ ],
+ "see_also": "sed(1) y///, awk(1), iconv(1), dos2unix(1), CyberChef, python str.translate.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

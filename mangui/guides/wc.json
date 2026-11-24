@@ -1,0 +1,105 @@
+{
+ "name": "wc",
+ "section": "1",
+ "one_line": "print newline, word and byte counts for each file",
+ "plain": [
+  "`wc` (word count) counts lines, words and bytes in a file or in text you pipe into it. It answers 'how many?'",
+  "In a pipeline, wc -l is the standard way to count results: how many matches, how many users, how many files."
+ ],
+ "when": [
+  "Count matches: grep pattern file | wc -l.",
+  "Check the size of a file in bytes, or its line count.",
+  "Find the longest line in a file."
+ ],
+ "examples": [
+  {
+   "title": "Lines, words, bytes",
+   "cmd": "wc users.txt",
+   "explain": "Prints three numbers and the file name: lines, words and bytes."
+  },
+  {
+   "title": "Just the lines  (-l)",
+   "cmd": "wc -l access.log",
+   "explain": "Counts the number of lines. This is the one you use most."
+  },
+  {
+   "title": "Count matches",
+   "cmd": "grep -c ' 401 ' access.log   # or:   grep ' 401 ' access.log | wc -l",
+   "explain": "grep -c counts directly; piping into wc -l works with any command, for example ls | wc -l counts files."
+  },
+  {
+   "title": "Bytes and characters  (-c, -m)",
+   "cmd": "wc -c pic.png; echo 'héllo' | wc -m",
+   "explain": "-c counts bytes and -m counts characters. They differ for text with multi-byte letters such as é."
+  },
+  {
+   "title": "Longest line  (-L)",
+   "cmd": "wc -L access.log",
+   "explain": "Prints the length of the longest line. A very long line in a data file often means encoded or minified content."
+  },
+  {
+   "title": "Several files and a total",
+   "cmd": "wc -l users.txt notes.txt",
+   "explain": "With more than one file wc adds a total line (use --total=never to hide it)."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-l, --lines",
+   "plain": "Print the number of lines (newline characters).",
+   "use": "Counting results."
+  },
+  {
+   "flag": "-w, --words",
+   "plain": "Print the number of words (runs of non-space characters).",
+   "use": "Size of a text."
+  },
+  {
+   "flag": "-c, --bytes",
+   "plain": "Print the number of bytes.",
+   "use": "File sizes."
+  },
+  {
+   "flag": "-m, --chars",
+   "plain": "Print the number of characters (differs from bytes for UTF-8).",
+   "use": "Text length."
+  },
+  {
+   "flag": "-L, --max-line-length",
+   "plain": "Print the length of the longest line.",
+   "use": "Spotting unusual files."
+  },
+  {
+   "flag": "--files0-from=F",
+   "plain": "Read the list of file names from F, separated by NUL bytes (- for standard input).",
+   "use": "Counting a huge list of files: find ... -print0 | wc --files0-from=-."
+  },
+  {
+   "flag": "--total=WHEN",
+   "plain": "When to print the total line: auto, always, only or never.",
+   "use": "Clean output."
+  },
+  {
+   "flag": "--help",
+   "plain": "Print a short usage message.",
+   "use": "A quick reminder."
+  },
+  {
+   "flag": "--version",
+   "plain": "Print the version.",
+   "use": "Checking which wc you have."
+  }
+ ],
+ "mistakes": [
+  "wc -l counts newline characters: a last line without a newline is not counted.",
+  "wc file prints the file name too; use wc -l < file to get only the number.",
+  "Counting words in code or logs with wc -w is rarely meaningful."
+ ],
+ "try": [
+  "Count the unique IPs in access.log using sort -u and wc -l.",
+  "Count the files in a folder with ls | wc -l.",
+  "Find the longest line of a wordlist."
+ ],
+ "see_also": "grep(1) -c, awk(1) (END {print NR}), sort(1), uniq(1), du(1), stat(1).",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}
