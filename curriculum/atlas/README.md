@@ -33,15 +33,10 @@ sudo apt update && sudo apt install -y nmap tcpdump tshark gdb ltrace strace sql
 
 ## Use these as real man pages in Kali or any Linux VM
 
-The same pages are generated as roff man pages in `man/man1/` (`atlas-grep.1`, `atlas-nmap.1`, and an index `atlas.1`).
+The atlas pages are now delivered as **mangui** guides: `man file`, `man grep`, `man nmap` ... show the original manual page followed by a layman guide (84 guides, including standalone pages such as `man ghidra`). The old `atlas-NAME.1` pages, `install-man.sh` and the `gm` helper were removed. See `mangui/README.md` for install, `coverage` and the Kali steps, and `COVERAGE.md` here for status.
 
 ```bash
-bash install-man.sh        # copies pages to ~/.local/share/atlas/man and adds MANPATH + a gm helper to ~/.bashrc and ~/.zshrc
-man atlas                  # list every page
-man atlas-grep             # one page
-gm grep                    # atlas page if there is one, otherwise the normal man page
+python3 mangui/mangui.py install     # then: source ~/.bashrc ; man file
 ```
 
-Get the files into the VM: `git clone` the repository and run the script from `curriculum/atlas/`, or unzip `Atlas-Man.zip` from the offline pack (OneDrive `CyberSci-Offline`) and run `bash install-man.sh`.
-
-**Refresh with real output from Kali:** run `python3 scripts/atlas_build.py` inside the repository on Kali. On Linux it runs every recipe natively, so nmap, tcpdump, gdb and sqlite3 get captured output instead of *expected* output, and the man pages are rebuilt.
+**Refresh the atlas pages with real output from Kali:** run `python3 scripts/atlas_build.py` inside the repository on Kali. On Linux it runs every recipe natively, so nmap, tcpdump, gdb and sqlite3 get captured output instead of *expected* output.
