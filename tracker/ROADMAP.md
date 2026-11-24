@@ -6,11 +6,11 @@ Generated from `roadmap.csv`. Same 4 h/day + commute reading cadence; weekly gra
 
 ### 2026-11-23 → 2026-11-29 · Debrief the qualifier + warm-up · target L2 · 28 h
 
-- **Practice:** Mon: write the run record (what you solved, what stalled, minutes per flag, tools you reached for). Rank weaknesses by category. Redo every failed item. Advent of Cyber opens Dec 1: 30 min a day as a warm-up. Check CyberSci Regionals results.
+- **Practice:** Mon: write the run record (what you solved, what stalled, minutes per flag, tools you reached for). Regionals did not go well: rank weaknesses by category and redo every failed item from memory. Material plan: save the challenge list and your notes now; when the organisers release challenges or writeups, collect them all into external/PastChallenges and rebuild every challenge you missed in the lab (see M24). Advent of Cyber opens Dec 1: 30 min a day as a warm-up.
 - **Reading:** Your qualifier notes; Hacker Playbook 3 (web + AD chapters)
 - **Backlog pulled in:** W08 W13 W14 W15
-- **Events:** CyberSci Regionals results (check email/site); SANS Holiday Hack open Nov 18-Jan 5 (confirmed)
-- **Gate:** Run record + top 3 weaknesses ranked; Advent of Cyber days 1-7 done
+- **Events:** CyberSci Regionals 2026 results + writeup release (M24); SANS Holiday Hack open Nov 18-Jan 5 (confirmed)
+- **Gate:** Run record + top 3 weaknesses ranked + missed-challenge log started; Advent of Cyber days 1-7 done
 
 ### 2026-11-30 → 2026-12-06 · Boxes + manual privesc · target L3 · 28 h
 
@@ -40,10 +40,10 @@ Generated from `roadmap.csv`. Same 4 h/day + commute reading cadence; weekly gra
 
 ### 2026-12-21 → 2026-12-27 · Break + light maintenance · target L2 · 14 h
 
-- **Practice:** Light CTFs for fun; maintain notes; sleep. ASIS CTF Finals Dec 27-28 is hard: play for an hour if you want, no target.
+- **Practice:** Light CTFs for fun; maintain notes; sleep. ASIS CTF Finals Dec 27-28 is hard: play for an hour if you want, no target. Writeup watch: check the organisers' channels for released Regionals challenges or writeups; save them, rebuild one missed challenge.
 - **Reading:** Podcasts + books of choice
 - **Events:** ASIS CTF Finals Dec 27-28 (confirmed, hard)
-- **Gate:** Rested; notes up to date
+- **Gate:** Rested; notes up to date; Missed-challenge log updated
 
 ### 2026-12-28 → 2027-01-03 · Reverse engineering · target L3 · 28 h
 
@@ -69,10 +69,10 @@ Generated from `roadmap.csv`. Same 4 h/day + commute reading cadence; weekly gra
 
 ### 2027-01-18 → 2027-01-24 · Web expert · target L3 · 28 h
 
-- **Practice:** PortSwigger expert labs; request smuggling; deserialisation; Burp extensions (man burpsuite).
+- **Practice:** PortSwigger expert labs; request smuggling; deserialisation; Burp extensions (man burpsuite). Writeup watch: collect any released Regionals challenges/writeups into external/PastChallenges; rebuild two missed challenges.
 - **Reading:** Web Application Hacker's Handbook (selected)
 - **Events:** NCL Spring registration opens ~Jan 25 (expected)
-- **Gate:** 20 PortSwigger practitioner + 5 expert labs
+- **Gate:** 20 PortSwigger practitioner + 5 expert labs; Regionals material collected or request sent to organisers
 
 ### 2027-01-25 → 2027-01-31 · Team formation + recon speed · target L3 · 28 h
 
@@ -97,10 +97,10 @@ Generated from `roadmap.csv`. Same 4 h/day + commute reading cadence; weekly gra
 
 ### 2027-02-15 → 2027-02-21 · Timed mixed sets + first spring CTF · target L3 · 28 h
 
-- **Practice:** Timed 4-hour sets: 2 web, 2 pwn/rev, 2 crypto, 2 forensics. Play DiceCTF/other spring qualifier as practice.
+- **Practice:** Timed 4-hour sets: 2 web, 2 pwn/rev, 2 crypto, 2 forensics. Play DiceCTF/other spring qualifier as practice. Writeup watch: final sweep for released Regionals material; close out the missed-challenge log with a one-page lesson per miss.
 - **Reading:** Past-year writeups for the CTFs on the calendar
 - **Events:** DiceCTF 2027 quals ~early Mar (expected); picoCTF registration opens Feb (expected)
-- **Gate:** Timed set: 6/10 solved in 4 h
+- **Gate:** Timed set: 6/10 solved in 4 h; M24 closed: every miss has a lesson
 
 ### 2027-02-22 → 2027-02-28 · picoCTF Gym + registration · target L3 · 28 h
 
@@ -146,7 +146,7 @@ Generated from `roadmap.csv`. Same 4 h/day + commute reading cadence; weekly gra
 
 - **Practice:** NCL Spring individual game (3-day window; expected mid April). Reverse medium sets.
 - **Reading:** 
-- **Events:** NCL Spring individual game ~Apr 9-11 (expected); team game ~Apr 23-25
+- **Events:** NCL Spring individual game ~Apr 9-11 (expected); team game ~Apr 23-25; UMassCTF 2027 ~Apr 9-11 (expected; no-AI division if repeated)
 - **Gate:** NCL individual: top-bracket percentile target (set after the practice game)
 
 ### 2027-04-12 → 2027-04-18 · NorthSec rehearsal 1 · target L3 · 28 h
@@ -192,12 +192,12 @@ Generated from `roadmap.csv`. Same 4 h/day + commute reading cadence; weekly gra
 - **Events:** DEF CON 35 CTF qualifier ~late May (expected; organiser BBB birds)
 - **Gate:** Debrief done; one weakness class closed
 
-### 2027-05-24 → 2027-05-30 · Nationals prep or Plan B · target L3 · 28 h
+### 2027-05-24 → 2027-05-30 · Track B by default: Google CTF prep · target L3 · 28 h
 
-- **Practice:** If you qualified: CyberSci Nationals prep (attack/defend + scenario chains). If not: pick Google CTF + HTB/Apocalypse as the June targets.
-- **Reading:** CyberSci past finals writeups
-- **Events:** CyberSci Nationals June 2027 (confirmed month; Ottawa hosted 2026, regional winners only)
-- **Gate:** Decision made: Track A (Nationals) or Track B (Google CTF)
+- **Practice:** Regionals went badly, so Nationals is out unless the organisers invite you (check once). Default Track B: Google CTF + HTB Apocalypse-style prep. If an invitation does arrive, switch to Track A (attack/defend + scenario chains).
+- **Reading:** Google CTF past writeups; CyberSci past finals writeups (if Track A)
+- **Events:** CyberSci Nationals June 2027 (regional winners only; not expected for you); Google CTF quals ~late Jun (expected)
+- **Gate:** Decision made and written: Track B (Google CTF) unless invited to Nationals
 
 ### 2027-05-31 → 2027-06-06 · Nationals prep 2: attack/defend + scenario chains · target L3 · 28 h
 
@@ -205,12 +205,12 @@ Generated from `roadmap.csv`. Same 4 h/day + commute reading cadence; weekly gra
 - **Reading:** CyberSci past finals writeups
 - **Gate:** Chain drill: foothold to domain admin in the time limit
 
-### 2027-06-07 → 2027-06-13 · Nationals window / Plan B · target L3 · 20 h
+### 2027-06-07 → 2027-06-13 · Google CTF window (Track B) · target L3 · 20 h
 
-- **Practice:** Track A: CyberSci Nationals (2026 was Jun 12-15; expect similar). Track B: full Google CTF prep.
+- **Practice:** Track B: full Google CTF prep and team rehearsal. Track A only if invited: CyberSci Nationals (2026 was Jun 12-15).
 - **Reading:** 
-- **Events:** CyberSci Nationals ~mid Jun (expected); Google CTF quals ~late Jun (expected)
-- **Gate:** MILESTONE: Nationals played, or Google CTF quals played
+- **Events:** Google CTF quals ~Jun 18-20 (expected); CyberSci Nationals ~mid Jun (invite only)
+- **Gate:** MILESTONE: Google CTF quals played (or Nationals if invited)
 
 ### 2027-06-14 → 2027-06-20 · Google CTF quals · target L3 · 24 h
 
@@ -320,7 +320,7 @@ Generated from `roadmap.csv`. Same 4 h/day + commute reading cadence; weekly gra
 
 - **Practice:** Refresh operations/competition-day-runbook.md for a team; NCL Fall practice game (expected early-mid Oct).
 - **Reading:** CyberSci sponsors/regionals info
-- **Events:** NCL Fall practice game ~Oct 11-17 (expected)
+- **Events:** NCL Fall practice game ~Oct 11-17 (expected); Huntress CTF 2027 Oct 1-Nov 1 (expected, solo track)
 - **Gate:** Runbook v2 tested in a rehearsal
 
 ### 2027-10-11 → 2027-10-17 · NCL individual game prep + Hackfest prep · target L3 · 28 h
@@ -367,7 +367,7 @@ Generated from `roadmap.csv`. Same 4 h/day + commute reading cadence; weekly gra
 
 - **Practice:** Debrief Regionals; start SANS Holiday Hack (usually opens mid-Nov); rest.
 - **Reading:** 
-- **Events:** SANS Holiday Hack 2027 opens ~mid Nov (expected)
+- **Events:** SANS Holiday Hack 2027 opens ~mid Nov (expected); LakeCTF quals ~Nov 26-27 (expected; strict no-LLM)
 - **Gate:** Regionals debrief written
 
 ### 2027-11-29 → 2027-12-05 · Advent of Cyber starts + team rehearsal · target L3 · 28 h

@@ -208,14 +208,43 @@ def cmd_render(rows):
             ms = sorted(csv.DictReader(f), key=lambda r: r["start"])
         out = ["# Competition milestones: Nov 2026 to Dec 2027", "",
                "Generated from `milestones.csv`. **confirmed** = the organiser's own page said so; **expected** = inferred from last year's pattern, so confirm before you pay or travel.",
-               "Priority: yes = a planned milestone, optional = play if the week allows, alt = an alternative to the event that weekend, skip = not for you.", "",
-               "| When | Event | Format | Confidence | Priority | Goal |", "|---|---|---|---|---|---|"]
+               "Priority: yes = a planned milestone, optional = play if the week allows, alt = an alternative to the event that weekend, skip = not for you.",
+               "**AI policy:** BANNED = organisers forbid AI; ALLOWED = organisers permit it; SPLIT = separate AI / no-AI experience or division; CHECK = no rule found, read the event rules before you play. A BANNED/SPLIT-no-AI event is also where you train without AI, which is the lane CyberSci used.", "",
+               "| When | Event | Who | AI policy | Confidence | Priority | Goal |", "|---|---|---|---|---|---|---|"]
         for r in ms:
             when = r["start"] if r["start"] == r["end"] else f"{r['start']} to {r['end']}"
-            out.append(f"| {when} | {r['event']} | {r['format']} | {r['confidence']} | {r['priority']} | {r['goal']} |")
+            out.append(f"| {when} | {r['event']} | {r.get('participation', '')} | {r.get('ai_policy', '').split(':')[0].split(' ')[0]} | {r['confidence']} | {r['priority']} | {r['goal']} |")
         out.append("")
+
+        def lane(title, pick):
+            hit = [r for r in ms if pick(r)]
+            return [f"### {title}", ""] + [f"- {r['start']} {r['event']} ({r['id']})" for r in hit] + [""]
+        part = lambda r: r.get("participation", "").lower()
+        ai = lambda r: r.get("ai_policy", "")
+        out += ["## Lanes", ""]
+        out += lane("Individual events (you alone)", lambda r: "individual" in part(r) or "both" in part(r) or "solo" in part(r))
+        out += lane("Group events (a team)", lambda r: "team" in part(r) or "both" in part(r))
+        out += lane("No-AI events (AI banned, or a no-AI division)", lambda r: ai(r).startswith(("BANNED", "SPLIT")))
+        out += lane("AI-permitted events (AI allowed, or an AI experience)", lambda r: ai(r).startswith(("ALLOWED", "SPLIT")))
+        out += ["## Qualification chains", "",
+                "Read left to right: what you must do to be allowed into the next event.", "",
+                "- CyberSci Regionals (M21, ~Nov 20 2027) -> win your region -> CyberSci Nationals 2028",
+                "- CyberSci Regionals 2026 (done, went badly) -> no Nationals 2027 unless invited -> Track B (Google CTF)",
+                "- NCL registration (M09) -> NCL Spring individual game -> NCL Spring team game (needs a registered team and captain) (M10); the same chain repeats in the fall (M18)",
+                "- Google CTF quals (M14) -> top teams invited to the Google CTF finals (not planned)",
+                "- DEF CON CTF qualifier (M12) -> top teams invited to the DEF CON finals (not planned)",
+                "- CSAW quals (M17) -> top teams invited to the CSAW finals in November (invite only)",
+                "- DiceCTF quals (M08) -> top teams invited to the onsite finals (not planned)",
+                "- LakeCTF quals (M27) -> top teams invited to the onsite finals in Lausanne in spring 2028",
+                "- ASIS quals (autumn, not on this plan) -> ASIS Finals (M05) (confirm your slot on CTFtime)",
+                "- NorthSec (M11): no qualifier, registration and ticket only; capacity is limited",
+                "- HTB University CTF (M03, M23): academic email on HTB plus a university team",
+                "- picoCTF (M07), Huntress CTF (M26), UIUCTF (M15), niteCTF (M04), Advent of Cyber (M02/M22), SANS Holiday Hack (M01): open, no qualification",
+                "- Hackfest (M19), BSides Ottawa (M20): paid ticket", ""]
         for r in ms:
             out += [f"### {r['id']} {r['event']}", "", f"- **Dates:** {r['start']} to {r['end']} ({r['confidence']})",
+                    f"- **Who plays:** {r.get('participation', '')}", f"- **AI policy:** {r.get('ai_policy', '')}",
+                    f"- **Qualification:** {r.get('qualification', '')}",
                     f"- **Who can play:** {r['who_can_play']}", f"- **Start preparing:** {r['prep_from'] or 'n/a'}",
                     f"- **Goal:** {r['goal']}"] + ([f"- **Notes:** {r['notes']}"] if r["notes"] else []) + [""]
         (TDIR / "MILESTONES.md").write_text("\n".join(out), encoding="utf-8")

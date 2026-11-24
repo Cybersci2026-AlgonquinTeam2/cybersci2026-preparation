@@ -24,7 +24,7 @@ P8 = "P8 Nationals + summer peak"
 P9 = "P9 Build + fall season"
 
 W = [
- (P5, "Debrief the qualifier + warm-up", "Mon: write the run record (what you solved, what stalled, minutes per flag, tools you reached for). Rank weaknesses by category. Redo every failed item. Advent of Cyber opens Dec 1: 30 min a day as a warm-up. Check CyberSci Regionals results.", "Your qualifier notes; Hacker Playbook 3 (web + AD chapters)", "W08 W13 W14 W15", "CyberSci Regionals results (check email/site); SANS Holiday Hack open Nov 18-Jan 5 (confirmed)", "Run record + top 3 weaknesses ranked; Advent of Cyber days 1-7 done", "L2", 28),
+ (P5, "Debrief the qualifier + warm-up", "Mon: write the run record (what you solved, what stalled, minutes per flag, tools you reached for). Regionals did not go well: rank weaknesses by category and redo every failed item from memory. Material plan: save the challenge list and your notes now; when the organisers release challenges or writeups, collect them all into external/PastChallenges and rebuild every challenge you missed in the lab (see M24). Advent of Cyber opens Dec 1: 30 min a day as a warm-up.", "Your qualifier notes; Hacker Playbook 3 (web + AD chapters)", "W08 W13 W14 W15", "CyberSci Regionals 2026 results + writeup release (M24); SANS Holiday Hack open Nov 18-Jan 5 (confirmed)", "Run record + top 3 weaknesses ranked + missed-challenge log started; Advent of Cyber days 1-7 done", "L2", 28),
  (P5, "Boxes + manual privesc", "VulnHub + Metasploitable; 2 HTB easy boxes; manual Linux privesc until linpeas is redundant. Use the mangui pages (man nmap, man getcap, man crontab) instead of searching the web.", "HackTricks: Linux + Windows privesc", "L05 L06 L07 L13", "Advent of Cyber Dec 1-24 (confirmed, free, daily)", "4 boxes rooted with written methodology", "L3", 28),
  (P5, "AD fundamentals + first team CTF", "GOAD or own Server 2022 lab; BloodHound; Kerberoast; pivoting with chisel/ligolo. Weekend: HTB University CTF (if your team is eligible) or niteCTF; do one, not both.", "The Hacker Recipes AD; ired.team notes", "L11 L12 L09", "HTB University CTF ~mid Dec (expected; needs academic email + team); niteCTF ~Dec 11-13 (expected)", "Domain admin via 2 paths from a cold start; first team-CTF results written up", "L3", 28),
  (P5, "Forensics + blue deepen (exam buffer)", "HTB Sherlocks; CyberDefenders medium; Sigma/Sysmon/Suricata; 3 one-page IR reports. Confirm your exam dates and cut hours if finals fall here.", "NIST 800-61; SANS DFIR posters; MITRE ATT&CK", "F08 F10 F12", "Advent of Cyber finishing; school finals (confirm dates)", "3 IR reports <1 page each", "L3", 20),
@@ -48,8 +48,8 @@ W = [
  (P7, "NorthSec rehearsal 2 + tool freeze", "Second rehearsal. Freeze tools and notes: offline mirror, cheat sheets, mangui installed in the VM.", "", "", "NorthSec 2027 CTF May 14-16, Montreal (confirmed; regular + AI experience)", "Tool freeze committed; travel/lodging booked", "L3", 28),
  (P7, "NorthSec taper + play", "Light review Mon-Wed, rest Thu, then play. NorthSec CTF Fri May 14 to Sun May 16.", "None: sleep", "", "NorthSec CTF May 14-16 (confirmed); NorthSec conference ~May 17-23 (unconfirmed)", "MILESTONE: NorthSec played; post-event debrief written within 48 h", "L3", 20),
  (P8, "Debrief + DEF CON quals window", "Debrief NorthSec; fix the 3 weakest categories. DEF CON CTF qualifier is expected in late May: play if time allows.", "NorthSec winners' writeups", "", "DEF CON 35 CTF qualifier ~late May (expected; organiser BBB birds)", "Debrief done; one weakness class closed", "L3", 28),
- (P8, "Nationals prep or Plan B", "If you qualified: CyberSci Nationals prep (attack/defend + scenario chains). If not: pick Google CTF + HTB/Apocalypse as the June targets.", "CyberSci past finals writeups", "", "CyberSci Nationals June 2027 (confirmed month; Ottawa hosted 2026, regional winners only)", "Decision made: Track A (Nationals) or Track B (Google CTF)", "L3", 28),
- (P8, "Nationals window / Plan B", "Track A: CyberSci Nationals (2026 was Jun 12-15; expect similar). Track B: full Google CTF prep.", "", "", "CyberSci Nationals ~mid Jun (expected); Google CTF quals ~late Jun (expected)", "MILESTONE: Nationals played, or Google CTF quals played", "L3", 20),
+ (P8, "Track B by default: Google CTF prep", "Regionals went badly, so Nationals is out unless the organisers invite you (check once). Default Track B: Google CTF + HTB Apocalypse-style prep. If an invitation does arrive, switch to Track A (attack/defend + scenario chains).", "Google CTF past writeups; CyberSci past finals writeups (if Track A)", "", "CyberSci Nationals June 2027 (regional winners only; not expected for you); Google CTF quals ~late Jun (expected)", "Decision made and written: Track B (Google CTF) unless invited to Nationals", "L3", 28),
+ (P8, "Google CTF window (Track B)", "Track B: full Google CTF prep and team rehearsal. Track A only if invited: CyberSci Nationals (2026 was Jun 12-15).", "", "", "Google CTF quals ~Jun 18-20 (expected); CyberSci Nationals ~mid Jun (invite only)", "MILESTONE: Google CTF quals played (or Nationals if invited)", "L3", 20),
  (P8, "Google CTF + summer reset", "Google CTF quals weekend if not clashing with Nationals; then one rest day, one lab day, one writeup day.", "Last year's Google CTF writeups", "", "Google CTF quals ~Jun 18-20 (expected)", "Writeups published for 3 solved challenges", "L3", 24),
  (P8, "Summer build 1: your own lab", "Build the dojo/lab you want: a home range with AD, web, and a monitored network (see dojo-platform-backlog).", "", "", "", "Lab rebuildable from one command/script", "L3", 28),
  (P8, "Summer build 2: tooling + notes", "Rewrite your notes as a searchable offline wiki; extend mangui guides from your real use; automate recon.", "", "", "", "Recon automation tested on 5 boxes", "L3", 28),
@@ -86,7 +86,7 @@ M = [
  ("M10", "2027-04-09", "2027-04-25", "NCL Spring 2027 games (individual + team)", "league", "online, individual then team", "Students", "expected", "2027-03-15", "yes", "Individual: set a percentile target after the practice game; team: play with your team", "2025: individual Apr 11-13, team Apr 25-27"),
  ("M11", "2027-05-14", "2027-05-16", "NorthSec 2027 CTF", "team CTF", "onsite Montreal (Bonsecours Market), teams of 8", "Teams of 8; regular and AI experiences", "confirmed", "2027-02-01", "yes", "Team of 8 registered; 1+ flag in each track; every member scores", "Official dates May 14-16; venue 'to be confirmed' on the registration page; the conference is ~May 17-23 (unconfirmed)"),
  ("M12", "2027-05-21", "2027-05-23", "DEF CON 35 CTF Qualifier (late May)", "team CTF", "online, jeopardy-style", "Open", "expected", "2027-05-17", "optional", "Play for exposure", "DC34 qualifier ran May 22-24, 2026; 2027 dates not yet announced"),
- ("M13", "2027-06-11", "2027-06-14", "CyberSci Nationals 2027", "national finals", "onsite, jeopardy + defence", "Regional winners; Ottawa hosted 2026 (Jun 12-15)", "expected", "2027-04-19", "yes (if qualified)", "Prep if you qualified; otherwise Track B (Google CTF)", "Official site: next national event June 2027; exact dates not posted"),
+ ("M13", "2027-06-11", "2027-06-14", "CyberSci Nationals 2027", "national finals", "onsite, jeopardy + defence", "Regional winners; Ottawa hosted 2026 (Jun 12-15)", "expected", "2027-04-19", "alt", "Not expected (Regionals went badly): Track B (Google CTF) is the default; switch only if invited", "Official site: next national event June 2027; exact dates not posted"),
  ("M14", "2027-06-18", "2027-06-20", "Google CTF 2027 Quals (late June)", "team CTF", "online, jeopardy", "Open", "expected", "2027-06-01", "optional", "1+ flag", "2026 quals Jun 19-21"),
  ("M15", "2027-07-24", "2027-07-26", "UIUCTF 2027 (late July)", "team CTF", "online, jeopardy", "Open", "expected", "2027-07-12", "optional", "3+ flags across 2 categories", "2026 ran Jul 25-27"),
  ("M16", "2027-08-05", "2027-08-08", "DEF CON 35", "conference", "Las Vegas", "Paid; optional", "confirmed", "", "optional", "Watch talks and CTF/village writeups", ""),
@@ -97,7 +97,52 @@ M = [
  ("M21", "2027-11-20", "2027-11-20", "CyberSci Regionals 2027-28", "regional qualifier", "onsite per region", "Student teams; regional winners to Nationals", "expected", "2027-09-06", "yes", "Team registered; qualify for Nationals 2028", "2026 Regionals were Sat Nov 21, 2025 Nov 22; sponsors page for 2027-28 not yet posted"),
  ("M22", "2027-12-01", "2027-12-24", "TryHackMe Advent of Cyber 2027", "beginner daily", "online, free", "Open", "expected", "2027-12-01", "optional", "Finish all days", ""),
  ("M23", "2027-12-10", "2027-12-12", "HTB University CTF 2027 (mid-Dec)", "team CTF", "online, jeopardy", "University teams", "expected", "2027-11-22", "yes", "Team result in the top third; writeups", "2023: Dec 8-10; 2024: Dec 13-15"),
+ ("M24", "2026-11-21", "2027-01-31", "CyberSci Regionals 2026: collect challenges + writeups", "debrief / material", "online + local files", "You", "expected", "2026-11-23", "yes", "Every released challenge and writeup saved to external/PastChallenges; every challenge you missed rebuilt and solved in the lab; one-page lesson per miss", "Release timing is unknown: CyberSci has published past challenges and writeups before (see the Past Challenges books), so check the organisers' channels at the start of each month and watch for the 2026 release"),
+ ("M25", "2027-04-09", "2027-04-11", "UMassCTF 2027 (Old Fashioned division if repeated)", "team CTF", "online, jeopardy", "Open", "expected", "2027-03-29", "optional", "Play in the no-autonomous-AI division for a clean, no-AI score; 3+ flags", "2026 ran Apr 10-12 with a Regular and an Old Fashioned division (no prizes in the latter); 2027 not announced"),
+ ("M26", "2027-10-01", "2027-11-01", "Huntress CTF 2027 (October, daily challenges)", "individual/team CTF", "online, jeopardy, daily release", "Open; solo or any team size", "expected", "2027-09-20", "yes", "Solo track: solve a flag a day, finish 80%+", "2026 ran Oct 1 to Nov 1 (third-party guide); an AI Arena was part of 2026; 2027 not announced"),
+ ("M27", "2027-11-26", "2027-11-27", "LakeCTF 2027-28 quals (strict no-LLM)", "team CTF", "online, jeopardy", "Open; finals onsite Lausanne in spring", "expected", "2027-11-08", "optional", "Play as a no-AI benchmark; 2+ flags", "LakeCTF bans all generative AI (organiser page); the 2025 quals ran Nov 28-29; 2027 date not announced; finals fall after Dec 2027"),
 ]
+
+# id -> (participation, ai_policy, qualification link). ai_policy values: BANNED, ALLOWED, SPLIT, CHECK (rules not found, read before the event).
+EXTRA = {
+ "M01": ("individual", "CHECK: no AI rule found", "Open to all; no qualification. Feeds: writeup skills for every web/forensics event"),
+ "M02": ("individual", "CHECK: learning event, no AI rule found", "Open to all; no qualification. Feeds: M03 warm-up"),
+ "M03": ("team", "CHECK: read the 2026 rules page", "Needs a university team and an academic email verified on HTB; no qualification beyond that. Feeds: M23 (next year's team)"),
+ "M04": ("team", "CHECK: read the rules page", "Open; no qualification. Alternative to M03 (same weekend)"),
+ "M05": ("team", "CHECK: read the rules page", "Finals: you play only if your team is on the invited list from the ASIS qualifier or has an open slot (confirm on CTFtime); otherwise watch the writeups"),
+ "M06": ("team", "CHECK: onsite event", "Onsite finals follow an online qualifier; you are not planning for it. Read the writeups"),
+ "M07": ("both (solo or team)", "CHECK: 2023 rules placed no limits on tools; read the 2027 rules", "Open; no qualification. Feeds: confidence and speed for M10/M11"),
+ "M08": ("team", "CHECK: read the rules page", "Quals are open; top quals teams are invited to the onsite finals (not planned)"),
+ "M09": ("individual", "n/a (registration)", "Student status needed; registration unlocks M10 and the NCL Gym"),
+ "M10": ("both: individual game, then team game", "ALLOWED (NCL FAQ: AI may assist; use it responsibly and read the Rules of Conduct)", "Needs M09 registration. The team game needs a registered team with a captain. Your individual score ranks you on NCL's scouting report"),
+ "M11": ("team of 8", "SPLIT: pick the Regular or the AI experience when you register (same challenges)", "No qualifier; ticket + registration, capacity limited, so register in the earliest window. Feeds: tool freeze and the rehearsals before it"),
+ "M12": ("team", "CHECK: read the rules page", "Quals are open; top teams advance to the DEF CON finals in Las Vegas (not planned)"),
+ "M13": ("team", "BANNED: assume the CyberSci no-AI rule continues", "Needs to win your region at CyberSci Regionals (M21). Not expected this year (Regionals went badly); only if invited"),
+ "M14": ("team", "CHECK: read the rules page", "Quals are open; top teams advance to the Google CTF finals (not planned)"),
+ "M15": ("team", "CHECK: read the rules page", "Open; no qualification"),
+ "M16": ("conference", "n/a", "Paid ticket"),
+ "M17": ("team (or solo team)", "CHECK: CSAW also runs a separate LLM attack challenge, read which rules apply to the quals", "Quals are open; top teams get invited to the CSAW finals in November (invite only; most invited teams are North American)"),
+ "M18": ("both: individual game, then team game", "ALLOWED (NCL FAQ: AI may assist; use it responsibly)", "Needs NCL Fall registration. Practice game then individual, then team"),
+ "M19": ("both (onsite, solo or team)", "CHECK: read the CTF rules when published", "Paid ticket; CTF may need a separate ticket"),
+ "M20": ("both (onsite)", "CHECK: read the CTF rules when published", "Paid ticket"),
+ "M21": ("team", "BANNED (organisers said so in 2026; confirm for 2027)", "Register a student team; the winning team in each region qualifies for CyberSci Nationals (M13 for 2028)"),
+ "M22": ("individual", "CHECK: learning event, no AI rule found", "Open to all; no qualification"),
+ "M23": ("team", "CHECK: read the 2027 rules page", "Needs a university team and an academic email; no qualification beyond that"),
+ "M24": ("individual (your own study)", "n/a: the AI ban is for the event, not for studying afterwards (your own rule to set)", "Needs the organisers to release challenges/writeups; if they do not, use the past-challenge archive and your own run record. Feeds: every team and individual event after it"),
+ "M25": ("team", "SPLIT: the Old Fashioned division asks for no autonomous AI; LLMs as a learning tool are allowed there", "Open; no qualification; you choose Regular or Old Fashioned (not both)"),
+ "M26": ("both (solo or team, no team-size limit)", "SPLIT: the 2026 edition ran an AI Arena; check how the 2027 rules treat AI", "Open; no qualification; register on the Huntress CTF site in September or October"),
+ "M27": ("team", "BANNED (LakeCTF no-LLM policy: no agentic workflows, no chat window, no autocomplete)", "Open quals; top teams are invited to the onsite finals in Lausanne in spring (not planned)"),
+}
+
+# Extra text appended to a week (week_start -> field -> text). Used for the Regionals-material watch and new events.
+APPEND = {
+ "2026-12-21": {"practice": "Writeup watch: check the organisers' channels for released Regionals challenges or writeups; save them, rebuild one missed challenge.", "gate": "Missed-challenge log updated"},
+ "2027-01-18": {"practice": "Writeup watch: collect any released Regionals challenges/writeups into external/PastChallenges; rebuild two missed challenges.", "gate": "Regionals material collected or request sent to organisers"},
+ "2027-02-15": {"practice": "Writeup watch: final sweep for released Regionals material; close out the missed-challenge log with a one-page lesson per miss.", "gate": "M24 closed: every miss has a lesson"},
+ "2027-04-05": {"events": "UMassCTF 2027 ~Apr 9-11 (expected; no-AI division if repeated)"},
+ "2027-10-04": {"events": "Huntress CTF 2027 Oct 1-Nov 1 (expected, solo track)"},
+ "2027-11-22": {"events": "LakeCTF quals ~Nov 26-27 (expected; strict no-LLM)"},
+}
 
 
 def _new(phase, theme, prac, read, bl, ev, gate, lvl, hrs):
@@ -167,16 +212,25 @@ def main():
             ov = OVERRIDES.get(d.isoformat(), {})
             theme, prac, ev = ov.get("theme", theme), ov.get("practice", prac), ov.get("events", ev)
             read, gate = ov.get("reading", read), ov.get("gate", gate)
+            ap = APPEND.get(d.isoformat(), {})
+            if ap.get("practice"):
+                prac = (prac + " " + ap["practice"]).strip()
+            if ap.get("events"):
+                ev = (ev + "; " + ap["events"]).strip("; ")
+            if ap.get("gate"):
+                gate = (gate + "; " + ap["gate"]).strip("; ")
             w.writerow([d.isoformat(), (d + timedelta(days=6)).isoformat(), ph, theme, prac, read, bl, ev, gate, lvl, hrs])
             d += timedelta(days=7)
         assert d - timedelta(days=1) == date(2027, 12, 26), d
         print(f"roadmap.csv: {len(rows)} weeks, {START} -> {d - timedelta(days=1)}, {sum(x[8] for x in rows)} h")
-    mc = ["id", "start", "end", "event", "type", "format", "who_can_play", "confidence", "prep_from", "priority", "goal", "notes"]
+    mc = ["id", "start", "end", "event", "type", "format", "who_can_play", "confidence", "prep_from", "priority", "goal", "notes",
+          "participation", "ai_policy", "qualification"]
+    assert {r[0] for r in M} == set(EXTRA), set(EXTRA) ^ {r[0] for r in M}
     with (T / "milestones.csv").open("w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
         w.writerow(mc)
         for r in M:
-            w.writerow(r)
+            w.writerow(list(r) + list(EXTRA[r[0]]))
     print(f"milestones.csv: {len(M)} events")
 
 
