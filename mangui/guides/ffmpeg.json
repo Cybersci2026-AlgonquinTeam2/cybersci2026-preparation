@@ -1,0 +1,180 @@
+{
+ "name": "ffmpeg",
+ "section": "1",
+ "one_line": "convert, cut and inspect audio and video",
+ "plain": [
+  "`ffmpeg` reads media files (video, audio, images), changes them and writes new ones. In CTFs it is the tool for hidden things in media: extracting every frame of a video, pulling out the audio track, slowing a recording, or turning a sound into a picture of its spectrum.",
+  "The shape is `ffmpeg [input options] -i INPUT [output options] OUTPUT`. Options before `-i` apply to the input, options after apply to the output. `ffprobe` (same package) only inspects a file and changes nothing."
+ ],
+ "when": [
+  "Pull the audio out of a video, or the frames out of a video.",
+  "Cut a short section to look at it closely.",
+  "Convert a strange format into one your player opens.",
+  "Inspect streams and metadata for hidden tracks or subtitles.",
+  "Speed up, slow down or reverse audio for a puzzle."
+ ],
+ "examples": [
+  {
+   "title": "Inspect first",
+   "cmd": "ffprobe -hide_banner clip.mp4",
+   "explain": "Lists every stream: video, audio, subtitles, extra data tracks. A second audio stream or a data stream is often the hiding place."
+  },
+  {
+   "title": "Extract the audio",
+   "cmd": "ffmpeg -i clip.mp4 -vn -acodec copy audio.m4a",
+   "explain": "-vn means no video; -acodec copy copies the audio without re-encoding (no quality loss)."
+  },
+  {
+   "title": "Convert audio to WAV",
+   "cmd": "ffmpeg -i clip.mp3 out.wav",
+   "explain": "WAV is raw and easy for other tools (sox, Audacity, Python) to read."
+  },
+  {
+   "title": "Every frame as a picture",
+   "cmd": "mkdir frames\nffmpeg -i clip.mp4 frames/f%05d.png",
+   "explain": "Writes frame 1, 2, 3 ... as PNGs. Scroll through them or run exiftool/zsteg on them: a flag can sit on one frame."
+  },
+  {
+   "title": "One frame per second",
+   "cmd": "ffmpeg -i clip.mp4 -vf fps=1 frames/s%04d.png",
+   "explain": "-vf is a video filter; fps=1 keeps one frame a second so you get far fewer pictures."
+  },
+  {
+   "title": "Cut a section",
+   "cmd": "ffmpeg -ss 00:01:10 -to 00:01:25 -i clip.mp4 -c copy part.mp4",
+   "explain": "-ss starts, -to ends; -c copy copies the streams unchanged, so it is instant."
+  },
+  {
+   "title": "Slow audio down",
+   "cmd": "ffmpeg -i morse.wav -filter:a atempo=0.5 slow.wav",
+   "explain": "atempo=0.5 plays at half speed without changing pitch. Good for Morse and fast spoken text."
+  },
+  {
+   "title": "Reverse audio",
+   "cmd": "ffmpeg -i clip.wav -af areverse rev.wav",
+   "explain": "A hidden message played backwards is a classic puzzle."
+  },
+  {
+   "title": "Subtitles out",
+   "cmd": "ffmpeg -i clip.mkv -map 0:s:0 subs.srt",
+   "explain": "-map picks a stream: the first subtitle stream of input 0."
+  },
+  {
+   "title": "Spectrogram picture",
+   "cmd": "ffmpeg -i sound.wav -lavfi showspectrumpic=s=1024x512 spec.png",
+   "explain": "Draws the frequencies over time. Text or an image drawn into the spectrum shows up as a picture."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-i FILE",
+   "plain": "Input file (use several times for several inputs).",
+   "use": "Always."
+  },
+  {
+   "flag": "-y / -n",
+   "plain": "Overwrite output without asking / never overwrite.",
+   "use": "Scripts."
+  },
+  {
+   "flag": "-ss TIME",
+   "plain": "Start position (before -i seeks fast, after -i is exact).",
+   "use": "Cutting."
+  },
+  {
+   "flag": "-to TIME / -t DURATION",
+   "plain": "End position / length to process.",
+   "use": "Cutting."
+  },
+  {
+   "flag": "-vn / -an / -sn / -dn",
+   "plain": "Drop video / audio / subtitle / data streams.",
+   "use": "Extracting one kind."
+  },
+  {
+   "flag": "-c CODEC / -c:v / -c:a",
+   "plain": "Choose the codec; `copy` keeps the stream unchanged.",
+   "use": "Fast cuts, conversion."
+  },
+  {
+   "flag": "-map SPEC",
+   "plain": "Choose exactly which streams go to the output (for example 0:a:1).",
+   "use": "Several audio tracks."
+  },
+  {
+   "flag": "-vf FILTER / -af FILTER",
+   "plain": "Video / audio filter chain.",
+   "use": "Frames, speed, reverse, scale."
+  },
+  {
+   "flag": "-filter_complex GRAPH",
+   "plain": "Filters that combine several inputs or outputs.",
+   "use": "Spectrograms, overlays."
+  },
+  {
+   "flag": "-r FPS",
+   "plain": "Frame rate.",
+   "use": "Frame extraction."
+  },
+  {
+   "flag": "-s WxH",
+   "plain": "Frame size.",
+   "use": "Scaling."
+  },
+  {
+   "flag": "-b:v / -b:a",
+   "plain": "Video / audio bitrate.",
+   "use": "File size."
+  },
+  {
+   "flag": "-ar / -ac",
+   "plain": "Audio sample rate / channel count.",
+   "use": "Preparing audio for other tools."
+  },
+  {
+   "flag": "-f FORMAT",
+   "plain": "Force the container format.",
+   "use": "Odd extensions."
+  },
+  {
+   "flag": "-frames:v N",
+   "plain": "Stop after N video frames.",
+   "use": "Grab one image."
+  },
+  {
+   "flag": "-metadata KEY=VALUE",
+   "plain": "Write metadata.",
+   "use": "Rare."
+  },
+  {
+   "flag": "-hide_banner / -loglevel LEVEL",
+   "plain": "Quieter output.",
+   "use": "Readable terminals."
+  },
+  {
+   "flag": "-formats / -codecs / -filters",
+   "plain": "List what this build supports.",
+   "use": "Checking support."
+  },
+  {
+   "flag": "ffprobe -show_streams -show_format",
+   "plain": "ffprobe options that print stream and container details.",
+   "use": "Inspecting files."
+  }
+ ],
+ "mistakes": [
+  "Putting -ss after -i on a long file and waiting minutes: put it before -i for a fast seek.",
+  "Re-encoding when you only needed a copy (use -c copy).",
+  "Forgetting that -y overwrites the output without asking.",
+  "Missing a second audio or data stream: always ffprobe first."
+ ],
+ "try": [
+  "ffprobe a video you own and list its streams.",
+  "Extract one frame a second and look for text.",
+  "Slow a Morse recording to half speed and decode it by ear.",
+  "Make a spectrogram of a WAV and read it."
+ ],
+ "see_also": "ffprobe(1), sox(1), exiftool(1), binwalk(1), steghide(1), Audacity, Sonic Visualiser.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output.",
+ "partial": true
+}

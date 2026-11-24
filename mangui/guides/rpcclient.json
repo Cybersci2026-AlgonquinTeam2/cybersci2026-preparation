@@ -1,0 +1,163 @@
+{
+ "name": "rpcclient",
+ "section": "1",
+ "one_line": "talk to a Windows or Samba machine over MS-RPC",
+ "plain": [
+  "`rpcclient` connects to a Windows (or Samba) host over SMB and runs remote procedure calls: list users, groups and shares, read the password policy, translate names to SIDs. It is a staple of Windows enumeration in labs.",
+  "A null session (empty user and password) is accepted by some old or misconfigured hosts. Modern ones refuse it; with valid credentials you can usually do much more."
+ ],
+ "when": [
+  "Enumerate domain users and groups.",
+  "Read the password policy before any guessing.",
+  "Look up a user's full details or their group memberships.",
+  "List shares and server information."
+ ],
+ "examples": [
+  {
+   "title": "Null session",
+   "cmd": "rpcclient -U '' -N 10.10.10.5",
+   "explain": "-U '' is an empty user, -N means no password. If it connects you land at an `rpcclient $>` prompt."
+  },
+  {
+   "title": "With credentials",
+   "cmd": "rpcclient -U 'corp\\alice%Passw0rd' 10.10.10.5",
+   "explain": "The format is DOMAIN\\user%password. Use -U alice and type the password when asked to keep it out of the history."
+  },
+  {
+   "title": "One command, then exit",
+   "cmd": "rpcclient -U '' -N -c 'enumdomusers' 10.10.10.5",
+   "explain": "-c runs a command and returns, good for scripts."
+  },
+  {
+   "title": "List users and groups",
+   "cmd": "enumdomusers\nenumdomgroups",
+   "explain": "Prints names with their RIDs (numeric ids). The rid 0x1f4 is Administrator."
+  },
+  {
+   "title": "Details of one user",
+   "cmd": "queryuser 0x1f4\nquerygroupmem 0x200",
+   "explain": "queryuser shows a user's full record; querygroupmem lists the members of a group by RID."
+  },
+  {
+   "title": "Password policy",
+   "cmd": "getdompwinfo",
+   "explain": "Shows the minimum length and the lockout rules: read it before attempting any password guessing."
+  },
+  {
+   "title": "Domain info",
+   "cmd": "querydominfo\nlsaquery\nsrvinfo",
+   "explain": "Domain name, SID and server details."
+  },
+  {
+   "title": "Names and SIDs",
+   "cmd": "lookupnames administrator\nlookupsids S-1-5-21-...-500",
+   "explain": "Translates between account names and SIDs."
+  },
+  {
+   "title": "Shares",
+   "cmd": "netshareenumall",
+   "explain": "Lists the shares the server offers."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-U USER[%PASS]",
+   "plain": "User name (and password).",
+   "use": "Always."
+  },
+  {
+   "flag": "-N",
+   "plain": "No password.",
+   "use": "Null sessions."
+  },
+  {
+   "flag": "-W DOMAIN",
+   "plain": "Domain or workgroup.",
+   "use": "Domain accounts."
+  },
+  {
+   "flag": "-c 'CMD; CMD'",
+   "plain": "Run commands then exit.",
+   "use": "Scripts."
+  },
+  {
+   "flag": "-p PORT",
+   "plain": "TCP port.",
+   "use": "Non-standard SMB."
+  },
+  {
+   "flag": "-I ADDR",
+   "plain": "Server IP address.",
+   "use": "When the name does not resolve."
+  },
+  {
+   "flag": "-k",
+   "plain": "Use Kerberos authentication.",
+   "use": "Kerberos-only domains."
+  },
+  {
+   "flag": "-A FILE",
+   "plain": "Authentication file.",
+   "use": "Keeping the password out of the history."
+  },
+  {
+   "flag": "-d LEVEL / -s FILE",
+   "plain": "Debug level / use a smb.conf file.",
+   "use": "Troubleshooting."
+  },
+  {
+   "flag": "enumdomusers / enumdomgroups",
+   "plain": "List users / groups.",
+   "use": "First enumeration."
+  },
+  {
+   "flag": "queryuser RID / querygroup RID / querygroupmem RID",
+   "plain": "Details of a user / group / group members.",
+   "use": "Following up a name."
+  },
+  {
+   "flag": "getdompwinfo / getusrdompwinfo RID",
+   "plain": "Domain password policy / per-user policy.",
+   "use": "Before password attacks."
+  },
+  {
+   "flag": "lookupnames / lookupsids",
+   "plain": "Name to SID and back.",
+   "use": "Mapping accounts."
+  },
+  {
+   "flag": "netshareenum / netshareenumall / netsharegetinfo",
+   "plain": "Shares and details.",
+   "use": "Finding shares."
+  },
+  {
+   "flag": "srvinfo / lsaquery / querydominfo",
+   "plain": "Server, domain SID, domain information.",
+   "use": "Context."
+  },
+  {
+   "flag": "enumprivs / lsaenumsid",
+   "plain": "Privileges / SIDs known to the host.",
+   "use": "Privilege discovery."
+  },
+  {
+   "flag": "help",
+   "plain": "List every command at the prompt.",
+   "use": "Always."
+  }
+ ],
+ "mistakes": [
+  "Expecting a null session to work on a current Windows host: try credentials, or another tool.",
+  "Forgetting that RIDs are hex (0x1f4 not 1f4 when typed).",
+  "Putting a password in -U in the shell history: set it interactively or use -A.",
+  "Ignoring the password policy and locking accounts out in a lab you share."
+ ],
+ "try": [
+  "Connect to a lab host with a null session and run srvinfo.",
+  "Enumerate users and groups, then query the first three users.",
+  "Read the password policy and write down the lockout threshold."
+ ],
+ "see_also": "smbclient(1), enum4linux(1), ldapsearch(1), net(8), nmap(1) (smb-* scripts), impacket, crackmapexec / netexec.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output.",
+ "partial": true
+}

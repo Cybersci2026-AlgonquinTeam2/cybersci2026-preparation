@@ -1,0 +1,112 @@
+{
+ "name": "proxychains4",
+ "section": "1",
+ "one_line": "force any TCP program through a proxy (SOCKS or HTTP)",
+ "plain": [
+  "`proxychains4` (also called proxychains) wraps another command so that its TCP connections go through one or more proxies you list in a config file. The program does not need to know about proxies: proxychains intercepts its network calls.",
+  "In security work it pairs with a SOCKS tunnel (chisel, `ssh -D`) so you can run nmap, curl, smbclient or other tools against an internal network that you reach only through a foothold."
+ ],
+ "when": [
+  "Use ordinary tools against an internal network through a pivot.",
+  "Send traffic through Tor or a chain of proxies.",
+  "Test what a program does when it has to go through a proxy."
+ ],
+ "examples": [
+  {
+   "title": "Basic use",
+   "cmd": "proxychains4 curl http://10.10.10.50",
+   "explain": "Runs curl, but its connection goes through the proxy named in the config."
+  },
+  {
+   "title": "Quiet output",
+   "cmd": "proxychains4 -q nmap -sT -Pn -p 80,445 10.10.10.50",
+   "explain": "-q hides the [proxychains] lines. nmap must use -sT (TCP connect) and -Pn (no ping): SOCKS carries only TCP connections."
+  },
+  {
+   "title": "Set up the proxy",
+   "cmd": "sudo nano /etc/proxychains4.conf\n# at the bottom, in [ProxyList]:\nsocks5 127.0.0.1 1080",
+   "explain": "Add the proxy at the end of the file. 1080 is where chisel R:socks and ssh -D listen by default."
+  },
+  {
+   "title": "Use your own config file",
+   "cmd": "proxychains4 -f ./pc.conf smbclient -L //10.10.10.50 -N",
+   "explain": "-f points to a config for this one job instead of the system file."
+  },
+  {
+   "title": "DNS through the proxy",
+   "cmd": "# in proxychains4.conf:\nproxy_dns",
+   "explain": "Makes name lookups also go through the proxy so internal names resolve and nothing leaks to your own DNS."
+  },
+  {
+   "title": "A whole shell through the proxy",
+   "cmd": "proxychains4 -q bash",
+   "explain": "Every program started from that shell is wrapped (works for dynamically linked programs)."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-q",
+   "plain": "Quiet: hide proxychains messages.",
+   "use": "Clean output."
+  },
+  {
+   "flag": "-f FILE",
+   "plain": "Use this config file.",
+   "use": "Per-job proxies."
+  },
+  {
+   "flag": "[ProxyList] type host port [user pass]",
+   "plain": "A proxy line. Types: socks5, socks4, http.",
+   "use": "Defining the proxy."
+  },
+  {
+   "flag": "strict_chain",
+   "plain": "Config: use every proxy in order, fail if one is down.",
+   "use": "Fixed chain."
+  },
+  {
+   "flag": "dynamic_chain",
+   "plain": "Config: use the proxies that are up, in order.",
+   "use": "Default for flaky proxies."
+  },
+  {
+   "flag": "random_chain",
+   "plain": "Config: pick proxies at random.",
+   "use": "Anonymity."
+  },
+  {
+   "flag": "chain_len = N",
+   "plain": "Config: chain length for random_chain.",
+   "use": "Anonymity."
+  },
+  {
+   "flag": "proxy_dns",
+   "plain": "Config: send DNS through the proxy.",
+   "use": "Internal names."
+  },
+  {
+   "flag": "tcp_read_time_out / tcp_connect_time_out",
+   "plain": "Config: time-outs in milliseconds.",
+   "use": "Slow tunnels."
+  },
+  {
+   "flag": "localnet NET/MASK",
+   "plain": "Config: do not proxy this network.",
+   "use": "Keeping local traffic direct."
+  }
+ ],
+ "mistakes": [
+  "Running nmap with the default SYN scan or with ping: it silently fails. Use -sT -Pn.",
+  "Forgetting to start the tunnel first (the connection is refused on 127.0.0.1:1080).",
+  "Trying to proxy UDP or ICMP: only TCP works.",
+  "Static binaries and some Go programs ignore proxychains because they do not use the system libraries."
+ ],
+ "try": [
+  "Start `ssh -D 1080 user@host` to a lab machine and curl an internal page through proxychains.",
+  "Pair it with a chisel R:socks tunnel and scan a lab subnet.",
+  "Compare a scan with and without proxy_dns."
+ ],
+ "see_also": "chisel(1), ssh(1) (-D), tor(1), nmap(1), socat(1), curl(1). The command is also installed as `proxychains`.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output.",
+ "partial": true
+}

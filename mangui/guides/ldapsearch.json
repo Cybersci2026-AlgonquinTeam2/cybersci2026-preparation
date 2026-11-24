@@ -1,0 +1,154 @@
+{
+ "name": "ldapsearch",
+ "section": "1",
+ "one_line": "query an LDAP directory (such as Active Directory)",
+ "plain": [
+  "`ldapsearch` asks an LDAP server questions. LDAP is the directory service behind Active Directory: it holds users, groups, computers and policies. The shape is `ldapsearch -H ldap://SERVER -x -b BASE FILTER ATTRIBUTES`.",
+  "Two ideas: the BASE is where in the directory tree you start (for example `dc=corp,dc=local`), and the FILTER says what to find (`(objectClass=user)`). Many servers allow an anonymous bind (no password) to read a little: a classic first enumeration step in a lab."
+ ],
+ "when": [
+  "List the naming contexts of a domain controller.",
+  "Enumerate users, groups and computers with valid credentials.",
+  "Find descriptions or notes that contain a password (a common CTF clue).",
+  "Check whether anonymous access is allowed."
+ ],
+ "examples": [
+  {
+   "title": "Find the base DN",
+   "cmd": "ldapsearch -x -H ldap://10.10.10.2 -s base namingContexts",
+   "explain": "-x is simple authentication (no SASL), -s base asks only about the root entry. namingContexts shows the base names to use next."
+  },
+  {
+   "title": "Anonymous search",
+   "cmd": "ldapsearch -x -H ldap://10.10.10.2 -b 'dc=corp,dc=local'",
+   "explain": "Tries to read everything without a password. Often refused, sometimes a few entries come back."
+  },
+  {
+   "title": "List users",
+   "cmd": "ldapsearch -x -H ldap://10.10.10.2 -D 'corp\\alice' -w 'Passw0rd' -b 'dc=corp,dc=local' '(objectClass=user)' sAMAccountName description",
+   "explain": "-D is the account, -w the password. The final words are attributes to show: names and descriptions (descriptions sometimes hold passwords)."
+  },
+  {
+   "title": "Clean output",
+   "cmd": "ldapsearch -LLL -x -H ldap://10.10.10.2 -b 'dc=corp,dc=local' '(objectClass=user)' sAMAccountName",
+   "explain": "-LLL removes comments and version lines, leaving tidy entries you can parse."
+  },
+  {
+   "title": "One user",
+   "cmd": "ldapsearch -LLL -x -H ldap://10.10.10.2 -D 'alice@corp.local' -W -b 'dc=corp,dc=local' '(sAMAccountName=bob)'",
+   "explain": "-W asks for the password without putting it in your shell history."
+  },
+  {
+   "title": "Groups and members",
+   "cmd": "ldapsearch -LLL -x -H ldap://10.10.10.2 -D 'alice@corp.local' -W -b 'dc=corp,dc=local' '(&(objectClass=group)(cn=Domain Admins))' member",
+   "explain": "(&(A)(B)) means A and B. This lists who is in Domain Admins."
+  },
+  {
+   "title": "Encrypted connection",
+   "cmd": "ldapsearch -x -H ldaps://10.10.10.2 -D 'alice@corp.local' -W -b 'dc=corp,dc=local' '(cn=alice)'",
+   "explain": "ldaps:// uses TLS; -ZZ on a plain ldap:// URL starts TLS and fails if it cannot."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-H URI",
+   "plain": "Server address: ldap://host or ldaps://host.",
+   "use": "Always."
+  },
+  {
+   "flag": "-x",
+   "plain": "Simple authentication instead of SASL.",
+   "use": "Almost always in labs."
+  },
+  {
+   "flag": "-D DN",
+   "plain": "The account to bind as.",
+   "use": "Authenticated searches."
+  },
+  {
+   "flag": "-w PASS / -W / -y FILE",
+   "plain": "Password on the command line / prompt / from a file.",
+   "use": "Prefer -W or -y: -w shows in the process list."
+  },
+  {
+   "flag": "-b BASE",
+   "plain": "Search base.",
+   "use": "Always."
+  },
+  {
+   "flag": "-s SCOPE",
+   "plain": "base, one or sub (default sub).",
+   "use": "base for the root entry."
+  },
+  {
+   "flag": "-LLL",
+   "plain": "Plain LDIF with no comments.",
+   "use": "Parsing results."
+  },
+  {
+   "flag": "-z N / -l N",
+   "plain": "Size limit / time limit.",
+   "use": "Large directories."
+  },
+  {
+   "flag": "-Z / -ZZ",
+   "plain": "Start TLS (and require it).",
+   "use": "Encrypted connections."
+  },
+  {
+   "flag": "-E EXT",
+   "plain": "Search extension, such as paged results (pr=1000).",
+   "use": "Directories with many entries."
+  },
+  {
+   "flag": "-o OPT",
+   "plain": "Options such as nettimeout.",
+   "use": "Slow networks."
+  },
+  {
+   "flag": "-f FILE",
+   "plain": "Run a search for each line of a file.",
+   "use": "Batches."
+  },
+  {
+   "flag": "-n",
+   "plain": "Show what would be done without doing it.",
+   "use": "Testing."
+  },
+  {
+   "flag": "-v / -d LEVEL",
+   "plain": "Verbose / debug.",
+   "use": "Connection problems."
+  },
+  {
+   "flag": "-M",
+   "plain": "Manage DSA IT control.",
+   "use": "Rare."
+  },
+  {
+   "flag": "FILTER",
+   "plain": "The search filter, for example (objectClass=user) or (&(a=1)(b=2)).",
+   "use": "Choosing what to find."
+  },
+  {
+   "flag": "ATTRIBUTES",
+   "plain": "Which fields to print.",
+   "use": "Less noise."
+  }
+ ],
+ "mistakes": [
+  "Using the wrong base DN: read namingContexts first.",
+  "Putting a password with -w in the shell history: use -W.",
+  "Forgetting the quotes around a filter, so the shell mangles the parentheses.",
+  "Expecting anonymous binds to work on modern servers: most refuse them."
+ ],
+ "try": [
+  "Ask a lab domain controller for its namingContexts.",
+  "List sAMAccountName for every user and read the descriptions.",
+  "Find the members of a privileged group.",
+  "Compare the result with BloodHound's view of the same domain."
+ ],
+ "see_also": "ldapadd(1), ldapmodify(1), ldapwhoami(1), nmap(1) (ldap-* scripts), bloodhound(1), impacket, rpcclient(1), smbclient(1).",
+ "captured_with": "Examples are written to explain a technique; they are not captured output.",
+ "partial": true
+}

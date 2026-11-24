@@ -1,0 +1,179 @@
+{
+ "name": "sox",
+ "section": "1",
+ "one_line": "the Swiss Army knife of sound processing",
+ "plain": [
+  "`sox` converts, trims, speeds up, reverses and analyses audio files. Its companion `play` plays a file and `rec` records. For CTF audio puzzles it is quick for the jobs that need no window: reverse a clip, change its speed, draw a spectrogram, read the statistics.",
+  "The shape is `sox [global options] INPUT [format options] OUTPUT [effect ...]`. Effects come last and are chained left to right."
+ ],
+ "when": [
+  "Draw a spectrogram of a suspicious sound.",
+  "Reverse, speed up or slow down a clip.",
+  "Convert between WAV, MP3, FLAC and raw data.",
+  "Read file information and statistics.",
+  "Trim a short piece to listen to it."
+ ],
+ "examples": [
+  {
+   "title": "File information",
+   "cmd": "soxi sound.wav",
+   "explain": "soxi prints sample rate, channels, length and encoding. A strange sample rate (such as 8000 or 44100) sometimes matters."
+  },
+  {
+   "title": "Spectrogram picture",
+   "cmd": "sox sound.wav -n spectrogram -o spec.png",
+   "explain": "-n is the null output (nothing but the effect). Open spec.png: images or text drawn in the spectrum appear."
+  },
+  {
+   "title": "Reverse",
+   "cmd": "sox sound.wav rev.wav reverse",
+   "explain": "Play the clip backwards."
+  },
+  {
+   "title": "Change speed",
+   "cmd": "sox sound.wav slow.wav speed 0.5\nsox sound.wav fast.wav tempo 2",
+   "explain": "`speed` changes pitch and speed together, `tempo` changes speed only."
+  },
+  {
+   "title": "Trim a piece",
+   "cmd": "sox sound.wav part.wav trim 10 5",
+   "explain": "Start at 10 seconds and keep 5 seconds."
+  },
+  {
+   "title": "Statistics",
+   "cmd": "sox sound.wav -n stat",
+   "explain": "Prints duration, amplitude and the DC offset: a quick sanity check."
+  },
+  {
+   "title": "Convert to raw bytes",
+   "cmd": "sox sound.wav -t raw -e unsigned-integer -b 8 out.raw",
+   "explain": "Turns the audio into bytes you can inspect with xxd or a script."
+  },
+  {
+   "title": "Treat a raw file as audio",
+   "cmd": "sox -t raw -r 8000 -e unsigned-integer -b 8 -c 1 data.bin out.wav",
+   "explain": "Give the file's shape (rate, encoding, bits, channels) so sox can play bytes that are not a real audio file."
+  },
+  {
+   "title": "Play a file",
+   "cmd": "play sound.wav",
+   "explain": "Listen to the clip from the command line."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-t TYPE",
+   "plain": "File type (wav, mp3, raw, ...).",
+   "use": "Raw files, odd extensions."
+  },
+  {
+   "flag": "-r RATE",
+   "plain": "Sample rate in Hz.",
+   "use": "Raw input."
+  },
+  {
+   "flag": "-c N",
+   "plain": "Number of channels.",
+   "use": "Raw input, mono mixdown."
+  },
+  {
+   "flag": "-b BITS",
+   "plain": "Bits per sample.",
+   "use": "Raw input."
+  },
+  {
+   "flag": "-e ENCODING",
+   "plain": "Sample encoding (signed-integer, unsigned-integer, floating-point, ...).",
+   "use": "Raw input."
+  },
+  {
+   "flag": "-n",
+   "plain": "Null file: no input or no output.",
+   "use": "Analysis effects."
+  },
+  {
+   "flag": "-V[LEVEL]",
+   "plain": "Verbosity.",
+   "use": "Debugging."
+  },
+  {
+   "flag": "-v FACTOR",
+   "plain": "Volume adjust.",
+   "use": "Quiet clips."
+  },
+  {
+   "flag": "-m",
+   "plain": "Mix input files together.",
+   "use": "Combining tracks."
+  },
+  {
+   "flag": "-M",
+   "plain": "Merge input files into channels.",
+   "use": "Stereo from two files."
+  },
+  {
+   "flag": "--combine MODE",
+   "plain": "How several inputs combine.",
+   "use": "Multiple inputs."
+  },
+  {
+   "flag": "--i / --info",
+   "plain": "Print file information.",
+   "use": "Quick look."
+  },
+  {
+   "flag": "effect: trim START [LENGTH]",
+   "plain": "Cut a section.",
+   "use": "Short clips."
+  },
+  {
+   "flag": "effect: reverse",
+   "plain": "Play backwards.",
+   "use": "Hidden reversed speech."
+  },
+  {
+   "flag": "effect: speed F / tempo F / pitch CENTS",
+   "plain": "Change speed, tempo only, or pitch only.",
+   "use": "Slowing Morse, decoding fast speech."
+  },
+  {
+   "flag": "effect: spectrogram -o FILE",
+   "plain": "Draw a spectrogram PNG (-x width, -y height, -z dynamic range).",
+   "use": "Pictures hidden in audio."
+  },
+  {
+   "flag": "effect: stat / stats",
+   "plain": "Print statistics.",
+   "use": "Quick check."
+  },
+  {
+   "flag": "effect: remix / channels / rate",
+   "plain": "Pick or mix channels, change the sample rate.",
+   "use": "Preparing audio."
+  },
+  {
+   "flag": "effect: lowpass / highpass / bandpass",
+   "plain": "Keep only some frequencies.",
+   "use": "Isolating a tone."
+  },
+  {
+   "flag": "effect: silence",
+   "plain": "Remove or detect silences.",
+   "use": "Cleaning recordings."
+  }
+ ],
+ "mistakes": [
+  "Reading raw bytes with the wrong rate/bits/encoding and hearing noise: try the common shapes (8000 Hz, unsigned 8-bit, mono).",
+  "Forgetting -n when you only want an analysis effect.",
+  "Using speed when you wanted tempo (the pitch changes)."
+ ],
+ "try": [
+  "Make a spectrogram of a WAV and read it.",
+  "Reverse a recording of your own voice.",
+  "Slow a Morse clip with tempo and decode it.",
+  "Turn a small binary file into audio with the raw options."
+ ],
+ "see_also": "ffmpeg(1), soxi(1), play(1), Audacity, Sonic Visualiser, minimodem(1), multimon-ng(1).",
+ "captured_with": "Examples are written to explain a technique; they are not captured output.",
+ "partial": true
+}

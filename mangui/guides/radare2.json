@@ -1,0 +1,211 @@
+{
+ "name": "radare2",
+ "section": "1",
+ "one_line": "reverse-engineering framework: disassembler, debugger and hex editor",
+ "plain": [
+  "`radare2` (command `r2`) opens a program and lets you look at its machine code, step through it with a debugger, patch bytes and search for strings, all from one text prompt. It is a command-line alternative to Ghidra for fast triage.",
+  "It uses very short commands: `aaa` analyses, `afl` lists functions, `pdf` prints a function's disassembly. A question mark after any command shows its help (`a?`, `p?`, `?`).",
+  "Related tools in the same package: `rabin2` (file information and strings), `rasm2` (assemble and disassemble), `rax2` (convert numbers), `rahash2` (hashes), `radiff2` (compare binaries)."
+ ],
+ "when": [
+  "Quick look at what a binary does without opening a GUI.",
+  "Find the function that checks a password.",
+  "Run a program under a debugger and watch the registers.",
+  "Patch a jump so a check always passes.",
+  "Convert between hex, decimal, ASCII."
+ ],
+ "examples": [
+  {
+   "title": "Open and analyse",
+   "cmd": "r2 -A ./crackme",
+   "explain": "-A runs the analysis (aaa) at start. You land at a prompt like [0x00401050]>."
+  },
+  {
+   "title": "List functions",
+   "cmd": "afl",
+   "explain": "Prints every function found with its address and size. Look for main and for names such as check, verify, auth."
+  },
+  {
+   "title": "Disassemble main",
+   "cmd": "s main\npdf",
+   "explain": "`s main` seeks to main, `pdf` prints the disassembly of the function. Read it for compares (cmp) and jumps (je, jne)."
+  },
+  {
+   "title": "Find strings",
+   "cmd": "iz\nizz",
+   "explain": "iz lists strings in the data section, izz searches the whole file. Strings like 'Correct!' lead you to the check."
+  },
+  {
+   "title": "Cross-references",
+   "cmd": "axt @ str.Correct",
+   "explain": "axt shows where a string or address is used: jump straight to the code that prints success."
+  },
+  {
+   "title": "Visual mode",
+   "cmd": "V",
+   "explain": "A full-screen view of the code. Press p to change the view, ? for help, q to leave."
+  },
+  {
+   "title": "Debug it",
+   "cmd": "r2 -d ./crackme\ndb main\ndc\ndr\ndso",
+   "explain": "-d starts a debug session. db sets a breakpoint, dc continues, dr shows registers, dso steps over one instruction."
+  },
+  {
+   "title": "Patch a jump",
+   "cmd": "r2 -w ./crackme\ns 0x00401152\nwx 9090\nq",
+   "explain": "-w opens the file writable. wx writes hex bytes (9090 is two NOPs): the check can no longer fail. Work on a copy."
+  },
+  {
+   "title": "File information",
+   "cmd": "rabin2 -I ./crackme\nrabin2 -z ./crackme",
+   "explain": "-I prints format, architecture and protections (PIE, NX, canary); -z lists strings."
+  },
+  {
+   "title": "Assemble and disassemble",
+   "cmd": "rasm2 -a x86 -b 64 'mov eax, 1'\nrasm2 -d 'b801000000'",
+   "explain": "Turns assembly into bytes and the reverse, handy for patches and shellcode."
+  },
+  {
+   "title": "Number conversion",
+   "cmd": "rax2 0x41\nrax2 65\nrax2 -s 41424344",
+   "explain": "Convert between hex and decimal, and from hex to a string."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-A",
+   "plain": "Analyse after loading (aaa).",
+   "use": "Most sessions."
+  },
+  {
+   "flag": "-d",
+   "plain": "Debug the program.",
+   "use": "Dynamic analysis."
+  },
+  {
+   "flag": "-w",
+   "plain": "Open the file for writing (patching).",
+   "use": "Patches; use a copy."
+  },
+  {
+   "flag": "-q",
+   "plain": "Quiet: no banner; with -c run a command and exit.",
+   "use": "Scripts."
+  },
+  {
+   "flag": "-c CMD",
+   "plain": "Run commands (separated by ;) then continue or quit with -q.",
+   "use": "One-liners."
+  },
+  {
+   "flag": "-i FILE",
+   "plain": "Run an r2 script file.",
+   "use": "Repeating analyses."
+  },
+  {
+   "flag": "-a ARCH / -b BITS",
+   "plain": "Force architecture / bit size.",
+   "use": "Raw shellcode, odd binaries."
+  },
+  {
+   "flag": "-s ADDR",
+   "plain": "Start at an address.",
+   "use": "Raw files."
+  },
+  {
+   "flag": "-n",
+   "plain": "Do not parse headers.",
+   "use": "Raw blobs."
+  },
+  {
+   "flag": "-e KEY=VAL",
+   "plain": "Set a config variable.",
+   "use": "For example asm.syntax=intel."
+  },
+  {
+   "flag": "-p PROJECT",
+   "plain": "Use a project.",
+   "use": "Saved sessions."
+  },
+  {
+   "flag": "-L",
+   "plain": "List available plugins.",
+   "use": "Checking support."
+  },
+  {
+   "flag": "aaa",
+   "plain": "Analyse everything.",
+   "use": "Start of a session."
+  },
+  {
+   "flag": "afl / afll",
+   "plain": "List functions (short / long).",
+   "use": "Overview."
+  },
+  {
+   "flag": "s ADDR|SYM",
+   "plain": "Seek to an address or name.",
+   "use": "Moving around."
+  },
+  {
+   "flag": "pdf [@ FUNC]",
+   "plain": "Print a function's disassembly.",
+   "use": "Reading code."
+  },
+  {
+   "flag": "pd N",
+   "plain": "Print N instructions.",
+   "use": "Reading from the cursor."
+  },
+  {
+   "flag": "px N",
+   "plain": "Hex dump of N bytes.",
+   "use": "Reading data."
+  },
+  {
+   "flag": "iz / izz / iI / ii / iS",
+   "plain": "Strings / all strings / info / imports / sections.",
+   "use": "Triage."
+  },
+  {
+   "flag": "axt / axf",
+   "plain": "Cross-references to / from.",
+   "use": "Finding who uses a string."
+  },
+  {
+   "flag": "db / dc / ds / dso / dr",
+   "plain": "Breakpoint / continue / step / step over / registers.",
+   "use": "Debugging."
+  },
+  {
+   "flag": "wx HEX / wa ASM / wao",
+   "plain": "Write bytes / assemble at the cursor / patch operations.",
+   "use": "Patching."
+  },
+  {
+   "flag": "V / VV",
+   "plain": "Visual mode / graph mode.",
+   "use": "Seeing the flow."
+  },
+  {
+   "flag": "?",
+   "plain": "Help for the command so far (append to any command).",
+   "use": "Always."
+  }
+ ],
+ "mistakes": [
+  "Patching the only copy of the binary: always copy first.",
+  "Forgetting to run aaa/-A, so afl is empty.",
+  "Using debug mode (-d) on untrusted malware outside a VM.",
+  "Reading AT&T-style syntax when you wanted Intel: set asm.syntax=intel."
+ ],
+ "try": [
+  "Open a small crackme with r2 -A, find main, and read its compares.",
+  "Use iz and axt to find the success message and the code behind it.",
+  "Patch a jne to je and run the program.",
+  "Re-do the same job in Ghidra and compare the speed."
+ ],
+ "see_also": "ghidra(1), gdb(1), objdump(1), readelf(1), checksec(1), strings(1), pwntools(7), Cutter (GUI for radare2).",
+ "captured_with": "Examples are written to explain a technique; they are not captured output.",
+ "partial": true
+}

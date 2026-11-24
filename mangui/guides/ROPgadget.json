@@ -1,0 +1,153 @@
+{
+ "name": "ROPgadget",
+ "section": "1",
+ "one_line": "find ROP gadgets (useful code snippets) inside a binary",
+ "plain": [
+  "`ROPgadget` searches a program for short instruction sequences that end in a return (`ret`). Each one is a gadget. In a return-oriented programming (ROP) exercise you chain gadgets so the program runs code you choose, even when the stack is not executable (NX).",
+  "A typical need: a `pop rdi ; ret` gadget to load the first argument on 64-bit Linux, then a call to `system`. ROPgadget finds the address of that gadget. Use it only on binaries from your own lab or a CTF."
+ ],
+ "when": [
+  "A pwn challenge has NX on, so you cannot run shellcode from the stack.",
+  "You need the address of `pop rdi ; ret` or `syscall ; ret`.",
+  "You want to find a string like `/bin/sh` inside the binary.",
+  "You want to list every gadget and search it."
+ ],
+ "examples": [
+  {
+   "title": "List all gadgets",
+   "cmd": "ROPgadget --binary ./vuln",
+   "explain": "Prints every gadget with its address. The list is long; pipe it to grep."
+  },
+  {
+   "title": "Find one gadget",
+   "cmd": "ROPgadget --binary ./vuln | grep 'pop rdi ; ret'",
+   "explain": "Gives the address that loads the first function argument from the stack on x86-64."
+  },
+  {
+   "title": "Only certain gadgets",
+   "cmd": "ROPgadget --binary ./vuln --only 'pop|ret'",
+   "explain": "--only keeps gadgets made of just those instructions: short, clean ones."
+  },
+  {
+   "title": "Search for a string",
+   "cmd": "ROPgadget --binary ./vuln --string '/bin/sh'",
+   "explain": "Prints the address of the text in the binary if it is there."
+  },
+  {
+   "title": "Look in a library",
+   "cmd": "ROPgadget --binary /lib/x86_64-linux-gnu/libc.so.6 --only 'pop|ret' | grep rdi",
+   "explain": "Libc has far more gadgets; remember to add its load address (leak it first)."
+  },
+  {
+   "title": "Avoid bad bytes",
+   "cmd": "ROPgadget --binary ./vuln --badbytes '00|0a'",
+   "explain": "Hides gadgets whose address contains bytes your input cannot carry (a null byte or newline)."
+  },
+  {
+   "title": "Auto-build a chain",
+   "cmd": "ROPgadget --binary ./vuln --ropchain",
+   "explain": "Tries to build a ready-made execve chain. It works only on simple cases; learn to build chains by hand with pwntools."
+  }
+ ],
+ "options": [
+  {
+   "flag": "--binary FILE",
+   "plain": "The program or library to search.",
+   "use": "Always."
+  },
+  {
+   "flag": "--only 'a|b'",
+   "plain": "Keep only gadgets made of these instructions.",
+   "use": "Short, clean gadgets."
+  },
+  {
+   "flag": "--filter 'a|b'",
+   "plain": "Remove gadgets that contain these instructions.",
+   "use": "Dropping risky ones."
+  },
+  {
+   "flag": "--string TEXT",
+   "plain": "Find the address of a string.",
+   "use": "/bin/sh."
+  },
+  {
+   "flag": "--opcode HEX",
+   "plain": "Search for raw bytes.",
+   "use": "Exact byte patterns."
+  },
+  {
+   "flag": "--memstr 'chars'",
+   "plain": "Search for individual characters in memory.",
+   "use": "Building a string from scattered bytes."
+  },
+  {
+   "flag": "--badbytes 'xx|yy'",
+   "plain": "Exclude gadget addresses that contain these bytes.",
+   "use": "Null bytes, newlines."
+  },
+  {
+   "flag": "--range START-END",
+   "plain": "Only search this address range.",
+   "use": "Narrowing."
+  },
+  {
+   "flag": "--depth N",
+   "plain": "Maximum gadget length in instructions (default 10).",
+   "use": "Longer or shorter gadgets."
+  },
+  {
+   "flag": "--ropchain",
+   "plain": "Try to build a ROP chain.",
+   "use": "Quick attempts."
+  },
+  {
+   "flag": "--all",
+   "plain": "Do not remove duplicate gadgets.",
+   "use": "Seeing every copy."
+  },
+  {
+   "flag": "--norop / --nojop / --nosys",
+   "plain": "Skip ROP / JOP / SYS-type gadgets.",
+   "use": "Focusing the search."
+  },
+  {
+   "flag": "--multibr",
+   "plain": "Include gadgets with several branches.",
+   "use": "Rare."
+  },
+  {
+   "flag": "--thumb / --rawArch ARCH / --rawMode MODE",
+   "plain": "ARM Thumb, and raw files with an explicit architecture.",
+   "use": "Non-x86 or raw dumps."
+  },
+  {
+   "flag": "--console",
+   "plain": "Interactive console.",
+   "use": "Searching repeatedly."
+  },
+  {
+   "flag": "--offset ADDR",
+   "plain": "Add an offset to every address.",
+   "use": "PIE or libc base."
+  },
+  {
+   "flag": "--version / -h",
+   "plain": "Version / help.",
+   "use": "A reminder."
+  }
+ ],
+ "mistakes": [
+  "Forgetting to add the library or PIE base: the addresses ROPgadget prints are file offsets plus the default base, not runtime addresses.",
+  "Using an address with a null byte when the vulnerable function stops at a null (strcpy, gets).",
+  "Trusting --ropchain on a real challenge: it fails often, so learn to build chains by hand.",
+  "Searching a 32-bit binary for 64-bit gadgets (check with `file`)."
+ ],
+ "try": [
+  "Find `pop rdi ; ret` in a lab binary and write its address down.",
+  "Search a lab libc for `/bin/sh` with --string.",
+  "Combine it with pwntools: print the gadget address and use it in a short ROP chain."
+ ],
+ "see_also": "pwntools(7), ropper(1), gdb(1), checksec(1), objdump(1), radare2(1), one_gadget.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output.",
+ "partial": true
+}
