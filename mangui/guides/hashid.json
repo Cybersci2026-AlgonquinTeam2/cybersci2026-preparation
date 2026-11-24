@@ -1,0 +1,97 @@
+{
+ "name": "hashid",
+ "section": "1",
+ "one_line": "identify the type of a hash",
+ "plain": [
+  "`hashid` looks at a hash (a long scrambled string) and tells you which hash algorithms it could be: MD5, SHA-1, NTLM, bcrypt and so on. It is the question you ask before cracking: which mode do I tell john or hashcat to use?",
+  "It cannot be sure, because many hashes look alike (MD5 and NTLM are both 32 hex characters). It lists the candidates in order, and with -m and -j it prints the matching hashcat mode number and john format."
+ ],
+ "when": [
+  "Identify an unknown hash from a challenge.",
+  "Find the hashcat mode (-m number) or john format to use.",
+  "Check a whole file of hashes.",
+  "Spot special formats such as $2y$ (bcrypt) or $6$ (sha512crypt)."
+ ],
+ "examples": [
+  {
+   "title": "Identify one hash",
+   "cmd": "hashid '5f4dcc3b5aa765d61d8327deb882cf99'",
+   "explain": "Quote the hash. Output lists possible types: MD5 first, then others of the same length."
+  },
+  {
+   "title": "Show hashcat modes",
+   "cmd": "hashid -m '5f4dcc3b5aa765d61d8327deb882cf99'",
+   "explain": "-m adds the hashcat mode number to each guess: use it as hashcat -m NUMBER."
+  },
+  {
+   "title": "Show john formats",
+   "cmd": "hashid -j '$2y$10$abcdefghijklmnopqrstuuAbCdEfGhIjKlMnOpQrStUvWxYz012345'",
+   "explain": "-j adds the john format name for --format=."
+  },
+  {
+   "title": "From a file",
+   "cmd": "hashid -m hashes.txt",
+   "explain": "If the argument is a file, every line is analysed."
+  },
+  {
+   "title": "Save the result",
+   "cmd": "hashid -m -o result.txt hashes.txt",
+   "explain": "-o writes the report to a file."
+  },
+  {
+   "title": "Extended list",
+   "cmd": "hashid -e '5f4dcc3b5aa765d61d8327deb882cf99'",
+   "explain": "-e includes rarer hash types too."
+  }
+ ],
+ "options": [
+  {
+   "flag": "INPUT",
+   "plain": "A hash string or a file of hashes.",
+   "use": "Always."
+  },
+  {
+   "flag": "-e, --extended",
+   "plain": "List all hash types, including rare ones.",
+   "use": "Unusual hashes."
+  },
+  {
+   "flag": "-m, --mode",
+   "plain": "Show the hashcat mode number for each match.",
+   "use": "Using hashcat."
+  },
+  {
+   "flag": "-j, --john",
+   "plain": "Show the john the ripper format for each match.",
+   "use": "Using john."
+  },
+  {
+   "flag": "-o FILE, --outfile FILE",
+   "plain": "Write results to a file.",
+   "use": "Records."
+  },
+  {
+   "flag": "-h, --help",
+   "plain": "Show help.",
+   "use": "A reminder."
+  },
+  {
+   "flag": "--version",
+   "plain": "Show version.",
+   "use": "Check install."
+  }
+ ],
+ "mistakes": [
+  "Believing the first guess blindly: 32 hex characters can be MD5, NTLM or others.",
+  "Forgetting the salt or extra fields (user:hash:salt) and passing the whole line.",
+  "Not quoting a hash that contains $: the shell expands it. Use single quotes.",
+  "Passing a hash with a trailing newline or space."
+ ],
+ "try": [
+  "Hash 'password' with md5sum and run hashid on the result.",
+  "Run hashid -m on a $6$ hash from /etc/shadow.",
+  "Use the mode number with hashcat on a hash you made."
+ ],
+ "see_also": "hash-identifier(1), john(8), hashcat(1), md5sum(1), sha256sum(1), name-that-hash.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

@@ -1,0 +1,184 @@
+{
+ "name": "wfuzz",
+ "section": "1",
+ "one_line": "web application fuzzer",
+ "plain": [
+  "`wfuzz` replaces the word FUZZ in a request with each entry of a wordlist and shows what comes back. It is like ffuf, written in Python, with strong filtering and the option to fuzz several places at once (FUZZ, FUZ2Z, FUZ3Z...).",
+  "The core skill is filtering: hide the common reply (by status code, number of lines, words or characters) so only the interesting ones remain."
+ ],
+ "when": [
+  "Find hidden directories and files.",
+  "Fuzz GET and POST parameters.",
+  "Guess logins on a lab form.",
+  "Find virtual hosts through the Host header.",
+  "Test several fields together."
+ ],
+ "examples": [
+  {
+   "title": "Directory discovery",
+   "cmd": "wfuzz -c -z file,/usr/share/wordlists/dirb/common.txt --hc 404 http://10.10.10.5/FUZZ",
+   "explain": "-c colours the output, -z file,LIST loads the wordlist, --hc 404 hides all replies with status 404."
+  },
+  {
+   "title": "Shortcut for the wordlist",
+   "cmd": "wfuzz -c -w common.txt --hc 404 http://10.10.10.5/FUZZ",
+   "explain": "-w is the same as -z file,..."
+  },
+  {
+   "title": "Hide by size of reply",
+   "cmd": "wfuzz -c -w common.txt --hh 1234 http://10.10.10.5/FUZZ",
+   "explain": "--hh hides replies of 1234 characters; --hl lines, --hw words. Find the size of a wrong guess first."
+  },
+  {
+   "title": "Fuzz a parameter value",
+   "cmd": "wfuzz -c -z range,1-200 --hc 404 'http://10.10.10.5/item.php?id=FUZZ'",
+   "explain": "range,1-200 makes a list of numbers on the fly."
+  },
+  {
+   "title": "POST login form",
+   "cmd": "wfuzz -c -w passwords.txt -d 'user=admin&pass=FUZZ' --hs 'Invalid' http://10.10.10.5/login",
+   "explain": "-d is the POST body; --hs hides replies that contain the regular expression, here the failure message."
+  },
+  {
+   "title": "Two lists at once",
+   "cmd": "wfuzz -c -z file,users.txt -z file,pass.txt -d 'user=FUZZ&pass=FUZ2Z' --hc 200 http://10.10.10.5/login",
+   "explain": "FUZZ takes the first list, FUZ2Z the second; wfuzz tries every combination."
+  },
+  {
+   "title": "Virtual hosts",
+   "cmd": "wfuzz -c -w subdomains.txt -H 'Host: FUZZ.target.htb' --hh 4242 http://10.10.10.5/",
+   "explain": "FUZZ goes in a header."
+  },
+  {
+   "title": "With a cookie",
+   "cmd": "wfuzz -c -w common.txt -b 'PHPSESSID=abc123' --hc 404 http://10.10.10.5/FUZZ",
+   "explain": "-b sends a cookie to reach pages behind a login."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-z PAYLOAD",
+   "plain": "Payload definition: file,NAME; range,1-100; list,a-b-c; and others.",
+   "use": "Choosing what to try."
+  },
+  {
+   "flag": "-w WORDLIST",
+   "plain": "Shortcut for -z file,WORDLIST.",
+   "use": "Most uses."
+  },
+  {
+   "flag": "-u URL",
+   "plain": "Target URL (can also be the last argument).",
+   "use": "Target."
+  },
+  {
+   "flag": "-d POSTDATA",
+   "plain": "POST body.",
+   "use": "Forms."
+  },
+  {
+   "flag": "-H HEADER",
+   "plain": "Add a header; may contain FUZZ.",
+   "use": "Host, tokens."
+  },
+  {
+   "flag": "-b COOKIE",
+   "plain": "Cookie.",
+   "use": "Logged-in fuzzing."
+  },
+  {
+   "flag": "-X METHOD",
+   "plain": "HTTP method.",
+   "use": "PUT, POST."
+  },
+  {
+   "flag": "--basic / --ntlm / --digest USER:PASS",
+   "plain": "Authentication schemes.",
+   "use": "Protected sites."
+  },
+  {
+   "flag": "-c",
+   "plain": "Colour output.",
+   "use": "Readability."
+  },
+  {
+   "flag": "-v",
+   "plain": "Verbose: more columns including headers.",
+   "use": "Debugging."
+  },
+  {
+   "flag": "-f FILE,PRINTER",
+   "plain": "Save results in a format (raw, json, csv, html...).",
+   "use": "Evidence."
+  },
+  {
+   "flag": "-t N",
+   "plain": "Number of concurrent connections.",
+   "use": "Speed."
+  },
+  {
+   "flag": "-s N",
+   "plain": "Delay between requests.",
+   "use": "Gentle scans."
+  },
+  {
+   "flag": "-L / --follow",
+   "plain": "Follow redirects.",
+   "use": "Redirected pages."
+  },
+  {
+   "flag": "-p ADDR",
+   "plain": "Use a proxy: IP:PORT[:TYPE].",
+   "use": "Through Burp."
+  },
+  {
+   "flag": "-R DEPTH",
+   "plain": "Recursion into found directories.",
+   "use": "Digging deeper."
+  },
+  {
+   "flag": "--hc / --hl / --hw / --hh CODE",
+   "plain": "Hide responses with this status code, lines, words or characters.",
+   "use": "Removing noise."
+  },
+  {
+   "flag": "--sc / --sl / --sw / --sh CODE",
+   "plain": "Show only responses with these values.",
+   "use": "Positive filter."
+  },
+  {
+   "flag": "--hs REGEX / --ss REGEX",
+   "plain": "Hide / show responses whose body matches the regex.",
+   "use": "Message-based filter."
+  },
+  {
+   "flag": "-m ITERATOR",
+   "plain": "How multiple lists combine: product, zip, chain.",
+   "use": "Several FUZZ points."
+  },
+  {
+   "flag": "-e TYPE",
+   "plain": "List available payloads, encoders, iterators or printers.",
+   "use": "Discovery."
+  },
+  {
+   "flag": "-h / --help",
+   "plain": "Short help; --help for the full list.",
+   "use": "A reminder."
+  }
+ ],
+ "mistakes": [
+  "Not filtering and drowning in 404 lines: always add --hc 404 or a size filter.",
+  "Forgetting to quote a URL with ? or & in the shell.",
+  "Using the same number for different keywords: the second list is FUZ2Z, not FUZZ again.",
+  "Too many threads on a small server.",
+  "Fuzzing a real site without permission."
+ ],
+ "try": [
+  "Find a hidden directory on a lab server.",
+  "Find the size of a wrong answer and hide it with --hh.",
+  "Try two lists on a login form on a lab app."
+ ],
+ "see_also": "ffuf(1), gobuster(1), dirb(1), nikto(1), burpsuite, curl(1), and the wordlists in /usr/share/wordlists.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

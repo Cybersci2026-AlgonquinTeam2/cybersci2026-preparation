@@ -1,0 +1,133 @@
+{
+ "name": "zsteg",
+ "section": "1",
+ "one_line": "detect hidden data in PNG and BMP images (LSB steganography)",
+ "plain": [
+  "`zsteg` looks inside PNG and BMP pictures for data hidden in the least significant bit (LSB) of the pixel colours. Changing the last bit of each colour value is invisible to the eye, but a program can read them back and rebuild a message or file.",
+  "It tries many combinations (which colour channels, which bit, which direction) and prints anything that looks like text or a file. In CTFs it is the first tool for a PNG that hides something."
+ ],
+ "when": [
+  "A challenge gives a PNG or BMP and you suspect hidden text.",
+  "Try every bit-plane and channel combination at once.",
+  "Extract a specific hidden payload.",
+  "Check if a file is a hidden zip or text."
+ ],
+ "examples": [
+  {
+   "title": "Scan with the default checks",
+   "cmd": "zsteg image.png",
+   "explain": "Prints lines like 'b1,r,lsb,xy .. text: \"flag{...}\"'. Read the right-hand side: text or file types mean a hit."
+  },
+  {
+   "title": "Try everything",
+   "cmd": "zsteg -a image.png",
+   "explain": "-a tries every known method; it is slower and noisier but thorough."
+  },
+  {
+   "title": "Extract a hit",
+   "cmd": "zsteg -E b1,r,lsb,xy image.png > out.bin",
+   "explain": "-E extracts the payload for the named combination: b1 one bit, r red channel, lsb order, xy scan direction."
+  },
+  {
+   "title": "Identify what you extracted",
+   "cmd": "file out.bin",
+   "explain": "Check if it is text, an archive or another image."
+  },
+  {
+   "title": "More detail",
+   "cmd": "zsteg -v image.png",
+   "explain": "-v shows more of what each attempt produced."
+  },
+  {
+   "title": "Limit the output",
+   "cmd": "zsteg -l 256 image.png",
+   "explain": "-l reads only the first N bytes per attempt, which keeps the results short."
+  },
+  {
+   "title": "Other tools to try",
+   "cmd": "exiftool image.png\nbinwalk image.png\nstrings image.png | head",
+   "explain": "Hidden data is often elsewhere too: metadata, appended files or plain strings."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-a, --all",
+   "plain": "Try all known methods.",
+   "use": "Thorough scan."
+  },
+  {
+   "flag": "-E, --extract NAME",
+   "plain": "Extract the data of a named combination, e.g. b1,r,lsb,xy.",
+   "use": "Getting the payload."
+  },
+  {
+   "flag": "-l, --limit N",
+   "plain": "Limit the bytes checked per method.",
+   "use": "Shorter output."
+  },
+  {
+   "flag": "-b, --bits N",
+   "plain": "Number of bits to check (1-8; also lists like 1,2,4).",
+   "use": "Selecting bit planes."
+  },
+  {
+   "flag": "-c, --channel NAME",
+   "plain": "Channels to check: r, g, b, a, rgb, bgr...",
+   "use": "Selecting colours."
+  },
+  {
+   "flag": "-o, --order ORDER",
+   "plain": "Bit order: lsb or msb (or all).",
+   "use": "Different encodings."
+  },
+  {
+   "flag": "-P, --prime",
+   "plain": "Check only prime-numbered pixels.",
+   "use": "Special encodings."
+  },
+  {
+   "flag": "--invert",
+   "plain": "Invert bits before checking.",
+   "use": "Special encodings."
+  },
+  {
+   "flag": "--shift N",
+   "plain": "Prepend N zero bits.",
+   "use": "Offset payloads."
+  },
+  {
+   "flag": "-v, --verbose",
+   "plain": "Show more output.",
+   "use": "More detail."
+  },
+  {
+   "flag": "-q, --quiet",
+   "plain": "Show less output.",
+   "use": "Short results."
+  },
+  {
+   "flag": "-C, --no-color",
+   "plain": "No coloured output.",
+   "use": "Saving to a file."
+  },
+  {
+   "flag": "--version / -h, --help",
+   "plain": "Version / help; zsteg --help lists every option.",
+   "use": "Looking up other flags."
+  }
+ ],
+ "mistakes": [
+  "Running it on a JPEG: zsteg handles PNG and BMP only (use steghide or other tools for JPEG).",
+  "Ignoring the extraction step: a text line is only the beginning of a hit.",
+  "Taking noise for a result: random-looking strings in the output are often just noise.",
+  "Not trying other methods when zsteg finds nothing: check metadata, strings, appended data and the file type.",
+  "Installing issues: it is a Ruby gem (gem install zsteg)."
+ ],
+ "try": [
+  "Hide a short text in a PNG with a steganography tool (or use a sample) and find it with zsteg.",
+  "Extract it with -E and check it with file.",
+  "Compare the output on a clean PNG: it should show only noise."
+ ],
+ "see_also": "steghide(1), exiftool(1), binwalk(1), strings(1), file(1), pngcheck(1), stegsolve.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

@@ -1,0 +1,173 @@
+{
+ "name": "enum4linux",
+ "section": "1",
+ "one_line": "enumerate information from Windows and Samba systems",
+ "plain": [
+  "`enum4linux` asks a Windows or Samba machine what it is willing to tell an anonymous visitor: user names, groups, shares, the password policy, the operating system and domain details. It wraps several Samba tools (smbclient, rpcclient, net, nmblookup) into one report.",
+  "It is the standard first look at SMB (ports 139/445) in a lab. A usernames list from it is the starting point for password attacks, and the password policy tells you how careful to be."
+ ],
+ "when": [
+  "Collect user and group names from an SMB host.",
+  "List shares and the password policy.",
+  "Get OS and domain information.",
+  "Brute-force user names with RID cycling when direct listing is blocked."
+ ],
+ "examples": [
+  {
+   "title": "Everything simple",
+   "cmd": "enum4linux -a 10.10.10.5",
+   "explain": "-a runs all the simple enumerations. The report is long; look for 'Users on', 'Share Enumeration' and 'Password Policy'."
+  },
+  {
+   "title": "Only users",
+   "cmd": "enum4linux -U 10.10.10.5",
+   "explain": "-U lists users through RPC."
+  },
+  {
+   "title": "Shares",
+   "cmd": "enum4linux -S 10.10.10.5",
+   "explain": "-S lists shares and tests which can be accessed."
+  },
+  {
+   "title": "Password policy",
+   "cmd": "enum4linux -P 10.10.10.5",
+   "explain": "-P shows lockout threshold and minimum length: key for deciding how many guesses are safe."
+  },
+  {
+   "title": "With credentials",
+   "cmd": "enum4linux -u alice -p 'Passw0rd!' -a 10.10.10.5",
+   "explain": "-u and -p provide a user; many more details appear when you are authenticated."
+  },
+  {
+   "title": "RID cycling for users",
+   "cmd": "enum4linux -r 10.10.10.5",
+   "explain": "-r finds users by walking relative identifiers when the direct list is blocked."
+  },
+  {
+   "title": "Save the output",
+   "cmd": "enum4linux -a 10.10.10.5 | tee enum.txt",
+   "explain": "The report is long, so keep a copy."
+  },
+  {
+   "title": "Modern replacement",
+   "cmd": "enum4linux-ng -A 10.10.10.5",
+   "explain": "enum4linux-ng is a maintained Python rewrite with JSON output and clearer results."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-a",
+   "plain": "Do all simple enumeration (-U -S -G -P -r -o -n -i).",
+   "use": "A complete first look."
+  },
+  {
+   "flag": "-U",
+   "plain": "Get a user list.",
+   "use": "Names for password attacks."
+  },
+  {
+   "flag": "-M",
+   "plain": "Get a machine list.",
+   "use": "Domain members."
+  },
+  {
+   "flag": "-S",
+   "plain": "Get a share list.",
+   "use": "Finding files."
+  },
+  {
+   "flag": "-P",
+   "plain": "Get the password policy.",
+   "use": "Planning guesses."
+  },
+  {
+   "flag": "-G",
+   "plain": "Get groups and members.",
+   "use": "Privilege hints."
+  },
+  {
+   "flag": "-r",
+   "plain": "Enumerate users by RID cycling.",
+   "use": "Blocked list queries."
+  },
+  {
+   "flag": "-R RANGE",
+   "plain": "RID range for -r (default 500-550,1000-1050).",
+   "use": "Longer scans."
+  },
+  {
+   "flag": "-K N",
+   "plain": "Keep searching RIDs until N consecutive misses.",
+   "use": "Efficiency."
+  },
+  {
+   "flag": "-o",
+   "plain": "Get operating-system information.",
+   "use": "Targeting."
+  },
+  {
+   "flag": "-i",
+   "plain": "Get printer information.",
+   "use": "Rare."
+  },
+  {
+   "flag": "-n",
+   "plain": "nmblookup (NetBIOS names).",
+   "use": "Name discovery."
+  },
+  {
+   "flag": "-l",
+   "plain": "Get details from LDAP (if available).",
+   "use": "Domain controllers."
+  },
+  {
+   "flag": "-u USER / -p PASS",
+   "plain": "Authenticate with these credentials.",
+   "use": "More access."
+  },
+  {
+   "flag": "-w WORKGROUP",
+   "plain": "Set the workgroup or domain.",
+   "use": "Domain accounts."
+  },
+  {
+   "flag": "-s FILE",
+   "plain": "Brute-force share names from a file.",
+   "use": "Hidden shares."
+  },
+  {
+   "flag": "-k USER",
+   "plain": "Known user, used with -r when connecting as a different user.",
+   "use": "RID cycling."
+  },
+  {
+   "flag": "-d",
+   "plain": "Detailed output (for -U and -S).",
+   "use": "More information."
+  },
+  {
+   "flag": "-v",
+   "plain": "Verbose: show the commands being run.",
+   "use": "Learning and debugging."
+  },
+  {
+   "flag": "-h",
+   "plain": "Help.",
+   "use": "A reminder."
+  }
+ ],
+ "mistakes": [
+  "Reading only the first lines: the useful part is deep in the report.",
+  "Forgetting that anonymous access is often blocked on new Windows versions.",
+  "Trusting the output on its own: confirm with smbclient or rpcclient.",
+  "Using the unmaintained original for modern targets: try enum4linux-ng.",
+  "Running it on networks you do not own."
+ ],
+ "try": [
+  "Run enum4linux -a on a lab Samba server and list the users.",
+  "Read the password policy and note the lockout threshold.",
+  "Compare with the output of nmap's smb-enum-* scripts."
+ ],
+ "see_also": "smbclient(1), rpcclient(1), nmap(1), crackmapexec, nbtscan(1), ldapsearch(1), enum4linux-ng.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

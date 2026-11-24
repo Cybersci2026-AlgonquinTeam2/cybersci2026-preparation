@@ -1,0 +1,178 @@
+{
+ "name": "smbclient",
+ "section": "1",
+ "one_line": "ftp-like client to access SMB/CIFS (Windows) file shares",
+ "plain": [
+  "`smbclient` lets you browse and copy files on Windows file shares (SMB), from Linux, in an FTP-like prompt. It is the usual first step when nmap shows ports 139 or 445 open.",
+  "A share is a named folder offered by a server, written \\\\server\\share or //server/share. Some shares allow anonymous (null session) access, which is a common CTF finding."
+ ],
+ "when": [
+  "List the shares of a machine.",
+  "Browse a share and download files.",
+  "Try anonymous access.",
+  "Upload a file to a writable share in a lab."
+ ],
+ "examples": [
+  {
+   "title": "List shares, no password",
+   "cmd": "smbclient -L //10.10.10.5 -N",
+   "explain": "-L lists the shares and -N means no password (anonymous). Look for non-default shares and ones that are not IPC$ or ADMIN$."
+  },
+  {
+   "title": "Connect to one share anonymously",
+   "cmd": "smbclient //10.10.10.5/public -N",
+   "explain": "Gives you an smb: \\> prompt."
+  },
+  {
+   "title": "Connect with a user",
+   "cmd": "smbclient //10.10.10.5/data -U alice%Passw0rd!",
+   "explain": "-U user%password. Without %password it asks for it."
+  },
+  {
+   "title": "Commands at the prompt",
+   "cmd": "ls\ncd docs\nget secret.txt\nexit",
+   "explain": "ls lists, cd changes folder, get downloads, put uploads, exit leaves. help shows all commands."
+  },
+  {
+   "title": "Download a whole share",
+   "cmd": "smb: \\> recurse ON\nsmb: \\> prompt OFF\nsmb: \\> mget *",
+   "explain": "recurse ON goes into folders, prompt OFF stops the question for each file, mget fetches everything."
+  },
+  {
+   "title": "One command and leave",
+   "cmd": "smbclient //10.10.10.5/public -N -c 'ls; get flag.txt'",
+   "explain": "-c runs commands separated by semicolons and quits."
+  },
+  {
+   "title": "Force an SMB version",
+   "cmd": "smbclient -L //10.10.10.5 -N -m SMB2",
+   "explain": "-m sets the maximum protocol, useful for old servers (NT1) or strict ones."
+  },
+  {
+   "title": "Other helpers",
+   "cmd": "nmap --script smb-enum-shares -p 445 10.10.10.5\nenum4linux -a 10.10.10.5",
+   "explain": "Cross-check the share list with these tools."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-L, --list=HOST",
+   "plain": "List the shares on a host.",
+   "use": "First step."
+  },
+  {
+   "flag": "-N, --no-pass",
+   "plain": "Do not ask for a password (anonymous).",
+   "use": "Null sessions."
+  },
+  {
+   "flag": "-U, --user=USER[%PASS]",
+   "plain": "User name and optional password.",
+   "use": "Logging in."
+  },
+  {
+   "flag": "-W, --workgroup=NAME",
+   "plain": "Domain or workgroup.",
+   "use": "Domain accounts."
+  },
+  {
+   "flag": "-I, --ip-address=IP",
+   "plain": "Connect to this IP rather than resolving the name.",
+   "use": "Name problems."
+  },
+  {
+   "flag": "-p, --port=PORT",
+   "plain": "TCP port (default 445).",
+   "use": "Odd ports."
+  },
+  {
+   "flag": "-c, --command=STRING",
+   "plain": "Run these commands and exit.",
+   "use": "Scripts."
+  },
+  {
+   "flag": "-m, --max-protocol=PROTO",
+   "plain": "Highest SMB protocol to use (NT1, SMB2, SMB3).",
+   "use": "Old or strict servers."
+  },
+  {
+   "flag": "-k, --kerberos",
+   "plain": "Use Kerberos authentication.",
+   "use": "Domain environments."
+  },
+  {
+   "flag": "-A, --authentication-file=FILE",
+   "plain": "Read username and password from a file.",
+   "use": "Keeping them off the command line."
+  },
+  {
+   "flag": "-g, --grepable",
+   "plain": "Output in a grepable form.",
+   "use": "Scripts."
+  },
+  {
+   "flag": "-D, --directory=DIR",
+   "plain": "Start in this directory.",
+   "use": "Direct access."
+  },
+  {
+   "flag": "-T, --tar=<c|x>IXFqgbNan",
+   "plain": "Backup a share to a tar file or restore.",
+   "use": "Archiving."
+  },
+  {
+   "flag": "-d, --debuglevel=N",
+   "plain": "Debug level 0-10.",
+   "use": "Troubleshooting."
+  },
+  {
+   "flag": "-E, --stderr",
+   "plain": "Send messages to stderr.",
+   "use": "Scripts."
+  },
+  {
+   "flag": "-t, --timeout=SECONDS",
+   "plain": "Timeout.",
+   "use": "Slow networks."
+  },
+  {
+   "flag": "PROMPT: ls, dir, cd, lcd, pwd",
+   "plain": "List, change remote folder, change local folder, show folder.",
+   "use": "Browsing."
+  },
+  {
+   "flag": "PROMPT: get, mget, put, mput",
+   "plain": "Download or upload one or many files.",
+   "use": "Copying."
+  },
+  {
+   "flag": "PROMPT: recurse, prompt, mask",
+   "plain": "Control recursive downloads and file selection.",
+   "use": "Bulk copies."
+  },
+  {
+   "flag": "PROMPT: mkdir, rmdir, del, rename",
+   "plain": "Change the share (needs permission).",
+   "use": "Writable shares."
+  },
+  {
+   "flag": "PROMPT: help, exit",
+   "plain": "Command list, quit.",
+   "use": "A reminder."
+  }
+ ],
+ "mistakes": [
+  "Typing the share path with single backslashes in the shell: use //server/share.",
+  "Forgetting -N and getting a password prompt for anonymous tests.",
+  "Putting a password with special characters unquoted on the command line.",
+  "Downloading with prompt ON and answering a question for every file.",
+  "Uploading files to real shares you are not authorised to change."
+ ],
+ "try": [
+  "List the shares of a lab host with and without -N.",
+  "Download one file with get, then everything with recurse ON, prompt OFF, mget *.",
+  "Compare what enum4linux and nmap's smb-enum-shares show."
+ ],
+ "see_also": "smbmap(1), enum4linux(1), nmap(1), rpcclient(1), mount.cifs(8), crackmapexec, impacket-smbclient.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

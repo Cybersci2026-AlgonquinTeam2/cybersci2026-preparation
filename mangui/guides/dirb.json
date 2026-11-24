@@ -1,0 +1,183 @@
+{
+ "name": "dirb",
+ "section": "1",
+ "one_line": "web content scanner (guess directories and files)",
+ "plain": [
+  "`dirb` takes a wordlist and tries each word as a path on a web server, then reports which ones exist. It is the simplest directory brute-forcer: one command, sensible defaults and recursive digging into every folder it finds.",
+  "It is slower and less flexible than gobuster or ffuf, but it is on every Kali install and is easy to remember."
+ ],
+ "when": [
+  "Quickly find hidden folders and files on a lab web site.",
+  "Try a list of extensions (.php, .bak).",
+  "Use a cookie or authentication.",
+  "Dig recursively into found folders."
+ ],
+ "examples": [
+  {
+   "title": "Default scan",
+   "cmd": "dirb http://10.10.10.5",
+   "explain": "Uses /usr/share/dirb/wordlists/common.txt and recurses into each directory it finds. Hits show CODE and SIZE."
+  },
+  {
+   "title": "Another wordlist",
+   "cmd": "dirb http://10.10.10.5 /usr/share/wordlists/dirb/big.txt",
+   "explain": "The second argument is the wordlist."
+  },
+  {
+   "title": "Add extensions",
+   "cmd": "dirb http://10.10.10.5 -X .php,.txt,.bak",
+   "explain": "-X tries each word with every extension (and without)."
+  },
+  {
+   "title": "Do not recurse",
+   "cmd": "dirb http://10.10.10.5 -r",
+   "explain": "-r stops it from digging into found folders, which is quicker."
+  },
+  {
+   "title": "Save the result",
+   "cmd": "dirb http://10.10.10.5 -o dirb.txt",
+   "explain": "-o writes output to a file."
+  },
+  {
+   "title": "Silent, with a cookie",
+   "cmd": "dirb http://10.10.10.5 -S -c 'PHPSESSID=abc123'",
+   "explain": "-S hides the tested word line; -c sends a cookie."
+  },
+  {
+   "title": "With a delay",
+   "cmd": "dirb http://10.10.10.5 -z 100",
+   "explain": "-z waits 100 milliseconds between requests to be gentler on the server."
+  }
+ ],
+ "options": [
+  {
+   "flag": "URL_BASE",
+   "plain": "Target URL.",
+   "use": "Always."
+  },
+  {
+   "flag": "WORDLIST_FILE",
+   "plain": "Wordlist (default common.txt); several files separated by commas.",
+   "use": "Choosing size."
+  },
+  {
+   "flag": "-a AGENT",
+   "plain": "Set the User-Agent.",
+   "use": "Blocks on the default."
+  },
+  {
+   "flag": "-b",
+   "plain": "Do not squash or merge /../ and /./ sequences.",
+   "use": "Odd servers."
+  },
+  {
+   "flag": "-c COOKIE",
+   "plain": "Set a cookie.",
+   "use": "Logged-in scans."
+  },
+  {
+   "flag": "-E CERT",
+   "plain": "Client certificate.",
+   "use": "Mutual TLS."
+  },
+  {
+   "flag": "-f",
+   "plain": "Fine tuning of NOT_FOUND (404) detection.",
+   "use": "Odd error pages."
+  },
+  {
+   "flag": "-H HEADER",
+   "plain": "Add a header.",
+   "use": "Tokens."
+  },
+  {
+   "flag": "-i",
+   "plain": "Case-insensitive search.",
+   "use": "Windows servers."
+  },
+  {
+   "flag": "-l",
+   "plain": "Print the Location header on redirects.",
+   "use": "Seeing where redirects go."
+  },
+  {
+   "flag": "-N CODE",
+   "plain": "Ignore responses with this status code.",
+   "use": "Filtering."
+  },
+  {
+   "flag": "-o FILE",
+   "plain": "Save output.",
+   "use": "Evidence."
+  },
+  {
+   "flag": "-p PROXY[:PORT]",
+   "plain": "Use a proxy.",
+   "use": "Burp."
+  },
+  {
+   "flag": "-P USER:PASS",
+   "plain": "Proxy authentication.",
+   "use": "Authenticated proxies."
+  },
+  {
+   "flag": "-r",
+   "plain": "Non-recursive.",
+   "use": "Speed."
+  },
+  {
+   "flag": "-R",
+   "plain": "Interactive recursion: ask before each folder.",
+   "use": "Control."
+  },
+  {
+   "flag": "-S",
+   "plain": "Silent mode: do not show the tested word.",
+   "use": "Clean output."
+  },
+  {
+   "flag": "-t",
+   "plain": "Do not force a trailing slash on URLs.",
+   "use": "Special sites."
+  },
+  {
+   "flag": "-u USER:PASS",
+   "plain": "HTTP authentication.",
+   "use": "Protected sites."
+  },
+  {
+   "flag": "-v",
+   "plain": "Show non-existent pages too.",
+   "use": "Debugging."
+  },
+  {
+   "flag": "-w",
+   "plain": "Do not stop on warning messages.",
+   "use": "Persistent scans."
+  },
+  {
+   "flag": "-X EXTENSIONS / -x FILE",
+   "plain": "Extensions, or a file with extensions.",
+   "use": "Finding files."
+  },
+  {
+   "flag": "-z MILLISECONDS",
+   "plain": "Delay between requests.",
+   "use": "Gentle scans."
+  }
+ ],
+ "mistakes": [
+  "Using only the small common.txt and concluding there is nothing there.",
+  "Forgetting -X and missing files such as admin.php.",
+  "Letting it recurse into a huge tree without a limit.",
+  "Not saving the output.",
+  "Running it against sites you are not authorised to test."
+ ],
+ "try": [
+  "Run dirb on a lab server and write down every code 200 and 301 result.",
+  "Rerun with -X .php,.txt and compare.",
+  "Compare the speed of -r against the default."
+ ],
+ "see_also": "gobuster(1), ffuf(1), wfuzz(1), nikto(1), curl(1), and the wordlists in /usr/share/dirb/wordlists.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

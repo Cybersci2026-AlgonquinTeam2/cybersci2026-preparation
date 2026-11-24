@@ -1,0 +1,198 @@
+{
+ "name": "nikto",
+ "section": "1",
+ "one_line": "web server vulnerability scanner",
+ "plain": [
+  "`nikto` asks a web server thousands of questions: does /admin exist, is this old version of Apache vulnerable, is a dangerous file left behind, are risky HTTP methods allowed? It prints every finding it can match against its database.",
+  "It is noisy: every probe shows in the server's logs, and many findings are informational. Use it as a quick first sweep on a lab web server, then investigate the interesting lines by hand."
+ ],
+ "when": [
+  "Get a quick list of known issues on a lab web server.",
+  "Find forgotten files and directories, default pages and risky methods.",
+  "Check server headers and outdated software.",
+  "Save a report for your notes."
+ ],
+ "examples": [
+  {
+   "title": "Scan a host",
+   "cmd": "nikto -h http://10.10.10.5",
+   "explain": "-h is the target. Output lines start with + and describe each finding, often with an OSVDB or CVE reference."
+  },
+  {
+   "title": "A different port",
+   "cmd": "nikto -h 10.10.10.5 -p 8080",
+   "explain": "-p sets the port (or a list such as 80,8080)."
+  },
+  {
+   "title": "HTTPS",
+   "cmd": "nikto -h https://10.10.10.5 -ssl",
+   "explain": "-ssl forces SSL mode."
+  },
+  {
+   "title": "Save a report",
+   "cmd": "nikto -h http://10.10.10.5 -o nikto.txt -Format txt",
+   "explain": "-o is the file; -Format can be csv, htm, json, txt, xml."
+  },
+  {
+   "title": "Choose test types",
+   "cmd": "nikto -h http://10.10.10.5 -Tuning 1 2 3",
+   "explain": "Tuning picks categories: 1 interesting files, 2 misconfigurations, 3 information disclosure, 4 injection (XSS), 9 SQL injection, x reverse the selection."
+  },
+  {
+   "title": "Behind a login",
+   "cmd": "nikto -h http://10.10.10.5 -id admin:password",
+   "explain": "Sends HTTP basic authentication with each request."
+  },
+  {
+   "title": "Quieter and slower",
+   "cmd": "nikto -h http://10.10.10.5 -Pause 2 -useragent 'Mozilla/5.0'",
+   "explain": "Waits between requests and sets the user agent. It does not make the scan invisible."
+  },
+  {
+   "title": "Through a proxy",
+   "cmd": "nikto -h http://10.10.10.5 -useproxy http://127.0.0.1:8080",
+   "explain": "Sends traffic through Burp so you can see every request."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-h, -host HOST",
+   "plain": "Target host, IP, URL or a file of hosts.",
+   "use": "Always."
+  },
+  {
+   "flag": "-p, -port PORT",
+   "plain": "Port or list of ports.",
+   "use": "Non-standard ports."
+  },
+  {
+   "flag": "-ssl / -nossl",
+   "plain": "Force or disable SSL.",
+   "use": "HTTPS or plain."
+  },
+  {
+   "flag": "-vhost HOST",
+   "plain": "Send this virtual host name.",
+   "use": "Name-based sites."
+  },
+  {
+   "flag": "-root DIR",
+   "plain": "Prepend a base path to every request.",
+   "use": "Apps under a folder."
+  },
+  {
+   "flag": "-id USER:PASS",
+   "plain": "HTTP basic authentication.",
+   "use": "Protected sites."
+  },
+  {
+   "flag": "-Tuning N",
+   "plain": "Test categories to run or skip.",
+   "use": "Faster focused scans."
+  },
+  {
+   "flag": "-Plugins LIST",
+   "plain": "Select plugins.",
+   "use": "Custom runs."
+  },
+  {
+   "flag": "-list-plugins",
+   "plain": "Show available plugins.",
+   "use": "Learning."
+  },
+  {
+   "flag": "-mutate N",
+   "plain": "Guess file and directory names with extra rules.",
+   "use": "Finding hidden items."
+  },
+  {
+   "flag": "-evasion N",
+   "plain": "Use IDS-evasion tricks for the request.",
+   "use": "Testing detection (authorised)."
+  },
+  {
+   "flag": "-o, -output FILE",
+   "plain": "Write a report.",
+   "use": "Evidence."
+  },
+  {
+   "flag": "-F, -Format FORMAT",
+   "plain": "Report format: csv, htm, json, msf+, nbe, txt, xml.",
+   "use": "Choosing output."
+  },
+  {
+   "flag": "-Display N",
+   "plain": "Control what is printed (1 redirects, 2 cookies, 3 OK, 4 URLs, E errors, V verbose).",
+   "use": "More or less detail."
+  },
+  {
+   "flag": "-useragent STRING",
+   "plain": "Set the User-Agent.",
+   "use": "Blending in or testing."
+  },
+  {
+   "flag": "-useproxy URL",
+   "plain": "Use a proxy.",
+   "use": "Burp."
+  },
+  {
+   "flag": "-timeout SECONDS",
+   "plain": "Per-request timeout.",
+   "use": "Slow targets."
+  },
+  {
+   "flag": "-maxtime TIME",
+   "plain": "Stop after this long.",
+   "use": "Time limits."
+  },
+  {
+   "flag": "-Pause SECONDS",
+   "plain": "Delay between requests.",
+   "use": "Gentler scans."
+  },
+  {
+   "flag": "-no404",
+   "plain": "Skip the slow 404-guessing checks.",
+   "use": "Speed."
+  },
+  {
+   "flag": "-nolookup",
+   "plain": "Do not look up host names.",
+   "use": "Speed."
+  },
+  {
+   "flag": "-C all",
+   "plain": "Check all possible CGI directories.",
+   "use": "Thorough scans."
+  },
+  {
+   "flag": "-update",
+   "plain": "Update databases and plugins.",
+   "use": "Fresh checks."
+  },
+  {
+   "flag": "-dbcheck",
+   "plain": "Check the databases for syntax errors.",
+   "use": "Troubleshooting."
+  },
+  {
+   "flag": "-Version / -Help",
+   "plain": "Show version / help.",
+   "use": "A reminder."
+  }
+ ],
+ "mistakes": [
+  "Treating every + line as a vulnerability: many are informational.",
+  "Running it on a site you do not have permission to scan: it is loud and easily detected.",
+  "Forgetting -ssl and getting no results from an HTTPS port.",
+  "Scanning only the default port and missing the app on 8080.",
+  "Not saving the report."
+ ],
+ "try": [
+  "Scan your own lab web server and sort the findings into 'real' and 'noise'.",
+  "Run again with -Tuning 1 2 3 and compare.",
+  "Send nikto through Burp and watch the requests it makes."
+ ],
+ "see_also": "gobuster(1), ffuf(1), wfuzz(1), dirb(1), curl(1), nmap(1) (http-* scripts), burpsuite.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}
