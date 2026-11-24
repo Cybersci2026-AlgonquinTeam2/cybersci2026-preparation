@@ -60,7 +60,7 @@ cybersci-prep/
 │   └── README.md                   # Writeups, concepts, and reusable knowledge
 ├── tools/
 │   └── README.md                   # Planned local tools and MCP boundaries
-├── mangui/                         # Enhanced man pages: original page + layman guide (93 guides); README.md for install
+├── mangui/                         # Enhanced man pages: original page + layman guide (102 guides); README.md for install
 ├── dist/offline/                   # Built PDFs/EPUB for iPhone (scripts/build_offline.py)
 └── scripts/
     └── README.md                   # Small validation/recording helpers

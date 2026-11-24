@@ -2,7 +2,7 @@
 
 The Command Atlas pages (`curriculum/atlas/*.md`) are the long-form study notes with captured output. The **man-page guides** (`mangui/guides/*.json`, installed with `python3 mangui/mangui.py install`) are what you read in the terminal: the original `man` page followed by a layman guide. The old `atlas-NAME.1` pages and `install-man.sh` are gone; their content was merged into the guides and the `atlas-` naming dropped.
 
-Status as of 2026-11-24: **93 guides** (see `mangui/README.md` for the list by group).
+Status as of 2026-11-24: **102 guides** (see `mangui/README.md` for the list by group).
 
 ## Done
 
