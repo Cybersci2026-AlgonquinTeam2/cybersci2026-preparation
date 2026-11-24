@@ -1,0 +1,213 @@
+{
+ "name": "git",
+ "section": "1",
+ "one_line": "distributed version control: track, share and recover changes",
+ "plain": [
+  "`git` records snapshots of a folder (called commits) so you can see what changed, go back to an earlier version, and share work with others. A folder tracked by git is a repository.",
+  "The daily loop is: change files, `git add` the ones you want in the next snapshot (the staging area), `git commit` to record it, `git push` to send it to a server such as GitHub, `git pull` to bring others' work down.",
+  "For security work git has a second use: repositories leak secrets. An old commit, a deleted file or a hidden .git folder on a web server often holds passwords and keys. This page is focused on the most-used commands and cases, not every option."
+ ],
+ "when": [
+  "Get a copy of a project (clone) and keep it up to date.",
+  "Save your own work in steps and undo mistakes.",
+  "Work on a feature in a branch and merge it.",
+  "Search a repository's history for a leaked password or flag.",
+  "Recover a deleted file."
+ ],
+ "examples": [
+  {
+   "title": "Copy a repository",
+   "cmd": "git clone https://github.com/user/project.git",
+   "explain": "Downloads the whole project with its history into a folder named project."
+  },
+  {
+   "title": "See what has changed",
+   "cmd": "git status\ngit diff",
+   "explain": "status lists changed and new files; diff shows the line-by-line changes not yet staged. git diff --staged shows what is staged."
+  },
+  {
+   "title": "Save a snapshot",
+   "cmd": "git add notes.md\ngit commit -m 'Add notes for web labs'",
+   "explain": "add puts the file in the staging area, commit records it with a message. git add -A stages everything."
+  },
+  {
+   "title": "Send and receive",
+   "cmd": "git push origin main\ngit pull",
+   "explain": "push uploads your commits to the remote called origin on branch main. pull downloads and merges new ones."
+  },
+  {
+   "title": "Look at history",
+   "cmd": "git log --oneline --graph --all",
+   "explain": "One line per commit, with branches drawn. -p adds the changes; -n 5 limits the count."
+  },
+  {
+   "title": "Branch and merge",
+   "cmd": "git switch -c fix-typo\n# edit and commit\ngit switch main\ngit merge fix-typo",
+   "explain": "switch -c creates and enters a branch. After committing there, go back to main and merge it in."
+  },
+  {
+   "title": "Undo carefully",
+   "cmd": "git restore notes.md\ngit restore --staged notes.md\ngit revert abc1234",
+   "explain": "restore throws away uncommitted changes in a file; --staged unstages; revert adds a new commit that cancels an old one. These are the safe undo tools."
+  },
+  {
+   "title": "Park unfinished work",
+   "cmd": "git stash\ngit stash pop",
+   "explain": "stash puts your uncommitted changes aside so you can switch branches; pop brings them back."
+  },
+  {
+   "title": "Hunt for a leaked secret",
+   "cmd": "git log -p --all -S 'password' -- .\ngit grep -i 'api_key' $(git rev-list --all)",
+   "explain": "-S finds commits that added or removed that text. rev-list --all gives every commit to search. Also try git log --all --diff-filter=D --name-only to find deleted files."
+  },
+  {
+   "title": "Recover a hidden .git from a website (lab)",
+   "cmd": "wget -r http://10.10.10.5/.git/ && cd 10.10.10.5 && git checkout -- . && git log",
+   "explain": "If a web server exposes /.git/, downloading it gives the whole project and history. Tools such as git-dumper automate this. Only on authorised targets."
+  },
+  {
+   "title": "Ignore files",
+   "cmd": "echo 'secrets.env' >> .gitignore",
+   "explain": "Names in .gitignore are never added by accident. It does not remove a file that is already tracked."
+  }
+ ],
+ "options": [
+  {
+   "flag": "clone URL [DIR]",
+   "plain": "Copy a remote repository.",
+   "use": "Starting."
+  },
+  {
+   "flag": "init",
+   "plain": "Turn the current folder into a repository.",
+   "use": "New projects."
+  },
+  {
+   "flag": "status [-s]",
+   "plain": "Show changed, staged and untracked files (-s for short).",
+   "use": "Checking before commit."
+  },
+  {
+   "flag": "add FILE... / -A / -p",
+   "plain": "Stage files / everything / chosen parts of files.",
+   "use": "Choosing what goes in a commit."
+  },
+  {
+   "flag": "commit -m MSG / -a / --amend",
+   "plain": "Record a snapshot with a message / include tracked changes / redo the last commit.",
+   "use": "Saving."
+  },
+  {
+   "flag": "diff [--staged] [A B]",
+   "plain": "Show changes; compare two commits or branches.",
+   "use": "Reviewing."
+  },
+  {
+   "flag": "log [--oneline] [--graph] [-p] [-n N] [--all] [-S TEXT] [-- PATH]",
+   "plain": "Show history; search commits that changed TEXT; limit to a path.",
+   "use": "Investigation."
+  },
+  {
+   "flag": "show COMMIT",
+   "plain": "Show one commit and its changes.",
+   "use": "Reading a commit."
+  },
+  {
+   "flag": "branch [-a] [-d NAME]",
+   "plain": "List, list all, or delete branches.",
+   "use": "Branch management."
+  },
+  {
+   "flag": "switch BRANCH / switch -c NEW",
+   "plain": "Change to a branch / create and change.",
+   "use": "Moving around."
+  },
+  {
+   "flag": "checkout BRANCH|COMMIT|-- FILE",
+   "plain": "Older all-purpose command: change branch, inspect a commit, restore a file.",
+   "use": "Reading old guides."
+  },
+  {
+   "flag": "merge BRANCH",
+   "plain": "Combine another branch into the current one.",
+   "use": "Joining work."
+  },
+  {
+   "flag": "rebase BRANCH",
+   "plain": "Replay your commits on top of another branch.",
+   "use": "A cleaner history."
+  },
+  {
+   "flag": "remote -v / add NAME URL",
+   "plain": "List or add remote repositories.",
+   "use": "Linking to a server."
+  },
+  {
+   "flag": "fetch / pull / push",
+   "plain": "Download only / download and merge / upload.",
+   "use": "Syncing."
+  },
+  {
+   "flag": "restore [--staged] FILE",
+   "plain": "Discard changes or unstage.",
+   "use": "Undo."
+  },
+  {
+   "flag": "reset [--soft|--mixed|--hard] COMMIT",
+   "plain": "Move the branch pointer; --hard also overwrites files.",
+   "use": "Careful undo (hard loses work)."
+  },
+  {
+   "flag": "revert COMMIT",
+   "plain": "Make a new commit that undoes an old one.",
+   "use": "Safe undo of shared history."
+  },
+  {
+   "flag": "stash [push|pop|list]",
+   "plain": "Shelve and bring back uncommitted work.",
+   "use": "Context switching."
+  },
+  {
+   "flag": "tag NAME",
+   "plain": "Name a commit (a version).",
+   "use": "Releases."
+  },
+  {
+   "flag": "grep PATTERN",
+   "plain": "Search the files tracked by git.",
+   "use": "Fast code search."
+  },
+  {
+   "flag": "blame FILE",
+   "plain": "Show who last changed each line.",
+   "use": "Finding the origin of a line."
+  },
+  {
+   "flag": "config --global user.name / user.email",
+   "plain": "Set your identity for commits.",
+   "use": "First-time setup."
+  },
+  {
+   "flag": "--help, git help COMMAND",
+   "plain": "Open the manual for a command.",
+   "use": "Learning more."
+  }
+ ],
+ "mistakes": [
+  "Committing secrets: a password pushed once stays in history even if you delete the file later. Rotate it.",
+  "git reset --hard or git checkout -- . throws away uncommitted work with no undo.",
+  "Force-pushing (git push --force) over other people's commits.",
+  "Working directly on main when a branch would be safer.",
+  "Forgetting git pull before starting and getting merge conflicts.",
+  "Assuming .gitignore removes files already tracked: use git rm --cached."
+ ],
+ "try": [
+  "Make a folder, git init, create two files and commit them separately.",
+  "Create a branch, change a file, merge it back.",
+  "Search a repo's history for the word 'password' with git log -S.",
+  "Delete a file and bring it back with git restore."
+ ],
+ "see_also": "gitignore(5), git-config(1), gitk(1), gh(1), git-dumper, truffleHog and gitleaks (secret scanners), and the free Pro Git book.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output.",
+ "partial": true
+}

@@ -10,7 +10,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 OUT = Path(__file__).resolve().parent.parent / "mangui" / "guides"
-MODULES = ["mangui_batch4", "mangui_batch5", "mangui_batch6", "mangui_batch7", "mangui_batch8", "mangui_batch9", "mangui_batch10", "mangui_batch11"]
+MODULES = ["mangui_batch4", "mangui_batch5", "mangui_batch6", "mangui_batch7", "mangui_batch8", "mangui_batch9", "mangui_batch10", "mangui_batch11", "mangui_batch12"]
 
 
 def main():
@@ -22,6 +22,8 @@ def main():
                        examples=[dict(title=t, cmd=c, explain=e) for t, c, e in g["examples"]],
                        options=[dict(flag=f, plain=p, use=u) for f, p, u in g["options"]], mistakes=g["mistakes"], **{"try": g["try_"]},
                        see_also=g["see_also"], captured_with="Examples are written to explain a technique; they are not captured output.")
+            if g.get("partial"):
+                doc["partial"] = True
             (OUT / f"{g['name']}.json").write_text(json.dumps(doc, indent=1, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
             print(f"{g['name']:8s} {len(g['examples'])} examples, {len(g['options'])} options")
 

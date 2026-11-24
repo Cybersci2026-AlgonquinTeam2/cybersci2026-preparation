@@ -1,0 +1,198 @@
+{
+ "name": "bash",
+ "section": "1",
+ "one_line": "the GNU Bourne-Again shell (command interpreter)",
+ "plain": [
+  "`bash` is the program that reads what you type in the terminal and runs it. It also runs scripts: text files full of commands with variables, tests and loops.",
+  "Much of CTF work is bash: chaining tools with pipes, looping over files or ports, and writing quick one-liners. This page is focused on the habits and syntax you use most, not every option of the very large bash manual."
+ ],
+ "when": [
+  "Chain commands with pipes and redirects.",
+  "Loop over a list of hosts, files or numbers.",
+  "Write a small script to automate a task.",
+  "Use history and shortcuts to work fast.",
+  "Run a one-liner with bash -c."
+ ],
+ "examples": [
+  {
+   "title": "Run a command and use its output",
+   "cmd": "echo \"Today is $(date +%F)\"",
+   "explain": "$(...) runs a command and pastes its output in place (command substitution)."
+  },
+  {
+   "title": "Variables",
+   "cmd": "target=10.10.10.5\necho \"$target\"\nnmap -sV \"$target\"",
+   "explain": "No spaces around =. Use $name to read it, and quote it so spaces do not break things."
+  },
+  {
+   "title": "Pipes and redirects",
+   "cmd": "cat access.log | grep 404 | wc -l\nls > files.txt\nls >> files.txt\ncmd 2> errors.txt\ncmd > all.txt 2>&1",
+   "explain": "| feeds one command into the next; > overwrites; >> appends; 2> redirects errors; 2>&1 sends errors to the same place as output."
+  },
+  {
+   "title": "Loop over a list",
+   "cmd": "for ip in 10.10.10.{1..5}; do ping -c1 -W1 $ip >/dev/null && echo \"$ip up\"; done",
+   "explain": "{1..5} expands to five addresses. && runs the echo only if ping succeeded."
+  },
+  {
+   "title": "Read a file line by line",
+   "cmd": "while read -r line; do echo \"[$line]\"; done < users.txt",
+   "explain": "The loop runs once per line. -r keeps backslashes as they are."
+  },
+  {
+   "title": "A test and a branch",
+   "cmd": "if [ -f flag.txt ]; then cat flag.txt; else echo 'no flag'; fi",
+   "explain": "[ ] is the test command; see man test for all the checks."
+  },
+  {
+   "title": "A small script",
+   "cmd": "#!/usr/bin/env bash\nset -euo pipefail\nfor f in \"$@\"; do echo \"== $f\"; file \"$f\"; done",
+   "explain": "Save as check.sh, run chmod +x check.sh, then ./check.sh a b c. set -euo pipefail makes the script stop on errors and unset variables."
+  },
+  {
+   "title": "Run a string as bash",
+   "cmd": "bash -c 'echo $0 $1' name arg",
+   "explain": "-c runs the string instead of a file; the words after it become $0, $1... Useful in xargs and cron."
+  },
+  {
+   "title": "History tricks",
+   "cmd": "!!   sudo !!   !$   Ctrl+R",
+   "explain": "!! repeats the last command; sudo !! repeats it with sudo; !$ is its last word; Ctrl+R searches your history as you type."
+  },
+  {
+   "title": "Keyboard shortcuts",
+   "cmd": "Ctrl+A / Ctrl+E / Ctrl+W / Ctrl+U / Ctrl+L / Ctrl+C / Ctrl+D",
+   "explain": "Start of line, end of line, delete word, delete to start, clear screen, interrupt, end of input (exit)."
+  },
+  {
+   "title": "Brace and glob expansion",
+   "cmd": "mkdir -p ctf/{web,pwn}/notes\nls *.txt\ncp file.{txt,bak}",
+   "explain": "The shell expands braces and wildcards before the command sees them: file.{txt,bak} becomes file.txt file.bak."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-c STRING",
+   "plain": "Run the commands in STRING.",
+   "use": "One-liners and cron."
+  },
+  {
+   "flag": "-x",
+   "plain": "Print each command before running it.",
+   "use": "Debugging scripts."
+  },
+  {
+   "flag": "-e",
+   "plain": "Stop on the first error.",
+   "use": "Safer scripts."
+  },
+  {
+   "flag": "-u",
+   "plain": "Treat unset variables as an error.",
+   "use": "Catching typos."
+  },
+  {
+   "flag": "-o pipefail",
+   "plain": "A pipeline fails if any command in it fails.",
+   "use": "Reliable scripts."
+  },
+  {
+   "flag": "-n",
+   "plain": "Read the script but do not run it (syntax check).",
+   "use": "Checking syntax."
+  },
+  {
+   "flag": "-i",
+   "plain": "Interactive shell.",
+   "use": "Starting a shell."
+  },
+  {
+   "flag": "-l, --login",
+   "plain": "Behave as a login shell.",
+   "use": "Environment loading."
+  },
+  {
+   "flag": "-r",
+   "plain": "Restricted shell.",
+   "use": "Locked-down accounts (and escaping them in CTFs)."
+  },
+  {
+   "flag": "--norc / --noprofile",
+   "plain": "Do not read ~/.bashrc / profile files.",
+   "use": "A clean shell."
+  },
+  {
+   "flag": "-p",
+   "plain": "Privileged mode: do not drop the effective user id.",
+   "use": "Setuid bash tricks in labs."
+  },
+  {
+   "flag": "--version, --help",
+   "plain": "Version and short help.",
+   "use": "A reminder."
+  },
+  {
+   "flag": "Quoting: 'single' \"double\" \\escape",
+   "plain": "Single quotes: nothing changes. Double quotes: variables and $(...) expand. Backslash escapes one character.",
+   "use": "Avoiding breakage."
+  },
+  {
+   "flag": "Redirection: > >> < 2> &> <<< <<EOF",
+   "plain": "Output, append, input, errors, both, here-string, here-document.",
+   "use": "Connecting files."
+  },
+  {
+   "flag": "Pipes and lists: | && || ;  &",
+   "plain": "Pipe, and-then, or-else, then, run in background.",
+   "use": "Chaining."
+  },
+  {
+   "flag": "Expansions: $VAR ${VAR:-default} $(cmd) $((1+2)) {a,b} {1..5} *.txt ~",
+   "plain": "Variables, defaults, command output, arithmetic, braces, ranges, wildcards, home folder.",
+   "use": "Everyday shortcuts."
+  },
+  {
+   "flag": "Special variables: $? $$ $! $0 $1 $@ $#",
+   "plain": "Last exit code, shell pid, last background pid, script name, arguments, all arguments, argument count.",
+   "use": "Scripting."
+  },
+  {
+   "flag": "Control: if/elif/else/fi, for, while, until, case, function",
+   "plain": "Branches, loops, matching, functions.",
+   "use": "Scripts."
+  },
+  {
+   "flag": "Builtins: cd, export, alias, source, type, read, set, trap, jobs, fg, bg, history",
+   "plain": "Shell-internal commands.",
+   "use": "Environment and job control."
+  },
+  {
+   "flag": "Job control: Ctrl+Z, bg, fg, jobs, &",
+   "plain": "Suspend, resume in background, resume in foreground, list, start in background.",
+   "use": "Several tasks."
+  },
+  {
+   "flag": "Startup files: ~/.bashrc, ~/.profile, /etc/profile",
+   "plain": "Run when the shell starts; put aliases and PATH changes here.",
+   "use": "Customising."
+  }
+ ],
+ "mistakes": [
+  "Spaces around = in an assignment (a = 1 runs a command named a).",
+  "Not quoting variables: a file called 'my file' becomes two arguments.",
+  "Using [ $x = y ] when $x is empty or has spaces.",
+  "Parsing ls output: use globs or find instead.",
+  "Forgetting set -euo pipefail in scripts and missing failures.",
+  "Writing scripts with Windows (CRLF) line endings: bash says ^M: bad interpreter.",
+  "Running untrusted one-liners (curl | bash) without reading them."
+ ],
+ "try": [
+  "Write a loop that pings 10.10.10.1 through 10.10.10.5 and prints the ones that answer.",
+  "Write a script that takes file names and prints file's output for each.",
+  "Use Ctrl+R to find a command you ran earlier.",
+  "Redirect a command's errors to a file with 2> and read them."
+ ],
+ "see_also": "test(1), echo(1), printf(1), find(1), xargs(1), sed(1), awk(1), grep(1), dash(1), zsh(1), and the Bash Reference Manual (info bash).",
+ "captured_with": "Examples are written to explain a technique; they are not captured output.",
+ "partial": true
+}

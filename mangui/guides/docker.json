@@ -1,0 +1,218 @@
+{
+ "name": "docker",
+ "section": "1",
+ "one_line": "build and run containers (isolated, packaged applications)",
+ "plain": [
+  "A container is a lightweight, isolated box that holds a program and everything it needs. An image is the packaged recipe; a container is a running copy of an image. `docker` is the command that builds images and runs containers.",
+  "Labs love it: one command starts a vulnerable machine, another deletes it, so your computer stays clean. This page is focused on the most-used commands, not every option.",
+  "Security note: being in the docker group (or being able to run docker) is almost the same as being root on that host, because you can mount the host's folders into a container."
+ ],
+ "when": [
+  "Start a ready-made lab or tool (DVWA, Juice Shop, a Kali image).",
+  "Run a command in an isolated environment.",
+  "Build your own image from a Dockerfile.",
+  "Copy files in and out of a container.",
+  "Clean up unused containers and images."
+ ],
+ "examples": [
+  {
+   "title": "Run a container and get a shell",
+   "cmd": "docker run -it --rm ubuntu:24.04 bash",
+   "explain": "-it gives an interactive terminal, --rm deletes the container when you exit. You are now in a fresh Ubuntu."
+  },
+  {
+   "title": "Run a web lab in the background",
+   "cmd": "docker run -d --name juice -p 3000:3000 bkimminich/juice-shop",
+   "explain": "-d detaches, --name names it, -p 3000:3000 maps your port 3000 to the container's port 3000. Browse to http://localhost:3000."
+  },
+  {
+   "title": "What is running?",
+   "cmd": "docker ps\ndocker ps -a",
+   "explain": "ps lists running containers; -a includes stopped ones."
+  },
+  {
+   "title": "Read logs",
+   "cmd": "docker logs -f juice",
+   "explain": "-f follows new output like tail -f."
+  },
+  {
+   "title": "Get a shell in a running container",
+   "cmd": "docker exec -it juice sh",
+   "explain": "exec runs a command inside an existing container; sh because many small images lack bash."
+  },
+  {
+   "title": "Stop and remove",
+   "cmd": "docker stop juice\ndocker rm juice",
+   "explain": "stop ends it politely, rm deletes the container. docker rm -f does both."
+  },
+  {
+   "title": "Share a folder with the container",
+   "cmd": "docker run -it --rm -v \"$PWD\":/work -w /work ubuntu:24.04 bash",
+   "explain": "-v host:container mounts your current folder at /work, -w sets the starting folder. Edits are visible on both sides."
+  },
+  {
+   "title": "Build an image",
+   "cmd": "docker build -t myimage .",
+   "explain": "Reads the Dockerfile in the current folder and tags the result myimage."
+  },
+  {
+   "title": "Copy files",
+   "cmd": "docker cp juice:/etc/hosts ./hosts\ndocker cp ./note.txt juice:/tmp/",
+   "explain": "cp moves files between your machine and a container."
+  },
+  {
+   "title": "Inspect and tidy",
+   "cmd": "docker inspect juice | head -40\ndocker image ls\ndocker system prune",
+   "explain": "inspect prints settings and IP; image ls lists images; system prune removes unused containers, networks and dangling images (it asks first)."
+  },
+  {
+   "title": "Compose several containers",
+   "cmd": "docker compose up -d\ndocker compose down",
+   "explain": "A docker-compose.yml describes a multi-container lab; up -d starts it, down removes it."
+  }
+ ],
+ "options": [
+  {
+   "flag": "run [OPTIONS] IMAGE [CMD]",
+   "plain": "Create and start a container.",
+   "use": "Starting anything."
+  },
+  {
+   "flag": "-d, --detach",
+   "plain": "Run in the background.",
+   "use": "Servers."
+  },
+  {
+   "flag": "-it",
+   "plain": "-i keep input open, -t give a terminal.",
+   "use": "Interactive shells."
+  },
+  {
+   "flag": "--rm",
+   "plain": "Delete the container when it exits.",
+   "use": "Throw-away runs."
+  },
+  {
+   "flag": "--name NAME",
+   "plain": "Give the container a name.",
+   "use": "Easy reference."
+  },
+  {
+   "flag": "-p HOST:CONTAINER",
+   "plain": "Publish a port.",
+   "use": "Reaching a service."
+  },
+  {
+   "flag": "-v HOST:CONTAINER[:ro]",
+   "plain": "Mount a folder or volume (read-only with :ro).",
+   "use": "Sharing files."
+  },
+  {
+   "flag": "-e KEY=VALUE",
+   "plain": "Set an environment variable.",
+   "use": "Configuring."
+  },
+  {
+   "flag": "--network NAME / --net host",
+   "plain": "Choose the network (host shares the host's network).",
+   "use": "Labs and scans."
+  },
+  {
+   "flag": "-w DIR",
+   "plain": "Working directory inside.",
+   "use": "Starting location."
+  },
+  {
+   "flag": "-u USER",
+   "plain": "Run as this user.",
+   "use": "Not root."
+  },
+  {
+   "flag": "--privileged",
+   "plain": "Give the container nearly all host rights.",
+   "use": "Rare, dangerous."
+  },
+  {
+   "flag": "ps [-a]",
+   "plain": "List containers.",
+   "use": "Seeing state."
+  },
+  {
+   "flag": "images, image ls",
+   "plain": "List images.",
+   "use": "Seeing what is downloaded."
+  },
+  {
+   "flag": "pull IMAGE",
+   "plain": "Download an image.",
+   "use": "Pre-loading."
+  },
+  {
+   "flag": "exec [-it] CONTAINER CMD",
+   "plain": "Run a command in a running container.",
+   "use": "Getting inside."
+  },
+  {
+   "flag": "logs [-f] [--tail N] CONTAINER",
+   "plain": "Show output.",
+   "use": "Debugging."
+  },
+  {
+   "flag": "stop / start / restart CONTAINER",
+   "plain": "Control a container.",
+   "use": "Management."
+  },
+  {
+   "flag": "rm [-f] CONTAINER / rmi IMAGE",
+   "plain": "Remove a container / image.",
+   "use": "Cleaning."
+  },
+  {
+   "flag": "build -t NAME [-f FILE] PATH",
+   "plain": "Build an image from a Dockerfile.",
+   "use": "Custom images."
+  },
+  {
+   "flag": "cp SRC DEST",
+   "plain": "Copy files between host and container.",
+   "use": "Moving files."
+  },
+  {
+   "flag": "inspect NAME",
+   "plain": "Show detailed JSON, including the IP address.",
+   "use": "Finding settings."
+  },
+  {
+   "flag": "system prune [-a]",
+   "plain": "Delete unused data.",
+   "use": "Reclaiming disk space."
+  },
+  {
+   "flag": "compose up -d / down / logs",
+   "plain": "Manage multi-container labs from a docker-compose.yml.",
+   "use": "Complex labs."
+  },
+  {
+   "flag": "--help",
+   "plain": "Help for any command: docker run --help.",
+   "use": "Looking up options."
+  }
+ ],
+ "mistakes": [
+  "Forgetting --rm and filling the disk with stopped containers.",
+  "Exposing a lab to the world with -p 0.0.0.0: use 127.0.0.1:3000:3000 for local-only.",
+  "Expecting data to survive: container storage is deleted with the container unless you mount a volume.",
+  "Using --privileged or mounting / without understanding that it hands over the host.",
+  "Running docker without sudo and getting 'permission denied': add your user to the docker group (which is itself a privilege decision).",
+  "Using :latest and getting a different image later."
+ ],
+ "try": [
+  "Run ubuntu with -it --rm and check cat /etc/os-release.",
+  "Start Juice Shop on port 3000 and stop it again.",
+  "Mount your current folder into a container and create a file from inside.",
+  "Run docker system df to see what takes space."
+ ],
+ "see_also": "docker-compose(1), podman(1), kubectl(1), dive, trivy, and the Docker docs at docs.docker.com.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output.",
+ "partial": true
+}
