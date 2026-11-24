@@ -1,0 +1,233 @@
+{
+ "name": "ffuf",
+ "section": "1",
+ "one_line": "fast web fuzzer",
+ "plain": [
+  "`ffuf` replaces the word FUZZ in a request with every line of a wordlist and shows which answers look interesting. FUZZ can sit in the path, a parameter, a header, a cookie or a POST body.",
+  "That one idea covers directory discovery, parameter discovery, virtual host discovery and simple login guessing. The skill is in filtering: most guesses give the same boring reply, so you hide it by status (-fc), size (-fs), words (-fw) or lines (-fl) and look at what is left."
+ ],
+ "when": [
+  "Find hidden paths and files.",
+  "Find unknown GET/POST parameters.",
+  "Find virtual hosts by changing the Host header.",
+  "Test many values in a field with a filter on the response."
+ ],
+ "examples": [
+  {
+   "title": "Directory discovery",
+   "cmd": "ffuf -u http://10.10.10.5/FUZZ -w /usr/share/wordlists/dirb/common.txt",
+   "explain": "FUZZ in the URL is replaced with each word. Results print with status, size, words and lines."
+  },
+  {
+   "title": "Hide the common reply",
+   "cmd": "ffuf -u http://10.10.10.5/FUZZ -w common.txt -fc 404 -fs 1234",
+   "explain": "-fc hides a status code and -fs hides a response size. If every wrong guess is 1234 bytes, hiding that size leaves only the real hits."
+  },
+  {
+   "title": "Add extensions",
+   "cmd": "ffuf -u http://10.10.10.5/FUZZ -w common.txt -e .php,.txt,.bak",
+   "explain": "-e tries each word with each extension too."
+  },
+  {
+   "title": "Find virtual hosts",
+   "cmd": "ffuf -u http://10.10.10.5/ -H 'Host: FUZZ.target.htb' -w subdomains.txt -fs 4242",
+   "explain": "FUZZ goes in the Host header. A different size from the default means a different site."
+  },
+  {
+   "title": "Fuzz a parameter name",
+   "cmd": "ffuf -u 'http://10.10.10.5/page.php?FUZZ=1' -w params.txt -fs 0",
+   "explain": "Finds which parameter changes the page; many hidden pages react to ?debug= or ?file=."
+  },
+  {
+   "title": "Fuzz a parameter value",
+   "cmd": "ffuf -u 'http://10.10.10.5/page.php?id=FUZZ' -w <(seq 1 200) -fc 404",
+   "explain": "A numbered list of ids shows which exist. Process substitution <(seq 1 200) builds the list on the fly."
+  },
+  {
+   "title": "POST login guessing in a lab",
+   "cmd": "ffuf -u http://10.10.10.5/login -X POST -d 'user=admin&pass=FUZZ' -H 'Content-Type: application/x-www-form-urlencoded' -w passwords.txt -fr 'Invalid'",
+   "explain": "-fr hides replies matching a regular expression (here the failure message). The reply that is different is the match."
+  },
+  {
+   "title": "Two wordlists at once",
+   "cmd": "ffuf -u http://10.10.10.5/W1/W2 -w dirs.txt:W1 -w files.txt:W2",
+   "explain": "Name each list with :NAME and use that name in the request to try all combinations."
+  },
+  {
+   "title": "Save as a file",
+   "cmd": "ffuf -u http://10.10.10.5/FUZZ -w common.txt -o out.json -of json",
+   "explain": "-o and -of write results as json, csv, html and more."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-u URL",
+   "plain": "Target URL, with FUZZ marking the spot.",
+   "use": "Always."
+  },
+  {
+   "flag": "-w FILE[:KEYWORD]",
+   "plain": "Wordlist, optionally with a keyword name (default FUZZ).",
+   "use": "Always."
+  },
+  {
+   "flag": "-H 'Header: value'",
+   "plain": "Add a header; can hold FUZZ.",
+   "use": "Vhost and token tests."
+  },
+  {
+   "flag": "-X METHOD",
+   "plain": "HTTP method.",
+   "use": "POST, PUT."
+  },
+  {
+   "flag": "-d DATA",
+   "plain": "Request body.",
+   "use": "Form or JSON fuzzing."
+  },
+  {
+   "flag": "-b 'a=b; c=d'",
+   "plain": "Cookie data.",
+   "use": "Logged-in fuzzing."
+  },
+  {
+   "flag": "-e ext1,ext2",
+   "plain": "Extensions added to each word.",
+   "use": "Files."
+  },
+  {
+   "flag": "-mc codes",
+   "plain": "Match these status codes (default 200-299,301,302,307,401,403,405,500).",
+   "use": "Only certain results."
+  },
+  {
+   "flag": "-ms size / -mw words / -ml lines / -mr regex",
+   "plain": "Match by size, word count, line count or regex.",
+   "use": "Positive matching."
+  },
+  {
+   "flag": "-fc codes",
+   "plain": "Filter out these status codes.",
+   "use": "Hiding noise."
+  },
+  {
+   "flag": "-fs size / -fw words / -fl lines / -fr regex",
+   "plain": "Filter out by size, word count, line count or regex.",
+   "use": "Hiding the common reply."
+  },
+  {
+   "flag": "-ac",
+   "plain": "Auto-calibrate filters.",
+   "use": "Quick start when unsure."
+  },
+  {
+   "flag": "-t N",
+   "plain": "Threads (default 40).",
+   "use": "Speed."
+  },
+  {
+   "flag": "-rate N",
+   "plain": "Requests per second.",
+   "use": "Staying under a limit."
+  },
+  {
+   "flag": "-p seconds",
+   "plain": "Delay between requests.",
+   "use": "Slow targets."
+  },
+  {
+   "flag": "-timeout N",
+   "plain": "Request timeout.",
+   "use": "Slow targets."
+  },
+  {
+   "flag": "-maxtime N",
+   "plain": "Stop after N seconds.",
+   "use": "Time limits."
+  },
+  {
+   "flag": "-mode clusterbomb|pitchfork|sniper",
+   "plain": "How multiple wordlists combine.",
+   "use": "Several FUZZ points."
+  },
+  {
+   "flag": "-recursion / -recursion-depth N",
+   "plain": "Recurse into found directories.",
+   "use": "Digging deeper."
+  },
+  {
+   "flag": "-r",
+   "plain": "Follow redirects.",
+   "use": "Redirected pages."
+  },
+  {
+   "flag": "-x URL",
+   "plain": "Use a proxy.",
+   "use": "Through Burp."
+  },
+  {
+   "flag": "-replay-proxy URL",
+   "plain": "Replay only the matched requests to a proxy.",
+   "use": "Inspecting hits in Burp."
+  },
+  {
+   "flag": "-k",
+   "plain": "Skip TLS verification.",
+   "use": "Self-signed lab sites."
+  },
+  {
+   "flag": "-o FILE / -of FORMAT",
+   "plain": "Output file and format.",
+   "use": "Saving results."
+  },
+  {
+   "flag": "-c",
+   "plain": "Colourise output.",
+   "use": "Readability."
+  },
+  {
+   "flag": "-s",
+   "plain": "Silent mode.",
+   "use": "Scripts."
+  },
+  {
+   "flag": "-v",
+   "plain": "Verbose: print full URL and redirect.",
+   "use": "Debugging."
+  },
+  {
+   "flag": "-sf / -se",
+   "plain": "Stop on spurious errors or on all errors.",
+   "use": "Safe runs."
+  },
+  {
+   "flag": "-ic",
+   "plain": "Ignore comment lines in the wordlist.",
+   "use": "Wordlists with comments."
+  },
+  {
+   "flag": "-input-cmd CMD",
+   "plain": "Run a command to produce the input.",
+   "use": "Generated lists."
+  },
+  {
+   "flag": "-h",
+   "plain": "Help.",
+   "use": "A reminder."
+  }
+ ],
+ "mistakes": [
+  "Not filtering: a thousand lines of the same reply hide the one that matters. Try -ac or -fs.",
+  "Forgetting to quote a URL with & or ? in the shell.",
+  "Wrong keyword when you use two lists.",
+  "Too many threads on a small server.",
+  "Fuzzing a real site without permission."
+ ],
+ "try": [
+  "Find a hidden directory with common.txt and -fc 404.",
+  "Find the response size of a wrong guess, then filter it with -fs.",
+  "Try Host: FUZZ.target.htb on a lab machine."
+ ],
+ "see_also": "gobuster(1), wfuzz(1), curl(1), burpsuite, and the seclists wordlists in /usr/share/seclists.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

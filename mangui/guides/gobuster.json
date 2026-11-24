@@ -1,0 +1,244 @@
+{
+ "name": "gobuster",
+ "section": "1",
+ "one_line": "directory, DNS and virtual-host brute forcer",
+ "plain": [
+  "`gobuster` guesses names. Give it a wordlist and a target and it tries every word to see what exists: directories and files on a website, subdomains of a domain, or virtual hosts on a server.",
+  "A 200 or 301 reply means the thing exists; a 404 means it does not. Hidden pages like /admin, /backup or /secret are often the way into a CTF web target.",
+  "It works in modes: dir (web paths), dns (subdomains), vhost (virtual hosts), s3 and fuzz."
+ ],
+ "when": [
+  "Find hidden directories and files on a web server.",
+  "Find subdomains of a domain.",
+  "Find virtual hosts that share one IP.",
+  "Look for backup, config or admin files by extension."
+ ],
+ "examples": [
+  {
+   "title": "Find directories",
+   "cmd": "gobuster dir -u http://10.10.10.5 -w /usr/share/wordlists/dirb/common.txt",
+   "explain": "dir mode tries every word as a path. Hits print with their status code and size."
+  },
+  {
+   "title": "Also try file extensions",
+   "cmd": "gobuster dir -u http://10.10.10.5 -w common.txt -x php,txt,bak",
+   "explain": "-x adds each extension to each word, so it finds admin.php or config.bak as well."
+  },
+  {
+   "title": "Only show certain status codes",
+   "cmd": "gobuster dir -u http://10.10.10.5 -w common.txt -s 200,204,301,302,403 -b ''",
+   "explain": "-s sets the codes that count as hits; -b '' clears the default blacklist (404) so you control it."
+  },
+  {
+   "title": "Go faster",
+   "cmd": "gobuster dir -u http://10.10.10.5 -w common.txt -t 50",
+   "explain": "-t sets threads (parallel requests). Raise it on a lab server, lower it on a fragile one."
+  },
+  {
+   "title": "Find subdomains",
+   "cmd": "gobuster dns -d example.com -w /usr/share/wordlists/seclists/Discovery/DNS/subdomains-top1million-5000.txt",
+   "explain": "Tries word.example.com for each word and reports the ones that resolve."
+  },
+  {
+   "title": "Find virtual hosts",
+   "cmd": "gobuster vhost -u http://10.10.10.5 -w subdomains.txt --append-domain -d target.htb",
+   "explain": "Sends requests to the same IP with different Host headers; a different response reveals another site."
+  },
+  {
+   "title": "Authenticated or with a cookie",
+   "cmd": "gobuster dir -u http://10.10.10.5 -w common.txt -c 'PHPSESSID=abc123'",
+   "explain": "-c sends a cookie so you can enumerate pages behind a login."
+  },
+  {
+   "title": "Save results",
+   "cmd": "gobuster dir -u http://10.10.10.5 -w common.txt -o gobuster.txt",
+   "explain": "-o writes hits to a file."
+  }
+ ],
+ "options": [
+  {
+   "flag": "dir",
+   "plain": "Mode: find directories and files on a web server.",
+   "use": "Web enumeration."
+  },
+  {
+   "flag": "dns",
+   "plain": "Mode: find subdomains.",
+   "use": "Domain enumeration."
+  },
+  {
+   "flag": "vhost",
+   "plain": "Mode: find virtual hosts.",
+   "use": "Several sites on one IP."
+  },
+  {
+   "flag": "fuzz",
+   "plain": "Mode: replace the word FUZZ anywhere in the URL or body.",
+   "use": "Custom fuzzing."
+  },
+  {
+   "flag": "s3 / gcs / tftp",
+   "plain": "Modes for cloud buckets and TFTP.",
+   "use": "Cloud and TFTP enumeration."
+  },
+  {
+   "flag": "-u, --url",
+   "plain": "Target URL.",
+   "use": "dir, vhost, fuzz."
+  },
+  {
+   "flag": "-d, --domain",
+   "plain": "Target domain.",
+   "use": "dns mode."
+  },
+  {
+   "flag": "-w, --wordlist",
+   "plain": "Wordlist file.",
+   "use": "Always."
+  },
+  {
+   "flag": "-t, --threads",
+   "plain": "Number of parallel workers (default 10).",
+   "use": "Speed."
+  },
+  {
+   "flag": "-x, --extensions",
+   "plain": "File extensions to try.",
+   "use": "Finding php, txt, bak."
+  },
+  {
+   "flag": "-s, --status-codes",
+   "plain": "Status codes that count as found.",
+   "use": "Custom hit rules."
+  },
+  {
+   "flag": "-b, --status-codes-blacklist",
+   "plain": "Status codes to ignore (default 404).",
+   "use": "Clearing noise."
+  },
+  {
+   "flag": "-c, --cookies",
+   "plain": "Cookies to send.",
+   "use": "Logged-in scans."
+  },
+  {
+   "flag": "-H, --headers",
+   "plain": "Extra headers.",
+   "use": "Custom headers or tokens."
+  },
+  {
+   "flag": "-U / -P, --username / --password",
+   "plain": "HTTP basic auth.",
+   "use": "Protected sites."
+  },
+  {
+   "flag": "-a, --useragent",
+   "plain": "Set the user agent.",
+   "use": "Servers that block the default."
+  },
+  {
+   "flag": "-k, --no-tls-validation",
+   "plain": "Skip TLS certificate checks.",
+   "use": "Self-signed lab certificates."
+  },
+  {
+   "flag": "-r, --follow-redirect",
+   "plain": "Follow redirects.",
+   "use": "Redirected paths."
+  },
+  {
+   "flag": "-e, --expanded",
+   "plain": "Print the full URL.",
+   "use": "Easy to copy."
+  },
+  {
+   "flag": "-n, --no-status",
+   "plain": "Do not print status codes.",
+   "use": "Short output."
+  },
+  {
+   "flag": "-l, --include-length",
+   "plain": "Print response length.",
+   "use": "Spotting odd sizes."
+  },
+  {
+   "flag": "--exclude-length",
+   "plain": "Hide responses of these lengths.",
+   "use": "Wildcard pages."
+  },
+  {
+   "flag": "--wildcard",
+   "plain": "Continue even if the server answers everything (dns).",
+   "use": "Wildcard DNS."
+  },
+  {
+   "flag": "--append-domain",
+   "plain": "Append the domain to each word (vhost).",
+   "use": "Right Host headers."
+  },
+  {
+   "flag": "--timeout",
+   "plain": "HTTP timeout.",
+   "use": "Slow servers."
+  },
+  {
+   "flag": "--delay",
+   "plain": "Delay between requests.",
+   "use": "Avoiding blocking."
+  },
+  {
+   "flag": "--retry / --retry-attempts",
+   "plain": "Retry failed requests.",
+   "use": "Flaky links."
+  },
+  {
+   "flag": "-o, --output",
+   "plain": "Write results to a file.",
+   "use": "Saving evidence."
+  },
+  {
+   "flag": "-q, --quiet",
+   "plain": "Do not print the banner.",
+   "use": "Scripts."
+  },
+  {
+   "flag": "-z, --no-progress",
+   "plain": "Do not print progress.",
+   "use": "Clean logs."
+  },
+  {
+   "flag": "-v, --verbose",
+   "plain": "Verbose output.",
+   "use": "Debugging."
+  },
+  {
+   "flag": "-p, --proxy",
+   "plain": "Use a proxy.",
+   "use": "Sending traffic through Burp."
+  },
+  {
+   "flag": "--no-error",
+   "plain": "Hide error messages.",
+   "use": "Clean output."
+  },
+  {
+   "flag": "-h, --help",
+   "plain": "Help for the tool or a mode.",
+   "use": "A reminder."
+  }
+ ],
+ "mistakes": [
+  "Using one wordlist and calling it done: try a bigger one if nothing appears.",
+  "Missing files because you forgot -x.",
+  "Reading a wildcard site: every path says 200. Compare lengths and use --exclude-length.",
+  "Using too many threads on a small lab target and crashing it.",
+  "Forgetting the trailing path or scheme in -u (needs http:// or https://)."
+ ],
+ "try": [
+  "Find /admin on a lab web server with common.txt.",
+  "Run again with -x php,txt and compare.",
+  "Run the dns mode on a domain you own."
+ ],
+ "see_also": "ffuf(1), dirb(1), dirbuster, wfuzz(1), nikto(1), curl(1), and the wordlists in /usr/share/wordlists and /usr/share/seclists.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

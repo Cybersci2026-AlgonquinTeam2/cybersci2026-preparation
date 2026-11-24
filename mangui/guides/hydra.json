@@ -1,0 +1,182 @@
+{
+ "name": "hydra",
+ "section": "1",
+ "one_line": "network logon cracker (online password guessing)",
+ "plain": [
+  "`hydra` tries many usernames and passwords against a live service (SSH, FTP, HTTP forms, RDP, SMB, databases...) until one works. This is online guessing, so it is slow compared with cracking a hash, and it can lock accounts or trigger alarms.",
+  "Use it only in labs and tests where you have written permission. It is a classic CTF tool when a service has a weak password and you have a username or a wordlist."
+ ],
+ "when": [
+  "Guess an SSH or FTP login in a lab.",
+  "Test a web login form in a challenge.",
+  "Check whether a service accepts weak or default passwords."
+ ],
+ "examples": [
+  {
+   "title": "One user, wordlist of passwords (SSH)",
+   "cmd": "hydra -l admin -P /usr/share/wordlists/rockyou.txt ssh://10.10.10.5",
+   "explain": "-l is a single login name, -P a password list. The service and target form the last argument."
+  },
+  {
+   "title": "Many users, many passwords",
+   "cmd": "hydra -L users.txt -P passwords.txt ftp://10.10.10.5",
+   "explain": "-L is a user list. Hydra tries combinations; keep lists short because online guessing is slow."
+  },
+  {
+   "title": "Limit threads (be gentle)",
+   "cmd": "hydra -l admin -P pass.txt -t 4 ssh://10.10.10.5",
+   "explain": "-t sets parallel tasks. SSH servers drop many connections, so 4 is wise."
+  },
+  {
+   "title": "A web login form",
+   "cmd": "hydra -l admin -P pass.txt 10.10.10.5 http-post-form '/login.php:user=^USER^&pass=^PASS^:F=Invalid'",
+   "explain": "Three parts separated by colons: the path, the body with ^USER^ and ^PASS^ as placeholders, and the failure text (F=). Hydra treats a reply without the failure text as a success."
+  },
+  {
+   "title": "Stop at the first success",
+   "cmd": "hydra -l admin -P pass.txt -f ssh://10.10.10.5",
+   "explain": "-f stops after the first working login."
+  },
+  {
+   "title": "Try a blank, same-as-login and reversed password",
+   "cmd": "hydra -L users.txt -e nsr ssh://10.10.10.5",
+   "explain": "-e n tries empty passwords, s tries the login as password, r tries it reversed. Cheap and often works on weak accounts."
+  },
+  {
+   "title": "Colon-separated list",
+   "cmd": "hydra -C creds.txt ssh://10.10.10.5",
+   "explain": "-C reads user:password pairs, good for default credential lists."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-l LOGIN / -L FILE",
+   "plain": "A single login name / a file of login names.",
+   "use": "Which users."
+  },
+  {
+   "flag": "-p PASS / -P FILE",
+   "plain": "A single password / a file of passwords.",
+   "use": "Which passwords."
+  },
+  {
+   "flag": "-C FILE",
+   "plain": "Colon separated 'login:pass' file instead of -L/-P.",
+   "use": "Default credential lists."
+  },
+  {
+   "flag": "-e nsr",
+   "plain": "Try n (null), s (same as login), r (reversed login).",
+   "use": "Cheap extra guesses."
+  },
+  {
+   "flag": "-M FILE",
+   "plain": "File of targets.",
+   "use": "Several hosts."
+  },
+  {
+   "flag": "-t TASKS",
+   "plain": "Number of parallel tasks (default 16).",
+   "use": "Speed and politeness."
+  },
+  {
+   "flag": "-T TASKS",
+   "plain": "Total tasks across all hosts.",
+   "use": "Large target lists."
+  },
+  {
+   "flag": "-w TIME / -W TIME",
+   "plain": "Wait time for replies / between connections per task.",
+   "use": "Slow or protected services."
+  },
+  {
+   "flag": "-f / -F",
+   "plain": "Stop at the first found login (per host / overall).",
+   "use": "Saving time."
+  },
+  {
+   "flag": "-s PORT",
+   "plain": "Use a non-standard port.",
+   "use": "SSH on 2222."
+  },
+  {
+   "flag": "-S",
+   "plain": "Use SSL.",
+   "use": "HTTPS or similar."
+  },
+  {
+   "flag": "-4 / -6",
+   "plain": "Force IPv4 / IPv6.",
+   "use": "Network choice."
+  },
+  {
+   "flag": "-x MIN:MAX:CHARSET",
+   "plain": "Generate passwords by brute force (e.g. 4:6:a1).",
+   "use": "Short unknown passwords."
+  },
+  {
+   "flag": "-u",
+   "plain": "Loop over users first, not passwords.",
+   "use": "Avoiding lock-outs."
+  },
+  {
+   "flag": "-o FILE",
+   "plain": "Write found logins to a file.",
+   "use": "Saving results."
+  },
+  {
+   "flag": "-b FORMAT",
+   "plain": "Output format (text, json, jsonv1).",
+   "use": "Scripts."
+  },
+  {
+   "flag": "-R",
+   "plain": "Restore an aborted session.",
+   "use": "Resume."
+  },
+  {
+   "flag": "-I",
+   "plain": "Ignore an old restore file.",
+   "use": "Start fresh."
+  },
+  {
+   "flag": "-v / -V / -d",
+   "plain": "Verbose, show each attempt, debug.",
+   "use": "Seeing what happens."
+  },
+  {
+   "flag": "-q",
+   "plain": "Do not print connection errors.",
+   "use": "Clean output."
+  },
+  {
+   "flag": "-U SERVICE",
+   "plain": "Show details about a service module.",
+   "use": "Learning module syntax."
+  },
+  {
+   "flag": "-m OPTIONS",
+   "plain": "Module options.",
+   "use": "Service-specific settings."
+  },
+  {
+   "flag": "-h",
+   "plain": "Help.",
+   "use": "A reminder."
+  }
+ ],
+ "mistakes": [
+  "Locking real accounts: online guessing triggers lockout policies.",
+  "Too many tasks: SSH refuses and hydra reports false failures.",
+  "A wrong failure string in http-post-form: hydra then reports every password as valid.",
+  "Not capturing the real request first: check the form with the browser or curl.",
+  "Using it where you have no permission."
+ ],
+ "try": [
+  "Set up a lab SSH user with a weak password and find it with a short list.",
+  "Read the module help with hydra -U http-post-form.",
+  "Compare -t 4 and -t 16 on a lab SSH server."
+ ],
+ "see_also": "john(8), hashcat(1), medusa(1), ncrack(1), nmap(1), curl(1), and the wordlists in /usr/share/wordlists.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

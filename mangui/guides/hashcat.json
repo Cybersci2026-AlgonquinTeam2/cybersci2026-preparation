@@ -1,0 +1,254 @@
+{
+ "name": "hashcat",
+ "section": "1",
+ "one_line": "advanced GPU/CPU password recovery",
+ "plain": [
+  "`hashcat` is a very fast hash cracker. Like john it scrambles guesses and compares them with a hash, but it uses your graphics card, which can be hundreds of times faster.",
+  "You must tell hashcat two things: the hash type with -m (a number, such as 0 for MD5 or 1000 for NTLM) and the attack mode with -a (0 wordlist, 3 mask, 6/7 hybrid).",
+  "Cracked results are kept in a pot file; use --show to see them again."
+ ],
+ "when": [
+  "Crack hashes quickly when a GPU is available.",
+  "Mask attacks when you know the password shape (for example 8 characters, last two digits).",
+  "Combine a wordlist with rules.",
+  "Crack NTLM, Kerberos, WPA and many other formats."
+ ],
+ "examples": [
+  {
+   "title": "Wordlist attack on MD5",
+   "cmd": "hashcat -m 0 -a 0 hashes.txt /usr/share/wordlists/rockyou.txt",
+   "explain": "-m 0 means MD5, -a 0 means wordlist. If a hash cracks it appears and goes to the pot file."
+  },
+  {
+   "title": "Find the right -m number",
+   "cmd": "hashcat --help | grep -i ntlm",
+   "explain": "The help lists every hash mode with its number. Or use hashid / hash-identifier to guess the type first."
+  },
+  {
+   "title": "Show cracked passwords",
+   "cmd": "hashcat -m 0 hashes.txt --show",
+   "explain": "Reads the pot file and prints hash:password pairs without cracking again."
+  },
+  {
+   "title": "Wordlist plus rules",
+   "cmd": "hashcat -m 1000 -a 0 ntlm.txt rockyou.txt -r /usr/share/hashcat/rules/best64.rule",
+   "explain": "-r applies a rule file that mutates every word. best64 is a small, effective set."
+  },
+  {
+   "title": "Mask attack: 6 lowercase then 2 digits",
+   "cmd": "hashcat -m 0 -a 3 hashes.txt ?l?l?l?l?l?l?d?d",
+   "explain": "?l is a lowercase letter, ?d a digit, ?u uppercase, ?s symbol, ?a anything. You describe the shape and hashcat tries all."
+  },
+  {
+   "title": "Hybrid: word + digits",
+   "cmd": "hashcat -m 0 -a 6 hashes.txt rockyou.txt ?d?d?d",
+   "explain": "Attack mode 6 takes each word and appends three digits (sunshine123)."
+  },
+  {
+   "title": "Benchmark your machine",
+   "cmd": "hashcat -b -m 0",
+   "explain": "Shows hashes per second for a hash type."
+  },
+  {
+   "title": "Run on CPU only",
+   "cmd": "hashcat -m 0 -a 0 -D 1 hashes.txt rockyou.txt",
+   "explain": "-D 1 selects CPU devices. Useful in a VM without a GPU. You may need --force on some VMs (use with care)."
+  },
+  {
+   "title": "Resume a session",
+   "cmd": "hashcat --session ctf1 -m 0 -a 0 hashes.txt rockyou.txt\nhashcat --session ctf1 --restore",
+   "explain": "A named session can be stopped and continued later."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-m, --hash-type=NUM",
+   "plain": "Hash type number (0 MD5, 100 SHA1, 1000 NTLM, 1400 SHA256, 1800 sha512crypt, 3200 bcrypt, 13100 Kerberoast...).",
+   "use": "Always."
+  },
+  {
+   "flag": "-a, --attack-mode=NUM",
+   "plain": "0 straight (wordlist), 1 combination, 3 brute force/mask, 6 wordlist+mask, 7 mask+wordlist, 9 association.",
+   "use": "Always."
+  },
+  {
+   "flag": "-r, --rules-file=FILE",
+   "plain": "Apply a rule file to words.",
+   "use": "Wordlist mangling."
+  },
+  {
+   "flag": "-j / -k, --rule-left / --rule-right",
+   "plain": "Apply a single rule to the left or right word in combinator mode.",
+   "use": "Combination attacks."
+  },
+  {
+   "flag": "-g, --generate-rules=NUM",
+   "plain": "Generate random rules.",
+   "use": "Trying new variations."
+  },
+  {
+   "flag": "-1, -2, -3, -4 charset",
+   "plain": "Define custom character sets for masks.",
+   "use": "A shape like ?1?1?1?d."
+  },
+  {
+   "flag": "--increment, -i",
+   "plain": "Increase mask length step by step.",
+   "use": "Unknown length."
+  },
+  {
+   "flag": "--increment-min / --increment-max",
+   "plain": "Limit incremental lengths.",
+   "use": "Pruning."
+  },
+  {
+   "flag": "-o, --outfile=FILE",
+   "plain": "Write found passwords to a file.",
+   "use": "Saving results."
+  },
+  {
+   "flag": "--outfile-format=NUM",
+   "plain": "Choose the format of the outfile.",
+   "use": "Scripting."
+  },
+  {
+   "flag": "--show",
+   "plain": "Show hashes already cracked.",
+   "use": "Reading the pot."
+  },
+  {
+   "flag": "--left",
+   "plain": "Show the hashes not yet cracked.",
+   "use": "Seeing what is left."
+  },
+  {
+   "flag": "--username",
+   "plain": "Ignore the user name field in the hash file.",
+   "use": "Files in user:hash form."
+  },
+  {
+   "flag": "--potfile-path=FILE",
+   "plain": "Use another pot file.",
+   "use": "Separate cases."
+  },
+  {
+   "flag": "--potfile-disable",
+   "plain": "Do not use the pot file.",
+   "use": "Retesting."
+  },
+  {
+   "flag": "--session=NAME",
+   "plain": "Name the session.",
+   "use": "Parallel sessions."
+  },
+  {
+   "flag": "--restore",
+   "plain": "Resume a session.",
+   "use": "Continue an interrupted run."
+  },
+  {
+   "flag": "-w, --workload-profile=NUM",
+   "plain": "1 low, 2 default, 3 high, 4 nightmare.",
+   "use": "Using the GPU fully or leaving it usable."
+  },
+  {
+   "flag": "-D, --opencl-device-types",
+   "plain": "1 CPU, 2 GPU, 3 FPGA.",
+   "use": "Choosing devices."
+  },
+  {
+   "flag": "-d, --backend-devices",
+   "plain": "Choose which devices.",
+   "use": "Multi-GPU setups."
+  },
+  {
+   "flag": "-O, --optimized-kernel-enable",
+   "plain": "Use faster kernels with a password length limit.",
+   "use": "Speed when passwords are short."
+  },
+  {
+   "flag": "-S, --slow-candidates",
+   "plain": "Use slow (CPU generated) candidates.",
+   "use": "Special attack modes."
+  },
+  {
+   "flag": "--force",
+   "plain": "Ignore warnings.",
+   "use": "VMs; may be unstable."
+  },
+  {
+   "flag": "-b, --benchmark",
+   "plain": "Run a benchmark.",
+   "use": "Checking speed."
+  },
+  {
+   "flag": "-I, --backend-info",
+   "plain": "Show information about devices.",
+   "use": "Why does hashcat not see my GPU?"
+  },
+  {
+   "flag": "--status / --status-timer=SECONDS",
+   "plain": "Show status automatically.",
+   "use": "Long runs."
+  },
+  {
+   "flag": "--runtime=SECONDS",
+   "plain": "Stop after this many seconds.",
+   "use": "Time limits."
+  },
+  {
+   "flag": "--skip / --limit",
+   "plain": "Start at / stop after this keyspace position.",
+   "use": "Splitting work across machines."
+  },
+  {
+   "flag": "--keyspace",
+   "plain": "Show how many candidates an attack has.",
+   "use": "Planning."
+  },
+  {
+   "flag": "--stdout",
+   "plain": "Print candidates instead of cracking.",
+   "use": "Using hashcat as a generator."
+  },
+  {
+   "flag": "--example-hashes",
+   "plain": "Show an example hash for every mode.",
+   "use": "Matching your hash to a mode."
+  },
+  {
+   "flag": "--machine-readable",
+   "plain": "Machine readable output.",
+   "use": "Scripts."
+  },
+  {
+   "flag": "--quiet",
+   "plain": "Suppress output.",
+   "use": "Scripts."
+  },
+  {
+   "flag": "-h, --help",
+   "plain": "Show help (-hh for the full list).",
+   "use": "Looking up -m numbers."
+  },
+  {
+   "flag": "-V, --version",
+   "plain": "Show version.",
+   "use": "Check the install."
+  }
+ ],
+ "mistakes": [
+  "Choosing the wrong -m number: the run ends with 'token length exception' or just never cracks. Use --example-hashes or hashid to be sure.",
+  "Forgetting that mask attacks cost time exponentially: ?a x 9 is huge.",
+  "Running without a GPU driver and wondering why it is slow; check hashcat -I.",
+  "Using --force as a habit: it hides real problems.",
+  "Expecting results to print twice: cracked hashes are in the pot, use --show."
+ ],
+ "try": [
+  "Hash 'sunshine1' with echo -n sunshine1 | md5sum and crack it with a mask and with rockyou.",
+  "Compare rockyou with and without best64.rule on a small list.",
+  "Use --keyspace to compare the size of ?l?l?l?l?l?l and ?a?a?a?a?a?a."
+ ],
+ "see_also": "john(8), hashid(1), hash-identifier(1), hashcat-utils, and the wordlists in /usr/share/wordlists.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

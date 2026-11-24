@@ -1,0 +1,208 @@
+{
+ "name": "john",
+ "section": "8",
+ "one_line": "John the Ripper password cracker",
+ "plain": [
+  "`john` (John the Ripper) guesses passwords from their hashes. A hash is a one-way scramble of a password: you cannot unscramble it, but you can scramble guesses until one matches.",
+  "It has three ways to guess: a wordlist (try every word in a file), wordlist plus rules (try Password1, p@ssword, PASSWORD...), and incremental (brute force every combination). In CTFs it is usually wordlist first, rules second.",
+  "john needs the hashes in its own input format. The helper tools zip2john, rar2john, ssh2john, pdf2john, office2john and unshadow turn files into that format."
+ ],
+ "when": [
+  "Crack a hash found in a challenge (MD5, SHA, bcrypt, NTLM...).",
+  "Recover the password of an encrypted ZIP, RAR, PDF, Office file or SSH key.",
+  "Audit /etc/shadow on a lab machine.",
+  "Show the passwords already cracked."
+ ],
+ "examples": [
+  {
+   "title": "Crack a hash file with a wordlist",
+   "cmd": "john --wordlist=/usr/share/wordlists/rockyou.txt hashes.txt",
+   "explain": "Tries every line of rockyou.txt against each hash. john guesses the hash type; if it asks, name it with --format."
+  },
+  {
+   "title": "Tell john the hash type",
+   "cmd": "john --format=raw-md5 --wordlist=rockyou.txt hashes.txt",
+   "explain": "Plain MD5 hashes are not auto-detected reliably. --format=raw-md5 removes the doubt. List formats with --list=formats."
+  },
+  {
+   "title": "Show what was cracked",
+   "cmd": "john --show --format=raw-md5 hashes.txt",
+   "explain": "Cracked passwords are stored in ~/.john/john.pot. --show prints them next to their hashes without cracking again."
+  },
+  {
+   "title": "Crack a ZIP password",
+   "cmd": "zip2john secret.zip > zip.hash\njohn --wordlist=rockyou.txt zip.hash",
+   "explain": "zip2john extracts the part john needs into a text file, then john cracks it."
+  },
+  {
+   "title": "Crack an SSH private key passphrase",
+   "cmd": "ssh2john id_rsa > key.hash\njohn --wordlist=rockyou.txt key.hash",
+   "explain": "A passphrase protects the key. ssh2john converts it, then john guesses the phrase."
+  },
+  {
+   "title": "Linux passwords",
+   "cmd": "unshadow passwd shadow > unshadowed.txt\njohn --wordlist=rockyou.txt unshadowed.txt",
+   "explain": "unshadow joins /etc/passwd and /etc/shadow into one file john can read."
+  },
+  {
+   "title": "Add mangling rules",
+   "cmd": "john --wordlist=rockyou.txt --rules hashes.txt",
+   "explain": "Rules mutate each word (capitalise, add 1, swap a for @), catching human habits."
+  },
+  {
+   "title": "Brute-force short passwords",
+   "cmd": "john --incremental hashes.txt",
+   "explain": "Tries every combination. Fine for 4 to 6 characters; hopeless for long passwords."
+  },
+  {
+   "title": "Resume after stopping",
+   "cmd": "john --restore",
+   "explain": "john saves progress. After Ctrl+C or a crash, --restore continues where it stopped."
+  }
+ ],
+ "options": [
+  {
+   "flag": "--wordlist=FILE",
+   "plain": "Use this wordlist (one word per line).",
+   "use": "The normal attack."
+  },
+  {
+   "flag": "--stdin",
+   "plain": "Read candidate passwords from standard input.",
+   "use": "Piping another generator in."
+  },
+  {
+   "flag": "--rules[=SECTION]",
+   "plain": "Apply mangling rules to each word.",
+   "use": "Humans modify words predictably."
+  },
+  {
+   "flag": "--incremental[=MODE]",
+   "plain": "Brute-force mode.",
+   "use": "Short passwords."
+  },
+  {
+   "flag": "--single[=SECTION]",
+   "plain": "Single crack mode: use the username and account details as guesses.",
+   "use": "Accounts with passwords like the user name."
+  },
+  {
+   "flag": "--external=MODE",
+   "plain": "Use an external filter or generator from john.conf.",
+   "use": "Custom logic."
+  },
+  {
+   "flag": "--mask=MASK",
+   "plain": "Mask attack, e.g. ?l?l?l?d?d.",
+   "use": "You know the shape of the password."
+  },
+  {
+   "flag": "--format=NAME",
+   "plain": "Force the hash format.",
+   "use": "When auto-detect fails."
+  },
+  {
+   "flag": "--list=WHAT",
+   "plain": "List things: formats, subformats, rules, externals...",
+   "use": "Finding format names."
+  },
+  {
+   "flag": "--show[=left]",
+   "plain": "Show cracked passwords (or the ones not yet cracked).",
+   "use": "Reading results."
+  },
+  {
+   "flag": "--users=LOGINS",
+   "plain": "Work on only these users.",
+   "use": "One account."
+  },
+  {
+   "flag": "--groups=GID",
+   "plain": "Work on only these groups.",
+   "use": "Selecting accounts."
+  },
+  {
+   "flag": "--shells=SHELLS",
+   "plain": "Work on accounts with these shells.",
+   "use": "Skipping nologin accounts."
+  },
+  {
+   "flag": "--salts=N",
+   "plain": "Only hashes with at least N salts.",
+   "use": "Efficiency."
+  },
+  {
+   "flag": "--restore[=NAME]",
+   "plain": "Resume an interrupted session.",
+   "use": "After a stop."
+  },
+  {
+   "flag": "--session=NAME",
+   "plain": "Name the session.",
+   "use": "Running several at once."
+  },
+  {
+   "flag": "--status[=NAME]",
+   "plain": "Show a session's status.",
+   "use": "Progress check."
+  },
+  {
+   "flag": "--fork=N",
+   "plain": "Use N processes.",
+   "use": "Using several CPU cores."
+  },
+  {
+   "flag": "--min-length=N / --max-length=N",
+   "plain": "Limit candidate lengths.",
+   "use": "Pruning guesses."
+  },
+  {
+   "flag": "--pot=NAME",
+   "plain": "Use another pot file.",
+   "use": "Separate cases."
+  },
+  {
+   "flag": "--make-charset=FILE",
+   "plain": "Make a character set file for incremental mode.",
+   "use": "Custom brute force."
+  },
+  {
+   "flag": "--test[=TIME]",
+   "plain": "Benchmark all formats.",
+   "use": "Checking speed."
+  },
+  {
+   "flag": "--verbosity=N",
+   "plain": "Output verbosity.",
+   "use": "Debugging."
+  },
+  {
+   "flag": "--progress-every=N",
+   "plain": "Print progress every N seconds.",
+   "use": "Long runs."
+  },
+  {
+   "flag": "--no-log",
+   "plain": "Do not write a log.",
+   "use": "Privacy."
+  },
+  {
+   "flag": "--help",
+   "plain": "Show help.",
+   "use": "A reminder."
+  }
+ ],
+ "mistakes": [
+  "Cracking the wrong format because auto-detect guessed: always check with --format and --list=formats.",
+  "Forgetting john remembers: a hash cracked earlier is only shown with --show, not recracked.",
+  "Using rockyou with rules on a slow hash (bcrypt) and expecting speed.",
+  "Running on a file that still has the converter's extra lines: only the tool's output line should be in the hash file."
+ ],
+ "try": [
+  "Hash a word with echo -n password | md5sum, put the hash in a file, crack it with john and rockyou.",
+  "Make a ZIP with a simple password, crack it with zip2john and john.",
+  "List formats with john --list=formats | head and pick the one for a bcrypt hash."
+ ],
+ "see_also": "hashcat(1), zip2john(1), ssh2john(1), unshadow(8), hash-identifier(1), hashid(1), and the wordlists in /usr/share/wordlists.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}
