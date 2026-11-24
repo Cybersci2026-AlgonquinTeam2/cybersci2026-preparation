@@ -1,0 +1,306 @@
+{
+ "name": "exiftool",
+ "section": "1",
+ "one_line": "read and write meta information in files",
+ "plain": [
+  "`exiftool` reads the hidden label attached to a file: camera model, GPS position, author, software, creation time, comments, thumbnails and more. Photos, PDFs, Office documents, audio, video and many other formats carry this metadata.",
+  "In forensics and CTFs a flag or a clue is often in the metadata: a comment field, a GPS coordinate, an odd author, an embedded thumbnail, a mismatched file type. exiftool also writes metadata, which lets you scrub files or craft test files.",
+  "It reads over 400 formats and prints each tag with its group, so you can see where a value came from."
+ ],
+ "when": [
+  "First look at an image, PDF or document in a forensics challenge.",
+  "Find where a photo was taken (GPS) or what device took it.",
+  "See who created a document and with which software.",
+  "Check whether a file's real type matches its extension.",
+  "Remove metadata before sharing a file, or edit it."
+ ],
+ "examples": [
+  {
+   "title": "Show everything in a file",
+   "cmd": "exiftool photo.jpg",
+   "explain": "Lists every tag it can read. Read the Comment, Author, GPS, Software and Create Date lines first."
+  },
+  {
+   "title": "Show tags with their group names",
+   "cmd": "exiftool -G1 -a -s photo.jpg",
+   "explain": "-G1 prints the group (EXIF, XMP, IPTC...), -a shows duplicate tags, -s uses short tag names. You can see which block holds each value."
+  },
+  {
+   "title": "Read just a few tags",
+   "cmd": "exiftool -Make -Model -CreateDate -GPSPosition photo.jpg",
+   "explain": "Naming tags prints only those. Handy for scripts."
+  },
+  {
+   "title": "A whole folder as a table",
+   "cmd": "exiftool -csv -r ./pics > meta.csv",
+   "explain": "-csv writes a spreadsheet row per file. -r descends into subfolders."
+  },
+  {
+   "title": "Find GPS in decimal",
+   "cmd": "exiftool -n -GPSLatitude -GPSLongitude photo.jpg",
+   "explain": "-n prints raw numbers instead of formatted text, so you can paste the coordinates into a map."
+  },
+  {
+   "title": "Search for files by a tag value",
+   "cmd": "exiftool -if '$Make eq \"Apple\"' -FileName -r ./pics",
+   "explain": "-if keeps only files whose tag matches an expression."
+  },
+  {
+   "title": "Look at hidden text",
+   "cmd": "exiftool -Comment -UserComment -XPComment -ImageDescription file.jpg",
+   "explain": "Common places where challenge authors hide a message or flag."
+  },
+  {
+   "title": "Extract the embedded thumbnail",
+   "cmd": "exiftool -b -ThumbnailImage photo.jpg > thumb.jpg",
+   "explain": "-b outputs the raw binary. The thumbnail can show a different picture than the main image, which is a classic forensics clue."
+  },
+  {
+   "title": "Wipe all metadata",
+   "cmd": "exiftool -all= photo.jpg",
+   "explain": "Setting a tag to nothing deletes it. -all= removes every writable tag. A backup photo.jpg_original is kept unless you add -overwrite_original."
+  },
+  {
+   "title": "Write a tag",
+   "cmd": "exiftool -Comment='hello' photo.jpg",
+   "explain": "Adds or changes a tag. Useful to build test files for a forensics lab."
+  },
+  {
+   "title": "Check the real file type",
+   "cmd": "exiftool -FileType -MIMEType -FileTypeExtension suspicious.dat",
+   "explain": "exiftool recognises the format by its content, not its name, so it exposes a renamed file."
+  },
+  {
+   "title": "Dump everything as JSON",
+   "cmd": "exiftool -json photo.jpg",
+   "explain": "Structured output for scripts and jq."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-TAG",
+   "plain": "Print the named tag (e.g. -Model). Add '#' to get the raw value (-GPSLatitude#).",
+   "use": "Reading specific values."
+  },
+  {
+   "flag": "-TAG=VALUE",
+   "plain": "Write the tag. -TAG= deletes it.",
+   "use": "Editing metadata."
+  },
+  {
+   "flag": "-TAG+=VALUE / -TAG-=VALUE",
+   "plain": "Add to or remove from a list tag.",
+   "use": "Keywords."
+  },
+  {
+   "flag": "-all=",
+   "plain": "Delete all writable metadata.",
+   "use": "Scrubbing a file."
+  },
+  {
+   "flag": "-a, --duplicates",
+   "plain": "Show duplicate tags.",
+   "use": "A tag repeated in several groups."
+  },
+  {
+   "flag": "-b, --binary",
+   "plain": "Output data in binary (for thumbnails and embedded images).",
+   "use": "Extracting embedded pictures."
+  },
+  {
+   "flag": "-c FMT, --coordFormat",
+   "plain": "Set the GPS format, e.g. '%.6f'.",
+   "use": "Map-ready coordinates."
+  },
+  {
+   "flag": "-d FMT, --dateFormat",
+   "plain": "Set the date format, strftime style.",
+   "use": "Sorting dates."
+  },
+  {
+   "flag": "-e, --composite",
+   "plain": "Do not calculate composite tags.",
+   "use": "Only raw tags."
+  },
+  {
+   "flag": "-f, --forcePrint",
+   "plain": "Print '-' for tags that are missing.",
+   "use": "Aligned tables."
+  },
+  {
+   "flag": "-g[NUM][:NUM...] / -G[NUM]",
+   "plain": "Group output by tag group / print the group name beside each tag.",
+   "use": "Seeing where a tag lives."
+  },
+  {
+   "flag": "-h, --htmlFormat",
+   "plain": "HTML output.",
+   "use": "Reports."
+  },
+  {
+   "flag": "-j, --json",
+   "plain": "JSON output.",
+   "use": "Scripts."
+  },
+  {
+   "flag": "-l, --long",
+   "plain": "Long output with descriptions.",
+   "use": "Learning what a tag means."
+  },
+  {
+   "flag": "-n, --printConv",
+   "plain": "Skip print conversion: raw values.",
+   "use": "Numeric values."
+  },
+  {
+   "flag": "-p FMTFILE",
+   "plain": "Print in a custom format (-p '$FileName $Make').",
+   "use": "Custom reports."
+  },
+  {
+   "flag": "-s[NUM], --short",
+   "plain": "Short tag names (-s) or names only (-s -s).",
+   "use": "Compact output."
+  },
+  {
+   "flag": "-S, --veryShort",
+   "plain": "Very short output: 'Tag: value'.",
+   "use": "Quick views."
+  },
+  {
+   "flag": "-t, --tab",
+   "plain": "Tab-separated output.",
+   "use": "Spreadsheets."
+  },
+  {
+   "flag": "-T, --table",
+   "plain": "Table: one line per file.",
+   "use": "A list of files."
+  },
+  {
+   "flag": "-v[NUM], --verbose",
+   "plain": "Verbose output; higher numbers show raw data.",
+   "use": "Tracing how a tag is read."
+  },
+  {
+   "flag": "-X, --xmlFormat",
+   "plain": "RDF/XML output.",
+   "use": "XML tools."
+  },
+  {
+   "flag": "-csv",
+   "plain": "CSV output (or import with -csv=FILE).",
+   "use": "Bulk reading and writing."
+  },
+  {
+   "flag": "-r, --recurse",
+   "plain": "Descend into subfolders.",
+   "use": "A whole directory."
+  },
+  {
+   "flag": "-ext EXT / --ext EXT",
+   "plain": "Only process files with (or without) this extension.",
+   "use": "Only JPEGs."
+  },
+  {
+   "flag": "-if EXPR",
+   "plain": "Only process files where the expression is true.",
+   "use": "Filtering."
+  },
+  {
+   "flag": "-fileOrder TAG",
+   "plain": "Process files in this order.",
+   "use": "Sorted output."
+  },
+  {
+   "flag": "-i DIR / --ignore",
+   "plain": "Ignore a directory.",
+   "use": "Skipping folders."
+  },
+  {
+   "flag": "-o OUTFILE",
+   "plain": "Write output to a new file instead of changing the original.",
+   "use": "Safe edits."
+  },
+  {
+   "flag": "-overwrite_original",
+   "plain": "Overwrite the original without leaving a backup.",
+   "use": "Cleaning many files."
+  },
+  {
+   "flag": "-overwrite_original_in_place",
+   "plain": "Overwrite in place keeping the same file.",
+   "use": "Preserving file attributes."
+  },
+  {
+   "flag": "-P",
+   "plain": "Preserve the file's modified time.",
+   "use": "Editing without changing timestamps."
+  },
+  {
+   "flag": "-q, -quiet",
+   "plain": "Quiet; -q -q quieter.",
+   "use": "Scripting."
+  },
+  {
+   "flag": "-m, --ignoreMinorErrors",
+   "plain": "Ignore minor errors and warnings.",
+   "use": "Damaged or unusual files."
+  },
+  {
+   "flag": "-u, --unknown",
+   "plain": "Extract unknown tags.",
+   "use": "Looking for hidden data."
+  },
+  {
+   "flag": "-U, --unknown2",
+   "plain": "Extract unknown binary tags too.",
+   "use": "Forensics."
+  },
+  {
+   "flag": "-w[+|!] EXT, --textOut",
+   "plain": "Write results to files with this extension.",
+   "use": "One report per file."
+  },
+  {
+   "flag": "-tagsFromFile SRC",
+   "plain": "Copy tags from another file.",
+   "use": "Cloning metadata."
+  },
+  {
+   "flag": "-api OPT=VAL",
+   "plain": "Set API options (e.g. -api RequestAll=3).",
+   "use": "Reading extra tags."
+  },
+  {
+   "flag": "-list",
+   "plain": "List supported tags (-listw, -listf, -listr, -listg...).",
+   "use": "Finding tag names."
+  },
+  {
+   "flag": "-ver",
+   "plain": "Show the version.",
+   "use": "Check the install."
+  },
+  {
+   "flag": "-h, -help",
+   "plain": "Show help.",
+   "use": "A reminder."
+  }
+ ],
+ "mistakes": [
+  "Forgetting that exiftool keeps a backup: file.jpg_original appears. Use -overwrite_original if you do not want it.",
+  "Believing the file extension: exiftool reports the real type, so a mismatch is a clue.",
+  "Reading only the default output: add -a -G1 -u and -v to see everything, including unknown tags.",
+  "Copying a photo to chat apps and expecting GPS to stay: many apps strip it.",
+  "Using -all= and thinking the picture is anonymous: image content and filename can still identify a place or person."
+ ],
+ "try": [
+  "Run exiftool on a downloaded image and write down the Software and Comment lines.",
+  "Extract the thumbnail with -b -ThumbnailImage and compare it with the original.",
+  "Turn the GPS position into decimal with -n and paste it into a map.",
+  "Scrub a copy of the file with -all= and compare with the original using diff."
+ ],
+ "see_also": "file(1), strings(1), xxd(1), binwalk(1), steghide(1), identify(1), and the tag list at exiftool.org.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

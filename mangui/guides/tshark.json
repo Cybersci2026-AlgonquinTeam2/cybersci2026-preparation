@@ -1,0 +1,316 @@
+{
+ "name": "tshark",
+ "section": "1",
+ "one_line": "dump and analyze network traffic (the command-line Wireshark)",
+ "plain": [
+  "`tshark` is Wireshark without the windows. It reads network traffic live from a network card or from a capture file (.pcap, .pcapng) and prints what it finds, one line per packet or as precise extracted fields.",
+  "Its superpower is the display filter language, the same as in Wireshark: http.request.method == \"POST\", dns.qry.name contains \"evil\", tcp.port == 4444. With -T fields -e you pull exactly the values you want, which makes it ideal for scripts and quick CTF questions about a capture.",
+  "Two kinds of filter exist: a capture filter (-f) is the old tcpdump style and decides what is recorded; a display filter (-Y) decides what is shown from what was recorded. Beginners mix them up."
+ ],
+ "when": [
+  "Answer questions about a .pcap: which IPs talk, what was requested, which credentials crossed in clear text.",
+  "Pull out specific fields, such as every DNS name or every HTTP URL.",
+  "Follow a TCP conversation and read it as text.",
+  "Export files carried inside HTTP or SMB.",
+  "Capture traffic on the lab network into a file for later."
+ ],
+ "examples": [
+  {
+   "title": "List the packets in a capture",
+   "cmd": "tshark -r capture.pcap | head",
+   "explain": "-r reads a file. Each line shows packet number, time, source, destination, protocol and a short summary. Piping to head keeps the screen tidy."
+  },
+  {
+   "title": "Show only HTTP requests",
+   "cmd": "tshark -r capture.pcap -Y 'http.request'",
+   "explain": "-Y is a display filter. Only packets that are HTTP requests are shown."
+  },
+  {
+   "title": "Pull out exact fields",
+   "cmd": "tshark -r capture.pcap -Y http.request -T fields -e ip.src -e http.host -e http.request.uri",
+   "explain": "-T fields prints only the columns you ask for with -e. Result: who asked which host for which path, ready for sort and uniq."
+  },
+  {
+   "title": "Every DNS name queried",
+   "cmd": "tshark -r capture.pcap -Y dns.flags.response==0 -T fields -e dns.qry.name | sort | uniq -c | sort -rn",
+   "explain": "Filters DNS questions (not answers), extracts the names, then counts them. A strange name at the top is often malware or tunnelling."
+  },
+  {
+   "title": "Follow a TCP conversation",
+   "cmd": "tshark -r capture.pcap -q -z follow,tcp,ascii,0",
+   "explain": "-z follow,tcp,ascii,0 rebuilds stream number 0 as text, like Wireshark's 'Follow TCP Stream'. -q hides the packet list so only the conversation prints."
+  },
+  {
+   "title": "Find clear-text credentials",
+   "cmd": "tshark -r capture.pcap -Y 'http.authbasic || ftp.request.command==\"PASS\"' -T fields -e ip.src -e http.authbasic -e ftp.request.arg",
+   "explain": "Basic auth and FTP passwords cross the wire in clear. This pulls them out."
+  },
+  {
+   "title": "Statistics: who talks to whom",
+   "cmd": "tshark -r capture.pcap -q -z conv,ip",
+   "explain": "-z conv,ip prints a conversation table by IP pair with packet and byte counts. Good for finding the biggest talker."
+  },
+  {
+   "title": "Export files from HTTP",
+   "cmd": "tshark -r capture.pcap --export-objects http,./out",
+   "explain": "Saves every file transferred over HTTP (images, scripts, downloads) into the folder ./out. Create it first."
+  },
+  {
+   "title": "Capture live for 30 seconds",
+   "cmd": "sudo tshark -i eth0 -a duration:30 -w live.pcap",
+   "explain": "-i chooses the interface, -a duration:30 stops after 30 seconds, -w writes the raw capture to a file you can analyse later."
+  },
+  {
+   "title": "Capture only one host, keep it small",
+   "cmd": "sudo tshark -i eth0 -f 'host 10.10.10.5 and port 80' -w web.pcap",
+   "explain": "-f is a capture filter in tcpdump syntax, applied before packets are stored, so the file stays small."
+  },
+  {
+   "title": "Decrypt TLS with a key log",
+   "cmd": "tshark -r tls.pcap -o tls.keylog_file:keys.log -Y http",
+   "explain": "-o sets a preference. With the browser's SSLKEYLOGFILE data tshark can decrypt HTTPS and show the HTTP inside."
+  },
+  {
+   "title": "Count packets per protocol",
+   "cmd": "tshark -r capture.pcap -q -z io,phs",
+   "explain": "-z io,phs gives the 'protocol hierarchy statistics', a tree of how much traffic is HTTP, DNS, TLS and so on."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-i interface",
+   "plain": "Capture from this interface (name or number). Use -D to list them.",
+   "use": "Live capture."
+  },
+  {
+   "flag": "-D",
+   "plain": "List the interfaces available.",
+   "use": "Choosing -i."
+  },
+  {
+   "flag": "-r file",
+   "plain": "Read packets from a capture file instead of the network.",
+   "use": "Analysing a .pcap."
+  },
+  {
+   "flag": "-w file",
+   "plain": "Write the captured packets to a file ('-' means stdout).",
+   "use": "Saving a capture."
+  },
+  {
+   "flag": "-f capture-filter",
+   "plain": "Capture filter in libpcap (tcpdump) syntax, applied while capturing.",
+   "use": "Keeping a capture small."
+  },
+  {
+   "flag": "-Y display-filter",
+   "plain": "Display filter in Wireshark syntax, applied when printing.",
+   "use": "Showing only the interesting packets."
+  },
+  {
+   "flag": "-R display-filter",
+   "plain": "Read filter, applied in the first pass with -2.",
+   "use": "Two-pass analysis."
+  },
+  {
+   "flag": "-2",
+   "plain": "Two passes: analyse everything first, then filter.",
+   "use": "Filters that need whole-stream knowledge."
+  },
+  {
+   "flag": "-n",
+   "plain": "Do not resolve names (IPs stay as numbers).",
+   "use": "Speed and clarity."
+  },
+  {
+   "flag": "-N flags",
+   "plain": "Choose which names to resolve (m MAC, n network, t transport, d DNS, v VLAN).",
+   "use": "Fine control."
+  },
+  {
+   "flag": "-p",
+   "plain": "Do not put the interface into promiscuous mode.",
+   "use": "Only see traffic for your own address."
+  },
+  {
+   "flag": "-s snaplen",
+   "plain": "Capture only the first snaplen bytes of each packet.",
+   "use": "Saving space."
+  },
+  {
+   "flag": "-B size",
+   "plain": "Capture buffer size in MiB.",
+   "use": "Dropped packets on busy links."
+  },
+  {
+   "flag": "-I",
+   "plain": "Monitor mode (Wi-Fi).",
+   "use": "Capturing wireless frames."
+  },
+  {
+   "flag": "-a / -b condition",
+   "plain": "Autostop or ring-buffer conditions: duration:N, filesize:KB, files:N, packets:N.",
+   "use": "Capturing in time or size limits."
+  },
+  {
+   "flag": "-c count",
+   "plain": "Stop after this many packets.",
+   "use": "Short captures."
+  },
+  {
+   "flag": "-T fields|text|json|ek|pdml|psml|ps|tabs",
+   "plain": "Output format. fields prints chosen values; json is great for scripts.",
+   "use": "Choose how results look."
+  },
+  {
+   "flag": "-e field",
+   "plain": "With -T fields, add a column for this field. Repeat for more.",
+   "use": "Pulling values out."
+  },
+  {
+   "flag": "-E option=value",
+   "plain": "Control field output: header=y, separator=/t, occurrence=f|l|a, quote=d.",
+   "use": "Neat CSV with headers."
+  },
+  {
+   "flag": "-V",
+   "plain": "Show the full packet detail tree.",
+   "use": "Reading every layer of a packet."
+  },
+  {
+   "flag": "-x",
+   "plain": "Also print hex and ASCII of each packet.",
+   "use": "Looking at raw bytes."
+  },
+  {
+   "flag": "-O protocols",
+   "plain": "With -V, show details only for the listed protocols.",
+   "use": "Shorter detail output."
+  },
+  {
+   "flag": "-P",
+   "plain": "Print a packet summary even when -w writes a file.",
+   "use": "Watching progress."
+  },
+  {
+   "flag": "-S separator",
+   "plain": "Line separator between packets.",
+   "use": "Scripting."
+  },
+  {
+   "flag": "-l",
+   "plain": "Flush output after each packet.",
+   "use": "Piping live output."
+  },
+  {
+   "flag": "-q",
+   "plain": "Quiet: no packet lines, only the statistics or follow output.",
+   "use": "With -z."
+  },
+  {
+   "flag": "-Q",
+   "plain": "Quiet to stderr as well.",
+   "use": "Scripting."
+  },
+  {
+   "flag": "-t a|ad|d|dd|e|r|u|ud",
+   "plain": "Format of the time column (absolute, relative, delta, epoch...).",
+   "use": "Timeline work."
+  },
+  {
+   "flag": "-u s|hms",
+   "plain": "Format of durations in statistics.",
+   "use": "Reading stats."
+  },
+  {
+   "flag": "-o preference:value",
+   "plain": "Set a preference for this run (e.g. tls.keylog_file).",
+   "use": "Decrypting or tuning."
+  },
+  {
+   "flag": "-d layer-type==value,decode-as",
+   "plain": "Decode traffic on a non-standard port as a protocol (e.g. tcp.port==8888,http).",
+   "use": "Services on odd ports."
+  },
+  {
+   "flag": "-z statistics",
+   "plain": "Compute statistics: conv,ip, conv,tcp, io,phs, follow,tcp,ascii,N, http,tree, endpoints,ip...",
+   "use": "Summaries."
+  },
+  {
+   "flag": "--export-objects proto,dir",
+   "plain": "Save files from HTTP, SMB, TFTP, IMF, DICOM into dir.",
+   "use": "Extracting files."
+  },
+  {
+   "flag": "-G report",
+   "plain": "Print a glossary (fields, protocols, decodes...).",
+   "use": "Finding field names."
+  },
+  {
+   "flag": "-G fields",
+   "plain": "List every field name and type.",
+   "use": "Looking up -e fields."
+  },
+  {
+   "flag": "-F file-format",
+   "plain": "File format to write (pcap or pcapng).",
+   "use": "Saving to a certain format."
+  },
+  {
+   "flag": "-H file",
+   "plain": "Read a list of IP-hostname mappings.",
+   "use": "Naming hosts."
+  },
+  {
+   "flag": "-C profile",
+   "plain": "Use a Wireshark configuration profile.",
+   "use": "Per-case settings."
+  },
+  {
+   "flag": "-X extension:option",
+   "plain": "Pass options to an extension, e.g. lua_script.",
+   "use": "Custom dissectors."
+  },
+  {
+   "flag": "--color / --no-duplicate-keys / --disable-protocol / --enable-protocol",
+   "plain": "Colour packets; or turn single protocol dissectors off/on.",
+   "use": "Special dissection."
+  },
+  {
+   "flag": "-K keytab",
+   "plain": "Kerberos keytab file for decryption.",
+   "use": "Decrypting Kerberos."
+  },
+  {
+   "flag": "-M number",
+   "plain": "Reset the dissector state every number packets in long runs.",
+   "use": "Long captures."
+  },
+  {
+   "flag": "-v, --version",
+   "plain": "Show version.",
+   "use": "Check the install."
+  },
+  {
+   "flag": "-h, --help",
+   "plain": "Short help.",
+   "use": "A reminder."
+  }
+ ],
+ "mistakes": [
+  "Using -f where you meant -Y: -f is a capture filter and uses tcpdump syntax; -Y is a display filter with the Wireshark language.",
+  "Forgetting quotes around a display filter that contains spaces, || or &&; the shell eats them.",
+  "Running a live capture without sudo (or capture permissions): 'permission denied'.",
+  "Expecting HTTPS to be readable: you need the key log to decrypt it.",
+  "Writing a huge capture with no stop condition: use -a duration or -c."
+ ],
+ "try": [
+  "List every protocol in a pcap with -z io,phs.",
+  "Extract all dns.qry.name values and count them with sort | uniq -c.",
+  "Follow TCP stream 0 and read it as text.",
+  "Capture 20 seconds on your lab interface and open the file with -r."
+ ],
+ "see_also": "tcpdump(8), wireshark(1), capinfos(1), editcap(1), mergecap(1), nmap(1), and the display filter list at wireshark.org.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

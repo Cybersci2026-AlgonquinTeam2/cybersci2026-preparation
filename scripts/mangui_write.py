@@ -10,7 +10,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 OUT = Path(__file__).resolve().parent.parent / "mangui" / "guides"
-MODULES = ["mangui_batch4"]
+MODULES = ["mangui_batch4", "mangui_batch5"]
 
 
 def main():

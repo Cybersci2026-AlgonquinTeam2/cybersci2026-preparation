@@ -1,0 +1,311 @@
+{
+ "name": "binwalk",
+ "section": "1",
+ "one_line": "search a binary file for embedded files and executable code",
+ "plain": [
+  "`binwalk` scans a file for other files hidden inside it. Many files are really containers: a firmware image holds a filesystem, a kernel and compressed blobs; a picture can have a ZIP glued on its end; a PDF can hold scripts.",
+  "It looks for magic numbers (the signature bytes that start a ZIP, PNG, gzip, ELF...), prints each hit with its offset, and can carve the pieces out into folders. It can also measure entropy: very random data is usually encrypted or compressed, plain data is not.",
+  "In CTFs it answers 'is there something inside this file?' in seconds."
+ ],
+ "when": [
+  "A challenge image or file seems larger than it should be.",
+  "Look inside a router or IoT firmware image.",
+  "Extract an appended archive from a picture.",
+  "Find which parts of a file are compressed or encrypted (entropy).",
+  "Disassemble-guess a blob of code to see its CPU type."
+ ],
+ "examples": [
+  {
+   "title": "Scan a file for hidden content",
+   "cmd": "binwalk mystery.jpg",
+   "explain": "Prints a table of DECIMAL offset, HEX offset and DESCRIPTION. A second hit such as 'Zip archive data' at a large offset means a ZIP is appended to the picture."
+  },
+  {
+   "title": "Extract everything it finds",
+   "cmd": "binwalk -e mystery.jpg",
+   "explain": "-e carves the pieces out into a folder named _mystery.jpg.extracted. Needs helper tools such as unzip or 7z installed."
+  },
+  {
+   "title": "Extract and unpack recursively",
+   "cmd": "binwalk -Me firmware.bin",
+   "explain": "-M follows the extraction: contents of contents are scanned again, as in firmware that contains a filesystem that contains archives."
+  },
+  {
+   "title": "Draw an entropy graph",
+   "cmd": "binwalk -E firmware.bin",
+   "explain": "-E calculates entropy and plots it. A flat line near 1.0 is encrypted or compressed; low and varied is ordinary data. Use -N to skip the plot window."
+  },
+  {
+   "title": "Look for CPU code",
+   "cmd": "binwalk -A firmware.bin",
+   "explain": "-A searches for common instruction patterns (ARM, MIPS, x86...), useful when you do not know the architecture."
+  },
+  {
+   "title": "Scan only for certain signatures",
+   "cmd": "binwalk -y zip -y png mystery.jpg",
+   "explain": "-y keeps only these signature types, so a noisy file gives a short list."
+  },
+  {
+   "title": "Skip noisy signatures",
+   "cmd": "binwalk -x gzip -x lzma firmware.bin",
+   "explain": "-x excludes types that produce lots of false hits."
+  },
+  {
+   "title": "Show raw text hits",
+   "cmd": "binwalk -R '\\x50\\x4b\\x03\\x04' mystery.jpg",
+   "explain": "-R searches for your own byte sequence (here the ZIP header PK\\x03\\x04) and prints each offset."
+  },
+  {
+   "title": "Carve by hand with dd",
+   "cmd": "dd if=mystery.jpg of=hidden.zip bs=1 skip=48210",
+   "explain": "Binwalk gave you an offset (48210). dd copies from there to a new file. Great when automatic extraction fails."
+  },
+  {
+   "title": "Analyse many files",
+   "cmd": "binwalk -r *.bin",
+   "explain": "-r keeps going through a list of files and writes a short summary for each."
+  }
+ ],
+ "options": [
+  {
+   "flag": "-B, --signature",
+   "plain": "Scan for known file signatures (the default scan).",
+   "use": "Normal use."
+  },
+  {
+   "flag": "-R, --raw=STR",
+   "plain": "Search for a raw byte string.",
+   "use": "Your own signature."
+  },
+  {
+   "flag": "-A, --opcodes",
+   "plain": "Scan for common executable opcodes of many CPUs.",
+   "use": "Unknown code blobs."
+  },
+  {
+   "flag": "-m, --magic=FILE",
+   "plain": "Use another magic signature file.",
+   "use": "Custom signatures."
+  },
+  {
+   "flag": "-b, --dumb",
+   "plain": "Disable the smart signature keywords (show every match).",
+   "use": "Seeing every hit, even false ones."
+  },
+  {
+   "flag": "-I, --invalid",
+   "plain": "Show results that were marked invalid.",
+   "use": "Hunting damaged data."
+  },
+  {
+   "flag": "-x, --exclude=STR",
+   "plain": "Exclude matches whose description matches STR.",
+   "use": "Reducing noise."
+  },
+  {
+   "flag": "-y, --include=STR",
+   "plain": "Include only matches whose description matches STR.",
+   "use": "Looking for one thing."
+  },
+  {
+   "flag": "-e, --extract",
+   "plain": "Extract known file types.",
+   "use": "Pulling files out."
+  },
+  {
+   "flag": "-D, --dd=TYPE:EXT:CMD",
+   "plain": "Extract signatures of the given type, with a file extension and an optional command.",
+   "use": "Custom extraction."
+  },
+  {
+   "flag": "-M, --matryoshka",
+   "plain": "Recursively scan extracted files (like Russian dolls).",
+   "use": "Nested firmware."
+  },
+  {
+   "flag": "-d, --depth=NUM",
+   "plain": "Limit how deep -M goes (default 8).",
+   "use": "Stopping endless recursion."
+  },
+  {
+   "flag": "-C, --directory=DIR",
+   "plain": "Extract into this directory.",
+   "use": "Neat output."
+  },
+  {
+   "flag": "-j, --size=NUM",
+   "plain": "Limit the size of each extracted file.",
+   "use": "Space limits."
+  },
+  {
+   "flag": "-n, --count=NUM",
+   "plain": "Stop after this many extractions.",
+   "use": "Quick tests."
+  },
+  {
+   "flag": "-r, --rm",
+   "plain": "Delete carved files after extraction.",
+   "use": "Cleanup."
+  },
+  {
+   "flag": "-z, --carve",
+   "plain": "Carve data from the file even when the extractor is missing.",
+   "use": "Raw carving."
+  },
+  {
+   "flag": "-E, --entropy",
+   "plain": "Calculate file entropy.",
+   "use": "Finding encrypted or compressed areas."
+  },
+  {
+   "flag": "-F, --fast",
+   "plain": "Quicker entropy using fewer bytes.",
+   "use": "Speed."
+  },
+  {
+   "flag": "-J, --save",
+   "plain": "Save the entropy plot as a PNG.",
+   "use": "Reports."
+  },
+  {
+   "flag": "-Q, --nlegend",
+   "plain": "Omit the legend from the entropy plot.",
+   "use": "Clean plots."
+  },
+  {
+   "flag": "-N, --nplot",
+   "plain": "Do not plot the entropy graph.",
+   "use": "Text-only entropy."
+  },
+  {
+   "flag": "-H, --high=FLOAT",
+   "plain": "High entropy trigger (default 0.95).",
+   "use": "Tuning."
+  },
+  {
+   "flag": "-L, --low=FLOAT",
+   "plain": "Low entropy trigger (default 0.85).",
+   "use": "Tuning."
+  },
+  {
+   "flag": "-W, --hexdump",
+   "plain": "Hex dump a file, or compare files byte by byte.",
+   "use": "Comparing versions."
+  },
+  {
+   "flag": "-G, --green",
+   "plain": "Show only bytes that match in all files in -W.",
+   "use": "Common parts."
+  },
+  {
+   "flag": "-i, --red",
+   "plain": "Show only bytes that differ.",
+   "use": "Differences."
+  },
+  {
+   "flag": "-U, --blue",
+   "plain": "Show only bytes unique to a file.",
+   "use": "Comparison."
+  },
+  {
+   "flag": "-w, --terse",
+   "plain": "Terse hex dump.",
+   "use": "Compact view."
+  },
+  {
+   "flag": "-o, --offset=OFFSET",
+   "plain": "Start the scan at this offset.",
+   "use": "Skipping a header."
+  },
+  {
+   "flag": "-l, --length=LENGTH",
+   "plain": "Scan only this many bytes.",
+   "use": "A focused scan."
+  },
+  {
+   "flag": "-g, --grep=STR",
+   "plain": "Grep for text in the output.",
+   "use": "Filtering."
+  },
+  {
+   "flag": "-f, --log=FILE",
+   "plain": "Log results to a file.",
+   "use": "Records."
+  },
+  {
+   "flag": "-c, --csv",
+   "plain": "Log in CSV.",
+   "use": "Spreadsheets."
+  },
+  {
+   "flag": "-t, --term",
+   "plain": "Format output for the terminal width.",
+   "use": "Pretty."
+  },
+  {
+   "flag": "-q, --quiet",
+   "plain": "Suppress output.",
+   "use": "Scripts."
+  },
+  {
+   "flag": "-v, --verbose",
+   "plain": "Be verbose.",
+   "use": "More detail."
+  },
+  {
+   "flag": "-a, --finclude",
+   "plain": "Only scan files matching a regex.",
+   "use": "Mixed folders."
+  },
+  {
+   "flag": "-p, --fexclude",
+   "plain": "Skip files matching a regex.",
+   "use": "Mixed folders."
+  },
+  {
+   "flag": "-s, --status",
+   "plain": "Show a status server on this port.",
+   "use": "Long scans."
+  },
+  {
+   "flag": "--run-as=USER",
+   "plain": "Drop privileges to this user when extracting.",
+   "use": "Safer extraction."
+  },
+  {
+   "flag": "--preserve-symlinks",
+   "plain": "Keep symlinks that point outside the extraction directory.",
+   "use": "Understanding a firmware's structure; treat with care."
+  },
+  {
+   "flag": "--no-symlinks",
+   "plain": "Do not create symlinks when extracting.",
+   "use": "Safer extraction."
+  },
+  {
+   "flag": "-V, --version",
+   "plain": "Show the version.",
+   "use": "Check the install."
+  },
+  {
+   "flag": "-h, --help",
+   "plain": "Show help.",
+   "use": "A reminder."
+  }
+ ],
+ "mistakes": [
+  "Running -e as root on an untrusted file: extraction can follow malicious symlinks. Run it as a normal user in a throw-away folder.",
+  "Taking every hit as real: many 'matches' are false positives. Check the offset and the size.",
+  "Missing the extraction tools (unzip, 7z, sasquatch, jefferson): binwalk then finds but cannot extract.",
+  "Forgetting -M for nested containers: you only get the first layer.",
+  "Not looking at the end of the file: use tail -c and xxd as well."
+ ],
+ "try": [
+  "Append a zip to a picture with cat pic.jpg secret.zip > both.jpg, then find it with binwalk both.jpg.",
+  "Extract it with -e and read the result.",
+  "Run binwalk -E on a ZIP and on a text file and compare the entropy.",
+  "Use dd with an offset binwalk reports to carve a part by hand."
+ ],
+ "see_also": "file(1), xxd(1), strings(1), dd(1), foremost(1), exiftool(1), unzip(1), and the 7z / sasquatch tools used for extraction.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
+}

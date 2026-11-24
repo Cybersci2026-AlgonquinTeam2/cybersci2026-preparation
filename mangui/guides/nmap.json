@@ -1,112 +1,652 @@
 {
  "name": "nmap",
  "section": "1",
- "one_line": "Discover hosts, open ports, services and versions on a network, and run scripts against them.",
+ "one_line": "network exploration tool and security / port scanner",
  "plain": [
-  "Discover hosts, open ports, services and versions on a network, and run scripts against them.",
-  "The sections below show when to use it, real examples, and the options explained in plain English."
+  "`nmap` asks a machine (or a whole network) 'which doors are open?'. It sends small probe packets and reports which ports answer, what service is behind each one, and sometimes the program version and operating system.",
+  "Think of a building with 65,535 numbered doors. nmap walks along and tries each handle. An open door (say 22) usually means a service such as SSH is listening; closed means the machine answered 'nothing here'; filtered means a firewall swallowed the probe.",
+  "Only scan machines you own or have written permission to test. In the CyberSci lab that means the targets you are given."
  ],
  "when": [
-  "The first command on any network challenge or lab machine.",
-  "Find out which services run and which versions.",
-  "Check what a firewall allows (open versus filtered)."
+  "Find which hosts are alive on a subnet.",
+  "Find open ports and the services behind them on a target.",
+  "Identify service versions to look up known vulnerabilities.",
+  "Run the built-in NSE scripts for banners, default logins, web titles or known flaws.",
+  "Save results so a team can read them later (-oA)."
  ],
  "examples": [
   {
-   "title": "Is the host up?",
-   "cmd": "nmap -sn 127.0.0.1",
-   "output": "(expected, not captured) Starting Nmap ... Nmap scan report for localhost (127.0.0.1) / Host is up / Nmap done: 1 IP address (1 host up) scanned."
+   "title": "Quick look at one target",
+   "cmd": "nmap 10.10.10.5",
+   "explain": "Scans the 1000 most common TCP ports. Output lists PORT, STATE and SERVICE. This is the first command in most rooms."
   },
   {
-   "title": "Default scan of localhost",
-   "cmd": "nmap 127.0.0.1",
-   "output": "(expected, not captured) A PORT STATE SERVICE table listing the open TCP ports among the top 1000 (for example 22/tcp ssh if sshd runs), and the number of closed ports not shown."
+   "title": "Every port, fast, then deep on what is open",
+   "cmd": "nmap -p- --min-rate 2000 -T4 10.10.10.5 -oN all.txt\nnmap -sC -sV -p 22,80,443 10.10.10.5",
+   "explain": "Step 1: -p- means all 65,535 ports and --min-rate keeps it fast. Step 2: run default scripts (-sC) and version detection (-sV) only on the ports you found. Two passes are faster than one huge slow scan."
   },
   {
-   "title": "Every port, then look closely",
-   "cmd": "nmap -p- -T4 127.0.0.1 && nmap -sV -sC -p 22 127.0.0.1",
-   "output": "(expected, not captured) First scan: the list of all open ports. Second scan: the same port with a version string (for example OpenSSH 9.x) and script output such as host keys."
+   "title": "Which hosts are up?  (ping sweep)",
+   "cmd": "nmap -sn 192.168.1.0/24",
+   "explain": "-sn means 'no port scan, just tell me who is alive'. The /24 means the 254 addresses 192.168.1.1 to .254."
   },
   {
-   "title": "Save results",
-   "cmd": "nmap -oA scan1 127.0.0.1 && ls scan1.*",
-   "output": "(expected, not captured) scan1.gnmap scan1.nmap scan1.xml"
+   "title": "Skip the ping when a host hides",
+   "cmd": "nmap -Pn 10.10.10.5",
+   "explain": "-Pn assumes the host is up. Windows machines and firewalls often ignore ping, so without it nmap may wrongly say 'host seems down'."
   },
   {
-   "title": "Run one script",
-   "cmd": "nmap --script http-title -p 80,8080 127.0.0.1",
-   "output": "(expected, not captured) For an open web port: a http-title line with the page title; for closed ports, nothing."
+   "title": "Service versions and default scripts",
+   "cmd": "nmap -sC -sV 10.10.10.5",
+   "explain": "-sV asks each open port to identify itself (e.g. OpenSSH 8.2). -sC runs the safe default NSE scripts: banner grabs, titles, anonymous FTP check, and so on."
+  },
+  {
+   "title": "Aggressive bundle",
+   "cmd": "nmap -A 10.10.10.5",
+   "explain": "-A = -sV + -sC + -O + --traceroute. Loud but handy in a lab. Do not use on targets that alert."
+  },
+  {
+   "title": "UDP scan of the top ports",
+   "cmd": "sudo nmap -sU --top-ports 20 10.10.10.5",
+   "explain": "UDP is slow because silence can mean open or filtered. Scanning only the 20 most common UDP ports (DNS 53, SNMP 161, TFTP 69) keeps it quick. Needs root."
+  },
+  {
+   "title": "Run one NSE script",
+   "cmd": "nmap -p 80 --script http-title,http-headers 10.10.10.5",
+   "explain": "Scripts live in /usr/share/nmap/scripts. Here two of them fetch the web page title and the response headers."
+  },
+  {
+   "title": "Vulnerability scripts",
+   "cmd": "nmap -p 445 --script smb-vuln* 10.10.10.5",
+   "explain": "A wildcard picks every script whose name starts with smb-vuln. Great for a quick check of old SMB bugs."
+  },
+  {
+   "title": "Save every output format",
+   "cmd": "nmap -sC -sV -oA scan1 10.10.10.5",
+   "explain": "Writes scan1.nmap (text), scan1.xml and scan1.gnmap in one go, so you can grep, import or share the result later."
+  },
+  {
+   "title": "Targets from a file",
+   "cmd": "nmap -iL targets.txt -p 80,443 --open",
+   "explain": "-iL reads targets from a file, one per line. --open shows only open ports so the output stays short."
+  },
+  {
+   "title": "Quiet-ish SYN scan on a range of ports",
+   "cmd": "sudo nmap -sS -p 1-1024 10.10.10.5",
+   "explain": "-sS is the default when you are root: it sends SYN and never completes the handshake, so it is faster and logs less. Without root nmap falls back to -sT, a full connect."
   }
  ],
  "options": [
   {
+   "flag": "TARGET SPECIFICATION",
+   "plain": "A target can be a name (scanme.nmap.org), an IP (10.10.10.5), a CIDR block (10.10.10.0/24), a range (10.10.10.1-20) or several of these separated by spaces.",
+   "use": "Any scan."
+  },
+  {
+   "flag": "-iL inputfile",
+   "plain": "Read targets from a file, one entry per line.",
+   "use": "A long list of hosts."
+  },
+  {
+   "flag": "-iR num",
+   "plain": "Pick num random targets on the internet.",
+   "use": "Research surveys. Do not use on the CyberSci lab."
+  },
+  {
+   "flag": "--exclude host1,host2",
+   "plain": "Leave these hosts out of the scan.",
+   "use": "Skipping your own machine or a fragile server."
+  },
+  {
+   "flag": "--excludefile file",
+   "plain": "Same as --exclude, but read from a file.",
+   "use": "Long exclusion lists."
+  },
+  {
+   "flag": "HOST DISCOVERY",
+   "plain": "These options decide how nmap checks whether a host is alive before scanning ports.",
+   "use": "Tuning what counts as alive."
+  },
+  {
+   "flag": "-sL",
+   "plain": "List scan: only print the targets and their names, send nothing.",
+   "use": "Checking your target list is right before scanning."
+  },
+  {
    "flag": "-sn",
-   "plain": "Host discovery only (ping sweep)",
-   "use": "Who is up on this subnet?"
+   "plain": "Ping scan: find live hosts, then stop (no port scan). Formerly called -sP.",
+   "use": "Mapping a subnet."
   },
   {
    "flag": "-Pn",
-   "plain": "Skip discovery, treat host as up",
-   "use": "ICMP blocked or crossing a firewall"
+   "plain": "Skip host discovery: treat every host as up.",
+   "use": "Hosts that block ping."
   },
   {
-   "flag": "-p- / -p 1-1024 / --top-ports N",
-   "plain": "Which ports to scan",
-   "use": "All ports first, then focus"
+   "flag": "-PS[portlist]",
+   "plain": "Send a TCP SYN to the ports (default 80) to see if the host answers.",
+   "use": "Firewalled hosts that block ICMP."
   },
   {
-   "flag": "-sS / -sT / -sU",
-   "plain": "SYN scan (root) / TCP connect / UDP",
-   "use": "Default, no-root or proxy use, UDP services"
+   "flag": "-PA[portlist]",
+   "plain": "Send a TCP ACK to the ports (default 80).",
+   "use": "Getting past stateless filters."
+  },
+  {
+   "flag": "-PU[portlist]",
+   "plain": "Send a UDP packet to the ports.",
+   "use": "Hosts that only answer UDP."
+  },
+  {
+   "flag": "-PY[portlist]",
+   "plain": "Send an SCTP INIT packet.",
+   "use": "SCTP networks."
+  },
+  {
+   "flag": "-PE / -PP / -PM",
+   "plain": "ICMP echo, timestamp and netmask requests.",
+   "use": "Different ways to ask 'are you there?'."
+  },
+  {
+   "flag": "-PO[protocol list]",
+   "plain": "Send IP packets with the given protocol numbers.",
+   "use": "Rare discovery tricks."
+  },
+  {
+   "flag": "-PR",
+   "plain": "ARP ping (used automatically on a local network).",
+   "use": "Local LAN discovery, very reliable."
+  },
+  {
+   "flag": "-n",
+   "plain": "Never do reverse DNS lookups.",
+   "use": "Faster scans."
+  },
+  {
+   "flag": "-R",
+   "plain": "Always do reverse DNS lookups.",
+   "use": "You want names for every IP."
+  },
+  {
+   "flag": "--dns-servers server1,server2",
+   "plain": "Use these DNS servers for lookups.",
+   "use": "An internal DNS server knows more names."
+  },
+  {
+   "flag": "--system-dns",
+   "plain": "Use the operating system's resolver.",
+   "use": "Special resolver settings (hosts file)."
+  },
+  {
+   "flag": "--traceroute",
+   "plain": "Trace the path to each host.",
+   "use": "Learning how the network is laid out."
+  },
+  {
+   "flag": "SCAN TECHNIQUES",
+   "plain": "These choose the way ports are tested. You normally pick one.",
+   "use": "Choosing the scan type."
+  },
+  {
+   "flag": "-sS",
+   "plain": "TCP SYN (half-open) scan. The default when run as root.",
+   "use": "Fast everyday scan."
+  },
+  {
+   "flag": "-sT",
+   "plain": "TCP connect scan: finishes the full handshake. Default without root.",
+   "use": "You are not root."
+  },
+  {
+   "flag": "-sU",
+   "plain": "UDP scan.",
+   "use": "Finding DNS, SNMP, TFTP and other UDP services."
+  },
+  {
+   "flag": "-sA",
+   "plain": "TCP ACK scan: maps firewall rules, does not find open ports.",
+   "use": "Seeing whether a firewall is stateful."
+  },
+  {
+   "flag": "-sW",
+   "plain": "TCP window scan: like ACK but can tell open from closed on some systems.",
+   "use": "Firewall mapping."
+  },
+  {
+   "flag": "-sM",
+   "plain": "TCP Maimon scan: FIN/ACK probes.",
+   "use": "Old BSD-based systems."
+  },
+  {
+   "flag": "-sN, -sF, -sX",
+   "plain": "Null, FIN and Xmas scans: send odd flag combinations to slip past simple filters.",
+   "use": "Stealth experiments; Windows ignores them."
+  },
+  {
+   "flag": "--scanflags flags",
+   "plain": "Build your own TCP flag combination.",
+   "use": "Experiments with custom probes."
+  },
+  {
+   "flag": "-sI zombie[:probeport]",
+   "plain": "Idle (zombie) scan: bounce the scan off a quiet third host so your address is not seen.",
+   "use": "Advanced stealth research."
+  },
+  {
+   "flag": "-sY / -sZ",
+   "plain": "SCTP INIT and COOKIE-ECHO scans.",
+   "use": "SCTP services."
+  },
+  {
+   "flag": "-sO",
+   "plain": "IP protocol scan: which IP protocols (TCP, UDP, ICMP...) does the host speak.",
+   "use": "Rare."
+  },
+  {
+   "flag": "-b FTP-relay-host",
+   "plain": "FTP bounce scan.",
+   "use": "Historic trick; mostly disabled today."
+  },
+  {
+   "flag": "PORT SPECIFICATION",
+   "plain": "Which ports to test.",
+   "use": "Narrowing or widening the scan."
+  },
+  {
+   "flag": "-p port ranges",
+   "plain": "Scan only these ports: -p 22, -p 1-1024, -p 22,80,443, -p U:53,T:80, -p-.",
+   "use": "Always, once you know what you want."
+  },
+  {
+   "flag": "-p-",
+   "plain": "Shortcut for all ports, 1 to 65535.",
+   "use": "Full scan to find odd high ports."
+  },
+  {
+   "flag": "--exclude-ports ports",
+   "plain": "Skip these ports.",
+   "use": "A port that crashes or alerts."
+  },
+  {
+   "flag": "-F",
+   "plain": "Fast mode: scan only the 100 most common ports.",
+   "use": "A quick sanity check."
+  },
+  {
+   "flag": "-r",
+   "plain": "Scan ports in order, not randomised.",
+   "use": "Reproducible output."
+  },
+  {
+   "flag": "--top-ports n",
+   "plain": "Scan the n most common ports.",
+   "use": "A tunable quick scan."
+  },
+  {
+   "flag": "--port-ratio ratio",
+   "plain": "Scan ports more common than this ratio (0 to 1).",
+   "use": "Fine-tuning popularity."
+  },
+  {
+   "flag": "SERVICE AND VERSION DETECTION",
+   "plain": "Ask open ports to tell what they run.",
+   "use": "Finding exploitable versions."
   },
   {
    "flag": "-sV",
-   "plain": "Service and version detection",
-   "use": "After you know the open ports"
+   "plain": "Probe open ports to identify the service and version.",
+   "use": "After you find open ports."
   },
   {
-   "flag": "-sC / --script NAME",
-   "plain": "Default scripts / a chosen script",
-   "use": "Enumerate and check known issues"
+   "flag": "--version-intensity level",
+   "plain": "0 (light) to 9 (try everything).",
+   "use": "Stubborn services."
   },
   {
-   "flag": "-O / -A",
-   "plain": "OS guess / aggressive (-sV -sC -O --traceroute)",
-   "use": "Quick profile of a lab box"
+   "flag": "--version-light",
+   "plain": "Same as intensity 2: fast, fewer probes.",
+   "use": "Speed over certainty."
   },
   {
-   "flag": "-T0..T5",
-   "plain": "Timing template",
-   "use": "T4 in labs, slower on fragile or monitored networks"
+   "flag": "--version-all",
+   "plain": "Same as intensity 9: try every probe.",
+   "use": "A service nmap cannot name."
   },
   {
-   "flag": "-oA name / -oN / -oX",
-   "plain": "Save output",
-   "use": "Always save"
+   "flag": "--version-trace",
+   "plain": "Show what version detection is doing.",
+   "use": "Debugging a bad guess."
   },
   {
-   "flag": "--open / -v",
-   "plain": "Show only open ports / more detail",
-   "use": "Cleaner output"
+   "flag": "SCRIPT SCAN (NSE)",
+   "plain": "Nmap Scripting Engine: small Lua programs that automate checks.",
+   "use": "Going beyond plain port listing."
   },
   {
-   "flag": "--script-help NAME",
-   "plain": "Read what a script does",
-   "use": "Before running unfamiliar scripts"
+   "flag": "-sC",
+   "plain": "Run the default script set. Same as --script=default.",
+   "use": "Almost every first scan."
+  },
+  {
+   "flag": "--script file|category|dir|expression",
+   "plain": "Run chosen scripts, a category (safe, vuln, discovery, auth, brute...) or wildcards.",
+   "use": "Targeted checks."
+  },
+  {
+   "flag": "--script-args n1=v1,n2=v2",
+   "plain": "Pass arguments to scripts (a username, a path, a wordlist).",
+   "use": "Customising a script."
+  },
+  {
+   "flag": "--script-args-file filename",
+   "plain": "Read script arguments from a file.",
+   "use": "Long argument lists."
+  },
+  {
+   "flag": "--script-trace",
+   "plain": "Show all data a script sends and receives.",
+   "use": "Learning how a script works."
+  },
+  {
+   "flag": "--script-updatedb",
+   "plain": "Rebuild the script database.",
+   "use": "After adding your own script."
+  },
+  {
+   "flag": "--script-help script",
+   "plain": "Show what a script does.",
+   "use": "Reading before running."
+  },
+  {
+   "flag": "OS DETECTION",
+   "plain": "Guess the operating system from how the TCP/IP stack behaves.",
+   "use": "Choosing exploits."
+  },
+  {
+   "flag": "-O",
+   "plain": "Turn OS detection on.",
+   "use": "Knowing whether the target is Linux or Windows."
+  },
+  {
+   "flag": "--osscan-limit",
+   "plain": "Only try OS detection on hosts that look promising (need an open and closed port).",
+   "use": "Saving time."
+  },
+  {
+   "flag": "--osscan-guess, --fuzzy",
+   "plain": "Guess more aggressively when nothing matches exactly.",
+   "use": "Unusual devices."
+  },
+  {
+   "flag": "--max-os-tries n",
+   "plain": "Limit OS detection retries.",
+   "use": "Speeding up."
+  },
+  {
+   "flag": "TIMING AND PERFORMANCE",
+   "plain": "Speed versus stealth versus reliability.",
+   "use": "Tuning for the network."
+  },
+  {
+   "flag": "-T0 to -T5",
+   "plain": "Timing templates: 0 paranoid, 1 sneaky, 2 polite, 3 normal (default), 4 aggressive, 5 insane.",
+   "use": "-T4 is typical on a fast lab network."
+  },
+  {
+   "flag": "--min-rate n / --max-rate n",
+   "plain": "Send at least / at most n packets per second.",
+   "use": "Forcing speed, or staying under a limit."
+  },
+  {
+   "flag": "--min-parallelism / --max-parallelism n",
+   "plain": "Number of probes in flight at once.",
+   "use": "Fine-tuning speed."
+  },
+  {
+   "flag": "--min-hostgroup / --max-hostgroup size",
+   "plain": "How many hosts are scanned together.",
+   "use": "Big networks."
+  },
+  {
+   "flag": "--min-rtt-timeout / --max-rtt-timeout / --initial-rtt-timeout time",
+   "plain": "How long to wait for a reply.",
+   "use": "Slow links."
+  },
+  {
+   "flag": "--max-retries n",
+   "plain": "How many times to resend a probe.",
+   "use": "Faster but less reliable if lowered."
+  },
+  {
+   "flag": "--host-timeout time",
+   "plain": "Give up on a host after this long.",
+   "use": "Stalled targets."
+  },
+  {
+   "flag": "--scan-delay / --max-scan-delay time",
+   "plain": "Pause between probes.",
+   "use": "Avoiding rate-limiting or alarms."
+  },
+  {
+   "flag": "--defeat-rst-ratelimit",
+   "plain": "Ignore rate limits on RST replies.",
+   "use": "Speeding up closed-port scans."
+  },
+  {
+   "flag": "--defeat-icmp-ratelimit",
+   "plain": "Same idea for ICMP errors in UDP scans.",
+   "use": "Faster UDP scans."
+  },
+  {
+   "flag": "--nsock-engine engine",
+   "plain": "Choose the network engine.",
+   "use": "Rare debugging."
+  },
+  {
+   "flag": "FIREWALL / IDS EVASION AND SPOOFING",
+   "plain": "Tricks used on authorised tests to see how defences react.",
+   "use": "Defence testing."
+  },
+  {
+   "flag": "-f, --mtu val",
+   "plain": "Fragment packets into tiny pieces (or with a given MTU).",
+   "use": "Old filters that cannot reassemble."
+  },
+  {
+   "flag": "-D decoy1,decoy2,ME",
+   "plain": "Mix your address among decoy addresses.",
+   "use": "Hiding in noise."
+  },
+  {
+   "flag": "-S IP_address",
+   "plain": "Pretend packets come from this address.",
+   "use": "Spoofing research."
+  },
+  {
+   "flag": "-e iface",
+   "plain": "Use this network interface.",
+   "use": "Several network cards or a VPN tunnel."
+  },
+  {
+   "flag": "-g / --source-port portnum",
+   "plain": "Send from a chosen source port (such as 53 or 20).",
+   "use": "Filters that trust DNS or FTP traffic."
+  },
+  {
+   "flag": "--proxies url,[url]",
+   "plain": "Relay TCP connections through proxies.",
+   "use": "Reaching a target via a proxy."
+  },
+  {
+   "flag": "--data hex string",
+   "plain": "Add a custom payload to packets.",
+   "use": "Special probes."
+  },
+  {
+   "flag": "--data-string string",
+   "plain": "Add an ASCII string to packets.",
+   "use": "Special probes."
+  },
+  {
+   "flag": "--data-length num",
+   "plain": "Add random bytes to packets.",
+   "use": "Avoiding fingerprints of empty packets."
+  },
+  {
+   "flag": "--ip-options options",
+   "plain": "Set IP options.",
+   "use": "Experiments."
+  },
+  {
+   "flag": "--ttl val",
+   "plain": "Set the IP time-to-live.",
+   "use": "Path tests."
+  },
+  {
+   "flag": "--spoof-mac mac/prefix/vendor",
+   "plain": "Fake the MAC address.",
+   "use": "Local network tests."
+  },
+  {
+   "flag": "--badsum",
+   "plain": "Send packets with a deliberately wrong checksum.",
+   "use": "Detecting firewalls that do not verify checksums."
+  },
+  {
+   "flag": "--adler32",
+   "plain": "Use the old Adler32 checksum for SCTP.",
+   "use": "Legacy SCTP."
+  },
+  {
+   "flag": "OUTPUT",
+   "plain": "How results are saved or shown.",
+   "use": "Keeping evidence."
+  },
+  {
+   "flag": "-oN file",
+   "plain": "Normal text output.",
+   "use": "Reading later."
+  },
+  {
+   "flag": "-oX file",
+   "plain": "XML output.",
+   "use": "Importing into tools."
+  },
+  {
+   "flag": "-oG file",
+   "plain": "Grepable output (deprecated but very handy).",
+   "use": "Quick greps."
+  },
+  {
+   "flag": "-oS file",
+   "plain": "'Script kiddie' output (silly).",
+   "use": "Fun only."
+  },
+  {
+   "flag": "-oA basename",
+   "plain": "Write normal, XML and grepable files at once.",
+   "use": "The best default."
+  },
+  {
+   "flag": "-v, -vv",
+   "plain": "More verbose; open ports shown as they are found.",
+   "use": "Long scans."
+  },
+  {
+   "flag": "-d, -dd",
+   "plain": "Debugging output.",
+   "use": "Fixing odd behaviour."
+  },
+  {
+   "flag": "--reason",
+   "plain": "Say why each port is in its state.",
+   "use": "Learning how nmap decided."
+  },
+  {
+   "flag": "--open",
+   "plain": "Show only open (or possibly open) ports.",
+   "use": "Short output."
+  },
+  {
+   "flag": "--packet-trace",
+   "plain": "Show every packet sent and received.",
+   "use": "Seeing exactly what nmap does."
+  },
+  {
+   "flag": "--iflist",
+   "plain": "List interfaces and routes.",
+   "use": "Checking nmap sees your VPN."
+  },
+  {
+   "flag": "--append-output",
+   "plain": "Add to the output files instead of overwriting.",
+   "use": "Several runs in one file."
+  },
+  {
+   "flag": "--resume file",
+   "plain": "Continue an interrupted scan from a saved log.",
+   "use": "Long scans cut short."
+  },
+  {
+   "flag": "--stylesheet path / --webxml / --no-stylesheet",
+   "plain": "Choose how XML output is styled for a browser.",
+   "use": "Making an XML report readable."
+  },
+  {
+   "flag": "-6",
+   "plain": "Scan IPv6.",
+   "use": "IPv6 targets."
+  },
+  {
+   "flag": "-A",
+   "plain": "Aggressive: OS detection, version detection, default scripts and traceroute.",
+   "use": "Fast learning in a lab."
+  },
+  {
+   "flag": "--datadir dirname",
+   "plain": "Use a custom data directory.",
+   "use": "Custom scripts and databases."
+  },
+  {
+   "flag": "--send-eth / --send-ip",
+   "plain": "Send raw Ethernet frames or raw IP packets.",
+   "use": "Bypassing the operating system's network stack."
+  },
+  {
+   "flag": "--privileged / --unprivileged",
+   "plain": "Assume you do (or do not) have raw-socket rights.",
+   "use": "Special setups."
+  },
+  {
+   "flag": "--release-memory",
+   "plain": "Free memory before exit.",
+   "use": "Leak testing."
+  },
+  {
+   "flag": "-V, --version",
+   "plain": "Show the version.",
+   "use": "Checking the install."
+  },
+  {
+   "flag": "-h, --help",
+   "plain": "Short help.",
+   "use": "A quick reminder."
   }
  ],
  "mistakes": [
-  "Scan only what you are authorised to scan, including at the venue.",
-  "`filtered` means a firewall dropped the probe, not that the port is closed.",
-  "`-sS` and `-O` need root; without it Nmap falls back to `-sT`.",
-  "UDP scans are slow: limit with `--top-ports`.",
-  "A host that blocks ping looks down: add `-Pn`."
+  "Scanning only the top 1000 ports and missing a service on port 8080 or 31337: use -p- at least once.",
+  "Forgetting -Pn on Windows hosts, which then look 'down'.",
+  "UDP scans without limiting ports: they can take hours. Use --top-ports.",
+  "Running -sS without sudo: nmap quietly falls back to -sT.",
+  "Using -T5 on a real network: it drops packets and misses ports. Prefer -T4.",
+  "Not saving output: always use -oA so you can re-read results."
  ],
  "try": [
-  "Scan your own VM with the two-step method and write the open-ports table.",
-  "Start `python3 -m http.server 8000` and watch the port appear.",
-  "Compare `-sS` and `-sT` in Wireshark."
+  "Scan scanme.nmap.org with -sV and write down every open port.",
+  "Run nmap -p- --open on a lab host, then rerun -sC -sV on only the open ports.",
+  "Run one NSE script from /usr/share/nmap/scripts and read its --script-help first.",
+  "Add --reason and --packet-trace to a one-port scan and match each packet to a line of output."
  ],
- "see_also": "masscan, rustscan, nc, tcpdump, wireshark, ffuf.",
- "captured_with": "Examples marked expected were not captured yet (nmap not installed here); run scripts/atlas_build.py where the tool is installed (Kali) to capture real output."
+ "see_also": "ncat(1), nc(1), tcpdump(8), curl(1), tshark(1), searchsploit(1), and the NSE docs at /usr/share/nmap/scripts.",
+ "captured_with": "Examples are written to explain a technique; they are not captured output."
 }
