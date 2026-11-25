@@ -1,0 +1,150 @@
+id,category,topic,level,depth_words,companion_words,pages,words,score,study_hours
+K-WEB01,WEB,"SQL injection: union, blind, error, second-order, filters bypass",L2,5000,1500,2,6500,40,6
+K-WEB02,WEB,"XSS: reflected, stored, DOM, CSP bypass, bot/admin-visit challenges",L2,5000,1500,2,6500,40,6
+K-WEB03,WEB,"SSRF and internal-service pivots (cloud metadata, gopher)",L3,6000,1500,2,7500,40,4
+K-WEB04,WEB,"Authentication and sessions: JWT, cookies, password reset, IDOR",L2,5000,1500,2,6500,40,5
+K-WEB05,WEB,"File upload, LFI/RFI, path traversal, PHP wrappers",L2,5000,1500,2,6500,40,5
+K-WEB06,WEB,"Server-side template injection (Jinja2, Twig, Freemarker)",L3,6000,1500,2,7500,40,4
+K-WEB07,WEB,"Deserialization: PHP, Java, Python pickle, .NET",L3,6000,1500,2,7500,40,6
+K-WEB08,WEB,XXE and XML parsers,L3,6000,1500,2,7500,40,3
+K-WEB09,WEB,"Request smuggling, cache poisoning, host-header attacks",L3,6000,1500,2,7500,40,6
+K-WEB10,WEB,"Prototype pollution, NoSQL injection, mass assignment",L3,6000,1500,2,7500,40,4
+K-WEB11,WEB,GraphQL and API testing,L3,6000,1500,2,7500,40,4
+K-WEB12,WEB,Race conditions and logic flaws,L3,6000,1500,2,7500,40,4
+K-WEB13,WEB,OAuth/SAML/SSO flaws,L3,6000,1500,2,7500,40,4
+K-WEB14,WEB,"CSRF, CORS, clickjacking, WebSockets",L2,5000,1500,2,6500,40,4
+K-WEB15,WEB,"Framework quirks: PHP juggling, Node, Flask, Spring",L3,6000,1500,2,7500,40,5
+K-WEB16,WEB,"Web recon and content discovery speed (ffuf, gobuster, Burp)",L2,5000,1500,2,6500,40,3
+K-CRY01,CRY,Classical ciphers and frequency analysis,L1,4000,1500,2,5500,35,3
+K-CRY02,CRY,"XOR, repeating-key XOR, one-time-pad reuse",L1,4000,1500,2,5500,35,3
+K-CRY03,CRY,"RSA basics and attacks: small e, common modulus, Wiener, factorisation",L2,5000,1500,2,6500,35,8
+K-CRY04,CRY,"AES modes: ECB, CBC bit-flip, padding oracle, CTR reuse",L2,5000,1500,2,6500,35,8
+K-CRY05,CRY,"Hash functions, length extension, collisions, MACs",L2,5000,1500,2,6500,35,4
+K-CRY06,CRY,Elliptic curves and ECDSA nonce reuse,L3,6000,1500,2,7500,35,8
+K-CRY07,CRY,"Lattices, LLL and Coppersmith",L3,6000,1500,2,7500,35,10
+K-CRY08,CRY,"PRNG attacks: Mersenne Twister, LCG, state recovery",L3,6000,1500,2,7500,35,5
+K-CRY09,CRY,Diffie-Hellman and discrete log,L3,6000,1500,2,7500,35,4
+K-CRY10,CRY,Z3/SAT for custom ciphers,L3,6000,1500,2,7500,35,4
+K-CRY11,CRY,Side channels and timing,L3,6000,1500,2,7500,35,3
+K-CRY12,CRY,"Zero-knowledge, post-quantum and signatures intro",L3,6000,1500,2,7500,35,5
+K-FOR01,FOR,"Disk images and file systems (Autopsy, sleuthkit, deleted files)",L2,5000,1500,2,6500,34,5
+K-FOR02,FOR,Memory forensics with Volatility 3,L3,6000,1500,2,7500,34,6
+K-FOR03,FOR,Network forensics: pcap triage in Wireshark/tshark,L2,5000,1500,2,6500,34,5
+K-FOR04,FOR,"File carving and file-format repair (foremost, binwalk, magic bytes)",L2,5000,1500,2,6500,34,4
+K-FOR05,FOR,"Steganography: image, audio, video, text (steghide, zsteg, sox, ffmpeg)",L2,5000,1500,2,6500,34,5
+K-FOR06,FOR,"Windows artefacts: registry, event logs, prefetch, shellbags",L3,6000,1500,2,7500,34,6
+K-FOR07,FOR,Linux artefacts and timeline analysis,L2,5000,1500,2,6500,34,4
+K-FOR08,FOR,"Email and phishing analysis, Office macros, PDF analysis",L2,5000,1500,2,6500,34,4
+K-FOR09,FOR,Mobile and USB forensics basics,L3,6000,1500,2,7500,34,4
+K-FOR10,FOR,Cloud and container forensics logs,L3,6000,1500,2,7500,34,4
+K-REV01,REV,Static analysis workflow in Ghidra and radare2,L2,5000,1500,2,6500,30,5
+K-REV02,REV,"Dynamic analysis: gdb, ltrace, strace, Frida",L2,5000,1500,2,6500,30,5
+K-REV03,REV,"Anti-debug, obfuscation and packers (UPX, control-flow flattening)",L3,6000,1500,2,7500,30,6
+K-REV04,REV,"Managed code: .NET (dnSpy), Java (jadx), Python bytecode",L2,5000,1500,2,6500,30,5
+K-REV05,REV,Custom VMs and bytecode interpreters,L3,6000,1500,2,7500,30,8
+K-REV06,REV,Symbolic execution: z3 and angr,L3,6000,1500,2,7500,30,6
+K-REV07,REV,"Android APK reversing (jadx, apktool, frida)",L3,6000,1500,2,7500,30,6
+K-REV08,REV,WebAssembly and JavaScript obfuscation,L3,6000,1500,2,7500,30,4
+K-REV09,REV,Rust and Go binaries,L3,6000,1500,2,7500,30,4
+K-REV10,REV,Firmware images and embedded binaries,L3,6000,1500,2,7500,30,5
+K-REV11,REV,Game hacking and memory tools (Cheat Engine),L2,5000,1500,2,6500,30,3
+K-REV12,REV,Keygens and crackme patterns,L2,5000,1500,2,6500,30,4
+K-MSC01,MSC,Python jails and restricted shells,L3,6000,1500,2,7500,29,4
+K-MSC02,MSC,"Esoteric languages, QR/barcodes, ciphers in images",L1,4000,1500,2,5500,29,3
+K-MSC03,MSC,"Programming puzzles under time (parsing, graph, maths)",L2,5000,1500,2,6500,29,5
+K-MSC04,MSC,Automating servers and sockets: solve scripts,L2,5000,1500,2,6500,29,4
+K-MSC05,MSC,CyberChef recipes and scripting speed,L1,4000,1500,2,5500,29,3
+K-MSC06,MSC,Scoreboard and flag-submission strategy,L1,4000,1500,2,5500,29,2
+K-PWN01,PWN,"Stack overflow basics: ret2win, offsets, cyclic patterns",L2,5000,1500,2,6500,26,4
+K-PWN02,PWN,Shellcode and NX/ASLR/PIE/canary protections,L2,5000,1500,2,6500,26,5
+K-PWN03,PWN,"ROP chains and ret2libc, one_gadget",L3,6000,1500,2,7500,26,8
+K-PWN04,PWN,"Format-string bugs: read, write, GOT overwrite",L3,6000,1500,2,7500,26,6
+K-PWN05,PWN,"Heap: tcache, fastbin, use-after-free, double free",L3,6000,1500,2,7500,26,12
+K-PWN06,PWN,"SROP, ret2dlresolve, ret2csu",L3,6000,1500,2,7500,26,6
+K-PWN07,PWN,Seccomp and sandbox escapes (ORW chains),L3,6000,1500,2,7500,26,5
+K-PWN08,PWN,"Kernel pwn intro (modules, LKM bugs)",L3,6000,1500,2,7500,26,10
+K-PWN09,PWN,"Other architectures: ARM, MIPS, RISC-V emulation with qemu",L3,6000,1500,2,7500,26,6
+K-PWN10,PWN,Browser and JS-engine pwn intro (V8 basics),L3,6000,1500,2,7500,26,10
+K-PWN11,PWN,Windows pwn basics,L3,6000,1500,2,7500,26,6
+K-PWN12,PWN,"Exploit workflow: gdb/pwndbg, pwntools, remote vs local debug",L2,5000,1500,2,6500,26,4
+K-HW01,HW,"UART, JTAG, SPI/I2C: identify and connect",L3,6000,1500,2,7500,21,6
+K-HW02,HW,"Firmware extraction and analysis (binwalk, firmadyne)",L3,6000,1500,2,7500,21,5
+K-HW03,HW,Arduino/ESP/microcontroller code and serial protocols,L2,5000,1500,2,6500,21,5
+K-HW04,HW,"Software-defined radio and RF signals (SDR basics, rtl_433)",L3,6000,1500,2,7500,21,6
+K-HW05,HW,Bluetooth Low Energy and badges (NorthSec-style),L3,6000,1500,2,7500,21,5
+K-HW06,HW,NFC/RFID and card cloning concepts,L3,6000,1500,2,7500,21,4
+K-HW07,HW,CAN bus and automotive basics,L3,6000,1500,2,7500,21,4
+K-HW08,HW,Logic analyser and protocol decoding (sigrok),L3,6000,1500,2,7500,21,3
+K-HW09,HW,Lock picking and physical security basics (legal practice),L2,5000,1500,2,6500,21,4
+K-NET01,NET,Nmap scanning strategy and NSE scripts,L2,5000,1500,2,6500,16,4
+K-NET02,NET,"Service enumeration: SMB, FTP, SSH, SNMP, NFS, DNS, SMTP",L2,5000,1500,2,6500,16,6
+K-NET03,NET,"Wireless: WPA handshakes, aircrack, deauth, evil-twin concepts",L3,6000,1500,2,7500,16,6
+K-NET04,NET,"Pivoting and tunnelling: chisel, ssh -D, proxychains, ligolo",L3,6000,1500,2,7500,16,5
+K-NET05,NET,"Protocol analysis and custom protocols (netcat, scapy)",L3,6000,1500,2,7500,16,5
+K-NET06,NET,"Sniffing, ARP and MITM concepts in a lab",L2,5000,1500,2,6500,16,3
+K-NET07,NET,"IPv6, VLANs and routing for CTF networks",L3,6000,1500,2,7500,16,4
+K-OSI01,OSI,Image geolocation and reverse image search,L2,5000,1500,2,6500,15,5
+K-OSI02,OSI,"People, username and social-media research",L2,5000,1500,2,6500,15,4
+K-OSI03,OSI,"Domains, IPs, certificates, Shodan and passive DNS",L2,5000,1500,2,6500,15,4
+K-OSI04,OSI,"Metadata, archives (Wayback) and document leaks",L1,4000,1500,2,5500,15,3
+K-OSI05,OSI,"Maps, satellite and street-level tools",L2,5000,1500,2,6500,15,3
+K-OSI06,OSI,Methodology and OPSEC for investigations,L1,4000,1500,2,5500,15,2
+K-AD01,AD,"AD enumeration (ldapsearch, rpcclient, BloodHound)",L2,5000,1500,2,6500,13,6
+K-AD02,AD,Kerberos attacks and defences,L3,6000,1500,2,7500,13,6
+K-AD03,AD,ADCS and delegation misconfigurations,L3,6000,1500,2,7500,13,6
+K-AD04,AD,Lateral movement and credential reuse,L3,6000,1500,2,7500,13,5
+K-AD05,AD,Windows privilege escalation,L3,6000,1500,2,7500,13,6
+K-AD06,AD,"Linux privilege escalation (SUID, sudo, cron, capabilities)",L2,5000,1500,2,6500,13,5
+K-AD07,AD,NTLM relay and signing defences,L3,6000,1500,2,7500,13,5
+K-AI01,AI,Prompt injection and jailbreak challenges,L2,5000,1500,2,6500,8,4
+K-AI02,AI,LLM agent and tool-use attacks,L3,6000,1500,2,7500,8,4
+K-AI03,AI,Adversarial examples and model extraction basics,L3,6000,1500,2,7500,8,4
+K-AI04,AI,"Using AI tools within the rules (NorthSec AI experience, allowed events)",L2,5000,1500,2,6500,8,3
+K-AI05,AI,"Policy: which events allow AI, how to train without it",L1,4000,1500,2,5500,8,1
+K-BCH01,BCH,Solidity and EVM basics,L3,6000,1500,2,7500,7,5
+K-BCH02,BCH,"Reentrancy, overflow, access-control bugs",L3,6000,1500,2,7500,7,5
+K-BCH03,BCH,Transaction and storage analysis,L3,6000,1500,2,7500,7,4
+K-BCH04,BCH,Foundry/Hardhat tooling,L3,6000,1500,2,7500,7,3
+K-BLU01,BLU,Hardening Linux and Windows quickly,L2,5000,1500,2,6500,7,5
+K-BLU02,BLU,Patching a vulnerable web app under time pressure,L2,5000,1500,2,6500,7,4
+K-BLU03,BLU,Incident-response workflow and one-page reports,L2,5000,1500,2,6500,7,4
+K-BLU04,BLU,Detection engineering: write a rule for each attack you practise,L3,6000,1500,2,7500,7,6
+K-BLU05,BLU,"Attack/defend game rules, scoring and patch-vs-exploit strategy",L3,6000,1500,2,7500,7,5
+K-GEN01,GEN,"Linux shell fluency: find, grep, awk, sed, pipes",L1,4000,1500,2,5500,7,4
+K-GEN02,GEN,"File types, magic bytes, file/xxd/strings",L1,4000,1500,2,5500,7,3
+K-GEN03,GEN,"Encodings chain: base64/32/58, hex, URL, rot, morse, braille",L1,4000,1500,2,5500,7,3
+K-GEN04,GEN,"Python for CTFs: sockets, requests, struct, pwntools basics",L2,5000,1500,2,6500,7,6
+K-GEN05,GEN,"Git, archives and compression tricks (tar, zip, 7z, nested)",L1,4000,1500,2,5500,7,2
+K-GEN06,GEN,"Reading source: C, Python, JS, PHP at speed",L2,5000,1500,2,6500,7,4
+K-LOG01,LOG,Web server and application logs with grep/awk/jq,L2,5000,1500,2,6500,7,4
+K-LOG02,LOG,Windows event IDs and Sysmon,L2,5000,1500,2,6500,7,5
+K-LOG03,LOG,"Sigma rules, Splunk/ELK queries",L3,6000,1500,2,7500,7,5
+K-LOG04,LOG,Zeek and Suricata logs,L3,6000,1500,2,7500,7,4
+K-LOG05,LOG,Authentication and cloud audit logs,L3,6000,1500,2,7500,7,4
+K-CLD01,CLD,"AWS IAM, S3 and metadata service misconfigurations",L2,5000,1500,2,6500,6,5
+K-CLD02,CLD,Azure and GCP basics,L3,6000,1500,2,7500,6,4
+K-CLD03,CLD,Docker escapes and Kubernetes misconfigurations,L3,6000,1500,2,7500,6,6
+K-CLD04,CLD,CI/CD and secrets in git,L2,5000,1500,2,6500,6,3
+K-CLD05,CLD,Serverless and cloud logging,L3,6000,1500,2,7500,6,3
+K-PWD01,PWD,Hash identification and hashcat/john modes,L1,4000,1500,2,5500,6,3
+K-PWD02,PWD,"Wordlists, rules and masks",L2,5000,1500,2,6500,6,4
+K-PWD03,PWD,"Cracking archives and documents: ZIP, PDF, Office, KeePass, SSH keys",L2,5000,1500,2,6500,6,4
+K-PWD04,PWD,"Windows and AD hashes: NTLM, NetNTLMv2, Kerberos",L3,6000,1500,2,7500,6,4
+K-PWD05,PWD,"Linux shadow, bcrypt, scrypt, argon2 and cost",L2,5000,1500,2,6500,6,3
+K-MAL01,MAL,"Static triage: strings, imports, YARA",L2,5000,1500,2,6500,4,4
+K-MAL02,MAL,Dynamic analysis in a sandbox VM,L2,5000,1500,2,6500,4,4
+K-MAL03,MAL,"Script deobfuscation: JavaScript, PowerShell, VBA",L2,5000,1500,2,6500,4,5
+K-MAL04,MAL,Ransomware and loader patterns (CTF-style),L3,6000,1500,2,7500,4,4
+K-MAL05,MAL,Network indicators and C2 traffic reading,L3,6000,1500,2,7500,4,4
+K-SOC01,SOC,Phishing simulation concepts and detection (no real targets),L1,4000,1500,2,5500,4,2
+K-SOC02,SOC,"Physical-security challenges: lock types, badges, tailgating concepts",L1,4000,1500,2,5500,4,3
+K-SOC03,SOC,Rules of engagement for onsite events,L1,4000,1500,2,5500,4,1
+K-MOB01,MOB,Android app structure and APK reversing,L2,5000,1500,2,6500,3,5
+K-MOB02,MOB,Frida hooking and certificate-pinning bypass,L3,6000,1500,2,7500,3,5
+K-MOB03,MOB,"Mobile storage, intents and deep-link bugs",L3,6000,1500,2,7500,3,4
+K-MOB04,MOB,iOS basics for CTFs,L3,6000,1500,2,7500,3,3
+K-TEAM01,TEAM,Roles per category and a shared notes system,L2,5000,1500,2,6500,3,3
+K-TEAM02,TEAM,"Comms, handoffs and the scoreboard routine",L2,5000,1500,2,6500,3,2
+K-TEAM03,TEAM,"Rehearsal format, time boxes and post-event debrief template",L2,5000,1500,2,6500,3,3
+K-TEAM04,TEAM,"Onsite logistics (NorthSec, Hackfest): travel, kit, power, food, sleep",L1,4000,1500,2,5500,3,2
+K-TEAM05,TEAM,"Writeup pipeline: notes during, publish within 48 h",L1,4000,1500,2,5500,3,2
