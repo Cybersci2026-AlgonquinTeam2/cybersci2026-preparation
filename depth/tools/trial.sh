@@ -8,6 +8,6 @@ mkdir -p "$OUT" && DATA="$OUT/data" && python3 "$HERE/../data/make_sample.py" "$
 python3 "$HERE/make_pack.py" "$SPEC" > "$OUT/pack.txt"
 python3 "$HERE/gen.py" --spec "$SPEC" --seed "$SEED" --pack "$OUT/pack.txt" --model "$MODEL" --url "$URL" --n "$N" --out "$OUT" | tee "$OUT/gen.log"
 for f in "$OUT"/cand-*.md; do
-  python3 "$HERE/gate.py" "$f" --fill --data "$DATA" --pack "$OUT/pack.txt" --json > "${f%.md}.gate.json"
+  python3 "$HERE/gate.py" "$f" --fill --data "$DATA" --pack "$OUT/pack.txt" --seed "$SEED" --json > "${f%.md}.gate.json"
 done
 python3 "$HERE/summary.py" "$OUT"

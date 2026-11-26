@@ -139,6 +139,8 @@ def main():
     ap.add_argument("page")
     ap.add_argument("--pack")
     ap.add_argument("--data")
+    ap.add_argument("--seed", help="seed page: fail if more than --max-seed-copy of the learner text repeats it in 8-word runs")
+    ap.add_argument("--max-seed-copy", type=float, default=0.15)
     ap.add_argument("--min-words", type=int, default=2800)
     ap.add_argument("--json", action="store_true")
     ap.add_argument("--fill", action="store_true", help="first replace lab outputs with the real output (model-written pages carry commands only)")
@@ -201,6 +203,8 @@ def main():
     reg = secs.get(15, ("", ""))[1]
     rows = re.findall(r"^\| (C\d+) \| (.*?) \| (.*?) \| (Read|Listing read|Run|Not run) \| (.*?) \|", reg, re.M)
     add("claims register: 5+ rows with status words", len(rows) >= 5, f"{len(rows)} rows")
+    bad_cols = [l[:30] for l in reg.splitlines() if re.match(r"\| C\d+ \|", l) and l.count("|") != 6]
+    add("claims register rows have exactly 5 cells", not bad_cols, f"{len(bad_cols)} malformed rows, e.g. {bad_cols[:1]}")
     ungrounded = []
     for cid, claim, quote, status, _ in rows:
         q = quote.strip()
@@ -220,6 +224,13 @@ def main():
         shingles = {" ".join(pw[i:i + 8]) for i in range(len(pw) - 7)}
         hits = [i for i in range(len(w) - 7) if " ".join(w[i:i + 8]) in shingles]
         add("no 8-word runs copied from the source pack", not hits, f"{len(hits)} copied runs" + (f", e.g. {' '.join(w[hits[0]:hits[0] + 8])!r}" if hits else ""))
+    if a.seed:
+        sb = norm(strip_code(parse(Path(a.seed).read_text(encoding="utf-8"))[1])).split()
+        sset = {" ".join(sb[i:i + 8]) for i in range(len(sb) - 7)}
+        lw = norm(strip_code(body)).split()
+        nrun = max(len(lw) - 7, 1)
+        frac = sum(1 for i in range(len(lw) - 7) if " ".join(lw[i:i + 8]) in sset) / nrun
+        add("copies at most 15% of its text from the seed page", frac <= a.max_seed_copy, f"{100 * frac:.0f}% of 8-word runs repeat the seed")
     fails = [c for c in checks if c[1] == "FAIL" and not c[2]]
     if a.json:
         print(json.dumps({"page": a.page, "pass": not fails, "words": words, "checks": [dict(name=n, level=l, ok=o, detail=d) for n, l, o, d in checks]}, indent=1))

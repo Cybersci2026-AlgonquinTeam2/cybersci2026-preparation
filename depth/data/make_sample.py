@@ -28,3 +28,16 @@ for i in range(300):
     lines.append(f'{ip} - - [26/Nov/2026:{9 + i // 60:02d}:{i % 60:02d}:{r.randint(0, 59):02d} +0000] "GET {p} HTTP/1.1" {code} {size} "-" "{r.choice(agents)}"')
 (d / "access.log").write_text("\n".join(lines) + "\n")
 print("wrote", d / "sales.csv", d / "access.log")
+
+# messy.csv: deliberately awkward data for adversarial labs (fixed text, not random)
+(d / "messy.csv").write_text("""date,region,item,qty,price
+2026-11-01,north,apple,3,0.5
+2026-11-01,North,apple,2,0.5
+2026-11-02, south,banana,4,0.25
+
+date,region,item,qty,price
+2026-11-03,east,"cherry, dark",1,4.0
+2026-11-03,west,date,5,6.5
+2026-11-04,west,date,,6.5
+2026-11-04,north,apple,10,0.5
+""")
