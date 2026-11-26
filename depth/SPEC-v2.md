@@ -47,3 +47,18 @@ Topic total at least 9,000 words (L1), 11,000 (L2), 13,000 (L3), counted outside
 ## 5. Grounding, copying and honesty (unchanged from the standard)
 
 Facts come from a captured source pack or are `VERIFY`; at most 15 percent of the text may repeat the seed page in 8-word runs; no word skips a step (`simply`, `just`, `obviously`, `trivially`, `clearly`, `of course` are banned); every lab command is run by the gate and the page carries "Run" only for what was run; status is `proposed`; the gate is evidence of structure, never a review.
+
+## 6. v2.1: the expanded minimums (current)
+
+The five core parts stay. Four extension parts add depth the core cannot hold; the gate counts all nine files:
+
+| File | Holds |
+|---|---|
+| `6-language-primers.md` | the small languages inside the tools: patterns (regex), the program language of the main tool, the editor, sort keys, the helper tools; each with figures, a lab and a mistake to avoid |
+| `7-cases-and-projects.md` | 3 end-to-end case studies; labs E to G; code teaching from problem to script; 3 more failure cases, 2 more break-fix labs, 3 more misconceptions and 6 more mistakes; 2 more critiques and 2 more design katas; adaptive routing and a testing statement |
+| `8-practice-bank.md` | the aid-selection table; 20 more micro-drills, 10 more trace drills, 6 more spot-the-bug items, 10 more quiz questions, 60 more flashcards, 12 more interleaved items, one-sentence explanations and the error log |
+| `9-extended-reference.md` | extended glossary (20 terms), third cheat sheet, FAQ, 12 more claims, sources still to capture, export notes |
+
+Minimums enforced by `gate_v2.py`: 16,000 / 19,000 / 22,000 words (L1 / L2 / L3); **50 learning-rule tags** (all 53 that apply to page content; the other 7 are assistant-behaviour rules); **30 visual-rule tags** (the seed has all 32); **all 18 practice-aid tags**; 22 figures of 12 or more kinds; 40 lab commands, every one run; 7 labs (A to G); 16 four-tier hint ladders; 6 failure cases; 4 break-fix labs; 6 misconceptions; 14 mistake rows with an error class; 30 micro-drills; 15 trace drills; 9 spot-the-bug items; 20 quiz questions with every option explained; 90 flashcards (15 or more of each of the five types); 24 interleaved items; 3 case studies; 3 design katas and 3 critiques; 30 glossary terms; 20 claims; 3 cheat sheets.
+
+The reference seed `depth/seed2/K-GEN01/` meets all of them (16,647 words, 73 lab commands run).

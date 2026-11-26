@@ -13,7 +13,7 @@
 | Function | one comparison: "is this line equal to the previous one?" (`uniq`) |
 
 ```
- systems figure {V22} {V27} {fig:zones}   (zones, protocol on each link, [!] = bottleneck or trust boundary)
+ systems figure {V8} {V22} {V27} {fig:zones}   (zones, protocol on each link, [!] = bottleneck or trust boundary)
    ┌────────────── your shell (trusted: you typed it) ───────────────┐
    │   file ──bytes──► [cut] ──lines──► [sort] [!] ──lines──► [uniq -c] ──► [head] ──► terminal │
    └─────────────────────────────────────────────────────────────────┘

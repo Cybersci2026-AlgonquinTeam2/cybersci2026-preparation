@@ -15,7 +15,7 @@ $ grep -c ,north, sales.csv
 18
 ```
 
-- Hint 1: you need a count, not the lines.
+- Hint 1 `{P16}`: you need a count, not the lines.
 - Hint 2: look at the `-c` option of `grep`.
 - Hint 3: `grep -c ____ sales.csv` with the pattern `,north,`.
 - Hint 4: `grep -c ,north, sales.csv`; the commas keep it from matching other fields.
@@ -195,7 +195,7 @@ $ grep -v '^$' messy.csv | grep -v '^date' | tr 'A-Z' 'a-z' | sed 's/, */,/g' | 
 **Misconception 1** `{A15}` `{V30}`: "`uniq` removes duplicates." *Why reasonable:* the name suggests it. *Where it breaks:* it only joins adjacent equal lines. *Test:* `printf 'b\na\nb\n' | uniq` still prints three lines.
 
 ```
- before / after {V30} {fig:diff}
+ before / after {V17} {V30} {fig:diff}
    BEFORE (broken model)                       AFTER (accurate model)
    "uniq removes duplicates everywhere"        "uniq joins neighbouring equal lines"
    input  b a b  ─► uniq ─► b a b  [!]         input  a b b  ─► uniq -c ─► 1 a  2 b
@@ -208,7 +208,7 @@ $ grep -v '^$' messy.csv | grep -v '^date' | tr 'A-Z' 'a-z' | sed 's/, */,/g' | 
 
 ## 10. Break it
 
-### Failure case 1: every count is 1
+### Failure case 1: every count is 1 `{A25}`
 
 *Symptom:* each line of the counted output starts with 1. *Hypotheses* `{A22}`:
 

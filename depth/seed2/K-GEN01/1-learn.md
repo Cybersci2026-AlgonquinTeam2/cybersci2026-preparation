@@ -221,6 +221,8 @@ $ cut -d, -f2 sales.csv | tail -n +2 | sort | uniq -c | sort -rn
 
 **Textbook versus production** `{V23}`: the textbook diagram shows three boxes and two arrows. Production adds buffers that can fill, a first stage that can fail without stopping the rest, a locale that changes ordering, and input that does not match the assumed format.
 
+**Mechanics, visual level** `{V20}`: open the black box with a sequence figure, a flow with the error path, a states figure and a data-shape figure, then show every state change.
+
 **Three models** `{A7}` `{A18}`. **Simplified:** "each tool reads text and writes text." **Accurate:** each tool reads a byte stream split at newlines; sorting, field splitting and comparison depend on the locale unless it is fixed. **Expert (VERIFY):** output is buffered differently on a terminal and on a pipe, a fast producer blocks when the pipe buffer is full, and a failing first stage does not stop the later stages unless `pipefail` is set.
 
 **The tools, one sentence and one question each** `{A57}` (no step is skipped):
@@ -274,6 +276,13 @@ $ tail -n +2 sales.csv | wc -l
 | 2 | `sort` | `north south west west west` |
 | 3 | `uniq -c` | `1 north`, `1 south`, `3 west` |
 | 4 | `sort -rn` | `3 west`, `1 north`, `1 south` |
+
+```
+ fade the figure {V21} {fig:flow}   (full ► partly blank ► you draw it)
+   full:    file ─► [cut -d, -f2] ─► [sort] ─► [uniq -c] ─► [sort -rn] ─► ranked counts
+   partly:  file ─► [cut -d, -f2] ─► [ ??? ] ─► [uniq -c] ─► [ ??? ] ─► ranked counts
+   you:     draw the pipeline for "orders per item" on paper, label each arrow with the data shape
+```
 
 **Faded copy 1** `{A9}`: *orders per item.* The item is field `__`. `cut -d, -f__ sales.csv | tail -n +2 | ____ | uniq -c | sort -rn`. Answer: field 3 and the missing stage is `sort`.
 

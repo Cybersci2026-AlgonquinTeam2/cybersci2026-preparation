@@ -41,3 +41,12 @@ date,region,item,qty,price
 2026-11-04,west,date,,6.5
 2026-11-04,north,apple,10,0.5
 """)
+
+# procs.txt: whitespace-aligned process listing (runs of spaces, not commas) for awk/column/cut contrast
+r2 = random.Random(7)
+cmds = ["bash", "sshd", "python3", "nginx", "postgres", "cron", "node", "java", "rsyslogd", "systemd"]
+users = ["root", "www", "alice", "bob", "postgres"]
+pl = ["USER       PID  CPU  MEM COMMAND"]
+for i in range(24):
+    pl.append(f"{r2.choice(users):<8} {1000 + i * 37:>6} {r2.randint(0, 95):>4} {r2.randint(1, 60):>4} {r2.choice(cmds)}")
+(d / "procs.txt").write_text("\n".join(pl) + "\n")
