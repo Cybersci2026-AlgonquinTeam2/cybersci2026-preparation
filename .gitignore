@@ -52,3 +52,4 @@ curriculum/overthewire/narnia.md
 
 # OverTheWire flashcards stay local (technique-level hints)
 flashcards/cards_otw.py
+depth/runs/

@@ -1,0 +1,21 @@
+{
+  "id": "K-LOG01",
+  "title": "Web server logs with grep, awk, sort and uniq",
+  "category": "LOG",
+  "level": "L2",
+  "audience": "a visual learner who finished K-GEN01 (pipes, cut, sort, uniq, grep, awk basics)",
+  "focus": "reading a web server access log: find the busiest clients, count status codes, find missing pages, and spot a client that keeps failing to log in",
+  "data": {
+    "access.log": "web server access log in the combined format, 300 lines, one request per line. Whitespace-separated fields: $1 client IP, $4 start of the timestamp such as [26/Nov/2026:09:00:15, $6 the quoted method such as \"GET, $7 the path, $9 the HTTP status code, $10 the response size in bytes."
+  },
+  "lab_questions": [
+    "which client IPs made the most requests (top 5)",
+    "how many requests per status code, most common first",
+    "which paths returned 404, with counts",
+    "which client has repeated 401 or 403 answers on /login or /admin",
+    "how many requests per hour (the hour is in field 4)"
+  ],
+  "allowed_tools": ["grep", "awk", "sed", "cut", "sort", "uniq", "tr", "head", "tail", "wc", "cat"],
+  "avoid": ["jq", "any security tool", "any attack technique: this page is about reading logs and spotting patterns only"],
+  "pack_tools": ["grep", "awk", "sort", "uniq", "cut", "wc", "head", "tail"]
+}
