@@ -62,7 +62,7 @@ plan: 0/104.5 h (0%) · 0/65 items
 
 ## Backlog (unscheduled; pulled in by the roadmap)
 
-33 items · 70 h
+38 items · 78.5 h
 
 - [ ] **L05** · 2 h · Practice · L2 · linux/backlog · VulnHub: Basic Pentesting 1 _(done when: Root via documented path)_
 - [ ] **L06** · 2 h · Practice · L2 · linux/backlog · VulnHub: Kioptrix Level 1 _(done when: Root via documented path)_
@@ -97,3 +97,8 @@ plan: 0/104.5 h (0%) · 0/65 items
 - [ ] **D05** · 2 h · Build · L2 · dojo/backlog · Mock-event runner: Timer, roles, triage board and run-record export for 4-8 h mock events _(done when: One command starts a mock and writes the run record)_
 - [ ] **D06** · 2 h · Build · L2 · dojo/backlog · Offline bundle: Script to build/verify the competition bundle (hash list, USB sync, cold-start test) _(done when: Bundle rebuilt from scratch in <15 min; hashes match runbook)_
 - [ ] **D07** · 2 h · Build · L2 · dojo/backlog · Team hosting: Serve CTFd/lab on Machine B over Tailscale for teammates (auth, no public exposure) _(done when: Teammate connects from home; credential-factory unaffected)_
+- [ ] **MG01** · 1 h · Build · L2 · mangui/backlog · mangui: Run python3 mangui.py coverage on Kali and send back the missing: lists _(done when: Coverage output saved; every missing option listed)_
+- [ ] **MG02** · 4 h · Build · L2 · mangui/backlog · mangui: Check every security-tool guide's option list against Kali's real man page (nmap, tshark, exiftool, binwalk, john, hashcat, gobuster, ffuf, hydra, sqlmap, steghide, nikto, wfuzz, dirb, smbclient, enum4linux, hashid, zsteg, searchsploit, msfconsole, vol) _(done when: Missing options added; guides re-linted with groff)_
+- [ ] **MG03** · 2 h · Build · L2 · mangui/backlog · mangui: Complete option lists for gdb, tcpdump and sqlite3 _(done when: All options in the real pages explained)_
+- [ ] **MG04** · 0.5 h · Build · L1 · mangui/backlog · mangui: Explain awk -I and -s, and cut -M _(done when: Both explained from Kali's pages, not guessed)_
+- [ ] **MG05** · 1 h · Build · L2 · mangui/backlog · mangui: Capture real output for nmap, tcpdump, gdb, sqlite3 (python3 scripts/atlas_build.py on Kali) _(done when: Atlas pages updated with captured output)_
