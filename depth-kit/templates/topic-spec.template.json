@@ -1,0 +1,19 @@
+{
+  "id": "T-000",
+  "title": "Replace with the topic title",
+  "category": "CAT",
+  "level": "L2",
+  "audience": "who the learner is and what they already finished",
+  "focus": "one sentence naming what the topic teaches and what the labs examine",
+  "keywords": ["term the page must contain", "another term", "a third term"],
+  "must_not_contain": ["a term that belongs to a different topic (a file name, a product, a sample dataset)"],
+  "data_script": "path/to/script_that_writes_sample_data_into_the_directory_given_as_argv1.py",
+  "data": {"sample.file": "what the file holds and how its fields are numbered; the labs run on it"},
+  "lab_questions": ["a question the labs should answer", "a second one", "a third one"],
+  "allowed_tools": ["grep", "awk", "sed", "cut", "sort", "uniq"],
+  "avoid": ["content outside the topic's authorised scope"],
+  "pack_sources": [
+    {"type": "command_help", "tool": "grep"},
+    {"type": "file", "path": "captures/vendor-guide.txt", "label": "Vendor guide, section 3, retrieved 2026-01-05"}
+  ]
+}

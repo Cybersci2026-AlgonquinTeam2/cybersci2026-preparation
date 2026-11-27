@@ -1,0 +1,34 @@
+{
+  "_about": "Rule ids are stable: pages tag elements with {A13}, {V9}, {P7}. 'page: false' marks rules about how an assistant works, excluded from the coverage target. Replace names and ids with your own catalog; keep the id scheme or change rules.tag_pattern in project.json.",
+  "A": {
+    "1": ["Execution comes first", false], "2": ["Understand before changing", false], "3": ["Novice to expert, raise scaffolding not lower the ceiling", true],
+    "4": ["Six levels: intuition, foundations, mechanics, application, systems, expert", true], "5": ["First principles", true], "6": ["Seven lenses: what, why, how, when, where, what if, why not", true],
+    "7": ["Concrete before abstract", true], "8": ["Chunking and knowledge graph", true], "9": ["Scaffolding and faded examples", true], "10": ["Worked examples", true],
+    "11": ["Active recall", true], "12": ["Socratic reasoning", true], "13": ["Prediction and generation", true], "14": ["Error-based learning", true], "15": ["Misconception repair", true],
+    "16": ["Compare and contrast", true], "17": ["Multiple representations", true], "18": ["Mental models and analogies", true], "19": ["Interleaving", true], "20": ["Spaced and cumulative review", true],
+    "21": ["Transfer: near, representation, context, far", true], "22": ["Troubleshooting as scientific reasoning", true], "23": ["Systems thinking", true], "24": ["Trade-off reasoning", true],
+    "25": ["Failure-oriented learning", true], "26": ["Novice versus expert", true], "27": ["Practical and tacit knowledge, advice labels", true], "28": ["Technical architecture", true],
+    "29": ["Procedures and commands explained", true], "30": ["Code teaching", true], "31": ["Trace execution", true], "32": ["Debugging", true], "33": ["Testing statements", true],
+    "34": ["Security as design property", true], "35": ["Performance loop", true], "36": ["Repository awareness", false], "37": ["Minimal coherent changes", false], "38": ["Architecture and design", true],
+    "39": ["Stand on the shoulders of giants", true], "40": ["Alternatives and cost-benefit", true], "41": ["Assumptions", true], "42": ["Evidence and uncertainty tags", true], "43": ["Verification and sanity checks", false],
+    "44": ["Documentation", true], "45": ["Learning through real work", false], "46": ["Mastery through critique", true], "47": ["Mastery through reconstruction", true], "48": ["Mastery through design", true],
+    "49": ["Mastery through teaching", true], "50": ["Metacognition", true], "51": ["Mastery checks (11 levels)", true], "52": ["Adaptive difficulty", true], "53": ["Formatting that clarifies", true],
+    "54": ["Long-answer structure", true], "55": ["Output format for coding tasks", false], "56": ["Depth without redundancy", true], "57": ["Do not hide difficult reasoning", true], "58": ["Avoid false confidence", true],
+    "59": ["Independent problem-solving goal", true], "60": ["Do, teach, build independence", true]
+  },
+  "V": {
+    "1": ["Visual before text", true], "2": ["Pick the diagram type that fits", true], "3": ["Formats: ASCII, tables, rendered figures", true], "4": ["Anti-clutter: 5 to 9 nodes, labelled arrows, drawn boundaries", true], "5": ["Legend", true],
+    "6": ["Flowchart with error path", true], "7": ["Decision tree", true], "8": ["Architecture or zones diagram", true], "9": ["Sequence diagram", true], "10": ["State machine", true], "11": ["Data flow with data shapes", true],
+    "12": ["Memory layout or data structure", true], "13": ["Hierarchy or dependency tree", true], "14": ["Layers or network topology", true], "15": ["Comparison matrix with decision rule", true], "16": ["Execution trace table", true],
+    "17": ["Before and after diff", true], "18": ["Level 1 intuition visual: black box", true], "19": ["Level 2 foundations visual: prerequisite tree", true], "20": ["Level 3 mechanics visual: open the box", true],
+    "21": ["Level 4 application visual: faded diagram", true], "22": ["Level 5 systems visual: macro with bottlenecks", true], "23": ["Level 6 expert visual: textbook versus production", true], "24": ["Visual reconnaissance", true],
+    "25": ["Visual scientific debugging", true], "26": ["First-principles design with trade-off matrix", true], "27": ["Trust boundaries drawn", true], "28": ["Performance loop", true], "29": ["Visual completion report", true],
+    "30": ["Visual misconception repair", true], "31": ["Visual retrieval: trace, spot the flaw, fill the node", true], "32": ["Calibration: tag facts, observations, assumptions", true]
+  },
+  "P": {
+    "1": ["Match the aid to the goal", true], "2": ["Atomic and focused", true], "3": ["Progressive scaffolding: guided, prompted, unassisted, adversarial", true], "4": ["Built-in verification", true],
+    "5": ["Error-to-aid pipeline", true], "6": ["Atomic flashcards in five types", true], "7": ["Guided hands-on labs", true], "8": ["Break-fix labs", true], "9": ["Rapid-fire micro-drills", true],
+    "10": ["Code reading and execution-trace drills", true], "11": ["Diagnostic quizzes with every option explained", true], "12": ["One-page visual cheat sheet", true], "13": ["Design katas with constraint shifts", true],
+    "14": ["Scoped mini-projects and capstones", true], "15": ["Teach-back and critique", true], "16": ["Four-tier hint ladder", true], "17": ["Spaced repetition and interleaving", true], "18": ["Export-ready formats", true]
+  }
+}

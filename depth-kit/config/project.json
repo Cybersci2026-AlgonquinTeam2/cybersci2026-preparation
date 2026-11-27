@@ -1,0 +1,87 @@
+{
+  "_about": "The single place a project edits. Every tool reads this file (--config). Keys marked REPLACE are the eight items in standards section 14. Defaults below are the cybersci-prep pilot values.",
+
+  "name": "example-project",
+
+  "domain": {
+    "_REPLACE": "1. Domain and categories: your backlog of topics with levels, hours and which goals need each",
+    "backlog_csv": "example/backlog.csv",
+    "levels": ["L1", "L2", "L3"]
+  },
+
+  "rules": {
+    "_REPLACE": "2. Rule catalog: stable ids for learning (A), visual (V) and practice-aid (P) rules",
+    "catalog": "config/rule-catalog.json",
+    "tag_pattern": "\\{([AVP])(\\d+)(?:\\.\\d+)?\\}"
+  },
+
+  "sources": {
+    "_REPLACE": "3. Source pack builder and retriever: how sources are captured and offered to the drafter",
+    "pack_builder": "tools/make_pack.py",
+    "retrieval_top_k": 6,
+    "passage_words": 160
+  },
+
+  "labs": {
+    "_REPLACE": "4. Sample data, sandbox, allow-list: what labs run on and which programs they may use",
+    "allow": ["grep", "egrep", "awk", "sed", "cut", "sort", "uniq", "tr", "head", "tail", "wc", "cat", "jq", "ls", "echo", "printf", "paste", "column", "nl", "tac", "rev", "comm", "join", "basename", "dirname"],
+    "deny_regex": "[;&`]|\\$\\(|>|\\bsudo\\b|\\.\\./|~|/etc/|/dev/",
+    "timeout_seconds": 10,
+    "env": {"LC_ALL": "C", "PATH": "/usr/bin:/bin"},
+    "min_commands": 40
+  },
+
+  "topic_fit": {
+    "_REPLACE": "5. Topic keyword lists: terms each topic must contain (set per topic in its spec: keywords, must_not_contain)",
+    "min_keyword_fraction": 0.7
+  },
+
+  "thresholds": {
+    "_REPLACE": "6. Thresholds: minimums by level, tuned on the first three topics",
+    "min_words": {"L1": 16000, "L2": 19000, "L3": 22000},
+    "min_tags": {"A": 50, "V": 30, "P": 18},
+    "min_figures": 22,
+    "min_figure_kinds": 12,
+    "min_labs": 7,
+    "min_hint_ladders": 16,
+    "min_failure_cases": 6,
+    "min_break_fix": 4,
+    "min_misconceptions": 6,
+    "min_mistake_rows": 14,
+    "min_drills": 30,
+    "min_trace_drills": 15,
+    "min_spot_bug": 9,
+    "min_quiz": 20,
+    "min_cards": 90,
+    "min_cards_per_type": 15,
+    "min_interleaved": 24,
+    "min_case_studies": 3,
+    "min_katas": 3,
+    "min_critiques": 3,
+    "min_glossary": 30,
+    "min_claims": 20,
+    "min_cheat_sheets": 3,
+    "max_seed_copy": 0.15
+  },
+
+  "forbidden_facts": {
+    "_REPLACE": "7. Forbidden facts: facts the domain must never state in learner text unless a claims-register row records them",
+    "patterns": [],
+    "_example_for_certification_content": ["\\$\\s?\\d", "passing score", "exam code", "\\b(19|20)\\d\\d\\b", "\\bv?\\d+\\.\\d+(\\.\\d+)?\\b"]
+  },
+
+  "banned_words": ["simply", "just", "obviously", "trivially", "clearly", "of course"],
+  "card_types": ["concept", "cloze", "scenario", "contrast", "trace"],
+  "error_classes": ["factual", "conceptual", "procedural", "logical", "assumption", "strategy"],
+
+  "models": {
+    "_REPLACE": "8. Models: the models your hardware runs; every call is recorded in provenance",
+    "ollama_url": "http://127.0.0.1:11434",
+    "drafter": "qwen3:32b",
+    "worker": "qwen3:8b",
+    "critic": "qwen3:8b",
+    "num_ctx": 16384,
+    "temperature": 0.8,
+    "best_of_n": 3
+  }
+}
