@@ -22,7 +22,7 @@ Status as of 2026-11-24: **102 guides** (see `mangui/README.md` for the list by 
 | **Check every security-tool guide** against Kali's real pages | option lists were written from knowledge | same coverage run |
 | awk `-I`/`-s`, cut `-M` | not explained; not guessed | confirm against Kali's man page |
 | Real captured output for nmap, tcpdump, gdb, sqlite3 | not installed in WSL | `python3 scripts/atlas_build.py` on Kali (updates the atlas `.md` pages) |
-| Extra tools not yet written | not in the first scope | ffmpeg/sox, chisel, proxychains, radare2, impacket, ROPgadget, ldapsearch, rpcclient |
+| Extra tools | written in batches 14 to 16: dig, whois, strace, ltrace, checksec, jq, tmux, socat, foremost, ffmpeg, sox, chisel, proxychains4, radare2, ROPgadget, ldapsearch, rpcclient, impacket | still from knowledge, not checked against Kali (see the coverage run above) |
 | Platform pages (OverTheWire, TryHackMe, picoCTF, CTFd, VulnHub) | you asked for guides on tools and commands, not platforms | not planned; the platform books in the offline pack cover them |
 
 ## How to finish a guide
