@@ -143,8 +143,12 @@ def main():
     ap.add_argument("--url")
     ap.add_argument("--best-of", type=int)
     ap.add_argument("--only", help="comma list of units to generate, e.g. 1,2,6 (testing)")
+    ap.add_argument("--cpu", action="store_true", help="run the model on CPU and system RAM (Ollama num_gpu=0); also set by env GEN_CPU=1")
+    ap.add_argument("--threads", type=int, default=32)
     ap.add_argument("--config")
     a = ap.parse_args()
+    import os
+    extra = {"num_gpu": 0, "num_thread": a.threads} if (a.cpu or os.environ.get("GEN_CPU")) else None
     M = cfg["models"]
     model, url, bo = a.model or M["drafter"], a.url or M["ollama_url"], a.best_of or M["best_of_n"]
     spec = json.loads(Path(a.spec).read_text(encoding="utf-8"))
@@ -184,7 +188,7 @@ def main():
             best, attempts = None, []
             for i in range(bo):
                 t1 = time.time()
-                text, toks = chat(url, model, system, user, M["num_ctx"], M["temperature"], int(words * 3.2) + 600, 1000 * k + 10 * n + i)
+                text, toks = chat(url, model, system, user, M["num_ctx"], M["temperature"], int(words * 3.2) + 600, 1000 * k + 10 * n + i, extra)
                 if not text.startswith("#"):
                     text = heading + "\n\n" + text
                 fails = unit_checks(text, heading, checks, example_full, cfg)
