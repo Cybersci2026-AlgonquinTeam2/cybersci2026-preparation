@@ -98,10 +98,13 @@ def seed_units(seed_dir):
     return core, ext
 
 
-def chat(url, model, system, user, num_ctx, temp, num_predict, seed):
+def chat(url, model, system, user, num_ctx, temp, num_predict, seed, extra=None):
+    """extra: more Ollama options, e.g. {"num_gpu": 0, "num_thread": 32} to run on CPU and system RAM."""
+    opts = {"num_ctx": num_ctx, "temperature": temp, "num_predict": num_predict, "seed": seed}
+    opts.update(extra or {})
     body = json.dumps({"model": model, "stream": False, "think": False,
                        "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}],
-                       "options": {"num_ctx": num_ctx, "temperature": temp, "num_predict": num_predict, "seed": seed}}).encode()
+                       "options": opts}).encode()
     r = json.load(urllib.request.urlopen(urllib.request.Request(url + "/api/chat", body, {"Content-Type": "application/json"}), timeout=3600))
     return re.sub(r"^<think>.*?</think>\s*", "", r["message"]["content"].strip(), flags=re.S), r.get("eval_count", 0)
 
